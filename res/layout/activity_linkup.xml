@@ -1,0 +1,111 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0099cc"
+    tools:context=".GameActivity" >
+
+    <com.znv.linkup.view.GameView
+        android:id="@+id/gameView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:keepScreenOn="true" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:src="@drawable/ic_launcher"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tvLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:textColor="#FFD700"
+            android:textSize="18sp" />
+
+        <TextSwitcher
+            android:id="@+id/scoreText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:inAnimation="@anim/slide_in_up"
+            android:outAnimation="@anim/slide_out_up" />
+
+        <TextView
+            android:id="@+id/maxScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#FFD700"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:background="@drawable/champion"
+            tools:ignore="ContentDescription" >
+        </ImageView>
+    </LinearLayout>
+
+    <!-- <LinearLayout -->
+    <!-- android:layout_width="fill_parent" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_gravity="bottom" -->
+    <!-- android:gravity="center" -->
+    <!-- android:orientation="horizontal" > -->
+
+
+    <!-- <ImageView -->
+    <!-- android:layout_width="30dp" -->
+    <!-- android:layout_height="30dp" -->
+    <!-- android:layout_marginRight="10dp" -->
+    <!-- android:background="@drawable/time" -->
+    <!-- android:gravity="center" > -->
+    <!-- </ImageView> -->
+
+    <ProgressBar
+        android:id="@+id/pbTime"
+        style="@style/tallerBarStyle"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:gravity="center" />
+    <!-- </LinearLayout> -->
+
+    <com.znv.linkup.view.animation.path.CoinImageView
+        android:id="@+id/startCoin"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:alpha="0"
+        android:background="@drawable/coin"
+        tools:ignore="ContentDescription" />
+
+    <com.znv.linkup.view.animation.path.CoinImageView
+        android:id="@+id/endCoin"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:alpha="0"
+        android:background="@drawable/coin"
+        tools:ignore="ContentDescription" />
+
+</FrameLayout>

@@ -1,0 +1,9 @@
+<resources>
+
+    <declare-styleable name="ViewPagerIndicator">
+
+        <!-- Style of the icon indicator's views. -->
+        <attr name="vpiIconPageIndicatorStyle" format="reference" />
+    </declare-styleable>
+
+</resources>

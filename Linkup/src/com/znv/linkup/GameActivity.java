@@ -1,6 +1,5 @@
 package com.znv.linkup;
 
-import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
@@ -12,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.FrameLayout;
+import android.widget.FrameLayout.LayoutParams;
 import android.widget.ProgressBar;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
@@ -29,10 +29,9 @@ import com.znv.linkup.core.util.ImageUtil;
 import com.znv.linkup.db.DbScore;
 import com.znv.linkup.db.LevelScore;
 import com.znv.linkup.util.ToastUtil;
-import com.znv.linkup.view.GameMenu;
 import com.znv.linkup.view.GameView;
-import com.znv.linkup.view.ViewSettings;
-import com.znv.linkup.view.animation.path.ImagePathAnimator;
+import com.znv.linkup.view.animation.path.AnimatorView;
+import com.znv.linkup.view.animation.path.ViewPathAnimator;
 import com.znv.linkup.view.dialog.GameResultDialogs;
 import com.znv.linkup.view.handler.GameMsgHandler;
 
@@ -48,17 +47,18 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
         TextSwitcher tsScore;
         FrameLayout flBackground;
         Bitmap bmSelected;
-        ImagePathAnimator startCoin;
-        ImagePathAnimator endCoin;
+        ViewPathAnimator startCoin;
+        ViewPathAnimator endCoin;
     }
 
-    private GameMenu gMenu;
+    // private GameMenu gMenu;
     private Game game;
     private GameView gameView;
     private GameResultDialogs resultDialog;
     private LevelCfg curLevelCfg = null;
     private LevelHolder holder = new LevelHolder();
     private Handler handler = new GameMsgHandler(this);
+    private static FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
     public void updateTime() {
         holder.pbTime.setProgress(game.getGameTime());
@@ -97,8 +97,8 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
         holder.tsScore = (TextSwitcher) findViewById(R.id.scoreText);
         holder.flBackground = (FrameLayout) findViewById(R.id.rootFrame);
         holder.bmSelected = BitmapFactory.decodeResource(getResources(), R.drawable.selected);
-        holder.startCoin = new ImagePathAnimator(getRoot());
-        holder.endCoin = new ImagePathAnimator(getRoot());
+        holder.startCoin = new ViewPathAnimator(createCoin());
+        holder.endCoin = new ViewPathAnimator(createCoin());
         holder.tsScore.setFactory(new ViewSwitcher.ViewFactory() {
 
             @Override
@@ -111,11 +111,20 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
             }
         });
 
-        gMenu = new GameMenu(this);
+        // gMenu = new GameMenu(this);
         gameView = (GameView) findViewById(R.id.gameView);
         resultDialog = new GameResultDialogs(this);
 
         start();
+    }
+
+    private AnimatorView createCoin() {
+        AnimatorView view = new AnimatorView(this);
+        view.setImageResource(R.drawable.coin);
+        view.setLayoutParams(params);
+        view.setAlpha(0f);
+        getRoot().addView(view);
+        return view;
     }
 
     public void start() {
@@ -148,7 +157,7 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
         game = new Game(curLevelCfg, this);
         gameView.setGameService(game);
 
-        gMenu.show();
+        // gMenu.show();
 
         game.start();
     }
@@ -172,7 +181,7 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
         mDisplay.getSize(size);
         int screenWidth = size.x;
         int screenHeight = size.y;
-        int levelWidth = screenWidth / levelCfg.getXSize();
+        int levelWidth = screenWidth / (levelCfg.getXSize() - 1);
         int levelHeight = screenHeight / levelCfg.getYSize();
         int newSize = Math.min(levelWidth, levelHeight);
         int beginX = (screenWidth - newSize * levelCfg.getXSize()) / 2;
@@ -192,10 +201,6 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
 
     @Override
     protected void onResume() {
-        // 设置横屏
-        if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        }
         game.resume();
         super.onResume();
     }

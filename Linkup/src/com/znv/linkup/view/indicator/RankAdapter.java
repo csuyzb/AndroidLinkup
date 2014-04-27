@@ -12,9 +12,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.znv.linkup.R;
+import com.znv.linkup.ViewSettings;
 import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.core.config.RankCfg;
-import com.znv.linkup.view.ViewSettings;
 
 public class RankAdapter extends BaseAdapter {
 

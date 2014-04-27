@@ -3,7 +3,7 @@ package com.znv.linkup.view.handler;
 import java.lang.ref.WeakReference;
 
 import com.znv.linkup.GameActivity;
-import com.znv.linkup.view.ViewSettings;
+import com.znv.linkup.ViewSettings;
 
 import android.os.Handler;
 import android.os.Message;

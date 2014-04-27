@@ -53,15 +53,4 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
-    <style name="Theme.PageIndicatorDefaults" parent="android:Theme">
-        <item name="vpiIconPageIndicatorStyle">@style/Widget.IconPageIndicator</item>
-    </style>
-
-    <style name="Widget"></style>
-
-    <style name="Widget.IconPageIndicator" parent="Widget">
-        <item name="android:layout_marginLeft">6dp</item>
-        <item name="android:layout_marginRight">6dp</item>
-    </style>
-
 </resources>

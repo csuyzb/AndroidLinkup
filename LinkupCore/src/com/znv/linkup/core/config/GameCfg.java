@@ -85,7 +85,7 @@ public class GameCfg {
     private void LoadGlobalCfg(XmlResourceParser xrp) {
         GlobalCfg gamecfg = new GlobalCfg();
         gamecfg.setGameSkin(xrp.getAttributeValue(null, "gskin"));
-        gamecfg.setGameSound(xrp.getAttributeValue(null, "gmusic").equals("1"));
+        gamecfg.setGameSound(xrp.getAttributeValue(null, "gsound").equals("1"));
         gamecfg.setGameBgMusic(xrp.getAttributeValue(null, "bgmusic").equals("1"));
         gamecfg.setPromptNum(Integer.parseInt(xrp.getAttributeValue(null, "prompt")));
         gamecfg.setPauseNum(Integer.parseInt(xrp.getAttributeValue(null, "pause")));

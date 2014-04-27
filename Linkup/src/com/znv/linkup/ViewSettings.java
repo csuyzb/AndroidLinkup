@@ -1,4 +1,4 @@
-package com.znv.linkup.view;
+package com.znv.linkup;
 
 import com.znv.linkup.R;
 
@@ -11,9 +11,15 @@ public class ViewSettings {
     public final static int FailMessage = 0x333;
 
     public final static int WinMessage = 0x444;
+    
+    public static final String DbName = "data2.db";
 
-    // public final static int AutoStartLevel = 4;
+    public static final int DbVersion = 1;
 
+    public final static int DefaultActiveLevels = 45;
+
+    public static int[] RankTitleBgColor = new int[] { R.color.rank_title_color_1, R.color.rank_title_color_2, R.color.rank_title_color_3 };
+    
     public static int[] RankBgColors = new int[] { R.drawable.circle_green, R.drawable.circle_blue, R.drawable.circle_orange };
 
     public static int[] RankBgImageIds = new int[] { R.drawable.bg1, R.drawable.bg2, R.drawable.bg3 };

@@ -7,7 +7,6 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.widget.LinearLayout;
 
 import com.znv.linkup.core.config.LevelCfg;
-import com.znv.linkup.view.ViewSettings;
 import com.znv.linkup.view.indicator.IconPageIndicator;
 import com.znv.linkup.view.indicator.RankPager;
 
@@ -45,7 +44,7 @@ public class RankActivity extends FullScreenActivity implements OnPageChangeList
 
         IconPageIndicator mIndicator = (IconPageIndicator) findViewById(R.id.indicator);
         mIndicator.setViewPager(pager);
-        mIndicator.setPadding(10, 10, 10, 10);
+        // mIndicator.setPadding(10, 10, 10, 10);
         mIndicator.setOnPageChangeListener(this);
     }
 

@@ -14,6 +14,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.znv.linkup.R;
+import com.znv.linkup.ViewSettings;
 import com.znv.linkup.core.GameSettings;
 import com.znv.linkup.core.IGameService;
 import com.znv.linkup.core.card.Piece;

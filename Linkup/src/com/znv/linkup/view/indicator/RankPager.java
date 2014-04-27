@@ -14,17 +14,17 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.znv.linkup.R;
+import com.znv.linkup.ViewSettings;
 import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.core.config.RankCfg;
 import com.znv.linkup.db.DbScore;
-import com.znv.linkup.view.ViewSettings;
 
 public class RankPager extends PagerAdapter implements IconPagerAdapter {
 
-    class RankViewHolder {
-        TextView rankLevels;
-        TextView rankStars;
-    }
+//    class RankViewHolder {
+//        TextView rankLevels;
+//        TextView rankStars;
+//    }
 
     public interface ISelectedLevel {
         void onSelectedLevel(LevelCfg levelCfg);
@@ -33,7 +33,7 @@ public class RankPager extends PagerAdapter implements IconPagerAdapter {
     private Context context;
     private LayoutInflater inflater;
     private List<RankCfg> rankCfgs = new ArrayList<RankCfg>();
-    private List<RankViewHolder> rankViewHolders = new ArrayList<RankViewHolder>();
+//    private List<RankViewHolder> rankViewHolders = new ArrayList<RankViewHolder>();
     private List<View> grids = new ArrayList<View>();
     private List<RankAdapter> rankAdapters = new ArrayList<RankAdapter>();
     private ISelectedLevel levelListener;
@@ -60,7 +60,8 @@ public class RankPager extends PagerAdapter implements IconPagerAdapter {
 
             TextView text = (TextView) rank.findViewById(R.id.rankName);
             text.setText(rankCfg.getRankName());
-            text.setBackgroundResource(ViewSettings.RankBgColors[index]);
+            text.setTextColor(context.getResources().getColor(ViewSettings.RankTitleBgColor[index]));
+            text.setBackgroundResource(R.drawable.title_bg);
 
             RankAdapter adapter = new RankAdapter(context, rankCfg);
             GridView grid = (GridView) rank.findViewById(R.id.rankGrid);
@@ -77,10 +78,10 @@ public class RankPager extends PagerAdapter implements IconPagerAdapter {
                 }
             });
 
-            RankViewHolder holder = new RankViewHolder();
-            holder.rankLevels = (TextView) rank.findViewById(R.id.rankLevels);
-            holder.rankStars = (TextView) rank.findViewById(R.id.rankStars);
-            rankViewHolders.add(holder);
+//            RankViewHolder holder = new RankViewHolder();
+//            holder.rankLevels = (TextView) rank.findViewById(R.id.rankLevels);
+//            holder.rankStars = (TextView) rank.findViewById(R.id.rankStars);
+//            rankViewHolders.add(holder);
 
             grids.add(rank);
 
@@ -91,13 +92,13 @@ public class RankPager extends PagerAdapter implements IconPagerAdapter {
 
     public void updateRankData() {
         for (int i = 0; i < rankCfgs.size(); i++) {
-            RankViewHolder holder = rankViewHolders.get(i);
-
-            int actLevelCount = DbScore.selectLevelByRank(rankCfgs.get(i).getRankId());
-            holder.rankLevels.setText(String.valueOf(actLevelCount) + "/" + rankCfgs.get(i).getLevelInfos().size());
-
-            int actStarCount = DbScore.selectStarByRank(rankCfgs.get(i).getRankId());
-            holder.rankStars.setText(String.valueOf(actStarCount) + "/" + rankCfgs.get(i).getLevelInfos().size() * 5);
+//            RankViewHolder holder = rankViewHolders.get(i);
+//
+//            int actLevelCount = DbScore.selectLevelByRank(rankCfgs.get(i).getRankId());
+//            holder.rankLevels.setText(String.valueOf(actLevelCount) + "/" + rankCfgs.get(i).getLevelInfos().size());
+//
+//            int actStarCount = DbScore.selectStarByRank(rankCfgs.get(i).getRankId());
+//            holder.rankStars.setText(String.valueOf(actStarCount) + "/" + rankCfgs.get(i).getLevelInfos().size() * 5);
 
             rankAdapters.get(i).updateLevelData();
         }

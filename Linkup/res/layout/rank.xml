@@ -11,60 +11,61 @@
         android:layout_margin="20dp"
         android:orientation="horizontal" >
 
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:src="@drawable/ic_launcher"
-            tools:ignore="ContentDescription" />
+        <!-- <ImageView -->
+        <!-- android:id="@+id/logo" -->
+        <!-- android:layout_width="40dp" -->
+        <!-- android:layout_height="40dp" -->
+        <!-- android:layout_gravity="center" -->
+        <!-- android:gravity="center" -->
+        <!-- android:src="@drawable/ic_launcher" -->
+        <!-- tools:ignore="ContentDescription" /> -->
 
-        <TextView
-            android:id="@+id/rankLevels"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text=""
-            android:textColor="#ffffff00"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+
+        <!-- <TextView -->
+        <!-- android:id="@+id/rankLevels" -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:gravity="center" -->
+        <!-- android:text="" -->
+        <!-- android:textColor="#ffffff00" -->
+        <!-- android:textSize="20sp" -->
+        <!-- android:textStyle="bold" /> -->
 
         <TextView
             android:id="@+id/rankName"
-            android:layout_width="0dp"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="center"
             android:text=""
             android:textSize="28sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/rankStars"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text=""
-            android:textColor="#ffffff00"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+        <!-- <TextView -->
+        <!-- android:id="@+id/rankStars" -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:gravity="center" -->
+        <!-- android:text="" -->
+        <!-- android:textColor="#ffffff00" -->
+        <!-- android:textSize="20sp" -->
+        <!-- android:textStyle="bold" /> -->
 
-        <ImageView
-            android:id="@+id/star"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:src="@drawable/star_on"
-            tools:ignore="ContentDescription" />
+
+        <!-- <ImageView -->
+        <!-- android:id="@+id/star" -->
+        <!-- android:layout_width="32dp" -->
+        <!-- android:layout_height="32dp" -->
+        <!-- android:layout_gravity="center" -->
+        <!-- android:gravity="center" -->
+        <!-- android:src="@drawable/star_on" -->
+        <!-- tools:ignore="ContentDescription" /> -->
     </LinearLayout>
 
     <GridView
         android:id="@+id/rankGrid"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="8"
+        android:layout_weight="1"
         android:gravity="center"
         android:horizontalSpacing="10dp"
         android:numColumns="3"

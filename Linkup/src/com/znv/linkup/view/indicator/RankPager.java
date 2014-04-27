@@ -17,7 +17,6 @@ import com.znv.linkup.R;
 import com.znv.linkup.ViewSettings;
 import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.core.config.RankCfg;
-import com.znv.linkup.db.DbScore;
 
 public class RankPager extends PagerAdapter implements IconPagerAdapter {
 

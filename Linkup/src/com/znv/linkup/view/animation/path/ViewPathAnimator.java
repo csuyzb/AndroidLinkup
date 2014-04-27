@@ -4,10 +4,6 @@ import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.ObjectAnimator;
 import android.graphics.Point;
-import android.widget.FrameLayout;
-import android.widget.FrameLayout.LayoutParams;
-
-import com.znv.linkup.R;
 
 /**
  * 收集金币的动画

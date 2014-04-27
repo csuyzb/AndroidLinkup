@@ -7,7 +7,7 @@
     <bool name="default_circle_indicator_snap">false</bool>
     <color name="default_circle_indicator_stroke_color">#FFDDDDDD</color>
     <dimen name="default_circle_indicator_stroke_width">1dp</dimen>
-    <color name="rank_title_color_1">#FF33ff33</color>
-    <color name="rank_title_color_2">#FF3333ff</color>
-    <color name="rank_title_color_3">#FFffff33</color>
+    <color name="rank_title_color_1">#FF00CC00</color>
+    <color name="rank_title_color_2">#FF3333FF</color>
+    <color name="rank_title_color_3">#FFFFA500</color>
 </resources>

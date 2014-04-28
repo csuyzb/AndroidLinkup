@@ -12,7 +12,7 @@ public class GlobalCfg {
     private String gameSkin;
     private int menuWidth;
     private int promptNum;
-    private int pauseNum;
+    private int refreshNum;
 
     public boolean isGameSound() {
         return gameSound;
@@ -54,11 +54,11 @@ public class GlobalCfg {
         this.promptNum = promptNum;
     }
 
-    public int getPauseNum() {
-        return pauseNum;
+    public int getRefreshNum() {
+        return refreshNum;
     }
 
-    public void setPauseNum(int pauseNum) {
-        this.pauseNum = pauseNum;
+    public void setRefreshNum(int refreshNum) {
+        this.refreshNum = refreshNum;
     }
 }

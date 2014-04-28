@@ -1,9 +1,13 @@
-package com.znv.linkup.view.animation.path;
+package com.znv.linkup.view.animation;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.ObjectAnimator;
 import android.graphics.Point;
+
+import com.znv.linkup.view.animation.path.AnimatorPath;
+import com.znv.linkup.view.animation.path.PathEvaluator;
+import com.znv.linkup.view.animation.view.IAnimatorView;
 
 /**
  * 收集金币的动画
@@ -13,16 +17,10 @@ import android.graphics.Point;
  */
 public class ViewPathAnimator implements AnimatorListener {
 
-    private AnimatorView view = null;
+    private IAnimatorView view = null;
+    private int duration = 400;
 
-//    private static FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-
-    public ViewPathAnimator(AnimatorView view) {
-//        view = new AnimatorView(root.getContext());
-//        view.setImageResource(R.drawable.coin);
-//        view.setLayoutParams(params);
-//        view.setAlpha(0f);
-//        root.addView(view);
+    public ViewPathAnimator(IAnimatorView view) {
         this.view = view;
     }
 
@@ -32,7 +30,7 @@ public class ViewPathAnimator implements AnimatorListener {
         path.lineTo(end.x, end.y);
         ObjectAnimator anim = ObjectAnimator.ofObject(view, "location", new PathEvaluator(), path.getPoints().toArray());
         anim.addListener(this);
-        anim.setDuration(400);
+        anim.setDuration(duration);
         anim.start();
     }
 
@@ -54,6 +52,18 @@ public class ViewPathAnimator implements AnimatorListener {
     @Override
     public void onAnimationStart(Animator animation) {
         view.setAlpha(1f);
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public IAnimatorView getView() {
+        return view;
     }
 
 }

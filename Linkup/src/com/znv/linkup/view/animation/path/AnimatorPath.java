@@ -18,6 +18,7 @@ package com.znv.linkup.view.animation.path;
 import java.util.ArrayList;
 import java.util.Collection;
 
+
 /**
  * A simple Path object that holds information about the points along
  * a path. The API allows you to specify a move location (which essentially

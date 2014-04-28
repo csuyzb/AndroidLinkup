@@ -88,7 +88,7 @@ public class GameCfg {
         gamecfg.setGameSound(xrp.getAttributeValue(null, "gsound").equals("1"));
         gamecfg.setGameBgMusic(xrp.getAttributeValue(null, "bgmusic").equals("1"));
         gamecfg.setPromptNum(Integer.parseInt(xrp.getAttributeValue(null, "prompt")));
-        gamecfg.setPauseNum(Integer.parseInt(xrp.getAttributeValue(null, "pause")));
+        gamecfg.setRefreshNum(Integer.parseInt(xrp.getAttributeValue(null, "refresh")));
 
         // 设置所有关卡的全局配置
         LevelCfg.globalCfg = gamecfg;

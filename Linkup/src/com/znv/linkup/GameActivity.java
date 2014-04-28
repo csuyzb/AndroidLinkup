@@ -15,7 +15,6 @@ import android.widget.FrameLayout.LayoutParams;
 import android.widget.ProgressBar;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.znv.linkup.core.Game;
@@ -28,10 +27,11 @@ import com.znv.linkup.core.status.GameCombo;
 import com.znv.linkup.core.util.ImageUtil;
 import com.znv.linkup.db.DbScore;
 import com.znv.linkup.db.LevelScore;
-import com.znv.linkup.util.ToastUtil;
 import com.znv.linkup.view.GameView;
-import com.znv.linkup.view.animation.path.AnimatorView;
-import com.znv.linkup.view.animation.path.ViewPathAnimator;
+import com.znv.linkup.view.animation.ViewPathAnimator;
+import com.znv.linkup.view.animation.view.AnimatorImage;
+import com.znv.linkup.view.animation.view.AnimatorText;
+import com.znv.linkup.view.animation.view.IAnimatorView;
 import com.znv.linkup.view.dialog.GameResultDialogs;
 import com.znv.linkup.view.handler.GameMsgHandler;
 
@@ -49,6 +49,14 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
         Bitmap bmSelected;
         ViewPathAnimator startCoin;
         ViewPathAnimator endCoin;
+        ViewPathAnimator tvComb;
+        int screenWidth;
+        int screenHeight;
+        Point screenCenter;
+    }
+
+    class ScreenInfo {
+
     }
 
     // private GameMenu gMenu;
@@ -89,6 +97,9 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
 
         setContentView(R.layout.activity_linkup);
 
+        Display mDisplay = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        mDisplay.getSize(size);
         curLevelCfg = levelCfgs.get(getIntent().getStringExtra("levelIndex"));
 
         holder.tvLevel = (TextView) findViewById(R.id.tvLevel);
@@ -97,8 +108,13 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
         holder.tsScore = (TextSwitcher) findViewById(R.id.scoreText);
         holder.flBackground = (FrameLayout) findViewById(R.id.rootFrame);
         holder.bmSelected = BitmapFactory.decodeResource(getResources(), R.drawable.selected);
-        holder.startCoin = new ViewPathAnimator(createCoin());
-        holder.endCoin = new ViewPathAnimator(createCoin());
+        holder.startCoin = new ViewPathAnimator(genAnimatorCoin());
+        holder.endCoin = new ViewPathAnimator(genAnimatorCoin());
+        holder.tvComb = new ViewPathAnimator(genAnimatorText());
+        holder.tvComb.setDuration(1500);
+        holder.screenWidth = size.x;
+        holder.screenHeight = size.y;
+        holder.screenCenter = new Point((int) (size.x * 0.5), (int) (size.y * 0.5));
         holder.tsScore.setFactory(new ViewSwitcher.ViewFactory() {
 
             @Override
@@ -118,11 +134,24 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
         start();
     }
 
-    private AnimatorView createCoin() {
-        AnimatorView view = new AnimatorView(this);
+    private IAnimatorView genAnimatorCoin() {
+        AnimatorImage view = new AnimatorImage(this);
         view.setImageResource(R.drawable.coin);
         view.setLayoutParams(params);
-        view.setAlpha(0f);
+        // view.setAlpha(0f);
+        getRoot().addView(view);
+        return view;
+    }
+
+    private IAnimatorView genAnimatorText() {
+        AnimatorText view = new AnimatorText(this);
+        view.setLayoutParams(params);
+        view.setGravity(Gravity.CENTER);
+        view.setBackgroundColor(0x00000000);
+        view.setTextColor(0xFFFF3399);
+        view.setTextSize(30);
+        view.setText("test");
+        // view.setAlpha(0f);
         getRoot().addView(view);
         return view;
     }
@@ -171,21 +200,21 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
             start();
         } else {
             showCenterToast(getString(R.string.game_success));
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             onBackPressed();
         }
     }
 
     public void adjustLevelCfg(LevelCfg levelCfg) {
-        Display mDisplay = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        mDisplay.getSize(size);
-        int screenWidth = size.x;
-        int screenHeight = size.y;
-        int levelWidth = screenWidth / (levelCfg.getXSize() - 1);
-        int levelHeight = screenHeight / levelCfg.getYSize();
+        int levelWidth = holder.screenWidth / (levelCfg.getXSize() - 1);
+        int levelHeight = holder.screenHeight / levelCfg.getYSize();
         int newSize = Math.min(levelWidth, levelHeight);
-        int beginX = (screenWidth - newSize * levelCfg.getXSize()) / 2;
-        int beginY = (screenHeight - newSize * levelCfg.getYSize()) / 2;
+        int beginX = (holder.screenWidth - newSize * levelCfg.getXSize()) / 2;
+        int beginY = (holder.screenHeight - newSize * levelCfg.getYSize()) / 2;
         levelCfg.setPieceWidth(newSize);
         levelCfg.setPieceHeight(newSize);
         levelCfg.setBeginImageX(beginX);
@@ -244,14 +273,29 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
     public void onCombo() {
         String msgFmt = "%s" + getResources().getString(R.string.game_combo_info) + ", +%s";
         String msg = String.format(msgFmt, game.getGameCombo(), GameCombo.getComboScore(game.getGameCombo()));
+        if (game.getGameCombo() == ViewSettings.CombAddPrompt) {
+            if (LevelCfg.globalCfg.getPromptNum() < ViewSettings.PromptMaxNum) {
+                // promt 增加一次
+                LevelCfg.globalCfg.setPromptNum(LevelCfg.globalCfg.getPromptNum() + 1);
+                msg += getString(R.string.game_prompt_add);
+            }
+        } else if (game.getGameCombo() == ViewSettings.CombAddRefresh) {
+            if (LevelCfg.globalCfg.getRefreshNum() < ViewSettings.RefreshMaxNum) {
+                // refresh 增加一次
+                LevelCfg.globalCfg.setRefreshNum(LevelCfg.globalCfg.getRefreshNum() + 1);
+                msg += getString(R.string.game_refresh_add);
+            }
+        }
         showCenterToast(msg);
     }
 
     private void showCenterToast(String msg) {
-        View toastView = getLayoutInflater().inflate(R.layout.toast, null);
-        Toast toast = ToastUtil.getToast(this, toastView, msg);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
+        AnimatorText text = (AnimatorText) holder.tvComb.getView();
+        text.setText(msg);
+        holder.tvComb.onAnimationCancel(null);
+        Point endPoint = new Point(holder.screenCenter.x - (int) (text.getWidth() * 0.5), holder.screenCenter.y - (int) (text.getHeight() * 0.5));
+        Point startPoint = new Point(endPoint.x, endPoint.y + 100);
+        holder.tvComb.animatePath(startPoint, endPoint);
     }
 
     public String getGameResult(boolean isSuccess) {

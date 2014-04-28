@@ -15,6 +15,7 @@
  */
 package com.znv.linkup.view.animation.path;
 
+
 import android.animation.TypeEvaluator;
 
 

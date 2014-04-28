@@ -1,15 +1,16 @@
-package com.znv.linkup.view.animation.path;
+package com.znv.linkup.view.animation.view;
 
 import android.content.Context;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.znv.linkup.view.animation.AnimatorProxy;
+import com.znv.linkup.view.animation.path.PathPoint;
 
-public class AnimatorView extends ImageView {
+public class AnimatorText extends TextView implements IAnimatorView{
 
     private AnimatorProxy proxy = null;
 
-    public AnimatorView(Context ctx) {
+    public AnimatorText(Context ctx) {
         super(ctx);
         proxy = AnimatorProxy.wrap(this);
     }

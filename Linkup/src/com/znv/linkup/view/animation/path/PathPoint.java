@@ -34,7 +34,7 @@ public class PathPoint {
     /**
      * The location of this PathPoint
      */
-    float mX, mY;
+    public float mX, mY;
 
     /**
      * The first control point, if any, for a PathPoint of type CURVE

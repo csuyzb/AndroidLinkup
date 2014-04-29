@@ -138,7 +138,7 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
         AnimatorImage view = new AnimatorImage(this);
         view.setImageResource(R.drawable.coin);
         view.setLayoutParams(params);
-        // view.setAlpha(0f);
+        view.setAlpha(0f);
         getRoot().addView(view);
         return view;
     }
@@ -151,7 +151,7 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
         view.setTextColor(0xFFFF3399);
         view.setTextSize(30);
         view.setText("test");
-        // view.setAlpha(0f);
+        view.setAlpha(0f);
         getRoot().addView(view);
         return view;
     }

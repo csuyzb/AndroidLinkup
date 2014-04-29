@@ -6,6 +6,12 @@ import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.core.map.template.MapTemplate;
 import com.znv.linkup.core.map.template.RandomTemplate;
 
+/**
+ * 游戏地图类
+ * 
+ * @author yzb
+ * 
+ */
 public class GameMap extends BaseMap {
     private static final long serialVersionUID = 8129010267609099217L;
 
@@ -23,6 +29,13 @@ public class GameMap extends BaseMap {
         return Data[i][j] != GameSettings.GroundCardValue && Data[i][j] != GameSettings.EmptyCardValue && Data[i][j] != GameSettings.ObstacleCardValue;
     }
 
+    /**
+     * 根据配置字符串解析出游戏地图信息
+     * 
+     * @param strMap
+     *            地图配置字符串
+     * @return 游戏地图信息
+     */
     public static GameMap parse(String strMap) {
         try {
             GameMap gameMap = new GameMap();
@@ -49,6 +62,13 @@ public class GameMap extends BaseMap {
         return null;
     }
 
+    /**
+     * 根据关卡配置生成所有卡片信息
+     * 
+     * @param levelCfg
+     *            游戏关卡配置
+     * @return 所有卡片信息
+     */
     public static Piece[][] createPieces(LevelCfg levelCfg) {
         int imageWidth = levelCfg.getPieceWidth();
         int imageHeight = levelCfg.getPieceHeight();
@@ -73,13 +93,11 @@ public class GameMap extends BaseMap {
                 } else if (data[i][j] == GameSettings.EmptyCardValue) {
                     piece.setImageId(GameSettings.GroundCardValue);
                 } else if (data[i][j] == GameSettings.ObstacleCardValue) {
+                    // 只记录图片Id，界面负责创建图片
                     piece.setImageId(GameSettings.ObstacleCardValue);
-//                    Bitmap bm = BitmapFactory.decodeResource(levelCfg.getContext().getResources(), R.drawable.obstacle);
-//                    piece.setImage(ImageUtil.scaleBitmap(bm, imageWidth, imageHeight));
                 } else {
+                    // 只记录图片Id，界面负责创建图片
                     piece.setImageId(data[i][j]);
-//                    Bitmap bm = BitmapFactory.decodeResource(levelCfg.getContext().getResources(), GameSettings.CardImageIds[data[i][j] - 1]);
-//                    piece.setImage(ImageUtil.scaleBitmap(bm, imageWidth, imageHeight));
                 }
                 piece.setBeginY(i * imageHeight + levelCfg.getBeginImageY());
                 piece.setBeginX(j * imageWidth + levelCfg.getBeginImageX());

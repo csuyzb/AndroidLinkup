@@ -10,6 +10,12 @@ import com.znv.linkup.core.card.path.TwoCorner;
 import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.core.map.GameMap;
 
+/**
+ * 卡片相关的游戏逻辑处理类
+ * 
+ * @author yzb
+ * 
+ */
 class GameServiceImpl implements IGameService {
 
     private Piece[][] pieces;
@@ -21,11 +27,21 @@ class GameServiceImpl implements IGameService {
     }
 
     @Override
+    /**
+     * 获取所有卡片信息
+     * 
+     * @return 所有卡片信息
+     */
     public Piece[][] getPieces() {
         return pieces;
     }
 
     @Override
+    /**
+     * 判断当前是否存在游戏卡片
+     * 
+     * @return 存在游戏卡片时返回true
+     */
     public boolean hasPieces() {
         for (int i = 0; i < pieces.length; i++) {
             for (int j = 0; j < pieces[i].length; j++) {
@@ -38,6 +54,15 @@ class GameServiceImpl implements IGameService {
     }
 
     @Override
+    /**
+     * 根据坐标点查找卡片
+     * 
+     * @param x
+     *            横坐标
+     * @param y
+     *            纵坐标
+     * @return 卡片信息
+     */
     public Piece findPiece(float x, float y) {
         int relativeX = (int) x - levelCfg.getBeginImageX();
         int relativeY = (int) y - levelCfg.getBeginImageY();
@@ -66,6 +91,9 @@ class GameServiceImpl implements IGameService {
     }
 
     @Override
+    /**
+     * 重排卡片
+     */
     public void refresh() {
         int index = 0;
         // 获取游戏块的值
@@ -92,6 +120,15 @@ class GameServiceImpl implements IGameService {
     }
 
     @Override
+    /**
+     * 判断两个卡片是否可消除，同时返回连接路径
+     * 
+     * @param p1
+     *            卡片1
+     * @param p2
+     *            卡片2
+     * @return 连接路径信息，不可消除时返回null
+     */
     public LinkInfo link(Piece p1, Piece p2) {
         if (p1.equals(p2)) {
             return null;

@@ -2,25 +2,64 @@ package com.znv.linkup.core.status;
 
 import com.znv.linkup.core.card.PiecePair;
 
+/**
+ * 游戏状态处理
+ * 
+ * @author yzb
+ * 
+ */
 public interface IGameStatus {
 
-	void onCombo();
+    /**
+     * 连击时的处理
+     */
+    void onCombo();
 
-	void onPrompt(PiecePair pair);
+    /**
+     * 提示时的处理
+     * 
+     * @param pair
+     *            提示的卡片对
+     */
+    void onPrompt(PiecePair pair);
 
-	void onUnPrompt();
+    /**
+     * 取消提示的处理
+     */
+    void onUnPrompt();
 
-	void onRefresh();
+    /**
+     * 刷新时的处理
+     */
+    void onRefresh();
 
-	void onScoreChanged(int gameScore);
+    /**
+     * 积分改变时的处理
+     */
+    void onScoreChanged(int gameScore);
 
-	void onTimeChanged(int gameTime);
+    /**
+     * 时间改变时的处理
+     */
+    void onTimeChanged(int gameTime);
 
-	void onGameFail();
+    /**
+     * 游戏失败时的处理
+     */
+    void onGameFail();
 
-	void onGamePause();
+    /**
+     * 游戏暂停时的处理
+     */
+    void onGamePause();
 
-	void onGameResume();
+    /**
+     * 游戏重新开始时的处理
+     */
+    void onGameResume();
 
-	void onGameWin();
+    /**
+     * 游戏胜利时的处理
+     */
+    void onGameWin();
 }

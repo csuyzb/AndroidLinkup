@@ -5,6 +5,12 @@ import com.znv.linkup.core.GameSettings;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 
+/**
+ * 游戏卡片信息类，包括图片，大小，位置等信息
+ * 
+ * @author yzb
+ * 
+ */
 public class Piece {
     private Bitmap image = null;
     private int imageId = 0;
@@ -21,6 +27,13 @@ public class Piece {
         this.indexX = indexX;
     }
 
+    /**
+     * 判断卡片与当前卡片是否为相同的图片
+     * 
+     * @param other
+     *            要比较的卡片
+     * @return 是相同的卡片则返回true
+     */
     public boolean isSameImage(Piece other) {
         if (image == null || other.image == null) {
             return false;
@@ -28,10 +41,21 @@ public class Piece {
         return getImageId() == other.getImageId();
     }
 
+    /**
+     * 获取卡片中心点
+     * 
+     * @return 卡片中心点信息
+     */
     public Point getCenter() {
         return new Point(beginX + width / 2, beginY + height / 2);
     }
 
+    /**
+     * 交换卡片信息
+     * 
+     * @param other
+     *            要交换的卡片
+     */
     public void exchange(Piece other) {
         Bitmap bm = getImage();
         setImage(other.getImage());
@@ -46,14 +70,24 @@ public class Piece {
         other.setEmpty(isEmpty);
     }
 
+    /**
+     * 判断卡片上是否有图片
+     * 
+     * @param piece
+     *            卡片信息
+     * @return 如果图片则返回true
+     */
     public static boolean hasImage(Piece piece) {
         return piece != null && !piece.isEmpty() && piece.getImageId() != GameSettings.GroundCardValue && piece.getImageId() != GameSettings.EmptyCardValue;
     }
 
-//    public static boolean canThrough(Piece piece) {
-//        return !hasImage(piece);
-//    }
-
+    /**
+     * 判断卡片是否可以选择
+     * 
+     * @param piece
+     *            卡片信息
+     * @return 可以选择则返回true，与hasImage的区别是障碍卡片不能选择
+     */
     public static boolean canSelect(Piece piece) {
         return hasImage(piece) && piece.getImageId() != GameSettings.ObstacleCardValue;
     }

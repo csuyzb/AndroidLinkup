@@ -1,59 +1,61 @@
 package com.znv.linkup.core.status;
 
-import java.util.List;
-
 import com.znv.linkup.core.GameSettings;
-import com.znv.linkup.core.card.Piece;
 import com.znv.linkup.core.card.path.LinkInfo;
 
+/**
+ * 游戏得分处理
+ * 
+ * @author yzb
+ * 
+ */
 public class GameScore {
 
-	public GameScore() {
-		this(null);
-	}
+    public GameScore() {
+        this(null);
+    }
 
-	public GameScore(IGameStatus listener) {
-		gameScore = 0;
-		this.listener = listener;
-		if (listener != null) {
-			listener.onScoreChanged(gameScore);
-		}
-	}
+    public GameScore(IGameStatus listener) {
+        gameScore = 0;
+        this.listener = listener;
+        if (listener != null) {
+            listener.onScoreChanged(gameScore);
+        }
+    }
 
-	public void addScore(int score) {
-		this.gameScore += score;
-		if (listener != null) {
-			listener.onScoreChanged(gameScore);
-		}
-	}
+    public void addScore(int score) {
+        this.gameScore += score;
+        if (listener != null) {
+            listener.onScoreChanged(gameScore);
+        }
+    }
 
-//	public void addRewardScore(int time) {
-//		rewardScore += time * GameSettings.TimeScore;
-//	}
+    /**
+     * 根据链路获取奖励分数
+     * 
+     * @param linkInfo
+     *            连接路径信息
+     * @return 转弯奖励的分数
+     */
+    public int getCornerScore(LinkInfo linkInfo) {
+        return (linkInfo.getLinkPieces().size() - 2) * GameSettings.CornerScore;
+    }
 
-//	public void addRewardScore(LinkInfo linkInfo) {
-//		rewardScore += getCornerScore(linkInfo);
-//	}
+    /**
+     * 根据时间获取奖励分数
+     * 
+     * @param gameTime
+     *            游戏时间
+     * @return
+     */
+    public int getRewardScore(int gameTime) {
+        return gameTime * GameSettings.TimeScore;
+    }
 
-	public int getCornerScore(LinkInfo linkInfo) {
-		List<Piece> linkPieces = linkInfo.getLinkPieces();
-		return (linkPieces.size() - 2) * GameSettings.CornerScore;
-	}
+    public int getGameScore() {
+        return gameScore;
+    }
 
-	public int getRewardScore(int gameTime) {
-		int rewardTimeScore = gameTime * GameSettings.TimeScore;
-		return rewardScore + rewardTimeScore;
-	}
-
-//	public int getTotalScore(int gameTime) {
-//		return gameScore + getRewardScore(gameTime);
-//	}
-
-	public int getGameScore() {
-		return gameScore;
-	}
-
-	private int gameScore;
-	private int rewardScore;
-	private IGameStatus listener;
+    private int gameScore;
+    private IGameStatus listener;
 }

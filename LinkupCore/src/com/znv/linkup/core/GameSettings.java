@@ -8,25 +8,58 @@ package com.znv.linkup.core;
  */
 public class GameSettings {
 
+    /**
+     * 地板卡片值
+     */
     public static byte GroundCardValue = 0;
 
+    /**
+     * 游戏卡片值，用于地图模版
+     */
     public static byte GameCardValue = 1;
 
+    /**
+     * 障碍卡片值
+     */
     public static byte ObstacleCardValue = -1;
 
+    /**
+     * 空卡片值
+     */
     public static byte EmptyCardValue = -2;
 
+    /**
+     * 消除卡片获得的积分，消除一对卡片得10分
+     */
     public static int CardScore = 5;
 
+    /**
+     * 连击延时时间，2000ms
+     */
     public static int ComboDelay = 2000;
 
+    /**
+     * 连击间隔，3连击，6连击，9连击。。。
+     */
     public static int ComboMod = 3;
 
+    /**
+     * 连击分数，3连击则3*5=15
+     */
     public static int ComboScore = 5;
 
+    /**
+     * 剩余时间奖励分数，剩余10s，则奖励20分
+     */
     public static int TimeScore = 2;
 
+    /**
+     * 路径转弯奖励分数，直线不奖励，一个弯奖励5分，2个弯奖励10分
+     */
     public static int CornerScore = 5;
 
+    /**
+     * 消除一对卡片奖励的时间，2s
+     */
     public static int RewardTime = 2;
 }

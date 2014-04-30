@@ -1,5 +1,11 @@
 package com.znv.linkup.core.card.align;
 
+/**
+ * 游戏聚集对齐方式
+ * 
+ * @author yzb
+ * 
+ */
 public enum GameAlign {
     AlignNone, AlignDown, AlignUp, AlignLeft, AlignRight, AlignRandom;
 

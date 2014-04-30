@@ -9,7 +9,7 @@ import java.util.TimerTask;
  * @author yzb
  * 
  */
-public class GameTime {
+class GameTime {
 
     public GameTime(int totalTime) {
         this(totalTime, null);

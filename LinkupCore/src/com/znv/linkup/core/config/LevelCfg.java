@@ -7,10 +7,19 @@ import android.content.Context;
 import com.znv.linkup.core.GameSettings;
 import com.znv.linkup.core.card.align.GameAlign;
 
+/**
+ * 关卡配置
+ * 
+ * @author yzb
+ * 
+ */
 public class LevelCfg implements Serializable {
 
     private static final long serialVersionUID = 2145150870959932172L;
 
+    /**
+     * 静态全局配置
+     */
     public static GlobalCfg globalCfg = new GlobalCfg();
 
     public LevelCfg(String levelName) {
@@ -35,9 +44,14 @@ public class LevelCfg implements Serializable {
     private int beginImageX;
     private int beginImageY;
     private int levelBackground;
+    // 关卡地图信息字符串
     private String maptplStr;
+    // 当前的上下文信息，获取资源
     private Context context;
 
+    /**
+     * 初始化游戏星级的临界分数
+     */
     public void initStarScores() {
         if (starScores == null) {
             starScores = new int[4];
@@ -49,6 +63,13 @@ public class LevelCfg implements Serializable {
         }
     }
 
+    /**
+     * 根据游戏得分判断游戏星级
+     * 
+     * @param score
+     *            游戏得分
+     * @return 游戏星级
+     */
     public int getStar(int score) {
         initStarScores();
 
@@ -82,14 +103,6 @@ public class LevelCfg implements Serializable {
         this.levelName = levelName;
     }
 
-    // public String getRankId() {
-    // return rankId;
-    // }
-    //
-    // public void setRankId(String rankId) {
-    // this.rankId = rankId;
-    // }
-
     public String getRankName() {
         return rankName;
     }
@@ -114,14 +127,6 @@ public class LevelCfg implements Serializable {
         this.ySize = ySize;
     }
 
-    // public int getLevelScore() {
-    // return levelScore;
-    // }
-    //
-    // public void setLevelScore(int levelScore) {
-    // this.levelScore = levelScore;
-    // }
-
     public int getMaxScore() {
         return maxScore;
     }
@@ -129,14 +134,6 @@ public class LevelCfg implements Serializable {
     public void setMaxScore(int maxScore) {
         this.maxScore = maxScore;
     }
-
-    // public int getRewardScore() {
-    // return rewardScore;
-    // }
-    //
-    // public void setRewardScore(int rewardScore) {
-    // this.rewardScore = rewardScore;
-    // }
 
     public int getLevelTime() {
         return levelTime;

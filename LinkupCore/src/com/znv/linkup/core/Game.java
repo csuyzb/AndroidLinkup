@@ -248,7 +248,7 @@ public class Game implements IGameService {
     }
 
     public int getGameTime() {
-        return gameStatus.getTime().getGameTime();
+        return gameStatus.getGameTime();
     }
 
     /**
@@ -257,13 +257,22 @@ public class Game implements IGameService {
      * @return 游戏得分
      */
     public int getGameScore() {
-        return gameStatus.getScore().getGameScore();
+        return gameStatus.getGameScore();
     }
 
     /**
-     * 获取游戏奖励得分
+     * 获取连击奖励分数
      * 
-     * @return 游戏奖励得分
+     * @return 连击奖励分数
+     */
+    public int getComboScore() {
+        return gameStatus.getComboScore();
+    }
+
+    /**
+     * 获取时间奖励得分
+     * 
+     * @return 时间奖励得分
      */
     public int getRewardScore() {
         return gameStatus.getRewardScore();
@@ -284,7 +293,7 @@ public class Game implements IGameService {
      * @return 游戏连击数
      */
     public int getGameCombo() {
-        return gameStatus.getCombo().getGameCombo();
+        return gameStatus.getGameCombo();
     }
 
     @Override

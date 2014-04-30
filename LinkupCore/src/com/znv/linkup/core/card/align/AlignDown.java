@@ -2,17 +2,26 @@ package com.znv.linkup.core.card.align;
 
 import com.znv.linkup.core.card.Piece;
 
-public class AlignDown extends AlignBase {
+/**
+ * 向下聚集
+ * 
+ * @author yzb
+ * 
+ */
+class AlignDown extends AlignBase {
 
     public AlignDown(Piece[][] pieces) {
         super(pieces);
     }
 
     @Override
+    /**
+     * 向下聚集的变换
+     */
     public void Translate(Piece p1, Piece p2) {
 
         TranslatePiece(p1.getIndexX());
-        
+
         if (p2.getIndexX() != p1.getIndexX()) {
             TranslatePiece(p2.getIndexX());
         }

@@ -8,7 +8,7 @@ import com.znv.linkup.core.GameSettings;
  * @author yzb
  * 
  */
-public class GameCombo {
+class GameCombo {
 
     public GameCombo() {
         this(null);

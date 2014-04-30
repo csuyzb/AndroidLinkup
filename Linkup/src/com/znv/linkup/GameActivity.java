@@ -23,7 +23,6 @@ import com.znv.linkup.core.card.Piece;
 import com.znv.linkup.core.card.PiecePair;
 import com.znv.linkup.core.card.path.LinkInfo;
 import com.znv.linkup.core.config.LevelCfg;
-import com.znv.linkup.core.status.GameCombo;
 import com.znv.linkup.core.util.ImageUtil;
 import com.znv.linkup.db.DbScore;
 import com.znv.linkup.db.LevelScore;
@@ -272,7 +271,7 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
     @Override
     public void onCombo() {
         String msgFmt = "%s" + getResources().getString(R.string.game_combo_info) + ", +%s";
-        String msg = String.format(msgFmt, game.getGameCombo(), GameCombo.getComboScore(game.getGameCombo()));
+        String msg = String.format(msgFmt, game.getGameCombo(), game.getComboScore());
         if (game.getGameCombo() == ViewSettings.CombAddPrompt) {
             if (LevelCfg.globalCfg.getPromptNum() < ViewSettings.PromptMaxNum) {
                 // promt 增加一次

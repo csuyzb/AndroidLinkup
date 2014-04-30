@@ -2,13 +2,22 @@ package com.znv.linkup.core.card.align;
 
 import com.znv.linkup.core.card.Piece;
 
-public class AlignLeft extends AlignBase {
+/**
+ * 向左聚集
+ * 
+ * @author yzb
+ * 
+ */
+class AlignLeft extends AlignBase {
 
     public AlignLeft(Piece[][] pieces) {
         super(pieces);
     }
 
     @Override
+    /**
+     * 向左聚集的变换
+     */
     public void Translate(Piece p1, Piece p2) {
         TranslatePiece(p1.getIndexY());
 

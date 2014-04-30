@@ -9,7 +9,7 @@ import com.znv.linkup.core.card.path.LinkInfo;
  * @author yzb
  * 
  */
-public class GameScore {
+class GameScore {
 
     public GameScore() {
         this(null);

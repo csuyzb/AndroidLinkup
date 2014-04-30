@@ -7,11 +7,17 @@ package com.znv.linkup.core.config;
  * 
  */
 public class GlobalCfg {
+    // 是否播放游戏音效
     private boolean gameSound = true;
+    // 是否播放背景音乐
     private boolean gameBgMusic = true;
+    // 游戏皮肤，暂时未用
     private String gameSkin;
+    // 菜单按钮宽度
     private int menuWidth;
+    // 提示数
     private int promptNum;
+    // 重排数
     private int refreshNum;
 
     public boolean isGameSound() {

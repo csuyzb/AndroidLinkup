@@ -9,6 +9,12 @@ import android.content.res.XmlResourceParser;
 
 import com.znv.linkup.core.card.align.GameAlign;
 
+/**
+ * 游戏配置类，根据xml文件解析游戏关卡配置
+ * 
+ * @author yzb
+ * 
+ */
 public class GameCfg {
     private XmlResourceParser xrp;
 
@@ -18,6 +24,9 @@ public class GameCfg {
         LoadConfig();
     }
 
+    /**
+     * 加载配置
+     */
     public void LoadConfig() {
         if (xrp == null) {
             return;
@@ -82,6 +91,12 @@ public class GameCfg {
         levelInfo.setRankName(rankInfo.getRankName());
     }
 
+    /**
+     * 加载全局配置
+     * 
+     * @param xrp
+     *            xml节点
+     */
     private void LoadGlobalCfg(XmlResourceParser xrp) {
         GlobalCfg gamecfg = new GlobalCfg();
         gamecfg.setGameSkin(xrp.getAttributeValue(null, "gskin"));
@@ -94,6 +109,13 @@ public class GameCfg {
         LevelCfg.globalCfg = gamecfg;
     }
 
+    /**
+     * 加载等级配置
+     * 
+     * @param xrp
+     *            xml节点
+     * @return 等级配置信息
+     */
     private RankCfg LoadRankCfg(XmlResourceParser xrp) {
         String name = xrp.getAttributeValue(null, "name");
         RankCfg gRank = new RankCfg(name);
@@ -102,6 +124,13 @@ public class GameCfg {
         return gRank;
     }
 
+    /**
+     * 加载关卡配置
+     * 
+     * @param xrp
+     *            xml节点
+     * @return 关卡配置信息
+     */
     private LevelCfg LoadLevelCfg(XmlResourceParser xrp) {
         String name = xrp.getAttributeValue(null, "name");
         LevelCfg levelCfg = new LevelCfg(name);
@@ -116,19 +145,16 @@ public class GameCfg {
         return levelCfg;
     }
 
-    private int levelCount = 0;
-    private int rankCount = 0;
-    private List<RankCfg> rankInfos = new ArrayList<RankCfg>();
-
-    public int getLevelCount() {
-        return levelCount;
-    }
-
-    public int getRankCount() {
-        return rankCount;
-    }
-
+    /**
+     * 获取游戏等级信息列表
+     * 
+     * @return 游戏等级信息列表
+     */
     public List<RankCfg> getRankInfos() {
         return rankInfos;
     }
+
+    private int levelCount = 0;
+    private int rankCount = 0;
+    private List<RankCfg> rankInfos = new ArrayList<RankCfg>();
 }

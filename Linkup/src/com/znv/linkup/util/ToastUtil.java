@@ -9,6 +9,12 @@ import android.widget.Toast;
 
 import com.znv.linkup.R;
 
+/**
+ * 全局Toast的帮助类
+ * 
+ * @author yzb
+ * 
+ */
 @SuppressLint("ShowToast")
 public class ToastUtil {
 

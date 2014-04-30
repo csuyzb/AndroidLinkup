@@ -25,6 +25,8 @@ public class ViewSettings {
     public static final int DbVersion = 1;
 
     public final static int DefaultActiveLevels = 45;
+    
+    public final static int TwoBackExitInterval = 2000;
 
     public static int[] RankTitleBgColor = new int[] { R.color.rank_title_color_1, R.color.rank_title_color_2, R.color.rank_title_color_3 };
 

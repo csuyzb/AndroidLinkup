@@ -14,11 +14,13 @@ import android.view.WindowManager;
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
 import com.znv.linkup.core.config.GameCfg;
+import com.znv.linkup.core.config.GlobalCfg;
 import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.core.config.RankCfg;
 import com.znv.linkup.db.DbScore;
 import com.znv.linkup.db.LevelScore;
 import com.znv.linkup.sound.MusicServer;
+import com.znv.linkup.util.AppMetaUtil;
 import com.znv.linkup.util.CacheUtil;
 
 public class FullScreenActivity extends Activity {
@@ -59,7 +61,7 @@ public class FullScreenActivity extends Activity {
     private void initBaiduPush() {
         if (!CacheUtil.hasBind(getApplicationContext())) {
             // Push: 无账号初始化，用api key绑定
-            PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY, CacheUtil.getMetaValue(this, "api_key"));
+            PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY, AppMetaUtil.getMetaValue(this, "api_key"));
         }
     }
 
@@ -79,7 +81,26 @@ public class FullScreenActivity extends Activity {
             LevelCfg.globalCfg.setMenuWidth(menuWidth);
         }
 
+        loadGlobalCfg();
+
         loadLevelScores();
+    }
+
+    protected void loadGlobalCfg() {
+        String globalCfgStr = getGlobalCfg();
+        if (globalCfgStr.equals("")) {
+            setGlobalCfg();
+        } else {
+            LevelCfg.globalCfg = GlobalCfg.parse(globalCfgStr);
+        }
+    }
+
+    protected String getGlobalCfg() {
+        return CacheUtil.getBindStr(getApplicationContext(), "globalcfg");
+    }
+
+    protected void setGlobalCfg() {
+        CacheUtil.setBindStr(getApplicationContext(), "globalcfg", LevelCfg.globalCfg.toString());
     }
 
     protected void loadLevelScores() {

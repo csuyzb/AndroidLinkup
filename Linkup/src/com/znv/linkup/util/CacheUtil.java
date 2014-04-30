@@ -1,110 +1,98 @@
 package com.znv.linkup.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 
+/**
+ * 处理SharedPreferences的缓存帮助类
+ * 
+ * @author yzb
+ * 
+ */
 public class CacheUtil {
 
-    // 获取ApiKey
-    public static String getMetaValue(Context context, String metaKey) {
-        Bundle metaData = null;
-        String apiKey = null;
-        if (context == null || metaKey == null) {
-            return null;
-        }
-        try {
-            ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-            if (null != ai) {
-                metaData = ai.metaData;
-            }
-            if (null != metaData) {
-                apiKey = metaData.getString(metaKey);
-            }
-        } catch (NameNotFoundException e) {
-
-        }
-        return apiKey;
-    }
-
-    // 用share preference来实现是否绑定的开关。在ionBind且成功时设置true，unBind且成功时设置false
+    /**
+     * 用share preference来实现是否绑定的开关
+     * 
+     * @param context
+     * @return
+     */
     public static boolean hasBind(Context context) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        String flag = sp.getString("push_flag", "");
-        if ("ok".equalsIgnoreCase(flag)) {
-            return true;
-        }
-        return false;
+        return hasBind(context, "push_flag");
     }
 
+    /**
+     * 设置是否绑定
+     * 
+     * @param context
+     * @param flag
+     *            是否绑定
+     */
     public static void setBind(Context context, boolean flag) {
-        String flagStr = "not";
-        if (flag) {
-            flagStr = "ok";
-        }
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        Editor editor = sp.edit();
-        editor.putString("push_flag", flagStr);
-        editor.commit();
+        setBind(context, "push_flag", flag);
     }
 
+    /**
+     * 获取是否绑定特定字符串
+     * 
+     * @param context
+     * @param bindStr
+     *            绑定的字符串key
+     * @return 是否绑定
+     */
     public static boolean hasBind(Context context, String bindStr) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        String flag = sp.getString(bindStr, "");
-        if ("ok".equalsIgnoreCase(flag)) {
+        String strValue = getBindStr(context, bindStr);
+        if ("ok".equalsIgnoreCase(strValue)) {
             return true;
         }
         return false;
     }
 
+    /**
+     * 设置字符串是否绑定
+     * 
+     * @param context
+     * @param bindStr
+     *            绑定字符串key
+     * @param flag
+     *            是否绑定
+     */
     public static void setBind(Context context, String bindStr, boolean flag) {
         String flagStr = "not";
         if (flag) {
             flagStr = "ok";
         }
+        setBindStr(context, bindStr, flagStr);
+    }
+
+    /**
+     * 获取绑定字符串的值
+     * 
+     * @param context
+     * @param bindStr
+     *            绑定字符串
+     * @return 绑定的字符串值
+     */
+    public static String getBindStr(Context context, String bindStr) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getString(bindStr, "");
+    }
+
+    /**
+     * 设置绑定的字符串键值对
+     * 
+     * @param context
+     * @param bindStr
+     *            绑定的字符串key
+     * @param strValue
+     *            绑定的字符串value
+     */
+    public static void setBindStr(Context context, String bindStr, String strValue) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         Editor editor = sp.edit();
-        editor.putString(bindStr, flagStr);
+        editor.putString(bindStr, strValue);
         editor.commit();
     }
-
-    public static List<String> getTagsList(String originalText) {
-        if (originalText == null || originalText.equals("")) {
-            return null;
-        }
-        List<String> tags = new ArrayList<String>();
-        int indexOfComma = originalText.indexOf(',');
-        String tag;
-        while (indexOfComma != -1) {
-            tag = originalText.substring(0, indexOfComma);
-            tags.add(tag);
-
-            originalText = originalText.substring(indexOfComma + 1);
-            indexOfComma = originalText.indexOf(',');
-        }
-
-        tags.add(originalText);
-        return tags;
-    }
-
-    public static String getLogText(Context context) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getString("log_text", "");
-    }
-
-    public static void setLogText(Context context, String text) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        Editor editor = sp.edit();
-        editor.putString("log_text", text);
-        editor.commit();
-    }
-
 }

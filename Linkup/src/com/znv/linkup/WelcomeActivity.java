@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.util.CacheUtil;
 import com.znv.linkup.util.ShortcutUtil;
 import com.znv.linkup.util.ToastUtil;
@@ -15,8 +17,8 @@ import com.znv.linkup.view.dialog.ConfirmDialog;
 public class WelcomeActivity extends FullScreenActivity {
 
     private long exitTime = 0;
-
-    // private ImageFallView fallImages = null;
+    private ImageView ivMusic = null;
+    private ImageView ivSound = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +28,55 @@ public class WelcomeActivity extends FullScreenActivity {
 
         setContentView(R.layout.activity_welcome);
 
+        initSound();
+
         initAnimation();
+    }
+
+    private void initSound() {
+        ivMusic = (ImageView) findViewById(R.id.music);
+
+        setGameMusic();
+        ivMusic.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (musicServer != null) {
+                    musicServer.setBgMisicEnabled(!musicServer.isBgMisicEnabled());
+                    setGlobalCfg();
+                    setGameMusic();
+                }
+            }
+        });
+        ivSound = (ImageView) findViewById(R.id.sound);
+        setGameSound();
+        ivSound.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (musicServer != null) {
+                    musicServer.setSoundEnabled(!musicServer.isSoundEnabled());
+                    setGlobalCfg();
+                    setGameSound();
+                }
+            }
+        });
+    }
+
+    private void setGameMusic() {
+        if (LevelCfg.globalCfg.isGameBgMusic()) {
+            ivMusic.setImageResource(R.drawable.music);
+        } else {
+            ivMusic.setImageResource(R.drawable.music_d);
+        }
+    }
+
+    private void setGameSound() {
+        if (LevelCfg.globalCfg.isGameSound()) {
+            ivSound.setImageResource(R.drawable.sound);
+        } else {
+            ivSound.setImageResource(R.drawable.sound_d);
+        }
     }
 
     private void initShortcut() {
@@ -42,24 +92,11 @@ public class WelcomeActivity extends FullScreenActivity {
 
         GameTitle gameTitle = (GameTitle) findViewById(R.id.gameTitle);
         gameTitle.startAnimation();
-
-        // if (fallImages == null) {
-        // LinearLayout container = (LinearLayout) findViewById(R.id.container);
-        // fallImages = new ImageFallView(this);
-        // fallImages.setAlpha(0.5f);
-        // container.addView(fallImages);
-        // } else {
-        // fallImages.resume();
-        // }
     }
 
     private void unInitAnimation() {
         GameTitle gameTitle = (GameTitle) findViewById(R.id.gameTitle);
         gameTitle.stopAnimation();
-
-        // if (fallImages != null) {
-        // fallImages.pause();
-        // }
     }
 
     @Override
@@ -116,7 +153,7 @@ public class WelcomeActivity extends FullScreenActivity {
     }
 
     private void delayFinish() {
-        if ((System.currentTimeMillis() - exitTime) > 2000) {
+        if ((System.currentTimeMillis() - exitTime) > ViewSettings.TwoBackExitInterval) {
             ToastUtil.getToast(this, R.string.back_again).show();
             exitTime = System.currentTimeMillis();
         } else {

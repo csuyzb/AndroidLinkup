@@ -89,25 +89,31 @@
         android:gravity="center_horizontal|center_vertical"
         android:orientation="horizontal" >
 
-        <ImageView
+        <Button
             android:id="@+id/prompt"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:background="#00000000"
+            android:drawableLeft="@drawable/search"
             android:gravity="center"
             android:onClick="prompt"
-            android:src="@drawable/search"
-            tools:ignore="contentDescription" />
+            android:textColor="#FFFF0000"
+            android:textSize="20sp" />
 
-        <ImageView
-            android:id="@+id/sound"
+        <Button
+            android:id="@+id/refresh"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:background="#00000000"
+            android:drawableLeft="@drawable/reload"
             android:gravity="center"
             android:onClick="refresh"
-            android:src="@drawable/reload"
-            tools:ignore="contentDescription" />
+            android:textColor="#FFFF0000"
+            android:textSize="20sp" />
     </LinearLayout>
 
 </FrameLayout>

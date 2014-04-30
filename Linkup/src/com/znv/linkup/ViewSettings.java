@@ -12,6 +12,10 @@ public class ViewSettings {
 
     public final static int WinMessage = 0x444;
 
+    public final static int PromptMessage = 0x555;
+
+    public final static int RefreshMessage = 0x666;
+
     public static int CombAddPrompt = 6;
 
     public static int CombAddRefresh = 9;
@@ -25,7 +29,7 @@ public class ViewSettings {
     public static final int DbVersion = 1;
 
     public final static int DefaultActiveLevels = 45;
-    
+
     public final static int TwoBackExitInterval = 2000;
 
     public static int[] RankTitleBgColor = new int[] { R.color.rank_title_color_1, R.color.rank_title_color_2, R.color.rank_title_color_3 };

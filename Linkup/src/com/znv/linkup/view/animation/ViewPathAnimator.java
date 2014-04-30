@@ -10,7 +10,7 @@ import com.znv.linkup.view.animation.path.PathEvaluator;
 import com.znv.linkup.view.animation.view.IAnimatorView;
 
 /**
- * 收集金币的动画
+ * 文字或者图片的动画
  * 
  * @author yzb
  * 

@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.ProgressBar;
@@ -52,6 +53,8 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
         int screenWidth;
         int screenHeight;
         Point screenCenter;
+        Button tvPrompt;
+        Button tvRefresh;
     }
 
     class ScreenInfo {
@@ -90,6 +93,14 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
         resultDialog.success(stars, isNewRecord);
     }
 
+    public void showPrompt() {
+        holder.tvPrompt.setText(String.valueOf(LevelCfg.globalCfg.getPromptNum()));
+    }
+
+    public void showRefresh() {
+        holder.tvRefresh.setText(String.valueOf(LevelCfg.globalCfg.getRefreshNum()));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,6 +125,8 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
         holder.screenWidth = size.x;
         holder.screenHeight = size.y;
         holder.screenCenter = new Point((int) (size.x * 0.5), (int) (size.y * 0.5));
+        holder.tvPrompt = (Button) findViewById(R.id.prompt);
+        holder.tvRefresh = (Button) findViewById(R.id.refresh);
         holder.tsScore.setFactory(new ViewSwitcher.ViewFactory() {
 
             @Override
@@ -162,6 +175,8 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
 
         adjustLevelCfg(curLevelCfg);
 
+        holder.tvPrompt.setText(String.valueOf(LevelCfg.globalCfg.getPromptNum()));
+        holder.tvRefresh.setText(String.valueOf(LevelCfg.globalCfg.getRefreshNum()));
         holder.tvLevel.setText(curLevelCfg.getRankName() + "-" + curLevelCfg.getLevelName());
         holder.pbTime.setMax(curLevelCfg.getLevelTime());
         holder.tsScore.setText("0");
@@ -260,6 +275,10 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
     @Override
     public void onPrompt(PiecePair pair) {
         gameView.setPromptPieces(pair);
+        // 减少提示一次
+        LevelCfg.globalCfg.setPromptNum(LevelCfg.globalCfg.getPromptNum() - 1);
+        setGlobalCfg();
+        handler.sendEmptyMessage(ViewSettings.PromptMessage);
         musicServer.select();
     }
 
@@ -276,16 +295,21 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
             if (LevelCfg.globalCfg.getPromptNum() < ViewSettings.PromptMaxNum) {
                 // promt 增加一次
                 LevelCfg.globalCfg.setPromptNum(LevelCfg.globalCfg.getPromptNum() + 1);
+                setGlobalCfg();
+                handler.sendEmptyMessage(ViewSettings.PromptMessage);
                 msg += getString(R.string.game_prompt_add);
             }
         } else if (game.getGameCombo() == ViewSettings.CombAddRefresh) {
             if (LevelCfg.globalCfg.getRefreshNum() < ViewSettings.RefreshMaxNum) {
                 // refresh 增加一次
                 LevelCfg.globalCfg.setRefreshNum(LevelCfg.globalCfg.getRefreshNum() + 1);
+                setGlobalCfg();
+                handler.sendEmptyMessage(ViewSettings.RefreshMessage);
                 msg += getString(R.string.game_refresh_add);
             }
         }
         showCenterToast(msg);
+
     }
 
     private void showCenterToast(String msg) {
@@ -307,6 +331,10 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
 
     @Override
     public void onRefresh() {
+        // 减少重排一次
+        LevelCfg.globalCfg.setRefreshNum(LevelCfg.globalCfg.getRefreshNum() - 1);
+        setGlobalCfg();
+        handler.sendEmptyMessage(ViewSettings.RefreshMessage);
     }
 
     @Override
@@ -381,12 +409,16 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
     }
 
     public void prompt(View v) {
-        game.prompt();
+        if (LevelCfg.globalCfg.getPromptNum() > 0) {
+            game.prompt();
+        }
     }
 
     public void refresh(View v) {
-        game.refresh();
-        musicServer.refresh();
+        if (LevelCfg.globalCfg.getRefreshNum() > 0) {
+            game.refresh();
+            musicServer.refresh();
+        }
     }
 
     public void restart(View v) {

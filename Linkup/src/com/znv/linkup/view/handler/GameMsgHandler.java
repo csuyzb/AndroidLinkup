@@ -32,6 +32,12 @@ public class GameMsgHandler extends Handler {
         case ViewSettings.WinMessage:
             gameAct.showSuccess();
             break;
+        case ViewSettings.PromptMessage:
+            gameAct.showPrompt();
+            break;
+        case ViewSettings.RefreshMessage:
+            gameAct.showRefresh();
+            break;
         }
     }
 

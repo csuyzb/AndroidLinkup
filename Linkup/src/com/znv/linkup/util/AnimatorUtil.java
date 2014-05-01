@@ -9,7 +9,7 @@ import android.view.View;
  * @author yzb
  * 
  */
-public class AnimationUtil {
+public class AnimatorUtil {
 
     private static int defaultDuration = 500;
 

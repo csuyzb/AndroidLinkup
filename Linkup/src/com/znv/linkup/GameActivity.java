@@ -27,7 +27,7 @@ import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.core.util.ImageUtil;
 import com.znv.linkup.db.DbScore;
 import com.znv.linkup.db.LevelScore;
-import com.znv.linkup.util.AnimationUtil;
+import com.znv.linkup.util.AnimatorUtil;
 import com.znv.linkup.view.GameView;
 import com.znv.linkup.view.animation.ViewPathAnimator;
 import com.znv.linkup.view.animation.view.AnimatorImage;
@@ -146,7 +146,7 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
 
         // 工具条动画
         View tools = findViewById(R.id.tools);
-        AnimationUtil.animTranslate(tools, tools.getX(), tools.getX(), tools.getY() + 100, tools.getY());
+        AnimatorUtil.animTranslate(tools, tools.getX(), tools.getX(), tools.getY() + 100, tools.getY());
 
         start();
     }

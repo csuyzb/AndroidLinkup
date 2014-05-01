@@ -1,6 +1,5 @@
 package com.znv.linkup.view;
 
-import android.animation.ObjectAnimator;
 import android.graphics.Point;
 import android.view.Display;
 import android.view.View;
@@ -11,7 +10,14 @@ import android.widget.ImageButton;
 import com.znv.linkup.GameActivity;
 import com.znv.linkup.R;
 import com.znv.linkup.core.config.LevelCfg;
+import com.znv.linkup.util.AnimationUtil;
 
+/**
+ * 游戏菜单类（暂时未用）
+ * 
+ * @author yzb
+ * 
+ */
 public class GameMenu {
 
     // private int screenWidth;
@@ -20,7 +26,6 @@ public class GameMenu {
     private int originX;
     private int originY;
     private int radius;
-    private int duration = 500;
 
     private GameActivity act = null;
     private FrameLayout root = null;
@@ -34,8 +39,8 @@ public class GameMenu {
         this.act = act;
 
         Display mDisplay = act.getWindowManager().getDefaultDisplay();
-         Point size = new Point();
-         mDisplay.getSize(size);
+        Point size = new Point();
+        mDisplay.getSize(size);
         screenHeight = size.y;
         originX = 0;
         originY = (int) ((screenHeight - btnWidth) * 0.5f);
@@ -47,6 +52,9 @@ public class GameMenu {
         create();
     }
 
+    /**
+     * 创建菜单
+     */
     private void create() {
 
         ibRestart = addMenuItem(R.drawable.restart);
@@ -79,11 +87,14 @@ public class GameMenu {
         });
     }
 
+    /**
+     * 显示菜单
+     */
     public void show() {
         if (isShowDetail) {
             hideDetail();
         }
-        animTranslate(ibMenu, originX, originX, 50, originY, 500);
+        AnimationUtil.animTranslate(ibMenu, originX, originX, 50, originY, 500);
     }
 
     private ImageButton addMenuItem(int resId) {
@@ -94,20 +105,23 @@ public class GameMenu {
         return btn;
     }
 
+    /**
+     * 显示详细子菜单
+     */
     public void showDetail() {
         isShowDetail = true;
         // hide main
-        animAlpha(ibMenu, 1, 0.5f, 500);
-        animRotate(ibMenu, 0, 90);
-        animAlpha(ibRestart, 0, 1, 200);
-        animAlpha(ibPrompt, 0, 1, 300);
-        animAlpha(ibRefresh, 0, 1, 400);
-        animAlpha(ibBack, 0, 1, 500);
+        AnimationUtil.animAlpha(ibMenu, 1, 0.5f, 500);
+        AnimationUtil.animRotate(ibMenu, 0, 90);
+        AnimationUtil.animAlpha(ibRestart, 0, 1, 200);
+        AnimationUtil.animAlpha(ibPrompt, 0, 1, 300);
+        AnimationUtil.animAlpha(ibRefresh, 0, 1, 400);
+        AnimationUtil.animAlpha(ibBack, 0, 1, 500);
 
-        animTranslate(ibRestart, originX, originX, originY, originY - radius, 200);
-        animTranslate(ibPrompt, originX, originX + (float) (radius * 0.5 * Math.sqrt(3)), originY, originY - radius * 0.5f, 300);
-        animTranslate(ibRefresh, originX, originX + (float) (radius * 0.5 * Math.sqrt(3)), originY, originY + radius * 0.5f, 400);
-        animTranslate(ibBack, originX, originX, originY, originY + radius, 500);
+        AnimationUtil.animTranslate(ibRestart, originX, originX, originY, originY - radius, 200);
+        AnimationUtil.animTranslate(ibPrompt, originX, originX + (float) (radius * 0.5 * Math.sqrt(3)), originY, originY - radius * 0.5f, 300);
+        AnimationUtil.animTranslate(ibRefresh, originX, originX + (float) (radius * 0.5 * Math.sqrt(3)), originY, originY + radius * 0.5f, 400);
+        AnimationUtil.animTranslate(ibBack, originX, originX, originY, originY + radius, 500);
 
         ibRestart.setOnClickListener(new View.OnClickListener() {
 
@@ -146,43 +160,27 @@ public class GameMenu {
         });
     }
 
+    /**
+     * 隐藏详细子菜单
+     */
     public void hideDetail() {
         isShowDetail = false;
         // show main
-        animAlpha(ibMenu, 0.5f, 1, 500);
-        animRotate(ibMenu, 90, 0);
-        animAlpha(ibRestart, 1, 0, 500);
-        animAlpha(ibPrompt, 1, 0, 400);
-        animAlpha(ibRefresh, 1, 0, 300);
-        animAlpha(ibBack, 1, 0, 200);
+        AnimationUtil.animAlpha(ibMenu, 0.5f, 1, 500);
+        AnimationUtil.animRotate(ibMenu, 90, 0);
+        AnimationUtil.animAlpha(ibRestart, 1, 0, 500);
+        AnimationUtil.animAlpha(ibPrompt, 1, 0, 400);
+        AnimationUtil.animAlpha(ibRefresh, 1, 0, 300);
+        AnimationUtil.animAlpha(ibBack, 1, 0, 200);
 
-        animTranslate(ibRestart, originX, originX, originY - radius, originY, 500);
-        animTranslate(ibPrompt, originX + (float) (radius * 0.5 * Math.sqrt(3)), originX, originY - radius * 0.5f, originY, 400);
-        animTranslate(ibRefresh, originX + (float) (radius * 0.5 * Math.sqrt(3)), originX, originY + radius * 0.5f, originY, 300);
-        animTranslate(ibBack, originX, originX, originY + radius, originY, 200);
+        AnimationUtil.animTranslate(ibRestart, originX, originX, originY - radius, originY, 500);
+        AnimationUtil.animTranslate(ibPrompt, originX + (float) (radius * 0.5 * Math.sqrt(3)), originX, originY - radius * 0.5f, originY, 400);
+        AnimationUtil.animTranslate(ibRefresh, originX + (float) (radius * 0.5 * Math.sqrt(3)), originX, originY + radius * 0.5f, originY, 300);
+        AnimationUtil.animTranslate(ibBack, originX, originX, originY + radius, originY, 200);
 
         ibRestart.setOnClickListener(null);
         ibPrompt.setOnClickListener(null);
         ibRefresh.setOnClickListener(null);
         ibBack.setOnClickListener(null);
     }
-
-    protected void animAlpha(ImageButton ibtn, float fromAlpha, float toAlpha, int duration) {
-        ObjectAnimator.ofFloat(ibtn, "alpha", fromAlpha, toAlpha).setDuration(duration).start();
-    }
-
-    protected void animScale(ImageButton ibtn, float toX, float toY) {
-        ObjectAnimator.ofFloat(ibtn, "scaleX", 1, toX).setDuration(duration).start();
-        ObjectAnimator.ofFloat(ibtn, "scaleY", 1, toY).setDuration(duration).start();
-    }
-
-    protected void animRotate(ImageButton ibtn, float fromDegrees, float toDegrees) {
-        ObjectAnimator.ofFloat(ibtn, "rotation", fromDegrees, toDegrees).setDuration(duration).start();
-    }
-
-    protected void animTranslate(ImageButton ibtn, float fromX, float toX, float fromY, float toY, int duration) {
-        ObjectAnimator.ofFloat(ibtn, "translationX", fromX, toX).setDuration(duration).start();
-        ObjectAnimator.ofFloat(ibtn, "translationY", fromY, toY).setDuration(duration).start();
-    }
-
 }

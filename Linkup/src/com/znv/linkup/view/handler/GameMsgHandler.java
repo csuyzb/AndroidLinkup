@@ -8,6 +8,12 @@ import com.znv.linkup.ViewSettings;
 import android.os.Handler;
 import android.os.Message;
 
+/**
+ * 游戏消除处理handler类
+ * 
+ * @author yzb
+ * 
+ */
 public class GameMsgHandler extends Handler {
 
     private WeakReference<GameActivity> gameActs;

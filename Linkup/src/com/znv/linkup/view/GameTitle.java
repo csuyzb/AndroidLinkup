@@ -13,7 +13,16 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import com.znv.linkup.R;
 
+/**
+ * 游戏标题，包括动画
+ * 
+ * @author yzb
+ * 
+ */
 public class GameTitle extends LinearLayout implements Animator.AnimatorListener {
+
+    private static LayoutParams params = null;
+    private AnimatorSet animation = null;
 
     public GameTitle(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -21,10 +30,16 @@ public class GameTitle extends LinearLayout implements Animator.AnimatorListener
         addWords(context);
     }
 
-    private void addWords(Context context) {
-        LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+    static {
+        params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         params.setMargins(4, 20, 4, 20);
+    }
 
+    /**
+     * 增加游戏标题文字图片
+     * @param context   
+     */
+    private void addWords(Context context) {
         ImageView ivXiu = new ImageView(context);
         ivXiu.setLayoutParams(params);
         ivXiu.setBackgroundResource(R.drawable.xiu);
@@ -51,8 +66,10 @@ public class GameTitle extends LinearLayout implements Animator.AnimatorListener
         this.addView(ivKan);
     }
 
-    private AnimatorSet animation = null;
-
+    
+    /**
+     * 创建动画
+     */
     private void createAnimation() {
         if (animation == null) {
             List<Animator> appear = new ArrayList<Animator>();

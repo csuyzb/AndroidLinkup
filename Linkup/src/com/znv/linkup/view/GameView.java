@@ -22,9 +22,15 @@ import com.znv.linkup.core.card.PiecePair;
 import com.znv.linkup.core.card.path.LinkInfo;
 import com.znv.linkup.core.util.ImageUtil;
 
+/**
+ * 主游戏显示区，负责卡片图片显示，消除路径显示，选中显示
+ * 
+ * @author yzb
+ * 
+ */
 public class GameView extends View {
 
-    private IGameService gameService;
+    private IGameService game;
     private Piece selectedPiece;
     private LinkInfo linkInfo;
     private Paint paint;
@@ -34,8 +40,6 @@ public class GameView extends View {
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
-        // setBackgroundResource(R.drawable.sky);
 
         paint = new Paint();
         paint.setShader(new BitmapShader(BitmapFactory.decodeResource(context.getResources(), R.drawable.heart), Shader.TileMode.REPEAT, Shader.TileMode.REPEAT));
@@ -47,14 +51,21 @@ public class GameView extends View {
         textPaint.setTextSize(30);
     }
 
-    public void setGameService(IGameService gameService) {
-        this.gameService = gameService;
+    /**
+     * 设置游戏逻辑处理时设置图片，可以在此实现换肤
+     * 
+     * @param game
+     *            游戏逻辑处理的接口实现类，game对象
+     */
+    public void setGameService(IGameService game) {
+        this.game = game;
 
-        Piece[][] pieces = gameService.getPieces();
+        Piece[][] pieces = game.getPieces();
         for (int i = 0; i < pieces.length; i++) {
             for (int j = 0; j < pieces[i].length; j++) {
                 Piece piece = pieces[i][j];
                 if (piece != null) {
+                    // 设置游戏卡片和障碍卡片
                     if (piece.getImageId() == GameSettings.ObstacleCardValue) {
                         Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.obstacle);
                         piece.setImage(ImageUtil.scaleBitmap(bm, piece.getWidth(), piece.getHeight()));
@@ -67,22 +78,37 @@ public class GameView extends View {
         }
     }
 
+    /**
+     * 设置连接路径
+     * 
+     * @param linkInfo
+     *            连接路径信息
+     */
     public void setLinkInfo(LinkInfo linkInfo) {
         this.linkInfo = linkInfo;
     }
 
+    /**
+     * 设置选择卡片时显示的图片
+     * 
+     * @param bm
+     *            选择的背景图片
+     */
     public void setSelectedImage(Bitmap bm) {
         selectedImage = bm;
     }
 
+    /**
+     * 绘制游戏区
+     */
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if (gameService == null) {
+        if (game == null) {
             return;
         }
-        Piece[][] pieces = gameService.getPieces();
+        Piece[][] pieces = game.getPieces();
 
         if (promptPieces != null) {
             drawSelectPiece(canvas, promptPieces.getPieceOne());
@@ -92,6 +118,9 @@ public class GameView extends View {
             drawSelectPiece(canvas, selectedPiece);
         }
 
+        /**
+         * 绘制所有的游戏图片和障碍图片
+         */
         if (pieces != null) {
             for (int i = 0; i < pieces.length; i++) {
                 for (int j = 0; j < pieces[i].length; j++) {
@@ -109,14 +138,38 @@ public class GameView extends View {
         }
     }
 
+    /**
+     * 绘制选中图片
+     * 
+     * @param canvas
+     *            画布
+     * @param piece
+     *            选择的卡片信息
+     */
     private void drawSelectPiece(Canvas canvas, Piece piece) {
         canvas.drawBitmap(selectedImage, piece.getBeginX(), piece.getBeginY(), null);
     }
 
+    /**
+     * 绘制游戏卡片
+     * 
+     * @param canvas
+     *            画布
+     * @param piece
+     *            游戏卡片信息
+     */
     private void drawPiece(Canvas canvas, Piece piece) {
         canvas.drawBitmap(piece.getImage(), piece.getBeginX(), piece.getBeginY(), null);
     }
 
+    /**
+     * 绘制连接路径
+     * 
+     * @param canvas
+     *            画布
+     * @param linkInfo
+     *            连接路径信息
+     */
     private void drawLine(Canvas canvas, LinkInfo linkInfo) {
         List<Piece> linkPieces = linkInfo.getLinkPieces();
         for (int i = 0; i < linkPieces.size() - 1; i++) {
@@ -124,25 +177,24 @@ public class GameView extends View {
             Point nextPoint = linkPieces.get(i + 1).getCenter();
             canvas.drawLine(currentPoint.x, currentPoint.y, nextPoint.x, nextPoint.y, paint);
         }
-        // drawScores(canvas, linkPieces);
     }
 
-    // private void drawScores(Canvas canvas, List<Piece> linkPieces) {
-    // drawText(canvas, linkPieces.get(0), "+" + GameSettings.CardScore);
-    // drawText(canvas, linkPieces.get(linkPieces.size() - 1), "+" + GameSettings.CardScore);
-    // for (int i = 1; i < linkPieces.size() - 1; i++) {
-    // drawText(canvas, linkPieces.get(i), "+" + GameSettings.CornerScore);
-    // }
-    // }
-    //
-    // private void drawText(Canvas canvas, Piece piece, String text) {
-    // canvas.drawText(text, piece.getCenter().x - 10, piece.getCenter().y - 10, textPaint);
-    // }
-
+    /**
+     * 设置选择的卡片
+     * 
+     * @param piece
+     *            选择的卡片信息
+     */
     public void setSelectedPiece(Piece piece) {
         this.selectedPiece = piece;
     }
 
+    /**
+     * 设置提示的卡片对
+     * 
+     * @param promptPieces
+     *            提示的卡片对
+     */
     public void setPromptPieces(PiecePair promptPieces) {
         this.promptPieces = promptPieces;
     }

@@ -61,5 +61,5 @@ public class GameSettings {
     /**
      * 消除一对卡片奖励的时间，2s
      */
-    public static int RewardTime = 2;
+    public static int RewardTime = 1;
 }

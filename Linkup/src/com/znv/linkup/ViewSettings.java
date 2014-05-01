@@ -16,9 +16,9 @@ public class ViewSettings {
 
     public final static int RefreshMessage = 0x666;
 
-    public static int CombAddPrompt = 6;
+    public static int CombAddPrompt = 3;
 
-    public static int CombAddRefresh = 9;
+    public static int CombAddRefresh = 6;
 
     public static int PromptMaxNum = 10;
 

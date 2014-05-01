@@ -117,4 +117,32 @@
             android:textSize="20sp" />
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/startCoin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0"
+        android:background="@drawable/coin"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/endCoin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0"
+        android:background="@drawable/coin"
+        tools:ignore="ContentDescription" >
+    </ImageView>
+
+    <TextView
+        android:id="@+id/comboText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0"
+        android:background="#00000000"
+        android:gravity="center"
+        android:textColor="#FFFF3399"
+        android:textSize="30sp" >
+    </TextView>
+
 </FrameLayout>

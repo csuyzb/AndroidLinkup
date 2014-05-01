@@ -1,5 +1,6 @@
 package com.znv.linkup.util;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.view.View;
 
@@ -11,7 +12,7 @@ import android.view.View;
  */
 public class AnimatorUtil {
 
-    private static int defaultDuration = 500;
+    public static int defaultDuration = 500;
 
     /**
      * 设置view的透明度
@@ -41,6 +42,26 @@ public class AnimatorUtil {
      */
     public static void animAlpha(View view, float fromAlpha, float toAlpha, int duration) {
         ObjectAnimator.ofFloat(view, "alpha", fromAlpha, toAlpha).setDuration(duration).start();
+    }
+
+    /**
+     * 设置view的透明度
+     * 
+     * @param view
+     *            参与动画的view
+     * @param fromAlpha
+     *            起始透明度
+     * @param toAlpha
+     *            结束透明度
+     * @param duration
+     *            动画时长
+     * @param delay
+     *            动画延迟
+     */
+    public static void animAlpha(View view, float fromAlpha, float toAlpha, int duration, int delay) {
+        Animator anim = ObjectAnimator.ofFloat(view, "alpha", fromAlpha, toAlpha).setDuration(duration);
+        anim.setStartDelay(delay);
+        anim.start();
     }
 
     /**

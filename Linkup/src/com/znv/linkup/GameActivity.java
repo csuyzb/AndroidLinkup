@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.FrameLayout.LayoutParams;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
@@ -29,10 +29,6 @@ import com.znv.linkup.db.DbScore;
 import com.znv.linkup.db.LevelScore;
 import com.znv.linkup.util.AnimatorUtil;
 import com.znv.linkup.view.GameView;
-import com.znv.linkup.view.animation.ViewPathAnimator;
-import com.znv.linkup.view.animation.view.AnimatorImage;
-import com.znv.linkup.view.animation.view.AnimatorText;
-import com.znv.linkup.view.animation.view.IAnimatorView;
 import com.znv.linkup.view.dialog.GameResultDialogs;
 import com.znv.linkup.view.handler.GameMsgHandler;
 
@@ -48,9 +44,9 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
         TextSwitcher tsScore;
         FrameLayout flBackground;
         Bitmap bmSelected;
-        ViewPathAnimator startCoin;
-        ViewPathAnimator endCoin;
-        ViewPathAnimator tvComb;
+        ImageView startCoin;
+        ImageView endCoin;
+        TextView tvComb;
         int screenWidth;
         int screenHeight;
         Point screenCenter;
@@ -69,7 +65,6 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
     private LevelCfg curLevelCfg = null;
     private LevelHolder holder = new LevelHolder();
     private Handler handler = new GameMsgHandler(this);
-    private static FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
     public void updateTime() {
         holder.pbTime.setProgress(game.getGameTime());
@@ -119,10 +114,9 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
         holder.tsScore = (TextSwitcher) findViewById(R.id.scoreText);
         holder.flBackground = (FrameLayout) findViewById(R.id.rootFrame);
         holder.bmSelected = BitmapFactory.decodeResource(getResources(), R.drawable.selected);
-        holder.startCoin = new ViewPathAnimator(genAnimatorCoin());
-        holder.endCoin = new ViewPathAnimator(genAnimatorCoin());
-        holder.tvComb = new ViewPathAnimator(genAnimatorText());
-        holder.tvComb.setDuration(1500);
+        holder.startCoin = (ImageView) findViewById(R.id.startCoin);
+        holder.endCoin = (ImageView) findViewById(R.id.endCoin);
+        holder.tvComb = (TextView) findViewById(R.id.comboText);
         holder.screenWidth = size.x;
         holder.screenHeight = size.y;
         holder.screenCenter = new Point((int) (size.x * 0.5), (int) (size.y * 0.5));
@@ -149,28 +143,6 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
         AnimatorUtil.animTranslate(tools, tools.getX(), tools.getX(), tools.getY() + 100, tools.getY());
 
         start();
-    }
-
-    private IAnimatorView genAnimatorCoin() {
-        AnimatorImage view = new AnimatorImage(this);
-        view.setImageResource(R.drawable.coin);
-        view.setLayoutParams(params);
-        view.setAlpha(0f);
-        getRoot().addView(view);
-        return view;
-    }
-
-    private IAnimatorView genAnimatorText() {
-        AnimatorText view = new AnimatorText(this);
-        view.setLayoutParams(params);
-        view.setGravity(Gravity.CENTER);
-        view.setBackgroundColor(0x00000000);
-        view.setTextColor(0xFFFF3399);
-        view.setTextSize(30);
-        view.setText("test");
-        view.setAlpha(0f);
-        getRoot().addView(view);
-        return view;
     }
 
     public void start() {
@@ -318,12 +290,11 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
     }
 
     private void showCenterToast(String msg) {
-        AnimatorText text = (AnimatorText) holder.tvComb.getView();
-        text.setText(msg);
-        holder.tvComb.onAnimationCancel(null);
-        Point endPoint = new Point(holder.screenCenter.x - (int) (text.getWidth() * 0.5), holder.screenCenter.y - (int) (text.getHeight() * 0.5));
+        holder.tvComb.setText(msg);
+        int msgWidth = msg.length() * 10;
+        Point endPoint = new Point(holder.screenCenter.x - msgWidth, holder.screenCenter.y - (int) (holder.tvComb.getHeight() * 0.5));
         Point startPoint = new Point(endPoint.x, endPoint.y + 100);
-        holder.tvComb.animatePath(startPoint, endPoint);
+        animTranslate(holder.tvComb, startPoint, endPoint, 1500);
     }
 
     public String getGameResult(boolean isSuccess) {
@@ -364,12 +335,16 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
         Point startPoint = linkInfo.getLinkPieces().get(0).getCenter();
         Point endPoint = new Point((int) (holder.tsScore.getLeft() + holder.tsScore.getWidth() * 0.5),
                 (int) (holder.tsScore.getTop() + holder.tsScore.getHeight() * 0.5));
-        holder.startCoin.onAnimationCancel(null);
-        holder.startCoin.animatePath(startPoint, endPoint);
+        animTranslate(holder.startCoin, startPoint, endPoint, AnimatorUtil.defaultDuration);
         startPoint = linkInfo.getLinkPieces().get(linkInfo.getLinkPieces().size() - 1).getCenter();
-        holder.endCoin.onAnimationCancel(null);
-        holder.endCoin.animatePath(startPoint, endPoint);
+        animTranslate(holder.endCoin, startPoint, endPoint, AnimatorUtil.defaultDuration);
         musicServer.erase();
+    }
+
+    private void animTranslate(View view, Point start, Point end, int duration) {
+        AnimatorUtil.animAlpha(view, 0f, 1f, 10);
+        AnimatorUtil.animTranslate(view, start.x, end.x, start.y, end.y, duration);
+        AnimatorUtil.animAlpha(view, 1f, 0f, 10, duration - 10);
     }
 
     @Override
@@ -384,13 +359,11 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
 
     @Override
     public void onGamePause() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void onGameResume() {
-        // TODO Auto-generated method stub
 
     }
 

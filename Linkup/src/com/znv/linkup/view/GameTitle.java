@@ -37,7 +37,8 @@ public class GameTitle extends LinearLayout implements Animator.AnimatorListener
 
     /**
      * 增加游戏标题文字图片
-     * @param context   
+     * 
+     * @param context
      */
     private void addWords(Context context) {
         ImageView ivXiu = new ImageView(context);
@@ -66,7 +67,6 @@ public class GameTitle extends LinearLayout implements Animator.AnimatorListener
         this.addView(ivKan);
     }
 
-    
     /**
      * 创建动画
      */
@@ -135,14 +135,8 @@ public class GameTitle extends LinearLayout implements Animator.AnimatorListener
         }
     }
 
-    // public void onAnimationUpdate(ValueAnimator animation) {
-    // invalidate();
-    // }
-
     @Override
     public void onAnimationStart(Animator animation) {
-        // TODO Auto-generated method stub
-        // Log.d("GameTitle", "onAnimationStart");
     }
 
     @Override
@@ -150,17 +144,14 @@ public class GameTitle extends LinearLayout implements Animator.AnimatorListener
         if (animation instanceof AnimatorSet) {
             startAnimation();
         }
-        // Log.d("GameTitle", "onAnimationEnd");
     }
 
     @Override
     public void onAnimationCancel(Animator animation) {
-        // Log.d("GameTitle", "onAnimationCancel");
     }
 
     @Override
     public void onAnimationRepeat(Animator animation) {
-        // Log.d("GameTitle", "onAnimationRepeat");
     }
 
 }

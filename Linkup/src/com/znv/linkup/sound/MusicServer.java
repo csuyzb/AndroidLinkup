@@ -10,8 +10,9 @@ import com.znv.linkup.core.config.LevelCfg;
 
 /**
  * 游戏音乐和音效
+ * 
  * @author yzb
- *
+ * 
  */
 public class MusicServer {
     private MediaPlayer mediaPlayer;
@@ -23,7 +24,7 @@ public class MusicServer {
             mediaPlayer = MediaPlayer.create(context, R.raw.bg);
             mediaPlayer.setLooping(true);
         }
-        
+
         // soundIds[0] = soundPool.load(context, R.raw.bg1, 1);
         soundIds[1] = soundPool.load(context, R.raw.select, 1);
         soundIds[2] = soundPool.load(context, R.raw.erase, 1);
@@ -34,7 +35,7 @@ public class MusicServer {
     public void play() {
         if (LevelCfg.globalCfg.isGameBgMusic()) {
             if (mediaPlayer != null) {
-                if(mediaPlayer.isPlaying()) {
+                if (mediaPlayer.isPlaying()) {
                     // 先停止
                     mediaPlayer.stop();
                 }
@@ -93,9 +94,9 @@ public class MusicServer {
     public void setBgMisicEnabled(boolean bgMisicEnabled) {
         LevelCfg.globalCfg.setGameBgMusic(bgMisicEnabled);
         if (bgMisicEnabled) {
-            play();
+            pause();
         } else {
-            stop();
+            resume();
         }
     }
 

@@ -6,7 +6,13 @@ import android.widget.TextView;
 import com.znv.linkup.view.animation.AnimatorProxy;
 import com.znv.linkup.view.animation.path.PathPoint;
 
-public class AnimatorText extends TextView implements IAnimatorView{
+/**
+ * 文字动画的视图
+ * 
+ * @author yzb
+ * 
+ */
+public class AnimatorText extends TextView implements IAnimatorView {
 
     private AnimatorProxy proxy = null;
 
@@ -15,6 +21,12 @@ public class AnimatorText extends TextView implements IAnimatorView{
         proxy = AnimatorProxy.wrap(this);
     }
 
+    /**
+     * 设置定位路径点
+     * 
+     * @param pp
+     *            路径点
+     */
     public void setLocation(PathPoint pp) {
         proxy.setTranslationX(pp.mX);
         proxy.setTranslationY(pp.mY);

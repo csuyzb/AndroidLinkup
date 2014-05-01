@@ -94,9 +94,9 @@ public class MusicServer {
     public void setBgMisicEnabled(boolean bgMisicEnabled) {
         LevelCfg.globalCfg.setGameBgMusic(bgMisicEnabled);
         if (bgMisicEnabled) {
-            pause();
-        } else {
             resume();
+        } else {
+            pause();
         }
     }
 

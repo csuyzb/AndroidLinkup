@@ -1,6 +1,7 @@
 package com.znv.linkup.view.animation.view;
 
 import android.content.Context;
+import android.util.AttributeSet;
 import android.widget.ImageView;
 
 import com.znv.linkup.view.animation.AnimatorProxy;
@@ -16,8 +17,8 @@ public class AnimatorImage extends ImageView implements IAnimatorView {
 
     private AnimatorProxy proxy = null;
 
-    public AnimatorImage(Context ctx) {
-        super(ctx);
+    public AnimatorImage(Context context, AttributeSet attrs) {
+        super(context, attrs);
         proxy = AnimatorProxy.wrap(this);
     }
 

@@ -1,5 +1,8 @@
 package com.znv.linkup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
@@ -29,6 +32,8 @@ import com.znv.linkup.db.DbScore;
 import com.znv.linkup.db.LevelScore;
 import com.znv.linkup.util.AnimatorUtil;
 import com.znv.linkup.view.GameView;
+import com.znv.linkup.view.animation.ViewPathAnimator;
+import com.znv.linkup.view.animation.view.AnimatorImage;
 import com.znv.linkup.view.dialog.GameResultDialogs;
 import com.znv.linkup.view.handler.GameMsgHandler;
 
@@ -52,6 +57,7 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
         Point screenCenter;
         Button tvPrompt;
         Button tvRefresh;
+        AnimatorImage pathImage;
     }
 
     class ScreenInfo {
@@ -122,6 +128,7 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
         holder.screenCenter = new Point((int) (size.x * 0.5), (int) (size.y * 0.5));
         holder.tvPrompt = (Button) findViewById(R.id.prompt);
         holder.tvRefresh = (Button) findViewById(R.id.refresh);
+        holder.pathImage = (AnimatorImage) findViewById(R.id.pathImage);
         holder.tsScore.setFactory(new ViewSwitcher.ViewFactory() {
 
             @Override
@@ -316,6 +323,7 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
     @Override
     public void onCheck(Piece piece) {
         gameView.setSelectedPiece(piece);
+        // holder.pathImage.setImageBitmap(piece.getImage());
         musicServer.select();
     }
 
@@ -332,6 +340,18 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
     @Override
     public void onLinkPath(LinkInfo linkInfo) {
         gameView.setLinkInfo(linkInfo);
+        // 路径动画
+        holder.pathImage.setImageBitmap(linkInfo.getLinkPieces().get(0).getImage());
+        AnimatorUtil.animScale(holder.pathImage, 0.5f, 0.5f, 1);
+        ViewPathAnimator pathAnimator = new ViewPathAnimator(holder.pathImage);
+        pathAnimator.setDuration(linkInfo.getLinkPieces().size() * 200);
+        List<Point> pathPoints = new ArrayList<Point>();
+        for (Piece p : linkInfo.getLinkPieces()) {
+            pathPoints.add(new Point(p.getBeginX(), p.getBeginY()));
+        }
+        pathAnimator.animatePath(pathPoints);
+
+        // 收集金币的动画
         Point startPoint = linkInfo.getLinkPieces().get(0).getCenter();
         Point endPoint = new Point((int) (holder.tsScore.getLeft() + holder.tsScore.getWidth() * 0.5),
                 (int) (holder.tsScore.getTop() + holder.tsScore.getHeight() * 0.5));

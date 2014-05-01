@@ -122,7 +122,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:alpha="0"
-        android:background="@drawable/coin"
+        android:src="@drawable/coin"
         tools:ignore="ContentDescription" />
 
     <ImageView
@@ -130,7 +130,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:alpha="0"
-        android:background="@drawable/coin"
+        android:src="@drawable/coin"
         tools:ignore="ContentDescription" >
     </ImageView>
 
@@ -144,5 +144,12 @@
         android:textColor="#FFFF3399"
         android:textSize="30sp" >
     </TextView>
+
+    <com.znv.linkup.view.animation.view.AnimatorImage
+        android:id="@+id/pathImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0"
+        tools:ignore="ContentDescription" />
 
 </FrameLayout>

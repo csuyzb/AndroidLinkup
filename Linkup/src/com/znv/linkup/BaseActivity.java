@@ -24,11 +24,21 @@ import com.znv.linkup.sound.SoundManager;
 import com.znv.linkup.util.AppMetaUtil;
 import com.znv.linkup.util.CacheUtil;
 
-public class FullScreenActivity extends Activity {
+/**
+ * 游戏Activity的基类
+ * 
+ * @author yzb
+ * 
+ */
+public class BaseActivity extends Activity {
 
+    // 游戏背景音乐
     protected static MusicManager musicMgr = null;
+    // 游戏音效
     protected static SoundManager soundMgr = null;
+    // 游戏关卡配置
     protected static List<RankCfg> rankCfgs = null;
+    // 游戏配置Map
     protected static Map<String, LevelCfg> levelCfgs = null;
 
     @Override
@@ -39,6 +49,10 @@ public class FullScreenActivity extends Activity {
 
         initBaiduPush();
 
+        initMusic();
+
+        initSound();
+
         new Thread(new Runnable() {
 
             @Override
@@ -46,24 +60,20 @@ public class FullScreenActivity extends Activity {
                 loadCfgs();
             }
         }).start();
-
-        if (soundMgr == null) {
-            soundMgr = new SoundManager(FullScreenActivity.this);
-        }
-
-        if (musicMgr == null) {
-            musicMgr = new MusicManager(this);
-        }
-        musicMgr.play();
     }
 
+    /**
+     * 全屏初始化
+     */
     private void initFullScreen() {
         // set full screen
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
-    // 以apikey的方式绑定
+    /**
+     * 初始化百度推送
+     */
     private void initBaiduPush() {
         if (!CacheUtil.hasBind(getApplicationContext())) {
             // Push: 无账号初始化，用api key绑定
@@ -71,6 +81,29 @@ public class FullScreenActivity extends Activity {
         }
     }
 
+    /**
+     * 初始化游戏音乐
+     */
+    private void initMusic() {
+        if (musicMgr == null) {
+            musicMgr = new MusicManager(this);
+        }
+        musicMgr.play();
+    }
+
+    /**
+     * 初始化游戏音效
+     */
+    private void initSound() {
+        if (soundMgr == null) {
+            soundMgr = new SoundManager(BaseActivity.this);
+        }
+
+    }
+
+    /**
+     * 加载关卡配置
+     */
     private void loadCfgs() {
         if (rankCfgs == null) {
             XmlResourceParser xrp = getResources().getXml(R.xml.gamecfg);
@@ -87,12 +120,17 @@ public class FullScreenActivity extends Activity {
             LevelCfg.globalCfg.setMenuWidth(menuWidth);
         }
 
+        // 加载全局配置
         loadGlobalCfg();
 
+        // 加载本地关卡分数
         loadLevelScores();
     }
 
-    protected void loadGlobalCfg() {
+    /**
+     * 加载全局配置
+     */
+    private void loadGlobalCfg() {
         String globalCfgStr = getGlobalCfg();
         if (globalCfgStr.equals("")) {
             setGlobalCfg();
@@ -101,15 +139,10 @@ public class FullScreenActivity extends Activity {
         }
     }
 
-    protected String getGlobalCfg() {
-        return CacheUtil.getBindStr(getApplicationContext(), "globalcfg");
-    }
-
-    protected void setGlobalCfg() {
-        CacheUtil.setBindStr(getApplicationContext(), "globalcfg", LevelCfg.globalCfg.toString());
-    }
-
-    protected void loadLevelScores() {
+    /**
+     * 加载本地关卡分数
+     */
+    private void loadLevelScores() {
         // 初始化数据库
         DbScore.init(this, rankCfgs);
 
@@ -127,22 +160,34 @@ public class FullScreenActivity extends Activity {
         }
     }
 
+    /**
+     * 获取全局配置字符串
+     * 
+     * @return 全局配置字符串
+     */
+    protected String getGlobalCfg() {
+        return CacheUtil.getBindStr(getApplicationContext(), "globalcfg");
+    }
+
+    /**
+     * 设置全局配置
+     */
+    protected void setGlobalCfg() {
+        CacheUtil.setBindStr(getApplicationContext(), "globalcfg", LevelCfg.globalCfg.toString());
+    }
+
     @Override
     protected void onPause() {
+        // 停止背景音乐
         musicMgr.stop();
         super.onPause();
     }
 
     @Override
     protected void onResume() {
+        // 开启背景音乐
         musicMgr.play();
         super.onResume();
     }
-
-    // @Override
-    // protected void onStop() {
-    // musicMgr.stop();
-    // super.onStop();
-    // }
 
 }

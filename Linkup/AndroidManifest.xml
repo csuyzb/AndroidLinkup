@@ -55,7 +55,7 @@
             android:theme="@style/FullscreenTheme" >
         </activity>
         <activity
-            android:name="com.znv.linkup.FullScreenActivity"
+            android:name="com.znv.linkup.BaseActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:keepScreenOn="true"
             android:screenOrientation="portrait"

@@ -36,7 +36,7 @@ import com.znv.linkup.view.handler.GameMsgHandler;
 /**
  * Game Activity
  */
-public class GameActivity extends FullScreenActivity implements IGameOp {
+public class GameActivity extends BaseActivity implements IGameOp {
 
     class LevelHolder {
         TextView tvLevel;
@@ -278,7 +278,7 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
     public void onCombo() {
         String msgFmt = "%s" + getResources().getString(R.string.game_combo_info) + ", +%s";
         String msg = String.format(msgFmt, game.getGameCombo(), game.getComboScore());
-        if (game.getGameCombo() == ViewSettings.CombAddPrompt) {
+        if (game.getGameCombo() == ViewSettings.ComboAddPrompt) {
             if (LevelCfg.globalCfg.getPromptNum() < ViewSettings.PromptMaxNum) {
                 // promt 增加一次
                 LevelCfg.globalCfg.setPromptNum(LevelCfg.globalCfg.getPromptNum() + 1);
@@ -286,7 +286,7 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
                 handler.sendEmptyMessage(ViewSettings.PromptMessage);
                 msg += getString(R.string.game_prompt_add);
             }
-        } else if (game.getGameCombo() == ViewSettings.CombAddRefresh) {
+        } else if (game.getGameCombo() == ViewSettings.ComboAddRefresh) {
             if (LevelCfg.globalCfg.getRefreshNum() < ViewSettings.RefreshMaxNum) {
                 // refresh 增加一次
                 LevelCfg.globalCfg.setRefreshNum(LevelCfg.globalCfg.getRefreshNum() + 1);
@@ -372,12 +372,12 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
 
     @Override
     public void onTimeChanged(int time) {
-        handler.sendEmptyMessage(ViewSettings.GameTimeMessage);
+        handler.sendEmptyMessage(ViewSettings.TimeMessage);
     }
 
     @Override
     public void onScoreChanged(int score) {
-        handler.sendEmptyMessage(ViewSettings.GameScoreMessage);
+        handler.sendEmptyMessage(ViewSettings.ScoreMessage);
     }
 
     @Override

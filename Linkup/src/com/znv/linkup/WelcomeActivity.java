@@ -13,7 +13,7 @@ import com.znv.linkup.util.ToastUtil;
 import com.znv.linkup.view.GameTitle;
 import com.znv.linkup.view.dialog.AlertDialog;
 
-public class WelcomeActivity extends FullScreenActivity {
+public class WelcomeActivity extends BaseActivity {
 
     private long exitTime = 0;
     private ImageView ivMusic = null;

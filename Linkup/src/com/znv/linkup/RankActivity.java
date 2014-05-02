@@ -10,7 +10,7 @@ import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.view.indicator.IconPageIndicator;
 import com.znv.linkup.view.indicator.RankPager;
 
-public class RankActivity extends FullScreenActivity implements OnPageChangeListener {
+public class RankActivity extends BaseActivity implements OnPageChangeListener {
 
     private static RankPager rankPager = null;
 

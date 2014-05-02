@@ -20,7 +20,7 @@ class DbHelper extends SQLiteOpenHelper {
     private List<RankCfg> rankCfgs;
 
     public DbHelper(Context context, List<RankCfg> config) {
-        super(context, ViewSettings.DbName, null, ViewSettings.DbVersion);
+        super(context, ViewSettings.DbFileName, null, ViewSettings.DbVersion);
         this.rankCfgs = config;
     }
 
@@ -38,7 +38,7 @@ class DbHelper extends SQLiteOpenHelper {
             for (int l = 0; l < rankCfgs.get(r).getLevelInfos().size(); l++) {
                 sql = "insert into scores(level, rank, maxscore, isactive, star) values(?,?,?,?,?)";
                 // 控制默认激活的关卡数
-                if (index < ViewSettings.DefaultActiveLevels) {
+                if (index < ViewSettings.DefaultActiveNum) {
                     db.execSQL(sql, new Object[] { index++, r, 0, 1, 0 });
                 } else {
                     db.execSQL(sql, new Object[] { index++, r, 0, 0, 0 });

@@ -87,7 +87,7 @@ public class RankAdapter extends BaseAdapter {
     private void updateLevelView(LevelViewHolder holder, int position) {
         LevelCfg levelCfg = getItem(position);
         if (levelCfg.isActive()) {
-            holder.textView.setBackgroundResource(ViewSettings.RankBgColors[Integer.parseInt(rankCfg.getRankId())]);
+            holder.textView.setBackgroundResource(ViewSettings.RankLevelBgImages[Integer.parseInt(rankCfg.getRankId())]);
             holder.textView.setText(levelCfg.getLevelName());
         } else {
             holder.textView.setBackgroundResource(R.drawable.locked);

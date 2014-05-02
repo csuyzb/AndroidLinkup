@@ -26,10 +26,10 @@ public class GameMsgHandler extends Handler {
     public void handleMessage(Message msg) {
         GameActivity gameAct = gameActs.get();
         switch (msg.what) {
-        case ViewSettings.GameTimeMessage:
+        case ViewSettings.TimeMessage:
             gameAct.updateTime();
             break;
-        case ViewSettings.GameScoreMessage:
+        case ViewSettings.ScoreMessage:
             gameAct.updateScore();
             break;
         case ViewSettings.FailMessage:

@@ -23,5 +23,6 @@
     <string name="game_level_success_ask">\n\n进入下一关？</string>
     <string name="game_prompt_add">, 提示 +１</string>
     <string name="game_refresh_add">, 重排 +１</string>
+    <string name="game_ready_go">GO!</string>
 
 </resources>

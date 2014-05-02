@@ -61,6 +61,14 @@
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme" />
 
+        <service android:name="com.znv.linkup.sound.MusicService" >
+            <intent-filter>
+                <action android:name="com.znv.linkup.BGMUSIC" />
+
+                <category android:name="android.intent.category.default" />
+            </intent-filter>
+        </service>
+
         <!-- push应用定义消息receiver声明 -->
         <receiver android:name="com.znv.linkup.push.LinkupPushReceiver" >
             <intent-filter>

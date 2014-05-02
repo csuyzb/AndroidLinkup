@@ -1,8 +1,5 @@
 package com.znv.linkup;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
@@ -32,7 +29,6 @@ import com.znv.linkup.db.DbScore;
 import com.znv.linkup.db.LevelScore;
 import com.znv.linkup.util.AnimatorUtil;
 import com.znv.linkup.view.GameView;
-import com.znv.linkup.view.animation.ViewPathAnimator;
 import com.znv.linkup.view.animation.view.AnimatorImage;
 import com.znv.linkup.view.dialog.GameResultDialogs;
 import com.znv.linkup.view.handler.GameMsgHandler;
@@ -82,6 +78,8 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
 
     public void showFail() {
         resultDialog.lost();
+
+        soundMgr.fail();
     }
 
     public void showSuccess() {
@@ -93,6 +91,8 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
             curLevelCfg.setMaxScore(game.getTotalScore());
         }
         resultDialog.success(stars, isNewRecord);
+
+        soundMgr.win();
     }
 
     public void showPrompt() {
@@ -187,6 +187,9 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
         // gMenu.show();
 
         game.start();
+
+        showCenterToast(getString(R.string.game_ready_go));
+        soundMgr.readyGo();
     }
 
     public void next() {
@@ -263,7 +266,7 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
         LevelCfg.globalCfg.setPromptNum(LevelCfg.globalCfg.getPromptNum() - 1);
         setGlobalCfg();
         handler.sendEmptyMessage(ViewSettings.PromptMessage);
-        musicServer.select();
+        soundMgr.select();
     }
 
     @Override
@@ -294,13 +297,14 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
         }
         showCenterToast(msg);
 
+        soundMgr.combo();
     }
 
     private void showCenterToast(String msg) {
         holder.tvComb.setText(msg);
         int msgWidth = msg.length() * 10;
-        Point endPoint = new Point(holder.screenCenter.x - msgWidth, holder.screenCenter.y - (int) (holder.tvComb.getHeight() * 0.5));
-        Point startPoint = new Point(endPoint.x, endPoint.y + 100);
+        Point startPoint = new Point(holder.screenCenter.x - msgWidth, holder.screenCenter.y);
+        Point endPoint = new Point(startPoint.x, startPoint.y - 50);
         animTranslate(holder.tvComb, startPoint, endPoint, 1500);
     }
 
@@ -323,8 +327,7 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
     @Override
     public void onCheck(Piece piece) {
         gameView.setSelectedPiece(piece);
-        // holder.pathImage.setImageBitmap(piece.getImage());
-        musicServer.select();
+        soundMgr.select();
     }
 
     @Override
@@ -334,22 +337,22 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
 
     @Override
     public void onTranslate() {
-        musicServer.translate();
+        soundMgr.translate();
     }
 
     @Override
     public void onLinkPath(LinkInfo linkInfo) {
         gameView.setLinkInfo(linkInfo);
         // 路径动画
-        holder.pathImage.setImageBitmap(linkInfo.getLinkPieces().get(0).getImage());
-        AnimatorUtil.animScale(holder.pathImage, 0.5f, 0.5f, 1);
-        ViewPathAnimator pathAnimator = new ViewPathAnimator(holder.pathImage);
-        pathAnimator.setDuration(linkInfo.getLinkPieces().size() * 200);
-        List<Point> pathPoints = new ArrayList<Point>();
-        for (Piece p : linkInfo.getLinkPieces()) {
-            pathPoints.add(new Point(p.getBeginX(), p.getBeginY()));
-        }
-        pathAnimator.animatePath(pathPoints);
+        // holder.pathImage.setImageBitmap(linkInfo.getLinkPieces().get(0).getImage());
+        // AnimatorUtil.animScale(holder.pathImage, 0.5f, 0.5f, 1);
+        // ViewPathAnimator pathAnimator = new ViewPathAnimator(holder.pathImage);
+        // pathAnimator.setDuration(linkInfo.getLinkPieces().size() * 200);
+        // List<Point> pathPoints = new ArrayList<Point>();
+        // for (Piece p : linkInfo.getLinkPieces()) {
+        // pathPoints.add(new Point(p.getBeginX(), p.getBeginY()));
+        // }
+        // pathAnimator.animatePath(pathPoints);
 
         // 收集金币的动画
         Point startPoint = linkInfo.getLinkPieces().get(0).getCenter();
@@ -358,7 +361,7 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
         animTranslate(holder.startCoin, startPoint, endPoint, AnimatorUtil.defaultDuration);
         startPoint = linkInfo.getLinkPieces().get(linkInfo.getLinkPieces().size() - 1).getCenter();
         animTranslate(holder.endCoin, startPoint, endPoint, AnimatorUtil.defaultDuration);
-        musicServer.erase();
+        soundMgr.erase();
     }
 
     private void animTranslate(View view, Point start, Point end, int duration) {
@@ -415,7 +418,7 @@ public class GameActivity extends FullScreenActivity implements IGameOp {
     public void refresh(View v) {
         if (LevelCfg.globalCfg.getRefreshNum() > 0) {
             game.refresh();
-            musicServer.refresh();
+            soundMgr.refresh();
         }
     }
 

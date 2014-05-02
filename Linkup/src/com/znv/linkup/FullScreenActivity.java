@@ -19,13 +19,15 @@ import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.core.config.RankCfg;
 import com.znv.linkup.db.DbScore;
 import com.znv.linkup.db.LevelScore;
-import com.znv.linkup.sound.MusicServer;
+import com.znv.linkup.sound.MusicManager;
+import com.znv.linkup.sound.SoundManager;
 import com.znv.linkup.util.AppMetaUtil;
 import com.znv.linkup.util.CacheUtil;
 
 public class FullScreenActivity extends Activity {
 
-    protected static MusicServer musicServer = null;
+    protected static MusicManager musicMgr = null;
+    protected static SoundManager soundMgr = null;
     protected static List<RankCfg> rankCfgs = null;
     protected static Map<String, LevelCfg> levelCfgs = null;
 
@@ -41,14 +43,18 @@ public class FullScreenActivity extends Activity {
 
             @Override
             public void run() {
-
                 loadCfgs();
-
-                if (musicServer == null) {
-                    musicServer = new MusicServer(FullScreenActivity.this);
-                }
             }
         }).start();
+
+        if (soundMgr == null) {
+            soundMgr = new SoundManager(FullScreenActivity.this);
+        }
+
+        if (musicMgr == null) {
+            musicMgr = new MusicManager(this);
+        }
+        musicMgr.play();
     }
 
     private void initFullScreen() {
@@ -123,18 +129,20 @@ public class FullScreenActivity extends Activity {
 
     @Override
     protected void onPause() {
+        musicMgr.stop();
         super.onPause();
-        if (musicServer != null) {
-            musicServer.pause();
-        }
     }
 
     @Override
     protected void onResume() {
+        musicMgr.play();
         super.onResume();
-        if (musicServer != null) {
-            musicServer.resume();
-        }
     }
+
+    // @Override
+    // protected void onStop() {
+    // musicMgr.stop();
+    // super.onStop();
+    // }
 
 }

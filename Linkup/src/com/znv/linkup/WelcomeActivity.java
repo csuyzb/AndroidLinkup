@@ -12,7 +12,6 @@ import com.znv.linkup.util.ShortcutUtil;
 import com.znv.linkup.util.ToastUtil;
 import com.znv.linkup.view.GameTitle;
 import com.znv.linkup.view.dialog.AlertDialog;
-import com.znv.linkup.view.dialog.ConfirmDialog;
 
 public class WelcomeActivity extends FullScreenActivity {
 
@@ -41,8 +40,8 @@ public class WelcomeActivity extends FullScreenActivity {
 
             @Override
             public void onClick(View v) {
-                if (musicServer != null) {
-                    musicServer.setBgMisicEnabled(!musicServer.isBgMisicEnabled());
+                if (musicMgr != null) {
+                    musicMgr.setBgMisicEnabled(!musicMgr.isBgMisicEnabled());
                     setGlobalCfg();
                     setGameMusic();
                 }
@@ -54,8 +53,8 @@ public class WelcomeActivity extends FullScreenActivity {
 
             @Override
             public void onClick(View v) {
-                if (musicServer != null) {
-                    musicServer.setSoundEnabled(!musicServer.isSoundEnabled());
+                if (soundMgr != null) {
+                    soundMgr.setSoundEnabled(!soundMgr.isSoundEnabled());
                     setGlobalCfg();
                     setGameSound();
                 }
@@ -128,20 +127,20 @@ public class WelcomeActivity extends FullScreenActivity {
         helper.show();
     }
 
-    public void exit(View v) {
-        ConfirmDialog exit = new ConfirmDialog(this);
-        exit.setTitle(getString(R.string.exit));
-        exit.setMessage(getString(R.string.exit_info));
-        exit.setIcon(R.drawable.fail);
-        exit.setPositiveButton(getString(R.string.submit), new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        exit.show();
-    }
+    // public void exit(View v) {
+    // ConfirmDialog exit = new ConfirmDialog(this);
+    // exit.setTitle(getString(R.string.exit));
+    // exit.setMessage(getString(R.string.exit_info));
+    // exit.setIcon(R.drawable.fail);
+    // exit.setPositiveButton(getString(R.string.submit), new View.OnClickListener() {
+    //
+    // @Override
+    // public void onClick(View v) {
+    // finish();
+    // }
+    // });
+    // exit.show();
+    // }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

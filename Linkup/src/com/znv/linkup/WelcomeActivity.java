@@ -12,7 +12,7 @@ import com.znv.linkup.view.GameTitle;
 import com.znv.linkup.view.dialog.AlertDialog;
 
 /**
- * 欢迎界面
+ * 欢迎界面活动处理类
  * 
  * @author yzb
  * 

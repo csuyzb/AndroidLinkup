@@ -4,8 +4,9 @@ import com.znv.linkup.R;
 
 /**
  * 视图配置
+ * 
  * @author yzb
- *
+ * 
  */
 public class ViewSettings {
 
@@ -79,7 +80,7 @@ public class ViewSettings {
      */
     public final static int TwoBackExitInterval = 2000;
 
-    /**
+    /*
      * Rank的标题背景颜色
      */
     public static int[] RankTitleBgColor = new int[] { R.color.rank_title_color_1, R.color.rank_title_color_2, R.color.rank_title_color_3 };
@@ -93,11 +94,6 @@ public class ViewSettings {
      * Rank背景图片
      */
     public static int[] RankBgImageIds = new int[] { R.drawable.bg1, R.drawable.bg2, R.drawable.bg3 };
-
-    /**
-     * Indicator的图片
-     */
-    public static int[] IndicatorImageIds = new int[] { R.drawable.circle_green_32, R.drawable.circle_blue_32, R.drawable.circle_orange_32 };
 
     /**
      * 游戏卡片

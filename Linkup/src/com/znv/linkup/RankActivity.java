@@ -7,9 +7,14 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.widget.LinearLayout;
 
 import com.znv.linkup.core.config.LevelCfg;
-import com.znv.linkup.view.indicator.IconPageIndicator;
+import com.znv.linkup.view.indicator.CirclePageIndicator;
 import com.znv.linkup.view.indicator.RankPager;
 
+/**
+ * 关卡选择界面活动处理类
+ * @author yzb
+ *
+ */
 public class RankActivity extends BaseActivity implements OnPageChangeListener {
 
     private static RankPager rankPager = null;
@@ -42,9 +47,8 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(rankPager);
 
-        IconPageIndicator mIndicator = (IconPageIndicator) findViewById(R.id.indicator);
+        CirclePageIndicator mIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
         mIndicator.setViewPager(pager);
-        mIndicator.setPadding(10, 10, 10, 10);
         mIndicator.setOnPageChangeListener(this);
     }
 
@@ -58,6 +62,9 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
     public void onPageSelected(int arg0) {
         LinearLayout root = (LinearLayout) RankActivity.this.findViewById(R.id.rankBg);
         root.setBackgroundResource(ViewSettings.RankBgImageIds[arg0]);
+//        for(int i = 0; i < rankCfgs.size(); i++) {
+//            
+//        }
     }
 
     @Override

@@ -18,7 +18,7 @@ import com.znv.linkup.ViewSettings;
 import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.core.config.RankCfg;
 
-public class RankPager extends PagerAdapter implements IconPagerAdapter {
+public class RankPager extends PagerAdapter {
 
 //    class RankViewHolder {
 //        TextView rankLevels;
@@ -126,11 +126,6 @@ public class RankPager extends PagerAdapter implements IconPagerAdapter {
     @Override
     public void destroyItem(View arg0, int arg1, Object arg2) {
         ((ViewPager) arg0).removeView(grids.get(arg1));
-    }
-
-    @Override
-    public int getIconResId(int index) {
-        return ViewSettings.IndicatorImageIds[index];
     }
 
 }

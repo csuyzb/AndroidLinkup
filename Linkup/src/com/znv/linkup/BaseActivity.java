@@ -23,6 +23,7 @@ import com.znv.linkup.sound.MusicManager;
 import com.znv.linkup.sound.SoundManager;
 import com.znv.linkup.util.AppMetaUtil;
 import com.znv.linkup.util.CacheUtil;
+import com.znv.linkup.util.ShortcutUtil;
 
 /**
  * 游戏Activity的基类
@@ -48,6 +49,8 @@ public class BaseActivity extends Activity {
         initFullScreen();
 
         initBaiduPush();
+
+        initShortcut();
 
         initMusic();
 
@@ -78,6 +81,18 @@ public class BaseActivity extends Activity {
         if (!CacheUtil.hasBind(getApplicationContext())) {
             // Push: 无账号初始化，用api key绑定
             PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY, AppMetaUtil.getMetaValue(this, "api_key"));
+        }
+    }
+
+    /**
+     * 初始化快捷键
+     */
+    private void initShortcut() {
+        ShortcutUtil util = new ShortcutUtil(this);
+        if (!CacheUtil.hasBind(this, "short_cut")) {
+            util.delShortcut();
+            util.addShortcut();
+            CacheUtil.setBind(this, "short_cut", true);
         }
     }
 

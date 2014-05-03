@@ -7,12 +7,16 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.znv.linkup.core.config.LevelCfg;
-import com.znv.linkup.util.CacheUtil;
-import com.znv.linkup.util.ShortcutUtil;
 import com.znv.linkup.util.ToastUtil;
 import com.znv.linkup.view.GameTitle;
 import com.znv.linkup.view.dialog.AlertDialog;
 
+/**
+ * 欢迎界面
+ * 
+ * @author yzb
+ * 
+ */
 public class WelcomeActivity extends BaseActivity {
 
     private long exitTime = 0;
@@ -23,18 +27,20 @@ public class WelcomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        initShortcut();
-
         setContentView(R.layout.activity_welcome);
 
-        initSound();
+        initMusicSetting();
 
-        initAnimation();
+        initSoundSetting();
+
+        initTitle();
     }
 
-    private void initSound() {
+    /**
+     * 初始化背景音乐设置
+     */
+    private void initMusicSetting() {
         ivMusic = (ImageView) findViewById(R.id.music);
-
         setGameMusic();
         ivMusic.setOnClickListener(new View.OnClickListener() {
 
@@ -42,11 +48,18 @@ public class WelcomeActivity extends BaseActivity {
             public void onClick(View v) {
                 if (musicMgr != null) {
                     musicMgr.setBgMisicEnabled(!musicMgr.isBgMisicEnabled());
+                    // 保存全局设置--背景音乐
                     setGlobalCfg();
                     setGameMusic();
                 }
             }
         });
+    }
+
+    /**
+     * 初始化音效设置
+     */
+    private void initSoundSetting() {
         ivSound = (ImageView) findViewById(R.id.sound);
         setGameSound();
         ivSound.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +68,7 @@ public class WelcomeActivity extends BaseActivity {
             public void onClick(View v) {
                 if (soundMgr != null) {
                     soundMgr.setSoundEnabled(!soundMgr.isSoundEnabled());
+                    // 保存全局设置--音效
                     setGlobalCfg();
                     setGameSound();
                 }
@@ -62,6 +76,9 @@ public class WelcomeActivity extends BaseActivity {
         });
     }
 
+    /**
+     * 设置游戏背景音乐
+     */
     private void setGameMusic() {
         if (LevelCfg.globalCfg.isGameBgMusic()) {
             ivMusic.setImageResource(R.drawable.music);
@@ -70,6 +87,9 @@ public class WelcomeActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 设置游戏音效
+     */
     private void setGameSound() {
         if (LevelCfg.globalCfg.isGameSound()) {
             ivSound.setImageResource(R.drawable.sound);
@@ -78,22 +98,18 @@ public class WelcomeActivity extends BaseActivity {
         }
     }
 
-    private void initShortcut() {
-        ShortcutUtil util = new ShortcutUtil(this);
-        if (!CacheUtil.hasBind(this, "short_cut")) {
-            util.delShortcut();
-            util.addShortcut();
-            CacheUtil.setBind(this, "short_cut", true);
-        }
-    }
-
-    private void initAnimation() {
-
+    /**
+     * 初始化标题动画
+     */
+    private void initTitle() {
         GameTitle gameTitle = (GameTitle) findViewById(R.id.gameTitle);
         gameTitle.startAnimation();
     }
 
-    private void unInitAnimation() {
+    /**
+     * 反初始化标题动画
+     */
+    private void unInitTitle() {
         GameTitle gameTitle = (GameTitle) findViewById(R.id.gameTitle);
         gameTitle.stopAnimation();
     }
@@ -101,24 +117,30 @@ public class WelcomeActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        unInitAnimation();
+        unInitTitle();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        initAnimation();
+        initTitle();
     }
 
-    public void startRank() {
+    /**
+     * 点击开始按钮时的处理
+     * 
+     * @param v
+     */
+    public void startGame(View v) {
         Intent intent = new Intent(WelcomeActivity.this, RankActivity.class);
         startActivity(intent);
     }
 
-    public void startGame(View v) {
-        startRank();
-    }
-
+    /**
+     * 点击帮助按钮时的处理，显示游戏帮助
+     * 
+     * @param v
+     */
     public void startHelp(View v) {
         AlertDialog helper = new AlertDialog(this);
         helper.setTitle(getString(R.string.help));
@@ -127,37 +149,21 @@ public class WelcomeActivity extends BaseActivity {
         helper.show();
     }
 
-    // public void exit(View v) {
-    // ConfirmDialog exit = new ConfirmDialog(this);
-    // exit.setTitle(getString(R.string.exit));
-    // exit.setMessage(getString(R.string.exit_info));
-    // exit.setIcon(R.drawable.fail);
-    // exit.setPositiveButton(getString(R.string.submit), new View.OnClickListener() {
-    //
-    // @Override
-    // public void onClick(View v) {
-    // finish();
-    // }
-    // });
-    // exit.show();
-    // }
-
+    /**
+     * 处理home或者back键
+     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            delayFinish();
+        if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME) {
+            if ((System.currentTimeMillis() - exitTime) > ViewSettings.TwoBackExitInterval) {
+                ToastUtil.getToast(this, R.string.back_again).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+            }
             return true;
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-    private void delayFinish() {
-        if ((System.currentTimeMillis() - exitTime) > ViewSettings.TwoBackExitInterval) {
-            ToastUtil.getToast(this, R.string.back_again).show();
-            exitTime = System.currentTimeMillis();
-        } else {
-            finish();
-        }
     }
 
 }

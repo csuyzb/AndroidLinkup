@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text=""
-            android:textSize="28sp"
+            android:textSize="30sp"
             android:textStyle="bold" />
 
         <!-- <TextView -->
@@ -71,7 +71,7 @@
         android:numColumns="3"
         android:paddingTop="10dp"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="10dp" >
+        android:verticalSpacing="15dp" >
     </GridView>
 
 </LinearLayout>

@@ -80,7 +80,7 @@ public class ViewSettings {
      */
     public final static int TwoBackExitInterval = 2000;
 
-    /*
+    /**
      * Rank的标题背景颜色
      */
     public static int[] RankTitleBgColor = new int[] { R.color.rank_title_color_1, R.color.rank_title_color_2, R.color.rank_title_color_3 };

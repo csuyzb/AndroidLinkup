@@ -30,6 +30,9 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
 
     private void initRank() {
 
+        LinearLayout root = (LinearLayout) RankActivity.this.findViewById(R.id.rankBg);
+        root.setBackgroundResource(ViewSettings.RankBgImageIds[0]);
+        
         if (rankPager == null) {
             rankPager = new RankPager(this, rankCfgs, new RankPager.ISelectedLevel() {
 

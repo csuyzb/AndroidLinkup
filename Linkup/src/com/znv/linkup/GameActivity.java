@@ -135,7 +135,8 @@ public class GameActivity extends BaseActivity implements IGameOp {
             public View makeView() {
                 TextView tv = new TextView(GameActivity.this);
                 tv.setTextSize(30);
-                tv.setTextColor(0xFFccff33);
+                // tv.setTextColor(0xFFccff33);FF00CC00
+                tv.setTextColor(0xffff6347);
                 tv.setGravity(Gravity.CENTER);
                 return tv;
             }

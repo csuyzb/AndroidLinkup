@@ -1,5 +1,7 @@
 AndroidLinkup
 =============
+休闲连连看
+http://xxllk.aliapp.com
 
 The most interesting linkup game for android.
 最好玩的Android开源连连看

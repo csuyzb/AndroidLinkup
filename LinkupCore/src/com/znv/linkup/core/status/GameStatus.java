@@ -57,10 +57,13 @@ public class GameStatus {
      * 游戏暂停
      */
     public void pause() {
-        gameTime.stop();
-        gameState = GameState.Pause;
-        if (listener != null) {
-            listener.onGamePause();
+        // 游戏结束时暂停和重启游戏无效
+        if(gameState != GameState.None) {
+            gameTime.stop();
+            gameState = GameState.Pause;
+            if (listener != null) {
+                listener.onGamePause();
+            }
         }
     }
 

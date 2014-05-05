@@ -59,6 +59,11 @@
         android:gravity="center_horizontal|center_vertical"
         android:orientation="horizontal" >
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" />
+
         <ImageView
             android:id="@+id/music"
             android:layout_width="wrap_content"
@@ -67,6 +72,11 @@
             android:gravity="center"
             tools:ignore="contentDescription" />
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" />
+
         <ImageView
             android:id="@+id/sound"
             android:layout_width="wrap_content"
@@ -74,6 +84,11 @@
             android:layout_margin="10dp"
             android:gravity="center"
             tools:ignore="contentDescription" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" />
     </LinearLayout>
 
 </LinearLayout>

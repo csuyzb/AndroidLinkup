@@ -6,7 +6,6 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.content.res.XmlResourceParser;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
@@ -131,9 +130,6 @@ public class BaseActivity extends Activity {
                     levelCfgs.put(levelCfg.getLevelId(), levelCfg);
                 }
             }
-
-            int menuWidth = BitmapFactory.decodeResource(getResources(), R.drawable.menu).getWidth();
-            LevelCfg.globalCfg.setMenuWidth(menuWidth);
         }
 
         // 加载全局配置
@@ -182,14 +178,14 @@ public class BaseActivity extends Activity {
      * @return 全局配置字符串
      */
     protected String getGlobalCfg() {
-        return CacheUtil.getBindStr(getApplicationContext(), "globalcfg");
+        return CacheUtil.getBindStr(getApplicationContext(), "globalcfgs");
     }
 
     /**
      * 设置全局配置
      */
     protected void setGlobalCfg() {
-        CacheUtil.setBindStr(getApplicationContext(), "globalcfg", LevelCfg.globalCfg.toString());
+        CacheUtil.setBindStr(getApplicationContext(), "globalcfgs", LevelCfg.globalCfg.toString());
     }
 
     @Override

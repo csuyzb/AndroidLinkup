@@ -13,8 +13,6 @@ public class GlobalCfg {
     private boolean gameBgMusic = true;
     // 游戏皮肤，暂时未用
     private String gameSkin;
-    // 菜单按钮宽度
-    private int menuWidth;
     // 提示数
     private int promptNum;
     // 重排数
@@ -29,14 +27,13 @@ public class GlobalCfg {
      */
     public static GlobalCfg parse(String globalCfgStr) {
         String[] cfgs = globalCfgStr.split(";");
-        if (cfgs.length == 6) {
+        if (cfgs.length == 5) {
             GlobalCfg globalCfg = new GlobalCfg();
             globalCfg.setGameSound(cfgs[0].equals("1"));
             globalCfg.setGameBgMusic(cfgs[1].equals("1"));
             globalCfg.setGameSkin(cfgs[2]);
-            globalCfg.setMenuWidth(Integer.parseInt(cfgs[3]));
-            globalCfg.setPromptNum(Integer.parseInt(cfgs[4]));
-            globalCfg.setRefreshNum(Integer.parseInt(cfgs[5]));
+            globalCfg.setPromptNum(Integer.parseInt(cfgs[3]));
+            globalCfg.setRefreshNum(Integer.parseInt(cfgs[4]));
             return globalCfg;
         }
         return null;
@@ -49,7 +46,7 @@ public class GlobalCfg {
     public String toString() {
         String soundStr = gameSound ? "1" : "0";
         String musicStr = gameBgMusic ? "1" : "0";
-        return String.format("%s;%s;%s;%s;%s;%s;", soundStr, musicStr, gameSkin, menuWidth, promptNum, refreshNum);
+        return String.format("%s;%s;%s;%s;%s;", soundStr, musicStr, gameSkin, promptNum, refreshNum);
     }
 
     public boolean isGameSound() {
@@ -74,14 +71,6 @@ public class GlobalCfg {
 
     public void setGameSkin(String gameSkin) {
         this.gameSkin = gameSkin;
-    }
-
-    public int getMenuWidth() {
-        return menuWidth;
-    }
-
-    public void setMenuWidth(int menuWidth) {
-        this.menuWidth = menuWidth;
     }
 
     public int getPromptNum() {

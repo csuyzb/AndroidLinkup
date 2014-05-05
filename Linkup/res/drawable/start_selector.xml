@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 	<!-- 指定按钮按下时的图片 -->
 	<item android:state_pressed="true"
-		android:drawable="@drawable/start_select"
+		android:drawable="@drawable/start_s"
 	/>
 	<!-- 指定按钮松开时的图片 -->	
 	<item android:state_pressed="false"

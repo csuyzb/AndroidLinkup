@@ -132,6 +132,7 @@ public class WelcomeActivity extends BaseActivity {
      * @param v
      */
     public void startGame(View v) {
+        soundMgr.select();
         Intent intent = new Intent(WelcomeActivity.this, RankActivity.class);
         startActivity(intent);
     }

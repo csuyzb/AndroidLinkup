@@ -56,6 +56,7 @@ public class BaseActivity extends Activity {
 
         initSound();
 
+        // 单独开线程加载配置
         new Thread(new Runnable() {
 
             @Override

@@ -29,79 +29,13 @@ import com.znv.linkup.db.DbScore;
 import com.znv.linkup.db.LevelScore;
 import com.znv.linkup.util.AnimatorUtil;
 import com.znv.linkup.view.GameView;
-import com.znv.linkup.view.animation.view.AnimatorImage;
 import com.znv.linkup.view.dialog.GameResultDialogs;
 import com.znv.linkup.view.handler.GameMsgHandler;
 
 /**
- * Game Activity
+ * 游戏主界面活动处理类
  */
 public class GameActivity extends BaseActivity implements IGameOp {
-
-    class LevelHolder {
-        TextView tvLevel;
-        TextView tvMaxScore;
-        ProgressBar pbTime;
-        TextSwitcher tsScore;
-        FrameLayout flBackground;
-        Bitmap bmSelected;
-        ImageView startCoin;
-        ImageView endCoin;
-        TextView tvComb;
-        int screenWidth;
-        int screenHeight;
-        Point screenCenter;
-        Button tvPrompt;
-        Button tvRefresh;
-        AnimatorImage pathImage;
-    }
-
-    class ScreenInfo {
-
-    }
-
-    // private GameMenu gMenu;
-    private Game game;
-    private GameView gameView;
-    private GameResultDialogs resultDialog;
-    private LevelCfg curLevelCfg = null;
-    private LevelHolder holder = new LevelHolder();
-    private Handler handler = new GameMsgHandler(this);
-
-    public void updateTime() {
-        holder.pbTime.setProgress(game.getGameTime());
-    }
-
-    public void updateScore() {
-        holder.tsScore.setText(String.valueOf(game.getGameScore()));
-    }
-
-    public void showFail() {
-        resultDialog.lost();
-
-        soundMgr.fail();
-    }
-
-    public void showSuccess() {
-        int stars = curLevelCfg.getStar(game.getTotalScore());
-        curLevelCfg.setLevelStar(stars);
-        boolean isNewRecord = false;
-        if (game.getTotalScore() > curLevelCfg.getMaxScore()) {
-            isNewRecord = true;
-            curLevelCfg.setMaxScore(game.getTotalScore());
-        }
-        resultDialog.success(stars, isNewRecord);
-
-        soundMgr.win();
-    }
-
-    public void showPrompt() {
-        holder.tvPrompt.setText(String.valueOf(LevelCfg.globalCfg.getPromptNum()));
-    }
-
-    public void showRefresh() {
-        holder.tvRefresh.setText(String.valueOf(LevelCfg.globalCfg.getRefreshNum()));
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,21 +62,18 @@ public class GameActivity extends BaseActivity implements IGameOp {
         holder.screenCenter = new Point((int) (size.x * 0.5), (int) (size.y * 0.5));
         holder.tvPrompt = (Button) findViewById(R.id.prompt);
         holder.tvRefresh = (Button) findViewById(R.id.refresh);
-        holder.pathImage = (AnimatorImage) findViewById(R.id.pathImage);
         holder.tsScore.setFactory(new ViewSwitcher.ViewFactory() {
 
             @Override
             public View makeView() {
                 TextView tv = new TextView(GameActivity.this);
                 tv.setTextSize(30);
-                // tv.setTextColor(0xFFccff33);FF00CC00
                 tv.setTextColor(0xffff6347);
                 tv.setGravity(Gravity.CENTER);
                 return tv;
             }
         });
 
-        // gMenu = new GameMenu(this);
         gameView = (GameView) findViewById(R.id.gameView);
         resultDialog = new GameResultDialogs(this);
 
@@ -153,11 +84,15 @@ public class GameActivity extends BaseActivity implements IGameOp {
         start();
     }
 
+    /**
+     * 开始游戏
+     */
     public void start() {
         if (game != null) {
             game.finish();
         }
 
+        // 根据屏幕动态调整卡片大小及位置
         adjustLevelCfg(curLevelCfg);
 
         holder.tvPrompt.setText(String.valueOf(LevelCfg.globalCfg.getPromptNum()));
@@ -174,6 +109,7 @@ public class GameActivity extends BaseActivity implements IGameOp {
             public boolean onTouch(View v, MotionEvent event) {
 
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    // 处理点击
                     game.touch(event.getX(), event.getY());
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     gameView.postInvalidate();
@@ -185,33 +121,20 @@ public class GameActivity extends BaseActivity implements IGameOp {
         game = new Game(curLevelCfg, this);
         gameView.setGameService(game);
 
-        // gMenu.show();
-
         game.start();
 
+        // 播放声音和动画
         showCenterToast(getString(R.string.game_ready_go));
         soundMgr.readyGo();
     }
 
-    public void next() {
-        game.finish();
-
-        String nextLevelId = String.valueOf(Integer.parseInt(curLevelCfg.getLevelId()) + 1);
-        if (levelCfgs.containsKey(nextLevelId)) {
-            curLevelCfg = levelCfgs.get(nextLevelId);
-            start();
-        } else {
-            showCenterToast(getString(R.string.game_success));
-            try {
-                Thread.sleep(1500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            onBackPressed();
-        }
-    }
-
-    public void adjustLevelCfg(LevelCfg levelCfg) {
+    /**
+     * 根据屏幕动态调整卡片大小及位置
+     * 
+     * @param levelCfg
+     *            关卡配置信息
+     */
+    private void adjustLevelCfg(LevelCfg levelCfg) {
         int levelWidth = holder.screenWidth / (levelCfg.getXSize() - 1);
         int levelHeight = holder.screenHeight / levelCfg.getYSize();
         int newSize = Math.min(levelWidth, levelHeight);
@@ -224,26 +147,36 @@ public class GameActivity extends BaseActivity implements IGameOp {
         levelCfg.setContext(this);
     }
 
-    @Override
-    protected void onPause() {
-        game.pause();
-        super.onPause();
+    /**
+     * 下一关
+     */
+    public void next() {
+        game.finish();
+
+        String nextLevelId = String.valueOf(Integer.parseInt(curLevelCfg.getLevelId()) + 1);
+        if (levelCfgs.containsKey(nextLevelId)) {
+            curLevelCfg = levelCfgs.get(nextLevelId);
+            start();
+        } else {
+            // 通过所有关卡
+            showCenterToast(getString(R.string.game_success));
+            onBackPressed();
+        }
     }
 
-    @Override
-    protected void onResume() {
-        game.resume();
-        super.onResume();
-    }
-
+    /**
+     * 游戏失败时的处理
+     */
     @Override
     public void onGameFail() {
         handler.sendEmptyMessage(ViewSettings.FailMessage);
     }
 
+    /**
+     * 游戏胜利时的处理
+     */
     @Override
     public void onGameWin() {
-        // LevelCfg levelCfg = levelCfgList.getCurLevelCfg();
         LevelScore ls = new LevelScore(Integer.parseInt(curLevelCfg.getLevelId()) + 1);
         ls.setIsActive(1);
         DbScore.updateActive(ls);
@@ -260,6 +193,9 @@ public class GameActivity extends BaseActivity implements IGameOp {
         handler.sendEmptyMessage(ViewSettings.WinMessage);
     }
 
+    /**
+     * 游戏提示
+     */
     @Override
     public void onPrompt(PiecePair pair) {
         gameView.setPromptPieces(pair);
@@ -270,11 +206,17 @@ public class GameActivity extends BaseActivity implements IGameOp {
         soundMgr.select();
     }
 
+    /**
+     * 取消游戏提示
+     */
     @Override
     public void onUnPrompt() {
         gameView.setPromptPieces(null);
     }
 
+    /**
+     * 连击时的处理
+     */
     @Override
     public void onCombo() {
         String msgFmt = "%s" + getResources().getString(R.string.game_combo_info) + ", +%s";
@@ -301,6 +243,12 @@ public class GameActivity extends BaseActivity implements IGameOp {
         soundMgr.combo();
     }
 
+    /**
+     * 屏幕中心显示文字动画
+     * 
+     * @param msg
+     *            文字信息
+     */
     private void showCenterToast(String msg) {
         holder.tvComb.setText(msg);
         int msgWidth = msg.length() * 10;
@@ -309,6 +257,13 @@ public class GameActivity extends BaseActivity implements IGameOp {
         animTranslate(holder.tvComb, startPoint, endPoint, 1500);
     }
 
+    /**
+     * 获取游戏结果信息
+     * 
+     * @param isSuccess
+     *            是否胜利
+     * @return 游戏结果信息字符串
+     */
     public String getGameResult(boolean isSuccess) {
         if (isSuccess) {
             return String.format("%s%s", getString(R.string.game_score), String.valueOf(game.getGameScore() + game.getRewardScore()));
@@ -317,6 +272,9 @@ public class GameActivity extends BaseActivity implements IGameOp {
         }
     }
 
+    /**
+     * 重排时的处理
+     */
     @Override
     public void onRefresh() {
         // 减少重排一次
@@ -325,35 +283,37 @@ public class GameActivity extends BaseActivity implements IGameOp {
         handler.sendEmptyMessage(ViewSettings.RefreshMessage);
     }
 
+    /**
+     * 选中时的处理
+     */
     @Override
     public void onCheck(Piece piece) {
         gameView.setSelectedPiece(piece);
         soundMgr.select();
     }
 
+    /**
+     * 取消选中时的处理
+     */
     @Override
     public void onUnCheck() {
         gameView.setSelectedPiece(null);
     }
 
+    /**
+     * 变换时的处理
+     */
     @Override
     public void onTranslate() {
         soundMgr.translate();
     }
 
+    /**
+     * 处理游戏消除路径
+     */
     @Override
     public void onLinkPath(LinkInfo linkInfo) {
         gameView.setLinkInfo(linkInfo);
-        // 路径动画
-        // holder.pathImage.setImageBitmap(linkInfo.getLinkPieces().get(0).getImage());
-        // AnimatorUtil.animScale(holder.pathImage, 0.5f, 0.5f, 1);
-        // ViewPathAnimator pathAnimator = new ViewPathAnimator(holder.pathImage);
-        // pathAnimator.setDuration(linkInfo.getLinkPieces().size() * 200);
-        // List<Point> pathPoints = new ArrayList<Point>();
-        // for (Piece p : linkInfo.getLinkPieces()) {
-        // pathPoints.add(new Point(p.getBeginX(), p.getBeginY()));
-        // }
-        // pathAnimator.animatePath(pathPoints);
 
         // 收集金币的动画
         Point startPoint = linkInfo.getLinkPieces().get(0).getCenter();
@@ -362,60 +322,111 @@ public class GameActivity extends BaseActivity implements IGameOp {
         animTranslate(holder.startCoin, startPoint, endPoint, AnimatorUtil.defaultDuration);
         startPoint = linkInfo.getLinkPieces().get(linkInfo.getLinkPieces().size() - 1).getCenter();
         animTranslate(holder.endCoin, startPoint, endPoint, AnimatorUtil.defaultDuration);
+
         soundMgr.erase();
     }
 
+    /**
+     * 视图移动的动画
+     * 
+     * @param view
+     *            要移动的视图
+     * @param start
+     *            起点
+     * @param end
+     *            终点
+     * @param duration
+     *            动画时长
+     */
     private void animTranslate(View view, Point start, Point end, int duration) {
         AnimatorUtil.animAlpha(view, 0f, 1f, 10);
         AnimatorUtil.animTranslate(view, start.x, end.x, start.y, end.y, duration);
         AnimatorUtil.animAlpha(view, 1f, 0f, 10, duration - 10);
     }
 
+    /**
+     * 时间改变时的处理
+     */
     @Override
     public void onTimeChanged(int time) {
         handler.sendEmptyMessage(ViewSettings.TimeMessage);
     }
 
+    /**
+     * 分数改变时的处理
+     */
     @Override
     public void onScoreChanged(int score) {
         handler.sendEmptyMessage(ViewSettings.ScoreMessage);
     }
 
+    /**
+     * 暂停游戏时的处理
+     */
     @Override
     public void onGamePause() {
 
     }
 
+    /**
+     * 恢复游戏时的处理
+     */
     @Override
     public void onGameResume() {
 
     }
 
+    /**
+     * 刷新游戏界面
+     */
     @Override
     public void onRefreshView() {
         gameView.postInvalidate();
     }
 
+    /**
+     * 处理back键
+     */
     @Override
     public void onBackPressed() {
         game.finish();
         super.onBackPressed();
     }
 
-    public Game getGame() {
-        return game;
+    /**
+     * 暂停游戏
+     */
+    @Override
+    protected void onPause() {
+        game.pause();
+        super.onPause();
     }
 
-    public FrameLayout getRoot() {
-        return holder.flBackground;
+    /**
+     * 恢复游戏
+     */
+    @Override
+    protected void onResume() {
+        game.resume();
+        super.onResume();
     }
 
+    /**
+     * 提示按钮按下时的处理
+     * 
+     * @param v
+     */
     public void prompt(View v) {
         if (LevelCfg.globalCfg.getPromptNum() > 0) {
             game.prompt();
         }
     }
 
+    /**
+     * 重排按钮按下时的处理
+     * 
+     * @param v
+     */
     public void refresh(View v) {
         if (LevelCfg.globalCfg.getRefreshNum() > 0) {
             game.refresh();
@@ -423,15 +434,87 @@ public class GameActivity extends BaseActivity implements IGameOp {
         }
     }
 
-    public void restart(View v) {
-        start();
+    /**
+     * Handler的消息处理--显示时间
+     */
+    public void showTime() {
+        holder.pbTime.setProgress(game.getGameTime());
     }
 
-    public void stop(View v) {
-        game.stop();
+    /**
+     * Handler的消息处理--显示分数
+     */
+    public void showScore() {
+        holder.tsScore.setText(String.valueOf(game.getGameScore()));
     }
 
-    public void back(View v) {
-        onBackPressed();
+    /**
+     * Handler的消息处理--显示失败
+     */
+    public void showFail() {
+        resultDialog.lost();
+
+        soundMgr.fail();
     }
+
+    /**
+     * Handler的消息处理--显示胜利
+     */
+    public void showSuccess() {
+        int stars = curLevelCfg.getStar(game.getTotalScore());
+        curLevelCfg.setLevelStar(stars);
+        boolean isNewRecord = false;
+        if (game.getTotalScore() > curLevelCfg.getMaxScore()) {
+            isNewRecord = true;
+            curLevelCfg.setMaxScore(game.getTotalScore());
+        }
+        resultDialog.success(stars, isNewRecord);
+
+        soundMgr.win();
+    }
+
+    /**
+     * Handler的消息处理--显示提示数
+     */
+    public void showPrompt() {
+        holder.tvPrompt.setText(String.valueOf(LevelCfg.globalCfg.getPromptNum()));
+    }
+
+    /**
+     * Handler的消息处理--显示重排数
+     */
+    public void showRefresh() {
+        holder.tvRefresh.setText(String.valueOf(LevelCfg.globalCfg.getRefreshNum()));
+    }
+
+    private Game game;
+    private GameView gameView;
+    private GameResultDialogs resultDialog;
+    private LevelCfg curLevelCfg = null;
+    private LevelHolder holder = new LevelHolder();
+    private Handler handler = new GameMsgHandler(this);
+
+    /**
+     * 界面信息缓存类
+     * 
+     * @author yzb
+     * 
+     */
+    class LevelHolder {
+        TextView tvLevel;
+        TextView tvMaxScore;
+        ProgressBar pbTime;
+        TextSwitcher tsScore;
+        FrameLayout flBackground;
+        Bitmap bmSelected;
+        ImageView startCoin;
+        ImageView endCoin;
+        TextView tvComb;
+        int screenWidth;
+        int screenHeight;
+        Point screenCenter;
+        Button tvPrompt;
+        Button tvRefresh;
+    }
+
 }

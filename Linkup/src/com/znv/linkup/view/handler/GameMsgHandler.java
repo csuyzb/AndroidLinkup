@@ -9,7 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 
 /**
- * 游戏消除处理handler类
+ * 游戏消息处理handler类
  * 
  * @author yzb
  * 
@@ -27,10 +27,10 @@ public class GameMsgHandler extends Handler {
         GameActivity gameAct = gameActs.get();
         switch (msg.what) {
         case ViewSettings.TimeMessage:
-            gameAct.updateTime();
+            gameAct.showTime();
             break;
         case ViewSettings.ScoreMessage:
-            gameAct.updateScore();
+            gameAct.showScore();
             break;
         case ViewSettings.FailMessage:
             gameAct.showFail();

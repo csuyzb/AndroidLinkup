@@ -34,7 +34,6 @@ public class GameView extends View {
     private Piece selectedPiece;
     private LinkInfo linkInfo;
     private Paint paint;
-    private Paint textPaint;
     private Bitmap selectedImage;
     private PiecePair promptPieces;
 
@@ -42,13 +41,7 @@ public class GameView extends View {
         super(context, attrs);
 
         paint = new Paint();
-        paint.setShader(new BitmapShader(BitmapFactory.decodeResource(context.getResources(), R.drawable.heart), Shader.TileMode.REPEAT, Shader.TileMode.REPEAT));
-        paint.setStrokeWidth(9);
-
-        textPaint = new Paint();
-        textPaint.setStrokeWidth(3);
-        textPaint.setColor(0xffff0000);
-        textPaint.setTextSize(30);
+        paint.setStrokeWidth(ViewSettings.PathImageWidth);
     }
 
     /**
@@ -85,6 +78,12 @@ public class GameView extends View {
      *            连接路径信息
      */
     public void setLinkInfo(LinkInfo linkInfo) {
+        if (linkInfo == null || linkInfo.getLinkPieces().size() < 2) {
+            return;
+        }
+        // 设置连接路径图片
+        Bitmap pathImage = ImageUtil.scaleBitmap(linkInfo.getLinkPieces().get(0).getImage(), ViewSettings.PathImageWidth, ViewSettings.PathImageWidth);
+        paint.setShader(new BitmapShader(pathImage, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT));
         this.linkInfo = linkInfo;
     }
 
@@ -96,6 +95,26 @@ public class GameView extends View {
      */
     public void setSelectedImage(Bitmap bm) {
         selectedImage = bm;
+    }
+
+    /**
+     * 设置选择的卡片
+     * 
+     * @param piece
+     *            选择的卡片信息
+     */
+    public void setSelectedPiece(Piece piece) {
+        this.selectedPiece = piece;
+    }
+
+    /**
+     * 设置提示的卡片对
+     * 
+     * @param promptPieces
+     *            提示的卡片对
+     */
+    public void setPromptPieces(PiecePair promptPieces) {
+        this.promptPieces = promptPieces;
     }
 
     /**
@@ -134,7 +153,6 @@ public class GameView extends View {
         if (promptPieces == null && linkInfo != null) {
             drawLine(canvas, linkInfo);
             linkInfo = null;
-            invalidate();
         }
     }
 
@@ -177,25 +195,5 @@ public class GameView extends View {
             Point nextPoint = linkPieces.get(i + 1).getCenter();
             canvas.drawLine(currentPoint.x, currentPoint.y, nextPoint.x, nextPoint.y, paint);
         }
-    }
-
-    /**
-     * 设置选择的卡片
-     * 
-     * @param piece
-     *            选择的卡片信息
-     */
-    public void setSelectedPiece(Piece piece) {
-        this.selectedPiece = piece;
-    }
-
-    /**
-     * 设置提示的卡片对
-     * 
-     * @param promptPieces
-     *            提示的卡片对
-     */
-    public void setPromptPieces(PiecePair promptPieces) {
-        this.promptPieces = promptPieces;
     }
 }

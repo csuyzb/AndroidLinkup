@@ -32,7 +32,7 @@ public class GameTitle extends LinearLayout implements Animator.AnimatorListener
 
     static {
         params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        params.setMargins(4, 20, 4, 20);
+        params.setMargins(0, 20, 0, 20);
     }
 
     /**

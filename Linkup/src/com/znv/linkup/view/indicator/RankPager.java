@@ -18,24 +18,23 @@ import com.znv.linkup.ViewSettings;
 import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.core.config.RankCfg;
 
+/**
+ * Rank数据的分页适配类
+ * 
+ * @author yzb
+ * 
+ */
 public class RankPager extends PagerAdapter {
 
-//    class RankViewHolder {
-//        TextView rankLevels;
-//        TextView rankStars;
-//    }
-
+    /**
+     * 选择关卡时的处理接口
+     * 
+     * @author yzb
+     * 
+     */
     public interface ISelectedLevel {
         void onSelectedLevel(LevelCfg levelCfg);
     }
-
-    private Context context;
-    private LayoutInflater inflater;
-    private List<RankCfg> rankCfgs = new ArrayList<RankCfg>();
-//    private List<RankViewHolder> rankViewHolders = new ArrayList<RankViewHolder>();
-    private List<View> grids = new ArrayList<View>();
-    private List<RankAdapter> rankAdapters = new ArrayList<RankAdapter>();
-    private ISelectedLevel levelListener;
 
     public RankPager(Context context, List<RankCfg> rankCfgs) {
         this(context, rankCfgs, null);
@@ -48,9 +47,13 @@ public class RankPager extends PagerAdapter {
         this.rankCfgs = rankCfgs;
         this.levelListener = levelListener;
 
+        // 初始化游戏等级页面
         initRankPages();
     }
 
+    /**
+     * 初始化游戏等级页面
+     */
     private void initRankPages() {
 
         int index = 0;
@@ -60,7 +63,6 @@ public class RankPager extends PagerAdapter {
             TextView text = (TextView) rank.findViewById(R.id.rankName);
             text.setText(rankCfg.getRankName());
             text.setTextColor(context.getResources().getColor(ViewSettings.RankTitleBgColor[index]));
-//            text.setBackgroundResource(R.drawable.title_bg);
 
             RankAdapter adapter = new RankAdapter(context, rankCfg);
             GridView grid = (GridView) rank.findViewById(R.id.rankGrid);
@@ -77,11 +79,6 @@ public class RankPager extends PagerAdapter {
                 }
             });
 
-//            RankViewHolder holder = new RankViewHolder();
-//            holder.rankLevels = (TextView) rank.findViewById(R.id.rankLevels);
-//            holder.rankStars = (TextView) rank.findViewById(R.id.rankStars);
-//            rankViewHolders.add(holder);
-
             grids.add(rank);
 
             rankAdapters.add(adapter);
@@ -89,16 +86,11 @@ public class RankPager extends PagerAdapter {
         }
     }
 
+    /**
+     * 更新每个关卡的数据
+     */
     public void updateRankData() {
         for (int i = 0; i < rankCfgs.size(); i++) {
-//            RankViewHolder holder = rankViewHolders.get(i);
-//
-//            int actLevelCount = DbScore.selectLevelByRank(rankCfgs.get(i).getRankId());
-//            holder.rankLevels.setText(String.valueOf(actLevelCount) + "/" + rankCfgs.get(i).getLevelInfos().size());
-//
-//            int actStarCount = DbScore.selectStarByRank(rankCfgs.get(i).getRankId());
-//            holder.rankStars.setText(String.valueOf(actStarCount) + "/" + rankCfgs.get(i).getLevelInfos().size() * 5);
-
             rankAdapters.get(i).updateLevelData();
         }
     }
@@ -127,5 +119,12 @@ public class RankPager extends PagerAdapter {
     public void destroyItem(View arg0, int arg1, Object arg2) {
         ((ViewPager) arg0).removeView(grids.get(arg1));
     }
+
+    private Context context;
+    private LayoutInflater inflater;
+    private List<RankCfg> rankCfgs = new ArrayList<RankCfg>();
+    private List<View> grids = new ArrayList<View>();
+    private List<RankAdapter> rankAdapters = new ArrayList<RankAdapter>();
+    private ISelectedLevel levelListener;
 
 }

@@ -16,6 +16,12 @@ import com.znv.linkup.ViewSettings;
 import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.core.config.RankCfg;
 
+/**
+ * Rank下所有关卡的数据适配类
+ * 
+ * @author yzb
+ * 
+ */
 public class RankAdapter extends BaseAdapter {
 
     /**
@@ -25,13 +31,9 @@ public class RankAdapter extends BaseAdapter {
      * 
      */
     class LevelViewHolder {
-        TextView textView;
-        RatingBar rating;
+        TextView tvLevel;
+        RatingBar rbStar;
     }
-
-    private LayoutInflater inflater;
-    private RankCfg rankCfg;
-    private List<LevelViewHolder> levels = new ArrayList<LevelViewHolder>();
 
     public RankAdapter(Context context, RankCfg rankCfg) {
         inflater = LayoutInflater.from(context);
@@ -53,6 +55,9 @@ public class RankAdapter extends BaseAdapter {
         return position;
     }
 
+    /**
+     * 获取每一个关卡的视图
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LevelViewHolder holder;
@@ -60,8 +65,9 @@ public class RankAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.level, null);
 
             holder = new LevelViewHolder();
-            holder.textView = (TextView) convertView.findViewById(R.id.textview);
-            holder.rating = (RatingBar) convertView.findViewById(R.id.rating);
+            holder.tvLevel = (TextView) convertView.findViewById(R.id.tvLevel);
+            holder.rbStar = (RatingBar) convertView.findViewById(R.id.rbStar);
+            // 缓存holder
             convertView.setTag(holder);
 
             levels.add(holder);
@@ -69,11 +75,15 @@ public class RankAdapter extends BaseAdapter {
             holder = (LevelViewHolder) convertView.getTag();
         }
 
+        // 更新holder
         updateLevelView(holder, position);
 
         return convertView;
     }
 
+    /**
+     * 更新关卡数据，包括星级和是否解锁
+     */
     public void updateLevelData() {
         int levelCount = levels.size();
         if (levelCount > rankCfg.getLevelInfos().size()) {
@@ -84,15 +94,27 @@ public class RankAdapter extends BaseAdapter {
         }
     }
 
+    /**
+     * 更新一个关卡数据
+     * 
+     * @param holder
+     *            当前关卡的holder
+     * @param position
+     *            关卡索引
+     */
     private void updateLevelView(LevelViewHolder holder, int position) {
         LevelCfg levelCfg = getItem(position);
         if (levelCfg.isActive()) {
-            holder.textView.setBackgroundResource(ViewSettings.RankLevelBgImages[Integer.parseInt(rankCfg.getRankId())]);
-            holder.textView.setText(levelCfg.getLevelName());
+            holder.tvLevel.setBackgroundResource(ViewSettings.RankLevelBgImages[Integer.parseInt(rankCfg.getRankId())]);
+            holder.tvLevel.setText(levelCfg.getLevelName());
         } else {
-            holder.textView.setBackgroundResource(R.drawable.locked);
+            holder.tvLevel.setBackgroundResource(R.drawable.locked);
         }
 
-        holder.rating.setRating(getItem(position).getLevelStar());
+        holder.rbStar.setRating(getItem(position).getLevelStar());
     }
+
+    private LayoutInflater inflater;
+    private RankCfg rankCfg;
+    private List<LevelViewHolder> levels = new ArrayList<LevelViewHolder>();
 }

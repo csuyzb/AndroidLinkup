@@ -12,8 +12,9 @@ import com.znv.linkup.view.indicator.RankPager;
 
 /**
  * 关卡选择界面活动处理类
+ * 
  * @author yzb
- *
+ * 
  */
 public class RankActivity extends BaseActivity implements OnPageChangeListener {
 
@@ -25,49 +26,51 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
 
         this.setContentView(R.layout.activity_rank);
 
+        // 初始化游戏等级
         initRank();
     }
 
+    /**
+     * 初始化游戏等级
+     */
     private void initRank() {
 
         LinearLayout root = (LinearLayout) RankActivity.this.findViewById(R.id.rankBg);
         root.setBackgroundResource(ViewSettings.RankBgImageIds[0]);
-        
+
         if (rankPager == null) {
             rankPager = new RankPager(this, rankCfgs, new RankPager.ISelectedLevel() {
 
                 @Override
                 public void onSelectedLevel(LevelCfg levelCfg) {
                     if (levelCfg.isActive()) {
-                        startLevel(levelCfg);
+                        Intent intent = new Intent(RankActivity.this, GameActivity.class);
+                        intent.putExtra("levelIndex", levelCfg.getLevelId());
+                        startActivity(intent);
                     }
                 }
             });
         }
 
+        // 更新等级数据
         rankPager.updateRankData();
 
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(rankPager);
 
+        // 设置Indicator
         CirclePageIndicator mIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
         mIndicator.setViewPager(pager);
         mIndicator.setOnPageChangeListener(this);
     }
 
-    private void startLevel(LevelCfg levelCfg) {
-        Intent intent = new Intent(RankActivity.this, GameActivity.class);
-        intent.putExtra("levelIndex", levelCfg.getLevelId());
-        startActivity(intent);
-    }
-
+    /**
+     * 切换背景图片
+     */
     @Override
     public void onPageSelected(int arg0) {
         LinearLayout root = (LinearLayout) RankActivity.this.findViewById(R.id.rankBg);
         root.setBackgroundResource(ViewSettings.RankBgImageIds[arg0]);
-//        for(int i = 0; i < rankCfgs.size(); i++) {
-//            
-//        }
     }
 
     @Override
@@ -80,9 +83,10 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
 
     @Override
     public void onResume() {
+        super.onResume();
         if (rankPager != null) {
+            // 更新等级数据
             rankPager.updateRankData();
         }
-        super.onResume();
     }
 }

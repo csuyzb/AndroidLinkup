@@ -104,7 +104,7 @@ public class Game {
             }
         }
 
-        refreshView();
+//        refreshView();
     }
 
     /**

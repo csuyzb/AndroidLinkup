@@ -13,13 +13,13 @@ import com.znv.linkup.core.status.GameStatus;
  * @author yzb
  * 
  */
-public class Game implements IGameService {
+public class Game {
 
     public Game(LevelCfg levelCfg, IGameOp listener) {
         this.levelCfg = levelCfg;
         this.listener = listener;
         gameStatus = new GameStatus(levelCfg, listener);
-        gameService = new GameServiceImpl(levelCfg);
+        gameService = new GameService(levelCfg);
         alignContext = new AlignContext(gameService.getPieces(), levelCfg.getLevelAlign());
     }
 
@@ -296,7 +296,6 @@ public class Game implements IGameService {
         return gameStatus.getGameCombo();
     }
 
-    @Override
     /**
      * 获取所有卡片信息
      */
@@ -304,7 +303,6 @@ public class Game implements IGameService {
         return gameService.getPieces();
     }
 
-    @Override
     /**
      * 判断当前是否存在游戏卡片
      */
@@ -312,7 +310,6 @@ public class Game implements IGameService {
         return gameService.hasPieces();
     }
 
-    @Override
     /**
      * 找到当前坐标点的卡片
      */
@@ -320,7 +317,6 @@ public class Game implements IGameService {
         return gameService.findPiece(x, y);
     }
 
-    @Override
     /**
      * 获取两个卡片间的路径信息，若不能消除，返回null
      */
@@ -332,7 +328,7 @@ public class Game implements IGameService {
     private GameStatus gameStatus;
     private IGameOp listener;
     private Piece selected = null;
-    private IGameService gameService;
+    private GameService gameService;
     private AlignContext alignContext = null;
     private PiecePair pair = null;
 }

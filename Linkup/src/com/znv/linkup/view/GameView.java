@@ -15,8 +15,8 @@ import android.view.View;
 
 import com.znv.linkup.R;
 import com.znv.linkup.ViewSettings;
+import com.znv.linkup.core.Game;
 import com.znv.linkup.core.GameSettings;
-import com.znv.linkup.core.IGameService;
 import com.znv.linkup.core.card.Piece;
 import com.znv.linkup.core.card.PiecePair;
 import com.znv.linkup.core.card.path.LinkInfo;
@@ -30,7 +30,7 @@ import com.znv.linkup.core.util.ImageUtil;
  */
 public class GameView extends View {
 
-    private IGameService game;
+    private Game game;
     private Piece selectedPiece;
     private LinkInfo linkInfo;
     private Paint paint;
@@ -57,7 +57,7 @@ public class GameView extends View {
      * @param game
      *            游戏逻辑处理的接口实现类，game对象
      */
-    public void setGameService(IGameService game) {
+    public void setGameService(Game game) {
         this.game = game;
 
         Piece[][] pieces = game.getPieces();

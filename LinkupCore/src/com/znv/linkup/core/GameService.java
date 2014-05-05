@@ -16,17 +16,16 @@ import com.znv.linkup.core.map.GameMap;
  * @author yzb
  * 
  */
-class GameServiceImpl implements IGameService {
+class GameService {
 
     private Piece[][] pieces;
     private LevelCfg levelCfg;
 
-    public GameServiceImpl(LevelCfg levelCfg) {
+    public GameService(LevelCfg levelCfg) {
         this.levelCfg = levelCfg;
         this.pieces = GameMap.createPieces(levelCfg);
     }
 
-    @Override
     /**
      * 获取所有卡片信息
      * 
@@ -36,7 +35,6 @@ class GameServiceImpl implements IGameService {
         return pieces;
     }
 
-    @Override
     /**
      * 判断当前是否存在游戏卡片
      * 
@@ -53,7 +51,6 @@ class GameServiceImpl implements IGameService {
         return false;
     }
 
-    @Override
     /**
      * 根据坐标点查找卡片
      * 
@@ -90,7 +87,6 @@ class GameServiceImpl implements IGameService {
         return index;
     }
 
-    @Override
     /**
      * 重排卡片
      */
@@ -119,7 +115,6 @@ class GameServiceImpl implements IGameService {
         }
     }
 
-    @Override
     /**
      * 判断两个卡片是否可消除，同时返回连接路径
      * 

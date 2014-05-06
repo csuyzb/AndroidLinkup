@@ -63,7 +63,7 @@ public class ViewSettings {
     /**
      * 本地数据库文件名
      */
-    public static final String DbFileName = "data2.db";
+    public static final String DbFileName = "data110.db";
 
     /**
      * 本地数据库的版本
@@ -73,7 +73,7 @@ public class ViewSettings {
     /**
      * 初始激活的关卡数
      */
-    public final static int DefaultActiveNum = 45;
+    public final static int DefaultActiveNum = 3;
 
     /**
      * 两次back退出间的间隔

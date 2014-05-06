@@ -135,9 +135,12 @@ public class GameActivity extends BaseActivity implements IGameOp {
      *            关卡配置信息
      */
     private void adjustLevelCfg(LevelCfg levelCfg) {
+        // 上下保留一部分空间
+        int heightReserve = 60;
         int levelWidth = holder.screenWidth / (levelCfg.getXSize() - 1);
-        int levelHeight = holder.screenHeight / levelCfg.getYSize();
-        int newSize = Math.min(levelWidth, levelHeight);
+        int levelHeight = (holder.screenHeight - heightReserve) / levelCfg.getYSize();
+        // 像素调整为8的倍数
+        int newSize = (Math.min(levelWidth, levelHeight) / 8 ) * 8;
         int beginX = (holder.screenWidth - newSize * levelCfg.getXSize()) / 2;
         int beginY = (holder.screenHeight - newSize * levelCfg.getYSize()) / 2;
         levelCfg.setPieceWidth(newSize);

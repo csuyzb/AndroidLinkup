@@ -113,7 +113,6 @@ public class BaseActivity extends Activity {
         if (soundMgr == null) {
             soundMgr = new SoundManager(BaseActivity.this);
         }
-
     }
 
     /**

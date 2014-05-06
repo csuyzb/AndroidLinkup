@@ -42,6 +42,9 @@ public class WelcomeActivity extends BaseActivity {
     private void initMusicSetting() {
         ivMusic = (ImageView) findViewById(R.id.music);
         setGameMusic();
+        if (musicMgr != null) {
+            musicMgr.setBgMisicEnabled(LevelCfg.globalCfg.isGameBgMusic());
+        }
         ivMusic.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -62,6 +65,9 @@ public class WelcomeActivity extends BaseActivity {
     private void initSoundSetting() {
         ivSound = (ImageView) findViewById(R.id.sound);
         setGameSound();
+        if (soundMgr != null) {
+            soundMgr.setSoundEnabled(LevelCfg.globalCfg.isGameSound());
+        }
         ivSound.setOnClickListener(new View.OnClickListener() {
 
             @Override

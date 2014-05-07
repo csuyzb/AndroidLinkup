@@ -1,12 +1,11 @@
 package com.znv.linkup;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import android.app.Activity;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
+import android.util.SparseArray;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -39,7 +38,7 @@ public class BaseActivity extends Activity {
     // 游戏关卡配置
     protected static List<RankCfg> rankCfgs = null;
     // 游戏配置Map
-    protected static Map<String, LevelCfg> levelCfgs = null;
+    protected static SparseArray<LevelCfg> levelCfgs = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +122,7 @@ public class BaseActivity extends Activity {
             XmlResourceParser xrp = getResources().getXml(R.xml.gamecfg);
             GameCfg gameCfg = new GameCfg(xrp);
             rankCfgs = gameCfg.getRankInfos();
-            levelCfgs = new HashMap<String, LevelCfg>();
+            levelCfgs = new SparseArray<LevelCfg>();
             for (RankCfg rankCfg : rankCfgs) {
                 for (LevelCfg levelCfg : rankCfg.getLevelInfos()) {
                     levelCfgs.put(levelCfg.getLevelId(), levelCfg);
@@ -159,14 +158,12 @@ public class BaseActivity extends Activity {
 
         List<LevelScore> levelScores = DbScore.selectAll();
         for (LevelScore score : levelScores) {
-            String levelId = score.getLevel();
-            if (levelCfgs.containsKey(levelId)) {
-                LevelCfg cfg = levelCfgs.get(levelId);
-                if (cfg != null) {
-                    cfg.setMaxScore(score.getMaxScore());
-                    cfg.setActive(score.getIsActive() == 1);
-                    cfg.setLevelStar(score.getStar());
-                }
+            int levelId = Integer.parseInt(score.getLevel());
+            LevelCfg cfg = levelCfgs.get(levelId);
+            if (cfg != null) {
+                cfg.setMaxScore(score.getMaxScore());
+                cfg.setActive(score.getIsActive() == 1);
+                cfg.setLevelStar(score.getStar());
             }
         }
     }

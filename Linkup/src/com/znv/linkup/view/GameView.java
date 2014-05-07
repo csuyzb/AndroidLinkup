@@ -36,12 +36,13 @@ public class GameView extends View {
     private Paint paint;
     private Bitmap selectedImage;
     private PiecePair promptPieces;
+    private int centerOffset = 0;
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         paint = new Paint();
-        paint.setStrokeWidth(ViewSettings.PathImageWidth);
+        // paint.setStrokeWidth(ViewSettings.PathImageWidth);
     }
 
     /**
@@ -81,8 +82,11 @@ public class GameView extends View {
         if (linkInfo == null || linkInfo.getLinkPieces().size() < 2) {
             return;
         }
+
         // 设置连接路径图片
-        Bitmap pathImage = ImageUtil.scaleBitmap(linkInfo.getLinkPieces().get(0).getImage(), ViewSettings.PathImageWidth, ViewSettings.PathImageWidth);
+        Piece p = linkInfo.getLinkPieces().get(0);
+        centerOffset = p.getWidth() / 6;
+        Bitmap pathImage = ImageUtil.scaleBitmap(p.getImage(), p.getWidth() / 3, p.getHeight() / 3);
         paint.setShader(new BitmapShader(pathImage, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT));
         this.linkInfo = linkInfo;
     }
@@ -193,7 +197,35 @@ public class GameView extends View {
         for (int i = 0; i < linkPieces.size() - 1; i++) {
             Point currentPoint = linkPieces.get(i).getCenter();
             Point nextPoint = linkPieces.get(i + 1).getCenter();
+            // 调整路径位置，完整显示路径图片
+            adjustCenter(currentPoint, nextPoint, i);
             canvas.drawLine(currentPoint.x, currentPoint.y, nextPoint.x, nextPoint.y, paint);
+        }
+    }
+
+    /**
+     * 调整路径位置，完整显示路径图片
+     * 
+     * @param currentPoint
+     *            当前点
+     * @param nextPoint
+     *            下一个点
+     * @param i
+     *            路径点索引
+     */
+    private void adjustCenter(Point currentPoint, Point nextPoint, int i) {
+        if (i == 0) {
+            if (currentPoint.x == nextPoint.x) {
+                currentPoint.y = (nextPoint.y > currentPoint.y) ? (currentPoint.y + centerOffset) : (currentPoint.y - centerOffset);
+            } else {
+                currentPoint.x = (nextPoint.x > currentPoint.x) ? (currentPoint.x + centerOffset) : (currentPoint.x - centerOffset);
+            }
+        } else if (i == linkInfo.getLinkPieces().size() - 2) {
+            if (currentPoint.x == nextPoint.x) {
+                nextPoint.y = (nextPoint.y > currentPoint.y) ? (nextPoint.y - centerOffset) : (nextPoint.y + centerOffset);
+            } else {
+                nextPoint.x = (nextPoint.x > currentPoint.x) ? (nextPoint.x - centerOffset) : (nextPoint.x + centerOffset);
+            }
         }
     }
 }

@@ -134,7 +134,7 @@ public class GameCfg {
     private LevelCfg LoadLevelCfg(XmlResourceParser xrp) {
         String name = xrp.getAttributeValue(null, "name");
         LevelCfg levelCfg = new LevelCfg(name);
-        levelCfg.setLevelId(String.valueOf(levelCount++));
+        levelCfg.setLevelId(levelCount++);
         levelCfg.setYSize(Integer.parseInt(xrp.getAttributeValue(null, "ysize")));
         levelCfg.setXSize(Integer.parseInt(xrp.getAttributeValue(null, "xsize")));
         levelCfg.setLevelTime(Integer.parseInt(xrp.getAttributeValue(null, "gtime")));

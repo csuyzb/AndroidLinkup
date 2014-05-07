@@ -46,7 +46,7 @@ public class GameActivity extends BaseActivity implements IGameOp {
         Display mDisplay = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         mDisplay.getSize(size);
-        curLevelCfg = levelCfgs.get(getIntent().getStringExtra("levelIndex"));
+        curLevelCfg = levelCfgs.get(getIntent().getIntExtra("levelIndex", 0));
 
         holder.tvLevel = (TextView) findViewById(R.id.tvLevel);
         holder.tvMaxScore = (TextView) findViewById(R.id.maxScore);
@@ -140,7 +140,7 @@ public class GameActivity extends BaseActivity implements IGameOp {
         int levelWidth = holder.screenWidth / (levelCfg.getXSize() - 1);
         int levelHeight = (holder.screenHeight - heightReserve) / levelCfg.getYSize();
         // 像素调整为8的倍数
-        int newSize = (Math.min(levelWidth, levelHeight) / 8 ) * 8;
+        int newSize = (Math.min(levelWidth, levelHeight) / 8) * 8;
         int beginX = (holder.screenWidth - newSize * levelCfg.getXSize()) / 2;
         int beginY = (holder.screenHeight - newSize * levelCfg.getYSize()) / 2;
         levelCfg.setPieceWidth(newSize);
@@ -156,9 +156,9 @@ public class GameActivity extends BaseActivity implements IGameOp {
     public void next() {
         game.finish();
 
-        String nextLevelId = String.valueOf(Integer.parseInt(curLevelCfg.getLevelId()) + 1);
-        if (levelCfgs.containsKey(nextLevelId)) {
-            curLevelCfg = levelCfgs.get(nextLevelId);
+        int nextLevelId = curLevelCfg.getLevelId() + 1;
+        curLevelCfg = levelCfgs.get(nextLevelId);
+        if (curLevelCfg != null) {
             start();
         } else {
             // 通过所有关卡
@@ -180,17 +180,25 @@ public class GameActivity extends BaseActivity implements IGameOp {
      */
     @Override
     public void onGameWin() {
-        LevelScore ls = new LevelScore(Integer.parseInt(curLevelCfg.getLevelId()) + 1);
-        ls.setIsActive(1);
-        DbScore.updateActive(ls);
+        // 激活下一关
+        int nextLevelId = curLevelCfg.getLevelId() + 1;
+        LevelCfg nextCfg = levelCfgs.get(nextLevelId);
+        if (nextCfg != null) {
+            nextCfg.setActive(true);
 
-        ls = new LevelScore(Integer.parseInt(curLevelCfg.getLevelId()));
+            LevelScore nls = new LevelScore(nextLevelId);
+            nls.setIsActive(1);
+            DbScore.updateActive(nls);
+        }
+
+        // 保存记录和星级
+        LevelScore cls = new LevelScore(curLevelCfg.getLevelId());
         if (game.getTotalScore() > curLevelCfg.getMaxScore()) {
             // 新纪录
-            ls = new LevelScore(Integer.parseInt(curLevelCfg.getLevelId()));
-            ls.setMaxScore(game.getTotalScore());
-            ls.setStar(curLevelCfg.getStar(game.getTotalScore()));
-            DbScore.updateScore(ls);
+            cls = new LevelScore(curLevelCfg.getLevelId());
+            cls.setMaxScore(game.getTotalScore());
+            cls.setStar(curLevelCfg.getStar(game.getTotalScore()));
+            DbScore.updateScore(cls);
         }
 
         handler.sendEmptyMessage(ViewSettings.WinMessage);

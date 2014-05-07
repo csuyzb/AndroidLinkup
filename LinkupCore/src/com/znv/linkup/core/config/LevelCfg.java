@@ -26,7 +26,7 @@ public class LevelCfg implements Serializable {
         this.levelName = levelName;
     }
 
-    private String levelId;
+    private int levelId;
     private String levelName;
     private String rankName;
     private int xSize;
@@ -87,11 +87,11 @@ public class LevelCfg implements Serializable {
             return 0;
     }
 
-    public String getLevelId() {
+    public int getLevelId() {
         return levelId;
     }
 
-    public void setLevelId(String levelId) {
+    public void setLevelId(int levelId) {
         this.levelId = levelId;
     }
 

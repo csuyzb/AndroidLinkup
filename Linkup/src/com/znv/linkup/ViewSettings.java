@@ -83,7 +83,7 @@ public class ViewSettings {
     /**
      * 显示连接路径的图片宽度
      */
-    public final static int PathImageWidth = 32;
+//    public final static int PathImageWidth = 32;
 
     /**
      * Rank的标题背景颜色

@@ -7,7 +7,7 @@ The most interesting linkup game for android.
 最好玩的Android开源连连看
 
 V1.1.0
-1.界面调整为竖屏模式
+1.美化界面
 2.调整关卡设计，全新45关
 3.增加音乐和音效控制
 4.提示和重排次数控制

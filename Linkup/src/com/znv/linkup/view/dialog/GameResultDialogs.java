@@ -56,7 +56,7 @@ public class GameResultDialogs {
      * 游戏失败
      */
     public void lost() {
-        String lostMsg = linkup.getGameResult(false) + getResultInfo(true);
+        String lostMsg = linkup.getGameResult(false) + getResultInfo(false);
         lostDialog.setMessage(lostMsg);
         lostDialog.show();
     }
@@ -70,7 +70,7 @@ public class GameResultDialogs {
      *            是否为新记录
      */
     public void success(int stars, boolean isNewRecord) {
-        String successMsg = linkup.getGameResult(true) + getResultInfo(false);
+        String successMsg = linkup.getGameResult(true) + getResultInfo(true);
         successDialog.setMessage(successMsg);
         successDialog.setGameStar(stars);
         successDialog.isNewRecord(isNewRecord);
@@ -108,11 +108,11 @@ public class GameResultDialogs {
     /**
      * 根据胜利与否获取提示信息
      * 
-     * @param isLost
-     *            是否失败
+     * @param isSuccess
+     *            是否成功
      * @return 提示信息
      */
-    private String getResultInfo(boolean isLost) {
-        return isLost ? linkup.getString(R.string.game_level_lost_ask) : linkup.getString(R.string.game_level_success_ask);
+    private String getResultInfo(boolean isSuccess) {
+        return isSuccess ? linkup.getString(R.string.game_level_success_ask) : linkup.getString(R.string.game_level_lost_ask);
     }
 }

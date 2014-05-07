@@ -56,8 +56,8 @@ public class LevelCfg implements Serializable {
         if (starScores == null) {
             starScores = new int[4];
             int cardCount = (xSize - 2) * (ySize - 2) - emptyNum - obstacleNum;
-            starScores[0] = cardCount * GameSettings.CardScore;
-            starScores[2] = cardCount / 2 * (GameSettings.CardScore + GameSettings.CornerScore) + levelTime * GameSettings.TimeScore / 2;
+            starScores[0] = cardCount * GameSettings.CardScore + levelTime * GameSettings.TimeScore / 2;
+            starScores[2] = starScores[0] + GameSettings.CornerScore * cardCount / 2;
             starScores[1] = (starScores[0] + starScores[2]) / 2;
             starScores[3] = starScores[2] + levelTime * GameSettings.TimeScore / 2;
         }

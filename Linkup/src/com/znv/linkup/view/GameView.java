@@ -30,10 +30,11 @@ import com.znv.linkup.core.util.ImageUtil;
  */
 public class GameView extends View {
 
+    private static Paint paint;
+
     private Game game;
     private Piece selectedPiece;
     private LinkInfo linkInfo;
-    private Paint paint;
     private Bitmap selectedImage;
     private PiecePair promptPieces;
     private int centerOffset = 0;
@@ -42,7 +43,6 @@ public class GameView extends View {
         super(context, attrs);
 
         paint = new Paint();
-        // paint.setStrokeWidth(ViewSettings.PathImageWidth);
     }
 
     /**
@@ -86,8 +86,11 @@ public class GameView extends View {
         // 设置连接路径图片
         Piece p = linkInfo.getLinkPieces().get(0);
         centerOffset = p.getWidth() / 6;
-        Bitmap pathImage = ImageUtil.scaleBitmap(p.getImage(), p.getWidth() / 3, p.getHeight() / 3);
-        paint.setShader(new BitmapShader(pathImage, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT));
+        int pathImageWidth = p.getWidth() / 3;
+        paint.setStrokeWidth(pathImageWidth + 1);
+        Bitmap pathImage = ImageUtil.scaleBitmap(p.getImage(), pathImageWidth, pathImageWidth);
+        BitmapShader bs = new BitmapShader(pathImage, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
+        paint.setShader(bs);
         this.linkInfo = linkInfo;
     }
 
@@ -220,7 +223,8 @@ public class GameView extends View {
             } else {
                 currentPoint.x = (nextPoint.x > currentPoint.x) ? (currentPoint.x + centerOffset) : (currentPoint.x - centerOffset);
             }
-        } else if (i == linkInfo.getLinkPieces().size() - 2) {
+        }
+        if (i == linkInfo.getLinkPieces().size() - 2) {
             if (currentPoint.x == nextPoint.x) {
                 nextPoint.y = (nextPoint.y > currentPoint.y) ? (nextPoint.y - centerOffset) : (nextPoint.y + centerOffset);
             } else {

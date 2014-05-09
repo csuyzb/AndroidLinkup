@@ -7,50 +7,33 @@
     android:orientation="vertical"
     tools:context=".WelcomeActivity" >
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2" />
-
     <ImageView
         android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_weight="1"
         android:onClick="startHelp"
         android:src="@drawable/logo"
         tools:ignore="contentDescription" />
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2" />
 
     <com.znv.linkup.view.GameTitle
         android:id="@+id/gameTitle"
         android:layout_width="wrap_content"
         android:layout_height="96dp"
         android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
         android:gravity="center"
         android:orientation="horizontal" />
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3" />
 
     <ImageButton
         android:id="@+id/ibtnStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="40dp"
         android:background="@drawable/start_selector"
         android:onClick="startGame"
         tools:ignore="contentDescription" />
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -59,36 +42,23 @@
         android:gravity="center_horizontal|center_vertical"
         android:orientation="horizontal" >
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1" />
-
         <ImageView
             android:id="@+id/music"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:layout_weight="1"
             android:gravity="center"
             tools:ignore="contentDescription" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1" />
 
         <ImageView
             android:id="@+id/sound"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:layout_weight="1"
             android:gravity="center"
             tools:ignore="contentDescription" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1" />
     </LinearLayout>
 
 </LinearLayout>

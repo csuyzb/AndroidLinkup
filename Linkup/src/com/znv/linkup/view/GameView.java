@@ -1,5 +1,7 @@
 package com.znv.linkup.view;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import android.content.Context;
@@ -14,7 +16,6 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.znv.linkup.R;
-import com.znv.linkup.ViewSettings;
 import com.znv.linkup.core.Game;
 import com.znv.linkup.core.GameSettings;
 import com.znv.linkup.core.card.Piece;
@@ -53,18 +54,36 @@ public class GameView extends View {
      */
     public void setGameService(Game game) {
         this.game = game;
-
+        
+        String skin = game.getLevelCfg().getGameSkin();
+        loadImages(skin);
+    }
+    
+    /**
+     * 根据皮肤加载图片
+     */
+    private void loadImages(String skin) {
         Piece[][] pieces = game.getPieces();
         for (int i = 0; i < pieces.length; i++) {
             for (int j = 0; j < pieces[i].length; j++) {
                 Piece piece = pieces[i][j];
                 if (piece != null) {
+                	InputStream is = null;
                     // 设置游戏卡片和障碍卡片
                     if (piece.getImageId() == GameSettings.ObstacleCardValue) {
                         Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.obstacle);
                         piece.setImage(ImageUtil.scaleBitmap(bm, piece.getWidth(), piece.getHeight()));
                     } else if (piece.getImageId() != GameSettings.GroundCardValue) {
-                        Bitmap bm = BitmapFactory.decodeResource(getResources(), ViewSettings.CardImageIds[piece.getImageId() - 1]);
+                    	String imageFile = String.format("%s/p%s.png", skin, piece.getImageId());
+                    	Bitmap bm = null;
+        				try {
+							is = getResources().getAssets().open(imageFile);
+	        				bm = BitmapFactory.decodeStream(is);
+	        				is.close();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
                         piece.setImage(ImageUtil.scaleBitmap(bm, piece.getWidth(), piece.getHeight()));
                     }
                 }

@@ -2,8 +2,6 @@ package com.znv.linkup.core.config;
 
 import java.io.Serializable;
 
-import android.content.Context;
-
 import com.znv.linkup.core.GameSettings;
 import com.znv.linkup.core.card.align.GameAlign;
 
@@ -29,6 +27,7 @@ public class LevelCfg implements Serializable {
     private int levelId;
     private String levelName;
     private String rankName;
+    private String gameSkin;
     private int xSize;
     private int ySize;
     private int levelTime;
@@ -46,8 +45,6 @@ public class LevelCfg implements Serializable {
     private int levelBackground;
     // 关卡地图信息字符串
     private String maptplStr;
-    // 当前的上下文信息，获取资源
-    private Context context;
 
     /**
      * 初始化游戏星级的临界分数
@@ -111,7 +108,15 @@ public class LevelCfg implements Serializable {
         this.rankName = rankName;
     }
 
-    public int getXSize() {
+    public String getGameSkin() {
+		return gameSkin;
+	}
+
+	public void setGameSkin(String gameSkin) {
+		this.gameSkin = gameSkin;
+	}
+
+	public int getXSize() {
         return xSize;
     }
 
@@ -229,14 +234,6 @@ public class LevelCfg implements Serializable {
 
     public void setLevelBackground(int levelBackground) {
         this.levelBackground = levelBackground;
-    }
-
-    public Context getContext() {
-        return context;
-    }
-
-    public void setContext(Context context) {
-        this.context = context;
     }
 
     public String getMaptplStr() {

@@ -59,11 +59,16 @@ public class ViewSettings {
      * 最大的重排数
      */
     public static int RefreshMaxNum = 10;
+    
+    /**
+     * 全局配置的 Shared Preference
+     */
+    public final static String GlobalCfgStr = "globalcfg_v120";
 
     /**
      * 本地数据库文件名
      */
-    public static final String DbFileName = "data110.db";
+    public static final String DbFileName = "data120.db";
 
     /**
      * 本地数据库的版本
@@ -73,17 +78,12 @@ public class ViewSettings {
     /**
      * 初始激活的关卡数
      */
-    public final static int DefaultActiveNum = 3;
+    public final static int DefaultActiveNum = 45;
 
     /**
      * 两次back退出间的间隔
      */
     public final static int TwoBackExitInterval = 2000;
-
-    /**
-     * 显示连接路径的图片宽度
-     */
-//    public final static int PathImageWidth = 32;
 
     /**
      * Rank的标题背景颜色
@@ -99,11 +99,4 @@ public class ViewSettings {
      * Rank背景图片
      */
     public static int[] RankBgImageIds = new int[] { R.drawable.bg1, R.drawable.bg2, R.drawable.bg3 };
-
-    /**
-     * 游戏卡片
-     */
-    public static int[] CardImageIds = new int[] { R.drawable.p1, R.drawable.p2, R.drawable.p3, R.drawable.p4, R.drawable.p5, R.drawable.p6, R.drawable.p7,
-            R.drawable.p8, R.drawable.p9, R.drawable.p10, R.drawable.p11, R.drawable.p12, R.drawable.p13, R.drawable.p14, R.drawable.p15, R.drawable.p16 };
-
 }

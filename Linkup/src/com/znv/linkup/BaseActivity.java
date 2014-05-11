@@ -174,14 +174,14 @@ public class BaseActivity extends Activity {
      * @return 全局配置字符串
      */
     protected String getGlobalCfg() {
-        return CacheUtil.getBindStr(getApplicationContext(), "globalcfgs");
+        return CacheUtil.getBindStr(getApplicationContext(), ViewSettings.GlobalCfgStr);
     }
 
     /**
      * 设置全局配置
      */
     protected void setGlobalCfg() {
-        CacheUtil.setBindStr(getApplicationContext(), "globalcfgs", LevelCfg.globalCfg.toString());
+        CacheUtil.setBindStr(getApplicationContext(), ViewSettings.GlobalCfgStr, LevelCfg.globalCfg.toString());
     }
 
     @Override

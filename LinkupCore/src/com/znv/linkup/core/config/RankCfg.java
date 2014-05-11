@@ -47,7 +47,15 @@ public class RankCfg implements Serializable {
         this.rankName = rankName;
     }
 
-    public List<LevelCfg> getLevelInfos() {
+    public String getGameSkin() {
+		return gameSkin;
+	}
+
+	public void setGameSkin(String gameSkin) {
+		this.gameSkin = gameSkin;
+	}
+
+	public List<LevelCfg> getLevelInfos() {
         return LevelInfos;
     }
 
@@ -65,6 +73,7 @@ public class RankCfg implements Serializable {
 
     private String rankId;
     private String rankName;
+    private String gameSkin;
     private int rankBackground;
     private List<LevelCfg> LevelInfos = new ArrayList<LevelCfg>();
 }

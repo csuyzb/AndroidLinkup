@@ -147,7 +147,6 @@ public class GameActivity extends BaseActivity implements IGameOp {
         levelCfg.setPieceHeight(newSize);
         levelCfg.setBeginImageX(beginX);
         levelCfg.setBeginImageY(beginY);
-        levelCfg.setContext(this);
     }
 
     /**

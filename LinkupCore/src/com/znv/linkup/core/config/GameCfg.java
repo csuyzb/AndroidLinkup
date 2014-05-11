@@ -89,6 +89,7 @@ public class GameCfg {
     private void setlevelByRank(LevelCfg levelInfo, RankCfg rankInfo) {
         levelInfo.setLevelBackground(rankInfo.getRankBackground());
         levelInfo.setRankName(rankInfo.getRankName());
+        levelInfo.setGameSkin(rankInfo.getGameSkin());
     }
 
     /**
@@ -99,7 +100,6 @@ public class GameCfg {
      */
     private void LoadGlobalCfg(XmlResourceParser xrp) {
         GlobalCfg gamecfg = new GlobalCfg();
-        gamecfg.setGameSkin(xrp.getAttributeValue(null, "gskin"));
         gamecfg.setGameSound(xrp.getAttributeValue(null, "gsound").equals("1"));
         gamecfg.setGameBgMusic(xrp.getAttributeValue(null, "bgmusic").equals("1"));
         gamecfg.setPromptNum(Integer.parseInt(xrp.getAttributeValue(null, "prompt")));
@@ -120,6 +120,7 @@ public class GameCfg {
         String name = xrp.getAttributeValue(null, "name");
         RankCfg gRank = new RankCfg(name);
         gRank.setRankId(String.valueOf(rankCount++));
+        gRank.setGameSkin(xrp.getAttributeValue(null, "gskin"));
         gRank.setRankBackground(Integer.parseInt(xrp.getAttributeValue(null, "bg")));
         return gRank;
     }

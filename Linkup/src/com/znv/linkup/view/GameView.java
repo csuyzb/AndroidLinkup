@@ -2,7 +2,10 @@ package com.znv.linkup.view;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -16,6 +19,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.znv.linkup.R;
+import com.znv.linkup.ViewSettings;
 import com.znv.linkup.core.Game;
 import com.znv.linkup.core.GameSettings;
 import com.znv.linkup.core.card.Piece;
@@ -39,6 +43,8 @@ public class GameView extends View {
     private Bitmap selectedImage;
     private PiecePair promptPieces;
     private int centerOffset = 0;
+    // 根据游戏皮肤缓存图片，不用每次加载
+    private static Map<String, List<Bitmap>> skinImages = new HashMap<String, List<Bitmap>>();
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -54,37 +60,63 @@ public class GameView extends View {
      */
     public void setGameService(Game game) {
         this.game = game;
-        
-        String skin = game.getLevelCfg().getGameSkin();
-        loadImages(skin);
+
+        String skinName = game.getLevelCfg().getGameSkin();
+        loadImages(skinName);
     }
-    
+
+    /**
+     * 根据皮肤加载图片，并加入缓存
+     * 
+     * @param skinName
+     *            皮肤名称
+     * @return 图片列表
+     */
+    private List<Bitmap> getSkinImages(String skinName) {
+        if (!skinImages.containsKey(skinName)) {
+            List<Bitmap> images = new ArrayList<Bitmap>();
+            InputStream is = null;
+            for (int i = 0; i < ViewSettings.SkinImageCount; i++) {
+                String imageFile = String.format("%s/p%s.png", skinName, i + 1);
+                try {
+                    is = getResources().getAssets().open(imageFile);
+                    Bitmap bm = BitmapFactory.decodeStream(is);
+                    is.close();
+
+                    // 将图片依次加入列表
+                    images.add(bm);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            // 加入缓存
+            skinImages.put(skinName, images);
+        }
+
+        return skinImages.get(skinName);
+    }
+
     /**
      * 根据皮肤加载图片
      */
-    private void loadImages(String skin) {
+    private void loadImages(String skinName) {
+
+        // 根据皮肤获取图片列表
+        List<Bitmap> images = getSkinImages(skinName);
+
         Piece[][] pieces = game.getPieces();
         for (int i = 0; i < pieces.length; i++) {
             for (int j = 0; j < pieces[i].length; j++) {
                 Piece piece = pieces[i][j];
                 if (piece != null) {
-                	InputStream is = null;
                     // 设置游戏卡片和障碍卡片
                     if (piece.getImageId() == GameSettings.ObstacleCardValue) {
                         Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.obstacle);
                         piece.setImage(ImageUtil.scaleBitmap(bm, piece.getWidth(), piece.getHeight()));
                     } else if (piece.getImageId() != GameSettings.GroundCardValue) {
-                    	String imageFile = String.format("%s/p%s.png", skin, piece.getImageId());
-                    	Bitmap bm = null;
-        				try {
-							is = getResources().getAssets().open(imageFile);
-	        				bm = BitmapFactory.decodeStream(is);
-	        				is.close();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-                        piece.setImage(ImageUtil.scaleBitmap(bm, piece.getWidth(), piece.getHeight()));
+                        // 根据需要缩放图片
+                        piece.setImage(ImageUtil.scaleBitmap(images.get(piece.getImageId() - 1), piece.getWidth(), piece.getHeight()));
                     }
                 }
             }

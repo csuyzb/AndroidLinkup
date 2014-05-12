@@ -39,6 +39,11 @@ public class ViewSettings {
      * 游戏重排消息
      */
     public final static int RefreshMessage = 0x6;
+    
+    /**
+     * 每种皮肤的图片数量
+     */
+    public final static int SkinImageCount = 16;
 
     /**
      * 增加提示的连击数

@@ -224,7 +224,14 @@ public class Game {
      */
     public void refresh() {
         unPrompt();
-        gameService.refresh();
+        // 刷新后保证有消除,尝试固定次数，避免死循环
+        for(int i = 0; i < GameSettings.RefreshTryCount; i++){
+            gameService.refresh();
+            if(promptPair() != null) {
+                // 有可以消除时不继续重排
+                break;
+            }
+        }
         gameStatus.refresh();
         refreshView();
     }

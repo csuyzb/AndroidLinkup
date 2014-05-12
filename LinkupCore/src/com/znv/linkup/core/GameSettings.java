@@ -62,4 +62,9 @@ public class GameSettings {
      * 消除一对卡片奖励的时间，2s
      */
     public static int RewardTime = 1;
+    
+    /**
+     * 重排时尝试次数，默认3次
+     */
+    public static int RefreshTryCount = 3;
 }

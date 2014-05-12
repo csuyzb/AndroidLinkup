@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.znv.linkup.core.Game;
@@ -28,6 +29,7 @@ import com.znv.linkup.core.util.ImageUtil;
 import com.znv.linkup.db.DbScore;
 import com.znv.linkup.db.LevelScore;
 import com.znv.linkup.util.AnimatorUtil;
+import com.znv.linkup.util.ToastUtil;
 import com.znv.linkup.view.GameView;
 import com.znv.linkup.view.dialog.GameResultDialogs;
 import com.znv.linkup.view.handler.GameMsgHandler;
@@ -208,12 +210,19 @@ public class GameActivity extends BaseActivity implements IGameOp {
      */
     @Override
     public void onPrompt(PiecePair pair) {
-        gameView.setPromptPieces(pair);
-        // 减少提示一次
-        LevelCfg.globalCfg.setPromptNum(LevelCfg.globalCfg.getPromptNum() - 1);
-        setGlobalCfg();
-        handler.sendEmptyMessage(ViewSettings.PromptMessage);
-        soundMgr.select();
+        if (pair == null) {
+            // 没有可消除时给出提示
+            Toast toast = ToastUtil.getToast(this, R.string.game_prompt_none);
+            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER, 0, 200);
+            toast.show();
+        } else {
+            gameView.setPromptPieces(pair);
+            // 减少提示一次
+            LevelCfg.globalCfg.setPromptNum(LevelCfg.globalCfg.getPromptNum() - 1);
+            setGlobalCfg();
+            handler.sendEmptyMessage(ViewSettings.PromptMessage);
+            soundMgr.select();
+        }
     }
 
     /**

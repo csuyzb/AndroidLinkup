@@ -104,7 +104,7 @@ public class Game {
             }
         }
 
-//        refreshView();
+        // refreshView();
     }
 
     /**
@@ -181,9 +181,7 @@ public class Game {
      */
     public void prompt() {
         pair = promptPair();
-        if (pair != null) {
-            gameStatus.prompt(pair);
-        }
+        gameStatus.prompt(pair);
         refreshView();
     }
 
@@ -225,9 +223,9 @@ public class Game {
     public void refresh() {
         unPrompt();
         // 刷新后保证有消除,尝试固定次数，避免死循环
-        for(int i = 0; i < GameSettings.RefreshTryCount; i++){
+        for (int i = 0; i < GameSettings.RefreshTryCount; i++) {
             gameService.refresh();
-            if(promptPair() != null) {
+            if (promptPair() != null) {
                 // 有可以消除时不继续重排
                 break;
             }

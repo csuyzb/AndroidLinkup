@@ -24,5 +24,6 @@
     <string name="game_prompt_add">, 提示 +１</string>
     <string name="game_refresh_add">, 重排 +１</string>
     <string name="game_ready_go">GO!</string>
+    <string name="game_prompt_none">已经不能消除了，请重排或按返回退出!</string>
 
 </resources>

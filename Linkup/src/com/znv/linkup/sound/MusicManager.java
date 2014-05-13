@@ -1,5 +1,6 @@
 package com.znv.linkup.sound;
 
+import com.znv.linkup.R;
 import com.znv.linkup.core.config.LevelCfg;
 
 import android.content.Context;
@@ -13,6 +14,7 @@ import android.content.Intent;
 public class MusicManager {
 
     private static Intent musicIntent = new Intent("com.znv.linkup.BGMUSIC");
+    private int bgMusicRes = R.raw.bgmusic3;
 
     private Context ctx = null;
 
@@ -20,11 +22,20 @@ public class MusicManager {
         this.ctx = ctx;
     }
 
+    public int getBgMusicRes() {
+        return bgMusicRes;
+    }
+
+    public void setBgMusicRes(int bgMusicRes) {
+        this.bgMusicRes = bgMusicRes;
+    }
+
     /**
      * 开启背景音乐
      */
     public void play() {
         if (isBgMisicEnabled()) {
+            musicIntent.putExtra("bgmusic", bgMusicRes);
             ctx.startService(musicIntent);
         }
     }

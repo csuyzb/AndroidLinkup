@@ -86,6 +86,14 @@ public class GameActivity extends BaseActivity implements IGameOp {
         start();
     }
 
+    @Override
+    protected void playMusic() {
+        if (musicMgr != null) {
+            musicMgr.setBgMusicRes(R.raw.bgmusic3);
+            musicMgr.play();
+        }
+    }
+
     /**
      * 开始游戏
      */

@@ -18,14 +18,14 @@ public class SoundManager {
     private int[] soundIds = new int[8];
 
     public SoundManager(Context context) {
-        soundIds[0] = soundPool.load(context, R.raw.go, 1);
+        soundIds[0] = soundPool.load(context, R.raw.readygo, 1);
         soundIds[1] = soundPool.load(context, R.raw.select, 1);
         soundIds[2] = soundPool.load(context, R.raw.erase, 1);
         soundIds[3] = soundPool.load(context, R.raw.refresh, 1);
         soundIds[4] = soundPool.load(context, R.raw.translate, 1);
         soundIds[5] = soundPool.load(context, R.raw.combo, 1);
-        soundIds[6] = soundPool.load(context, R.raw.cheers, 1);
-        soundIds[7] = soundPool.load(context, R.raw.gameover, 1);
+        soundIds[6] = soundPool.load(context, R.raw.win, 1);
+        soundIds[7] = soundPool.load(context, R.raw.fail, 1);
     }
 
     /**

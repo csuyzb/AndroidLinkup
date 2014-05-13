@@ -30,6 +30,14 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
         initRank();
     }
 
+    @Override
+    protected void playMusic() {
+        if (musicMgr != null) {
+            musicMgr.setBgMusicRes(R.raw.bgmusic2);
+            musicMgr.play();
+        }
+    }
+
     /**
      * 初始化游戏等级
      */

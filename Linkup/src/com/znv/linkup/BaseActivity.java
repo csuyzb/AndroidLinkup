@@ -102,7 +102,13 @@ public class BaseActivity extends Activity {
         if (musicMgr == null) {
             musicMgr = new MusicManager(this);
         }
-        musicMgr.play();
+        playMusic();
+    }
+
+    protected void playMusic() {
+        if (musicMgr != null) {
+            musicMgr.play();
+        }
     }
 
     /**
@@ -194,7 +200,7 @@ public class BaseActivity extends Activity {
     @Override
     protected void onResume() {
         // 开启背景音乐
-        musicMgr.play();
+        playMusic();
         super.onResume();
     }
 

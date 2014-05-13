@@ -36,6 +36,14 @@ public class WelcomeActivity extends BaseActivity {
         initTitle();
     }
 
+    @Override
+    protected void playMusic() {
+        if (musicMgr != null) {
+            musicMgr.setBgMusicRes(R.raw.bgmusic1);
+            musicMgr.play();
+        }
+    }
+
     /**
      * 初始化背景音乐设置
      */

@@ -7,8 +7,7 @@ The most interesting linkup game for android.
 
 项目主页:http://csuyzb.github.io/AndroidLinkup
 
- 
-
+![image](https://github.com/csuyzb/AndroidLinkup/raw/master/welcome.png)
  
 v1.2.0 规划
 1.支持多种图标，表情，水果，宠物

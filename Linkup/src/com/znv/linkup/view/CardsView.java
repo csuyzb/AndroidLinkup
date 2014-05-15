@@ -38,10 +38,6 @@ public class CardsView extends RelativeLayout {
         super(context, attrs);
     }
 
-    public Game getGame() {
-        return game;
-    }
-
     public void setGame(Game game) {
         this.game = game;
 
@@ -50,7 +46,7 @@ public class CardsView extends RelativeLayout {
         loadImages(skinName);
 
         // 生成游戏卡片
-        syncCardsView();
+        createCards();
     }
 
     /**
@@ -102,16 +98,9 @@ public class CardsView extends RelativeLayout {
     }
 
     /**
-     * 同步界面卡片集合
-     */
-    public void syncCardsView() {
-        genGameCards();
-    }
-
-    /**
      * 生成游戏卡片
      */
-    private void genGameCards() {
+    public void createCards() {
         removeAllViews();
         gameCards = new GameCard[game.getPieces().length][game.getPieces()[0].length];
         GameCard card = null;
@@ -136,8 +125,7 @@ public class CardsView extends RelativeLayout {
 
     private final OnClickListener cardClickHandler = new OnClickListener() {
         public void onClick(View v) {
-            GameCard curCard = (GameCard) v;
-            game.click(curCard.getPiece());
+            game.click(((GameCard) v).getPiece());
         }
     };
 

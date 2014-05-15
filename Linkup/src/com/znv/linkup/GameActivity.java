@@ -116,11 +116,11 @@ public class GameActivity extends BaseActivity implements IGameAction {
         game = new Game(curLevelCfg, this);
         cardsView.setGame(game);
 
-        game.start();
-
         // 播放声音和动画
         showCenterToast(getString(R.string.game_ready_go));
         soundMgr.readyGo();
+
+        game.start();
     }
 
     /**
@@ -290,7 +290,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
      */
     @Override
     public void onRefresh() {
-        cardsView.syncCardsView();
+        cardsView.createCards();
 
         // 减少重排一次
         LevelCfg.globalCfg.setRefreshNum(LevelCfg.globalCfg.getRefreshNum() - 1);
@@ -322,7 +322,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
      */
     @Override
     public void onTranslate() {
-        cardsView.syncCardsView();
+        cardsView.createCards();
 
         soundMgr.translate();
     }

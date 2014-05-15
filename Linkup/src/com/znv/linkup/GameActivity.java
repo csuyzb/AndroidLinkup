@@ -7,9 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Display;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -20,24 +18,24 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.znv.linkup.core.Game;
-import com.znv.linkup.core.IGameOp;
+import com.znv.linkup.core.IGameAction;
 import com.znv.linkup.core.card.Piece;
 import com.znv.linkup.core.card.PiecePair;
 import com.znv.linkup.core.card.path.LinkInfo;
 import com.znv.linkup.core.config.LevelCfg;
-import com.znv.linkup.core.util.ImageUtil;
 import com.znv.linkup.db.DbScore;
 import com.znv.linkup.db.LevelScore;
 import com.znv.linkup.util.AnimatorUtil;
 import com.znv.linkup.util.ToastUtil;
-import com.znv.linkup.view.GameView;
+import com.znv.linkup.view.CardsView;
+import com.znv.linkup.view.PathView;
 import com.znv.linkup.view.dialog.GameResultDialogs;
 import com.znv.linkup.view.handler.GameMsgHandler;
 
 /**
  * 游戏主界面活动处理类
  */
-public class GameActivity extends BaseActivity implements IGameOp {
+public class GameActivity extends BaseActivity implements IGameAction {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +74,9 @@ public class GameActivity extends BaseActivity implements IGameOp {
             }
         });
 
-        gameView = (GameView) findViewById(R.id.gameView);
+        pathView = new PathView(this);
+        holder.flBackground.addView(pathView, -1, -1);
+        cardsView = (CardsView) findViewById(R.id.cardsView);
         resultDialog = new GameResultDialogs(this);
 
         // 工具条动画
@@ -112,24 +112,9 @@ public class GameActivity extends BaseActivity implements IGameOp {
         holder.tsScore.setText("0");
         holder.tvMaxScore.setText(getString(R.string.max_score) + String.valueOf(curLevelCfg.getMaxScore()));
         holder.flBackground.setBackgroundResource(ViewSettings.RankBgImageIds[curLevelCfg.getLevelBackground()]);
-        gameView.setSelectedImage(ImageUtil.scaleBitmap(holder.bmSelected, curLevelCfg.getPieceWidth(), curLevelCfg.getPieceHeight()));
-        gameView.setOnTouchListener(new OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    // 处理点击
-                    game.touch(event.getX(), event.getY());
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    gameView.postInvalidate();
-                }
-                return true;
-            }
-        });
 
         game = new Game(curLevelCfg, this);
-        gameView.setGameService(game);
+        cardsView.setGame(game);
 
         game.start();
 
@@ -216,7 +201,6 @@ public class GameActivity extends BaseActivity implements IGameOp {
     /**
      * 游戏提示
      */
-    @Override
     public void onPrompt(PiecePair pair) {
         if (pair == null) {
             // 没有可消除时给出提示
@@ -224,7 +208,8 @@ public class GameActivity extends BaseActivity implements IGameOp {
             toast.setGravity(Gravity.BOTTOM | Gravity.CENTER, 0, 200);
             toast.show();
         } else {
-            gameView.setPromptPieces(pair);
+            // cardsView.setPromptPieces(pair);
+            cardsView.prompt(pair);
             // 减少提示一次
             LevelCfg.globalCfg.setPromptNum(LevelCfg.globalCfg.getPromptNum() - 1);
             setGlobalCfg();
@@ -236,9 +221,10 @@ public class GameActivity extends BaseActivity implements IGameOp {
     /**
      * 取消游戏提示
      */
-    @Override
-    public void onUnPrompt() {
-        gameView.setPromptPieces(null);
+    public void onUnPrompt(PiecePair pair) {
+        if (pair != null) {
+            cardsView.unPrompt(pair);
+        }
     }
 
     /**
@@ -304,6 +290,8 @@ public class GameActivity extends BaseActivity implements IGameOp {
      */
     @Override
     public void onRefresh() {
+        cardsView.syncCardsView();
+
         // 减少重排一次
         LevelCfg.globalCfg.setRefreshNum(LevelCfg.globalCfg.getRefreshNum() - 1);
         setGlobalCfg();
@@ -313,18 +301,20 @@ public class GameActivity extends BaseActivity implements IGameOp {
     /**
      * 选中时的处理
      */
-    @Override
     public void onCheck(Piece piece) {
-        gameView.setSelectedPiece(piece);
-        soundMgr.select();
+        if (piece != null) {
+            cardsView.check(piece);
+            soundMgr.select();
+        }
     }
 
     /**
      * 取消选中时的处理
      */
-    @Override
-    public void onUnCheck() {
-        gameView.setSelectedPiece(null);
+    public void onUnCheck(Piece piece) {
+        if (piece != null) {
+            cardsView.unCheck(piece);
+        }
     }
 
     /**
@@ -332,6 +322,8 @@ public class GameActivity extends BaseActivity implements IGameOp {
      */
     @Override
     public void onTranslate() {
+        cardsView.syncCardsView();
+
         soundMgr.translate();
     }
 
@@ -340,7 +332,7 @@ public class GameActivity extends BaseActivity implements IGameOp {
      */
     @Override
     public void onLinkPath(LinkInfo linkInfo) {
-        gameView.setLinkInfo(linkInfo);
+        pathView.showLines(linkInfo.getLinkPieces());
 
         // 收集金币的动画
         Point startPoint = linkInfo.getLinkPieces().get(0).getCenter();
@@ -401,14 +393,6 @@ public class GameActivity extends BaseActivity implements IGameOp {
     @Override
     public void onGameResume() {
 
-    }
-
-    /**
-     * 刷新游戏界面
-     */
-    @Override
-    public void onRefreshView() {
-        gameView.postInvalidate();
     }
 
     /**
@@ -515,11 +499,12 @@ public class GameActivity extends BaseActivity implements IGameOp {
     }
 
     private Game game;
-    private GameView gameView;
+    private CardsView cardsView;
     private GameResultDialogs resultDialog;
     private LevelCfg curLevelCfg = null;
     private LevelHolder holder = new LevelHolder();
     private Handler handler = new GameMsgHandler(this);
+    private PathView pathView = null;
 
     /**
      * 界面信息缓存类

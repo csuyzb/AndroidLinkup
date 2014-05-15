@@ -10,7 +10,7 @@ import com.znv.linkup.core.status.IGameStatus;
  * @author yzb
  * 
  */
-public interface IGameOp extends IGameStatus {
+public interface IGameAction extends IGameStatus {
 
     /**
      * 选择卡片时的处理
@@ -22,8 +22,10 @@ public interface IGameOp extends IGameStatus {
 
     /**
      * 取消选择时的处理
+     * @param piece
+     *            取消选择的卡片信息
      */
-    void onUnCheck();
+    void onUnCheck(Piece piece);
 
     /**
      * 游戏卡片变换时的处理
@@ -36,9 +38,4 @@ public interface IGameOp extends IGameStatus {
      * @param linkInfo
      */
     void onLinkPath(LinkInfo linkInfo);
-
-    /**
-     * 界面刷新处理
-     */
-    void onRefreshView();
 }

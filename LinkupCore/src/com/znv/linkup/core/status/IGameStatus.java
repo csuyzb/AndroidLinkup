@@ -25,8 +25,10 @@ public interface IGameStatus {
 
     /**
      * 取消提示的处理
+     * @param pair
+     *            取消提示的卡片对
      */
-    void onUnPrompt();
+    void onUnPrompt(PiecePair pair);
 
     /**
      * 刷新时的处理

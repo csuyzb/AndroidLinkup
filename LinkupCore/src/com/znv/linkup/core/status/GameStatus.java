@@ -125,12 +125,14 @@ public class GameStatus {
 
     /**
      * 取消提示
+     * @param pair
+     *            取消提示的卡片对
      */
-    public void unPrompt() {
+    public void unPrompt(PiecePair pair) {
         if (gameState == GameState.Prompt) {
             gameState = GameState.Playing;
             if (listener != null) {
-                listener.onUnPrompt();
+                listener.onUnPrompt(pair);
             }
         }
     }

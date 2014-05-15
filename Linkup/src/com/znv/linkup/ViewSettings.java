@@ -66,6 +66,16 @@ public class ViewSettings {
     public static int RefreshMaxNum = 10;
     
     /**
+     * 选择框的宽度
+     */
+    public static int CheckLineWidth = 6;
+    
+    /**
+     * 消除路径的宽度
+     */
+    public static int PathWidth = 6;
+    
+    /**
      * 全局配置的 Shared Preference
      */
     public final static String GlobalCfgStr = "globalcfg_v120";

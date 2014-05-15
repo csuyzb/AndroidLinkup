@@ -15,7 +15,7 @@ import com.znv.linkup.core.status.GameStatus;
  */
 public class Game {
 
-    public Game(LevelCfg levelCfg, IGameOp listener) {
+    public Game(LevelCfg levelCfg, IGameAction listener) {
         this.levelCfg = levelCfg;
         this.listener = listener;
         gameStatus = new GameStatus(levelCfg, listener);
@@ -29,8 +29,6 @@ public class Game {
     public void start() {
         unCheck();
         gameStatus.start();
-
-        refreshView();
     }
 
     /**
@@ -41,12 +39,11 @@ public class Game {
     }
 
     /**
-     * 结束游戏，处理游戏结果
+     * 结束游戏，处理游戏结果（暂时未用）
      */
     public void stop() {
         finish();
 
-        refreshView();
         if (gameService.hasPieces()) {
             gameStatus.fail();
         } else {
@@ -59,7 +56,6 @@ public class Game {
      */
     public void pause() {
         gameStatus.pause();
-        refreshView();
     }
 
     /**
@@ -67,7 +63,6 @@ public class Game {
      */
     public void resume() {
         gameStatus.resume();
-        refreshView();
     }
 
     /**
@@ -78,9 +73,21 @@ public class Game {
      * @param y
      *            纵坐标
      */
-    public void touch(float x, float y) {
-        Piece[][] pieces = gameService.getPieces();
-        Piece curPiece = gameService.findPiece(x, y);
+    public void click(float x, float y) {
+        Piece piece = gameService.findPiece(x, y);
+
+        // 点击相应卡片
+        click(piece);
+    }
+
+    /**
+     * 点击卡片时的处理
+     * 
+     * @param piece
+     *            点击的卡片
+     */
+    public void click(Piece piece) {
+        Piece curPiece = piece;
         if (curPiece == null) {
             return;
         }
@@ -98,13 +105,12 @@ public class Game {
         } else {
             LinkInfo linkInfo = gameService.link(selected, curPiece);
             if (linkInfo == null) {
+                unCheck();
                 check(curPiece);
             } else {
-                handleSuccess(linkInfo, selected, curPiece, pieces);
+                handleSuccess(linkInfo, selected, curPiece);
             }
         }
-
-        // refreshView();
     }
 
     /**
@@ -116,11 +122,10 @@ public class Game {
      *            前一个卡片信息
      * @param curPiece
      *            当前卡片信息
-     * @param pieces
-     *            所有卡片信息
      */
-    private void handleSuccess(LinkInfo linkInfo, Piece prePiece, Piece curPiece, Piece[][] pieces) {
+    private void handleSuccess(LinkInfo linkInfo, Piece prePiece, Piece curPiece) {
         unCheck();
+        Piece[][] pieces = gameService.getPieces();
         pieces[prePiece.getIndexY()][prePiece.getIndexX()].setEmpty(true);
         pieces[curPiece.getIndexY()][curPiece.getIndexX()].setEmpty(true);
         onLinkPath(linkInfo);
@@ -132,7 +137,6 @@ public class Game {
             }
         }
 
-        refreshView();
         if (!gameService.hasPieces()) {
             gameStatus.win();
         }
@@ -149,18 +153,16 @@ public class Game {
         if (listener != null) {
             listener.onCheck(piece);
         }
-        refreshView();
     }
 
     /**
      * 取消卡片选择
      */
     public void unCheck() {
-        selected = null;
         if (listener != null) {
-            listener.onUnCheck();
+            listener.onUnCheck(selected);
         }
-        refreshView();
+        selected = null;
     }
 
     /**
@@ -182,7 +184,6 @@ public class Game {
     public void prompt() {
         pair = promptPair();
         gameStatus.prompt(pair);
-        refreshView();
     }
 
     /**
@@ -211,10 +212,9 @@ public class Game {
      */
     public void unPrompt() {
         if (pair != null) {
-            gameStatus.unPrompt();
+            gameStatus.unPrompt(pair);
             pair = null;
         }
-        refreshView();
     }
 
     /**
@@ -231,16 +231,6 @@ public class Game {
             }
         }
         gameStatus.refresh();
-        refreshView();
-    }
-
-    /**
-     * 刷新游戏界面
-     */
-    public void refreshView() {
-        if (listener != null) {
-            listener.onRefreshView();
-        }
     }
 
     /**
@@ -331,7 +321,7 @@ public class Game {
 
     private LevelCfg levelCfg;
     private GameStatus gameStatus;
-    private IGameOp listener;
+    private IGameAction listener;
     private Piece selected = null;
     private GameService gameService;
     private AlignContext alignContext = null;

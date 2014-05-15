@@ -5,18 +5,19 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Path;
+import android.graphics.PathEffect;
 import android.graphics.Point;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
 
 import com.znv.linkup.R;
 import com.znv.linkup.ViewSettings;
 import com.znv.linkup.core.card.Piece;
+import com.znv.linkup.view.animation.HideAnimation;
 
 /**
  * 消除路径
@@ -32,8 +33,11 @@ public class PathView extends View {
         paint.setStyle(Style.STROKE);
         paint.setStrokeWidth(ViewSettings.PathWidth);
         paint.setColor(getResources().getColor(R.color.path_color));
+        PathEffect effect = new DashPathEffect(new float[] { ViewSettings.PathWidth, ViewSettings.PathWidth }, 0);
+        paint.setPathEffect(effect);
 
         alphaAnim.setDuration(500);
+        HideAnimation hideAnim = new HideAnimation(this);
         alphaAnim.setAnimationListener(hideAnim);
 
         setVisibility(View.GONE);
@@ -82,17 +86,4 @@ public class PathView extends View {
     private final Paint paint = new Paint();
     private final Path path = new Path();
     private final AlphaAnimation alphaAnim = new AlphaAnimation(1, 0);
-
-    private AnimationListener hideAnim = new AnimationListener() {
-
-        public void onAnimationStart(Animation animation) {
-        }
-
-        public void onAnimationEnd(Animation animation) {
-            setVisibility(View.GONE);
-        }
-
-        public void onAnimationRepeat(Animation animation) {
-        }
-    };
 }

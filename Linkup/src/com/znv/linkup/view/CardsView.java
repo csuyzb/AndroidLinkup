@@ -116,7 +116,7 @@ public class CardsView extends RelativeLayout {
                     addView(card, p.getWidth(), p.getHeight());
 
                     // 触发单个卡片的动画
-                    card.setPiece(p, isAnim, game.getPieces().length);
+                    card.setPiece(p, isAnim);
                     card.setOnClickListener(cardClickHandler);
 
                     gameCards[i][j] = card;

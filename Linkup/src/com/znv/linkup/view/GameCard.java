@@ -1,11 +1,16 @@
 package com.znv.linkup.view;
 
+import java.util.Random;
+
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.RectF;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -42,9 +47,9 @@ public class GameCard extends FrameLayout {
     }
 
     /**
-     * 获取卡片内部piece信息
+     * 获取与界面卡片关联的piece
      * 
-     * @return piece信息
+     * @return 与界面卡片关联的piece
      */
     public Piece getPiece() {
         return piece;
@@ -55,13 +60,25 @@ public class GameCard extends FrameLayout {
      * 
      * @param piece
      *            piece信息
+     * @param isAnim
+     *            是否应用动画
      */
-    public void setPiece(Piece piece) {
+    public void setPiece(Piece piece, boolean isAnim, int maxIndexY) {
         this.piece = piece;
         imageView.setImageBitmap(piece.getImage());
 
-        // 设置卡片的left和top
-        setXY(piece.getBeginX(), piece.getBeginY());
+        if (isAnim) {
+            setXY(piece.getBeginX(), -piece.getHeight());
+            // 从上面落下
+            Animator anim = ObjectAnimator.ofFloat(this, "translationY", 0, piece.getBeginY() + piece.getHeight());
+            anim.setInterpolator(new AccelerateInterpolator());
+            anim.setDuration(1000 - piece.getIndexY() * 30);
+            anim.setStartDelay((maxIndexY - piece.getIndexY()) * 60 + ran.nextInt(30));
+            anim.start();
+        } else {
+            // 设置卡片的left和top
+            setXY(piece.getBeginX(), piece.getBeginY());
+        }
 
         int lineWidth = ViewSettings.CheckLineWidth;
         rect = new RectF(lineWidth / 2, lineWidth / 2, piece.getWidth() - lineWidth, piece.getHeight() - lineWidth);
@@ -142,6 +159,7 @@ public class GameCard extends FrameLayout {
     private View checkedRect = null;
     private View promptRect = null;
     private RectF rect = null;
+    private Random ran = new Random(System.currentTimeMillis());
     private CardPromptAnim cardNoteAnim = new CardPromptAnim();
 
     // private static int[] colors = new int[] { Color.RED, Color.YELLOW };

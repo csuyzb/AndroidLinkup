@@ -46,7 +46,7 @@ public class CardsView extends RelativeLayout {
         loadImages(skinName);
 
         // 生成游戏卡片
-        createCards();
+        createCards(true);
     }
 
     /**
@@ -99,8 +99,11 @@ public class CardsView extends RelativeLayout {
 
     /**
      * 生成游戏卡片
+     * 
+     * @param isAnim
+     *            是否应用动画
      */
-    public void createCards() {
+    public void createCards(boolean isAnim) {
         removeAllViews();
         gameCards = new GameCard[game.getPieces().length][game.getPieces()[0].length];
         GameCard card = null;
@@ -112,7 +115,8 @@ public class CardsView extends RelativeLayout {
                     // 需要先addView，再设置Piece
                     addView(card, p.getWidth(), p.getHeight());
 
-                    card.setPiece(p);
+                    // 触发单个卡片的动画
+                    card.setPiece(p, isAnim, game.getPieces().length);
                     card.setOnClickListener(cardClickHandler);
 
                     gameCards[i][j] = card;

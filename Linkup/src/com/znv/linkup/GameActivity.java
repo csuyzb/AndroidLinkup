@@ -290,7 +290,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
      */
     @Override
     public void onRefresh() {
-        cardsView.createCards();
+        cardsView.createCards(false);
 
         // 减少重排一次
         LevelCfg.globalCfg.setRefreshNum(LevelCfg.globalCfg.getRefreshNum() - 1);
@@ -322,7 +322,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
      */
     @Override
     public void onTranslate() {
-        cardsView.createCards();
+        cardsView.createCards(false);
 
         soundMgr.translate();
     }
@@ -338,9 +338,9 @@ public class GameActivity extends BaseActivity implements IGameAction {
         Point startPoint = linkInfo.getLinkPieces().get(0).getCenter();
         Point endPoint = new Point((int) (holder.tsScore.getLeft() + holder.tsScore.getWidth() * 0.5),
                 (int) (holder.tsScore.getTop() + holder.tsScore.getHeight() * 0.5));
-        animTranslate(holder.startCoin, startPoint, endPoint, AnimatorUtil.defaultDuration);
+        animTranslate(holder.startCoin, startPoint, endPoint, 500);
         startPoint = linkInfo.getLinkPieces().get(linkInfo.getLinkPieces().size() - 1).getCenter();
-        animTranslate(holder.endCoin, startPoint, endPoint, AnimatorUtil.defaultDuration);
+        animTranslate(holder.endCoin, startPoint, endPoint, 500);
 
         soundMgr.erase();
     }

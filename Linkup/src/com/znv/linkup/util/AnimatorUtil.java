@@ -12,7 +12,7 @@ import android.view.View;
  */
 public class AnimatorUtil {
 
-    public static int defaultDuration = 500;
+    private static int defaultDuration = 500;
 
     /**
      * 设置view的透明度

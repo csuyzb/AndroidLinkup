@@ -1,6 +1,7 @@
 package com.znv.linkup.core.card.align;
 
 import com.znv.linkup.core.card.Piece;
+import com.znv.linkup.core.card.PiecePair;
 
 /**
  * 向下聚集
@@ -19,16 +20,18 @@ class AlignDown extends AlignBase {
      * 向下聚集的变换
      */
     public void Translate(Piece p1, Piece p2) {
+        PiecePair pair = new PiecePair(p1,p2);
+        pair.sort();
 
-        TranslatePiece(p1.getIndexX());
+        // 先变换p1，再变换p2
+        TranslatePiece(p1);
 
-        if (p2.getIndexX() != p1.getIndexX()) {
-            TranslatePiece(p2.getIndexX());
-        }
+        TranslatePiece(p2);
     }
 
-    private void TranslatePiece(int indexX) {
-        int curIndexY = pieces.length - 2;
+    private void TranslatePiece(Piece p) {
+        int indexX = p.getIndexX();
+        int curIndexY = p.getIndexY();
         int nextIndexY = curIndexY - 1;
         while (curIndexY > 0) {
             Piece curPiece = pieces[curIndexY][indexX];
@@ -37,11 +40,20 @@ class AlignDown extends AlignBase {
                 while (nextIndexY > 0) {
                     Piece nextPiece = pieces[nextIndexY][indexX];
                     if (Piece.hasImage(nextPiece)) {
-                        ExchangePiece(curPiece, nextPiece);
-                        nextIndexY--;
-                        break;
+                        // 游戏卡片则交换
+                        if(Piece.canSelect(nextPiece)) {
+                            ExchangePiece(curPiece, nextPiece);
+                            nextIndexY--;
+                            break;
+                        }
+                        else {
+                            // 障碍卡片则停止交换
+                            nextIndexY = 0;
+                        }
                     }
-                    nextIndexY--;
+                    else {
+                        nextIndexY--;
+                    }
                 }
                 if (nextIndexY == 0) {
                     break;

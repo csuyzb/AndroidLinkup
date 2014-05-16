@@ -82,6 +82,8 @@ public class GameMap extends BaseMap {
         GameMap map = new RandomMap(mt);
         Byte[][] data = map.Data;
         Piece[][] pieces = new Piece[data.length][data[0].length];
+        Piece.YSize = data.length;
+        Piece.XSize = data[0].length;
         for (int i = 0; i < data.length; i++) {
             for (int j = 0; j < data[i].length; j++) {
                 Piece piece = new Piece(i, j);

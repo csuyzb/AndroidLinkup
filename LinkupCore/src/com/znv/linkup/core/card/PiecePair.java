@@ -12,6 +12,22 @@ public class PiecePair {
         pieceTwo = p2;
     }
 
+    /**
+     * 将卡片对排序，序号小的为pieceOne
+     */
+    public void sort() {
+        if (pieceOne == null || pieceTwo == null) {
+            return;
+        }
+
+        if (pieceOne.getIndex() > pieceTwo.getIndex()) {
+            // 交换卡片对的位置
+            Piece p = pieceOne;
+            pieceOne = pieceTwo;
+            pieceTwo = p;
+        }
+    }
+
     public Piece getPieceOne() {
         return pieceOne;
     }

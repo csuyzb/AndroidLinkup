@@ -21,6 +21,9 @@ public class Piece {
     private int width = 40;
     private int height = 40;
     private boolean isEmpty = false;
+    
+    public static int XSize = 0;
+    public static int YSize = 0;
 
     public Piece(int indexY, int indexX) {
         this.indexY = indexY;
@@ -48,6 +51,14 @@ public class Piece {
      */
     public Point getCenter() {
         return new Point(beginX + width / 2, beginY + height / 2);
+    }
+    
+    /**
+     * 获取卡片索引
+     * @return  卡片索引
+     */
+    public int getIndex() {
+        return getIndexY() * XSize + getIndexX();
     }
 
     /**

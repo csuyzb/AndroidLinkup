@@ -1,6 +1,7 @@
 package com.znv.linkup.core.card.align;
 
 import com.znv.linkup.core.card.Piece;
+import com.znv.linkup.core.card.PiecePair;
 
 /**
  * 向左聚集
@@ -19,15 +20,18 @@ class AlignLeft extends AlignBase {
      * 向左聚集的变换
      */
     public void Translate(Piece p1, Piece p2) {
-        TranslatePiece(p1.getIndexY());
+        PiecePair pair = new PiecePair(p1, p2);
+        pair.sort();
 
-        if (p2.getIndexY() != p1.getIndexY()) {
-            TranslatePiece(p2.getIndexY());
-        }
+        // 先变换p2，再变换p1
+        TranslatePiece(p2);
+
+        TranslatePiece(p1);
     }
 
-    private void TranslatePiece(int indexY) {
-        int curIndexX = 1;
+    private void TranslatePiece(Piece p) {
+        int indexY = p.getIndexY();
+        int curIndexX = p.getIndexX();
         int nextIndexX = curIndexX + 1;
         while (curIndexX < pieces[indexY].length - 1) {
             Piece curPiece = pieces[indexY][curIndexX];
@@ -36,11 +40,18 @@ class AlignLeft extends AlignBase {
                 while (nextIndexX < pieces[indexY].length - 1) {
                     Piece nextPiece = pieces[indexY][nextIndexX];
                     if (Piece.hasImage(nextPiece)) {
-                        ExchangePiece(curPiece, nextPiece);
+                        if (Piece.canSelect(nextPiece)) {
+                            // 游戏卡片则交换
+                            ExchangePiece(curPiece, nextPiece);
+                            nextIndexX++;
+                            break;
+                        } else {
+                            // 遇到障碍则停止
+                            nextIndexX = pieces[indexY].length - 1;
+                        }
+                    } else {
                         nextIndexX++;
-                        break;
                     }
-                    nextIndexX++;
                 }
                 if (nextIndexX == pieces[indexY].length - 1) {
                     break;

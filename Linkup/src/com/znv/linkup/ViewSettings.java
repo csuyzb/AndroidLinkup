@@ -39,11 +39,11 @@ public class ViewSettings {
      * 游戏重排消息
      */
     public final static int RefreshMessage = 0x6;
-    
+
     /**
      * 每种皮肤的图片数量
      */
-    public final static int SkinImageCount = 16;
+    public static int SkinImageCount = 16;
 
     /**
      * 增加提示的连击数
@@ -64,41 +64,46 @@ public class ViewSettings {
      * 最大的重排数
      */
     public static int RefreshMaxNum = 10;
-    
+
     /**
      * 选择框的宽度
      */
     public static int CheckLineWidth = 6;
-    
+
     /**
      * 消除路径的宽度
      */
     public static int PathWidth = 6;
-    
+
+    /**
+     * 数据缓存版本字符串
+     */
+    public static String CacheVersion = "120_1";
+
     /**
      * 全局配置的 Shared Preference
      */
-    public final static String GlobalCfgStr = "globalcfg_v120";
+    public static String GlobalCfgStr = "globalcfg_" + CacheVersion;
 
     /**
      * 本地数据库文件名
      */
-    public static final String DbFileName = "data120.db";
+    public static String DbFileName = "data" + CacheVersion + ".db";
 
     /**
      * 本地数据库的版本
      */
-    public static final int DbVersion = 1;
+    public static int DbVersion = 1;
 
     /**
      * 初始激活的关卡数
      */
-    public final static int DefaultActiveNum = 45;
+    public static int DefaultActiveNum = 3;
 
     /**
      * 两次back退出间的间隔
      */
-    public final static int TwoBackExitInterval = 2000;
+    public static int TwoBackExitInterval = 2000;
 
     /**
      * Rank的标题背景颜色

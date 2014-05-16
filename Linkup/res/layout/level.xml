@@ -22,7 +22,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:isIndicator="true"
-        android:numStars="5"
+        android:numStars="3"
         android:paddingTop="2dp"
         android:rating="0" />
 

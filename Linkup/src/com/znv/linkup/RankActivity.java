@@ -32,10 +32,15 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
 
     @Override
     protected void playMusic() {
-        if (musicMgr != null) {
-            musicMgr.setBgMusicRes(R.raw.bgmusic2);
-            musicMgr.play();
-        }
+        // if (musicMgr != null) {
+        // musicMgr.setBgMusicRes(R.raw.bgmusic2);
+        // musicMgr.play();
+        // }
+    }
+
+    @Override
+    protected void stopMusic() {
+
     }
 
     /**

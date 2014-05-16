@@ -105,9 +105,21 @@ public class BaseActivity extends Activity {
         playMusic();
     }
 
+    /**
+     * 播放背景音乐
+     */
     protected void playMusic() {
         if (musicMgr != null) {
             musicMgr.play();
+        }
+    }
+    
+    /**
+     * 停止播放背景音乐
+     */
+    protected void stopMusic() {
+        if (musicMgr != null) {
+            musicMgr.stop();
         }
     }
 
@@ -193,7 +205,7 @@ public class BaseActivity extends Activity {
     @Override
     protected void onPause() {
         // 停止背景音乐
-        musicMgr.stop();
+        stopMusic();
         super.onPause();
     }
 

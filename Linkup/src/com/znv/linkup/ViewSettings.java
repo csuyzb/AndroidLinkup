@@ -78,7 +78,7 @@ public class ViewSettings {
     /**
      * 数据缓存版本字符串
      */
-    public static String CacheVersion = "120_1";
+    public static String CacheVersion = "120_2";
 
     /**
      * 全局配置的 Shared Preference
@@ -98,7 +98,7 @@ public class ViewSettings {
     /**
      * 初始激活的关卡数
      */
-    public static int DefaultActiveNum = 3;
+    public static int DefaultActiveNum = 72;
 
     /**
      * 两次back退出间的间隔

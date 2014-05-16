@@ -51,12 +51,12 @@ public class LevelCfg implements Serializable {
      */
     public void initStarScores() {
         if (starScores == null) {
-            starScores = new int[4];
+            starScores = new int[3];
             int cardCount = (xSize - 2) * (ySize - 2) - emptyNum - obstacleNum;
-            starScores[0] = cardCount * GameSettings.CardScore + levelTime * GameSettings.TimeScore / 2;
-            starScores[2] = starScores[0] + GameSettings.CornerScore * cardCount / 2;
-            starScores[1] = (starScores[0] + starScores[2]) / 2;
-            starScores[3] = starScores[2] + levelTime * GameSettings.TimeScore / 2;
+            int min = cardCount * GameSettings.CardScore + levelTime * GameSettings.TimeScore / 2;
+            starScores[1] = min + GameSettings.CornerScore * cardCount / 2;
+            starScores[0] = (min + starScores[1]) / 2;
+            starScores[2] = starScores[1] + levelTime * GameSettings.TimeScore / 2;
         }
     }
 
@@ -71,17 +71,13 @@ public class LevelCfg implements Serializable {
         initStarScores();
 
         if (score < starScores[0])
-            return 1;
-        else if (score < starScores[1])
-            return 2;
-        else if (score < starScores[2])
-            return 3;
-        else if (score < starScores[3])
-            return 4;
-        else if (score >= starScores[3])
-            return 5;
-        else
             return 0;
+        else if (score < starScores[1])
+            return 1;
+        else if (score < starScores[2])
+            return 2;
+        else
+            return 3;
     }
 
     public int getLevelId() {
@@ -109,14 +105,14 @@ public class LevelCfg implements Serializable {
     }
 
     public String getGameSkin() {
-		return gameSkin;
-	}
+        return gameSkin;
+    }
 
-	public void setGameSkin(String gameSkin) {
-		this.gameSkin = gameSkin;
-	}
+    public void setGameSkin(String gameSkin) {
+        this.gameSkin = gameSkin;
+    }
 
-	public int getXSize() {
+    public int getXSize() {
         return xSize;
     }
 

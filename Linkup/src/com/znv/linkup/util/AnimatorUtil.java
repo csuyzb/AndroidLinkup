@@ -79,6 +79,16 @@ public class AnimatorUtil {
     }
 
     /**
+     * 取消缩放
+     * 
+     * @param view
+     *            执行动画的view
+     */
+    public static void animUnScale(View view) {
+        animUnScale(view, defaultDuration);
+    }
+
+    /**
      * 缩放动画
      * 
      * @param view
@@ -93,6 +103,19 @@ public class AnimatorUtil {
     public static void animScale(View view, float toX, float toY, int duration) {
         ObjectAnimator.ofFloat(view, "scaleX", 1, toX).setDuration(duration).start();
         ObjectAnimator.ofFloat(view, "scaleY", 1, toY).setDuration(duration).start();
+    }
+
+    /**
+     * 取消缩放
+     * 
+     * @param view
+     *            执行动画的view
+     * @param duration
+     *            动画时长
+     */
+    public static void animUnScale(View view, int duration) {
+        ObjectAnimator.ofFloat(view, "scaleX", view.getScaleX(), 1).setDuration(duration).start();
+        ObjectAnimator.ofFloat(view, "scaleY", view.getScaleY(), 1).setDuration(duration).start();
     }
 
     /**

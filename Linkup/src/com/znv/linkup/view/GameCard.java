@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import com.znv.linkup.R;
 import com.znv.linkup.ViewSettings;
 import com.znv.linkup.core.card.Piece;
+import com.znv.linkup.util.AnimatorUtil;
 import com.znv.linkup.view.animation.CardPromptAnim;
 
 /**
@@ -91,9 +92,11 @@ public class GameCard extends FrameLayout {
     public void setChecked(boolean checked) {
         if (checked) {
             checkedRect.setVisibility(View.VISIBLE);
-            stopNoteAnim();
+            unPrompt();
+            AnimatorUtil.animScale(this, 1.2f, 1.2f);
         } else {
             checkedRect.setVisibility(View.INVISIBLE);
+            AnimatorUtil.animUnScale(this);
         }
     }
 
@@ -101,28 +104,14 @@ public class GameCard extends FrameLayout {
      * 提示，执行卡片提示动画
      */
     public void prompt() {
-        startNoteAnim();
+        promptRect.setVisibility(View.VISIBLE);
+        promptRect.startAnimation(cardNoteAnim);
     }
 
     /**
      * 取消提示
      */
     public void unPrompt() {
-        stopNoteAnim();
-    }
-
-    /**
-     * 开始提示动画
-     */
-    private void startNoteAnim() {
-        promptRect.setVisibility(View.VISIBLE);
-        promptRect.startAnimation(cardNoteAnim);
-    }
-
-    /**
-     * 停止提示动画
-     */
-    private void stopNoteAnim() {
         if (promptRect.getVisibility() != View.VISIBLE) {
             promptRect.setAnimation(null);
             promptRect.setVisibility(View.INVISIBLE);

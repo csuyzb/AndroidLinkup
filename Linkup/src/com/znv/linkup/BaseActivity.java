@@ -113,7 +113,7 @@ public class BaseActivity extends Activity {
             musicMgr.play();
         }
     }
-    
+
     /**
      * 停止播放背景音乐
      */

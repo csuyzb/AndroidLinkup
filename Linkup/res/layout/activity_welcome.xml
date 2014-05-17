@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:onClick="startHelp"
         android:src="@drawable/logo"
         tools:ignore="contentDescription" />
 
@@ -58,6 +57,28 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:gravity="center"
+            tools:ignore="contentDescription" />
+
+        <ImageView
+            android:id="@+id/ads"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:onClick="startAds"
+            android:src="@drawable/music"
+            tools:ignore="contentDescription" />
+
+        <ImageView
+            android:id="@+id/about"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:onClick="startHelp"
+            android:src="@drawable/sound"
             tools:ignore="contentDescription" />
     </LinearLayout>
 

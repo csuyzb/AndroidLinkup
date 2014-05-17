@@ -106,6 +106,21 @@ public class ViewSettings {
     public static int TwoBackExitInterval = 2000;
 
     /**
+     * 豌豆荚广告位ID
+     */
+    public static String ADS_ID = "6a7a78bf496696865c0815dabc1c4606";
+
+    /**
+     * 豌豆荚广告Appkey ID
+     */
+    public static String ADS_APP_ID = "100004467";
+
+    /**
+     * 豌豆荚广告Secret Key
+     */
+    public static String ADS_SECRET_KEY = "0efaaffde0edf35c5352985dcc15c20c";
+
+    /**
      * Rank的标题背景颜色
      */
     public static int[] RankTitleBgColor = new int[] { R.color.rank_title_color_1, R.color.rank_title_color_2, R.color.rank_title_color_3 };

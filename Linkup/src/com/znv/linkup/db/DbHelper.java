@@ -38,7 +38,7 @@ class DbHelper extends SQLiteOpenHelper {
             for (int l = 0; l < rankCfgs.get(r).getLevelInfos().size(); l++) {
                 sql = "insert into scores(level, rank, maxscore, isactive, star) values(?,?,?,?,?)";
                 // 控制默认激活的关卡数
-                if (index < ViewSettings.DefaultActiveNum) {
+                if (isActive(index)) {
                     db.execSQL(sql, new Object[] { index++, r, 0, 1, 0 });
                 } else {
                     db.execSQL(sql, new Object[] { index++, r, 0, 0, 0 });
@@ -47,6 +47,26 @@ class DbHelper extends SQLiteOpenHelper {
         }
         db.setTransactionSuccessful();
         db.endTransaction();
+    }
+
+    /**
+     * 判断是否默认激活
+     * 
+     * @param index
+     *            要判断的关卡id
+     * @return 激活true
+     */
+    private boolean isActive(int index) {
+        for (int i : ViewSettings.DefaultActiveLevels) {
+            if (i < index) {
+                continue;
+            } else if (i == index) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
     }
 
     @Override

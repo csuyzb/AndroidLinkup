@@ -54,6 +54,8 @@ public class BaseActivity extends Activity {
 
         initSound();
 
+        // ShareSDK.initSDK(this);
+
         // 单独开线程加载配置
         new Thread(new Runnable() {
 
@@ -214,6 +216,12 @@ public class BaseActivity extends Activity {
         // 开启背景音乐
         playMusic();
         super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        // ShareSDK.stopSDK(this);
+        super.onDestroy();
     }
 
 }

@@ -20,6 +20,9 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
     <application
         android:name="com.baidu.frontia.FrontiaApplication"
@@ -69,7 +72,7 @@
             </intent-filter>
         </service>
 
-        <!-- push应用定义消息receiver声明 -->
+        <!-- For Baidu push -->
         <receiver android:name="com.znv.linkup.push.LinkupPushReceiver" >
             <intent-filter>
                 <action android:name="com.baidu.android.pushservice.action.MESSAGE" />
@@ -109,6 +112,8 @@
         <meta-data
             android:name="api_key"
             android:value="YfBUoGO0hYg5t7ayNrzXmGSi" />
+        <!-- Baidu push End -->
+
 
         <!-- For AdsSdk. -->
         <activity
@@ -126,6 +131,22 @@
 
         <service android:name="com.wandoujia.ads.sdk.DownloadService" />
         <!-- AdsSdk End. -->
+
+
+        <!-- For ShareSdk -->
+        <activity
+            android:name="cn.sharesdk.framework.ShareSDKUIShell"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- ShareSdk End -->
     </application>
 
 </manifest>

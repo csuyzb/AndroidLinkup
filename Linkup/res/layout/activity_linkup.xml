@@ -9,7 +9,7 @@
     <com.znv.linkup.view.CardsView
         android:id="@+id/cardsView"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"/>
+        android:layout_height="fill_parent" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -28,16 +28,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
-
-            <!-- <ImageView -->
-            <!-- android:id="@+id/logo" -->
-            <!-- android:layout_width="32dp" -->
-            <!-- android:layout_height="32dp" -->
-            <!-- android:layout_gravity="center" -->
-            <!-- android:layout_marginRight="10dp" -->
-            <!-- android:gravity="center" -->
-            <!-- android:src="@drawable/ic_launcher" -->
-            <!-- tools:ignore="ContentDescription" /> -->
 
             <TextView
                 android:id="@+id/tvLevel"
@@ -68,14 +58,6 @@
                 android:text=""
                 android:textColor="#FF0099FF"
                 android:textSize="18sp" />
-
-            <!-- <ImageView -->
-            <!-- android:layout_width="24dp" -->
-            <!-- android:layout_height="24dp" -->
-            <!-- android:layout_gravity="center" -->
-            <!-- android:background="@drawable/champion" -->
-            <!-- tools:ignore="ContentDescription" > -->
-            <!-- </ImageView> -->
         </LinearLayout>
     </LinearLayout>
 
@@ -141,6 +123,17 @@
         android:gravity="center"
         android:textColor="#FFFF3399"
         android:textSize="30sp" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/otherText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0"
+        android:background="#00000000"
+        android:gravity="center"
+        android:textColor="#FFFF3399"
+        android:textSize="20sp" >
     </TextView>
 
 </FrameLayout>

@@ -21,8 +21,8 @@
     <string name="game_level_success_cancel">结束</string>
     <string name="game_level_success_ok">继续</string>
     <string name="game_level_success_ask">\n\n进入下一关？</string>
-    <string name="game_prompt_add">, 提示 +１</string>
-    <string name="game_refresh_add">, 重排 +１</string>
+    <string name="game_prompt_add">提示 +１</string>
+    <string name="game_refresh_add">重排 +１</string>
     <string name="game_ready_go">GO!</string>
     <string name="game_prompt_none">已经不能消除了，请重排或按返回退出!</string>
     <string name="download_count">%1$s人安装</string>

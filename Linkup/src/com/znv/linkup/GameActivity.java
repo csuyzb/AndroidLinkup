@@ -1,7 +1,5 @@
 package com.znv.linkup;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
@@ -53,15 +51,16 @@ public class GameActivity extends BaseActivity implements IGameAction {
         holder.pbTime = (ProgressBar) findViewById(R.id.pbTime);
         holder.tsScore = (TextSwitcher) findViewById(R.id.scoreText);
         holder.flBackground = (FrameLayout) findViewById(R.id.rootFrame);
-        holder.bmSelected = BitmapFactory.decodeResource(getResources(), R.drawable.selected);
         holder.startCoin = (ImageView) findViewById(R.id.startCoin);
         holder.endCoin = (ImageView) findViewById(R.id.endCoin);
         holder.tvComb = (TextView) findViewById(R.id.comboText);
+        holder.tvOther = (TextView) findViewById(R.id.otherText);
         holder.screenWidth = size.x;
         holder.screenHeight = size.y;
         holder.screenCenter = new Point((int) (size.x * 0.5), (int) (size.y * 0.5));
-        holder.tvPrompt = (Button) findViewById(R.id.prompt);
-        holder.tvRefresh = (Button) findViewById(R.id.refresh);
+        holder.tools = findViewById(R.id.tools);
+        holder.btnPrompt = (Button) findViewById(R.id.prompt);
+        holder.btnRefresh = (Button) findViewById(R.id.refresh);
         holder.tsScore.setFactory(new ViewSwitcher.ViewFactory() {
 
             @Override
@@ -78,10 +77,6 @@ public class GameActivity extends BaseActivity implements IGameAction {
         holder.flBackground.addView(pathView, -1, -1);
         cardsView = (CardsView) findViewById(R.id.cardsView);
         resultDialog = new GameResultDialogs(this);
-
-        // 工具条动画
-        View tools = findViewById(R.id.tools);
-        AnimatorUtil.animTranslate(tools, tools.getX(), tools.getX(), tools.getY() + 100, tools.getY());
 
         start();
     }
@@ -105,13 +100,15 @@ public class GameActivity extends BaseActivity implements IGameAction {
         // 根据屏幕动态调整卡片大小及位置
         adjustLevelCfg(curLevelCfg);
 
-        holder.tvPrompt.setText(String.valueOf(LevelCfg.globalCfg.getPromptNum()));
-        holder.tvRefresh.setText(String.valueOf(LevelCfg.globalCfg.getRefreshNum()));
+        holder.btnPrompt.setText(String.valueOf(LevelCfg.globalCfg.getPromptNum()));
+        holder.btnRefresh.setText(String.valueOf(LevelCfg.globalCfg.getRefreshNum()));
         holder.tvLevel.setText(curLevelCfg.getRankName() + "-" + curLevelCfg.getLevelName());
         holder.pbTime.setMax(curLevelCfg.getLevelTime());
         holder.tsScore.setText("0");
         holder.tvMaxScore.setText(getString(R.string.max_score) + String.valueOf(curLevelCfg.getMaxScore()));
         holder.flBackground.setBackgroundResource(ViewSettings.RankBgImageIds[curLevelCfg.getLevelBackground()]);
+        // 工具条动画
+        AnimatorUtil.animTranslate(holder.tools, holder.tools.getX(), holder.tools.getX(), holder.tools.getY() + 100, holder.tools.getY());
 
         game = new Game(curLevelCfg, this);
         cardsView.setGame(game);
@@ -233,13 +230,16 @@ public class GameActivity extends BaseActivity implements IGameAction {
     public void onCombo() {
         String msgFmt = "%s" + getResources().getString(R.string.game_combo_info) + ", +%s";
         String msg = String.format(msgFmt, game.getGameCombo(), game.getComboScore());
+        showCenterToast(msg);
+
         if (game.getGameCombo() == ViewSettings.ComboAddPrompt) {
             if (LevelCfg.globalCfg.getPromptNum() < ViewSettings.PromptMaxNum) {
                 // promt 增加一次
                 LevelCfg.globalCfg.setPromptNum(LevelCfg.globalCfg.getPromptNum() + 1);
                 setGlobalCfg();
                 handler.sendEmptyMessage(ViewSettings.PromptMessage);
-                msg += getString(R.string.game_prompt_add);
+
+                showToolsAdd(holder.btnPrompt, getString(R.string.game_prompt_add));
             }
         } else if (game.getGameCombo() == ViewSettings.ComboAddRefresh) {
             if (LevelCfg.globalCfg.getRefreshNum() < ViewSettings.RefreshMaxNum) {
@@ -247,10 +247,10 @@ public class GameActivity extends BaseActivity implements IGameAction {
                 LevelCfg.globalCfg.setRefreshNum(LevelCfg.globalCfg.getRefreshNum() + 1);
                 setGlobalCfg();
                 handler.sendEmptyMessage(ViewSettings.RefreshMessage);
-                msg += getString(R.string.game_refresh_add);
+
+                showToolsAdd(holder.btnRefresh, getString(R.string.game_refresh_add));
             }
         }
-        showCenterToast(msg);
 
         soundMgr.combo();
     }
@@ -263,10 +263,25 @@ public class GameActivity extends BaseActivity implements IGameAction {
      */
     private void showCenterToast(String msg) {
         holder.tvComb.setText(msg);
-        int msgWidth = msg.length() * 10;
+        int msgWidth = msg.length() * holder.screenWidth / 50;
         Point startPoint = new Point(holder.screenCenter.x - msgWidth, holder.screenCenter.y);
         Point endPoint = new Point(startPoint.x, startPoint.y - 50);
         animTranslate(holder.tvComb, startPoint, endPoint, 1500);
+    }
+
+    /**
+     * 增加道具提示动画
+     * 
+     * @param btn
+     *            道具button
+     * @param msg
+     *            提示信息
+     */
+    private void showToolsAdd(View btn, String msg) {
+        holder.tvOther.setText(msg);
+        Point startPoint = new Point((int) btn.getX(), (int) holder.tools.getY() - 30);
+        Point endPoint = new Point(startPoint.x, startPoint.y - 30);
+        animTranslate(holder.tvOther, startPoint, endPoint, 1500);
     }
 
     /**
@@ -487,14 +502,14 @@ public class GameActivity extends BaseActivity implements IGameAction {
      * Handler的消息处理--显示提示数
      */
     public void showPrompt() {
-        holder.tvPrompt.setText(String.valueOf(LevelCfg.globalCfg.getPromptNum()));
+        holder.btnPrompt.setText(String.valueOf(LevelCfg.globalCfg.getPromptNum()));
     }
 
     /**
      * Handler的消息处理--显示重排数
      */
     public void showRefresh() {
-        holder.tvRefresh.setText(String.valueOf(LevelCfg.globalCfg.getRefreshNum()));
+        holder.btnRefresh.setText(String.valueOf(LevelCfg.globalCfg.getRefreshNum()));
     }
 
     private Game game;
@@ -517,15 +532,16 @@ public class GameActivity extends BaseActivity implements IGameAction {
         ProgressBar pbTime;
         TextSwitcher tsScore;
         FrameLayout flBackground;
-        Bitmap bmSelected;
         ImageView startCoin;
         ImageView endCoin;
         TextView tvComb;
+        TextView tvOther;
         int screenWidth;
         int screenHeight;
         Point screenCenter;
-        Button tvPrompt;
-        Button tvRefresh;
+        View tools;
+        Button btnPrompt;
+        Button btnRefresh;
     }
 
 }

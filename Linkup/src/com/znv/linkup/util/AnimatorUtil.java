@@ -69,23 +69,17 @@ public class AnimatorUtil {
      * 
      * @param view
      *            执行动画的view
+     * @param fromX
+     *            X开始的比例
      * @param toX
      *            X缩放比例
+     * @param fromY
+     *            Y开始的比例
      * @param toY
      *            Y缩放比例
      */
-    public static void animScale(View view, float toX, float toY) {
-        animScale(view, toX, toY, defaultDuration);
-    }
-
-    /**
-     * 取消缩放
-     * 
-     * @param view
-     *            执行动画的view
-     */
-    public static void animUnScale(View view) {
-        animUnScale(view, defaultDuration);
+    public static void animScale(View view, float fromX, float toX, float fromY, float toY) {
+        animScale(view, fromX, toX, fromY, toY, defaultDuration);
     }
 
     /**
@@ -93,29 +87,20 @@ public class AnimatorUtil {
      * 
      * @param view
      *            执行动画的view
+     * @param fromX
+     *            X开始的比例
      * @param toX
      *            X缩放比例
+     * @param fromY
+     *            Y开始的比例
      * @param toY
      *            Y缩放比例
      * @param duration
      *            动画时长
      */
-    public static void animScale(View view, float toX, float toY, int duration) {
-        ObjectAnimator.ofFloat(view, "scaleX", 1, toX).setDuration(duration).start();
-        ObjectAnimator.ofFloat(view, "scaleY", 1, toY).setDuration(duration).start();
-    }
-
-    /**
-     * 取消缩放
-     * 
-     * @param view
-     *            执行动画的view
-     * @param duration
-     *            动画时长
-     */
-    public static void animUnScale(View view, int duration) {
-        ObjectAnimator.ofFloat(view, "scaleX", view.getScaleX(), 1).setDuration(duration).start();
-        ObjectAnimator.ofFloat(view, "scaleY", view.getScaleY(), 1).setDuration(duration).start();
+    public static void animScale(View view, float fromX, float toX, float fromY, float toY, int duration) {
+        ObjectAnimator.ofFloat(view, "scaleX", fromX, toX).setDuration(duration).start();
+        ObjectAnimator.ofFloat(view, "scaleY", fromY, toY).setDuration(duration).start();
     }
 
     /**

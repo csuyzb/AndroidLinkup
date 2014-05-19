@@ -66,16 +66,6 @@ public class ViewSettings {
     public static int RefreshMaxNum = 10;
 
     /**
-     * 选择框的宽度
-     */
-    public static int CheckLineWidth = 6;
-
-    /**
-     * 消除路径的宽度
-     */
-    public static int PathWidth = 6;
-
-    /**
      * 数据缓存版本字符串
      */
     public static String CacheVersion = "120_3";

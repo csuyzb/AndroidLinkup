@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.znv.linkup.R;
-import com.znv.linkup.ViewSettings;
 import com.znv.linkup.core.card.Piece;
 import com.znv.linkup.util.AnimatorUtil;
 import com.znv.linkup.view.animation.CardPromptAnim;
@@ -79,7 +78,7 @@ public class GameCard extends FrameLayout {
             setXY(piece.getBeginX(), piece.getBeginY());
         }
 
-        int lineWidth = ViewSettings.CheckLineWidth;
+        lineWidth = piece.getWidth() / 16 + 1;
         rect = new RectF(lineWidth / 2, lineWidth / 2, piece.getWidth() - lineWidth, piece.getHeight() - lineWidth);
     }
 
@@ -93,10 +92,10 @@ public class GameCard extends FrameLayout {
         if (checked) {
             checkedRect.setVisibility(View.VISIBLE);
             unPrompt();
-            AnimatorUtil.animScale(this, 1.2f, 1.2f);
+            AnimatorUtil.animScale(this, 1f, 1.2f, 1f, 1.2f);
         } else {
             checkedRect.setVisibility(View.INVISIBLE);
-            AnimatorUtil.animUnScale(this);
+            AnimatorUtil.animScale(this, this.getScaleX(), 1f, this.getScaleY(), 1f);
         }
     }
 
@@ -122,12 +121,12 @@ public class GameCard extends FrameLayout {
         final Paint borderPaint = new Paint();
         borderPaint.setColor(color);
         borderPaint.setStyle(Style.STROKE);
-        borderPaint.setStrokeWidth(ViewSettings.CheckLineWidth);
 
         return new View(getContext()) {
 
             protected void onDraw(Canvas canvas) {
-                canvas.drawRoundRect(rect, ViewSettings.CheckLineWidth, ViewSettings.CheckLineWidth, borderPaint);
+                borderPaint.setStrokeWidth(lineWidth);
+                canvas.drawRoundRect(rect, lineWidth, lineWidth, borderPaint);
                 super.onDraw(canvas);
             }
         };
@@ -141,6 +140,7 @@ public class GameCard extends FrameLayout {
     }
 
     private Piece piece = null;
+    private int lineWidth = 1;
     private ImageView imageView = null;
     private View checkedRect = null;
     private View promptRect = null;

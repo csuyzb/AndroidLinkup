@@ -205,16 +205,15 @@ public class GameActivity extends BaseActivity implements IGameAction {
         if (pair == null) {
             // 没有可消除时给出提示
             Toast toast = ToastUtil.getToast(this, R.string.game_prompt_none);
-            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER, 0, 200);
+            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER, 0, 160);
             toast.show();
         } else {
-            // cardsView.setPromptPieces(pair);
             cardsView.prompt(pair);
             // 减少提示一次
             LevelCfg.globalCfg.setPromptNum(LevelCfg.globalCfg.getPromptNum() - 1);
             setGlobalCfg();
             handler.sendEmptyMessage(ViewSettings.PromptMessage);
-            soundMgr.select();
+            soundMgr.prompt();
         }
     }
 

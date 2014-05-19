@@ -67,7 +67,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:onClick="startAds"
-            android:src="@drawable/music"
+            android:src="@drawable/more"
             tools:ignore="contentDescription" />
 
         <ImageView
@@ -78,7 +78,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:onClick="startHelp"
-            android:src="@drawable/sound"
+            android:src="@drawable/about"
             tools:ignore="contentDescription" />
     </LinearLayout>
 

@@ -14,8 +14,8 @@ import com.znv.linkup.core.config.LevelCfg;
  * 
  */
 public class SoundManager {
-    private SoundPool soundPool = new SoundPool(8, AudioManager.STREAM_SYSTEM, 8);
-    private int[] soundIds = new int[8];
+    private SoundPool soundPool = new SoundPool(10, AudioManager.STREAM_SYSTEM, 8);
+    private int[] soundIds = new int[10];
 
     public SoundManager(Context context) {
         soundIds[0] = soundPool.load(context, R.raw.readygo, 1);
@@ -26,6 +26,7 @@ public class SoundManager {
         soundIds[5] = soundPool.load(context, R.raw.combo, 1);
         soundIds[6] = soundPool.load(context, R.raw.win, 1);
         soundIds[7] = soundPool.load(context, R.raw.fail, 1);
+        soundIds[8] = soundPool.load(context, R.raw.prompt, 1);
     }
 
     /**
@@ -96,6 +97,13 @@ public class SoundManager {
         playSound(soundIds[7]);
     }
 
+    /**
+     * 播放游戏失败声音
+     */
+    public void prompt() {
+        playSound(soundIds[8]);
+    }
+    
     /**
      * 获取是否开启音效
      * 

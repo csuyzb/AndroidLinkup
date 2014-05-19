@@ -44,9 +44,9 @@ public class GameSettings {
     public static int ComboMod = 3;
 
     /**
-     * 连击分数，3连击则3*5=15
+     * 连击分数，3连击则3*10=30
      */
-    public static int ComboScore = 5;
+    public static int ComboScore = 10;
 
     /**
      * 剩余时间奖励分数，剩余10s，则奖励20分
@@ -59,10 +59,10 @@ public class GameSettings {
     public static int CornerScore = 5;
 
     /**
-     * 消除一对卡片奖励的时间，2s
+     * 消除一对卡片奖励的时间，1s
      */
     public static int RewardTime = 1;
-    
+
     /**
      * 重排时尝试次数，默认3次
      */

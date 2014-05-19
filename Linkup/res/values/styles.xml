@@ -25,7 +25,7 @@
         <!-- <item name="buttonBarButtonStyle">@style/ButtonBarButton</item> -->
     </style>
 
-    <style name="tallerBarStyle" parent="@android:style/Widget.SeekBar">
+    <style name="ProgressStyle" parent="@android:style/Widget.SeekBar">
         <item name="android:indeterminateOnly">false</item>
         <item name="android:progressDrawable">@drawable/progress_style</item>
         <item name="android:indeterminateDrawable">@android:drawable/progress_horizontal</item>
@@ -33,13 +33,13 @@
         <item name="android:maxHeight">16dip</item>
     </style>
 
-    <style name="ratingStar" parent="@android:style/Widget.RatingBar">
+    <style name="RatingStarStyle" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/ratingstar</item>
         <item name="android:minHeight">16dp</item>
         <item name="android:maxHeight">16dp</item>
     </style>
 
-    <style name="bigRatingStar" parent="@android:style/Widget.RatingBar">
+    <style name="BigRatingStarStyle" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/bigratingstar</item>
         <item name="android:minHeight">32dp</item>
         <item name="android:maxHeight">32dp</item>

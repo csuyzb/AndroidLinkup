@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <dimen name="default_circle_indicator_radius">8dp</dimen>
+    <dimen name="default_circle_indicator_stroke_width">1dp</dimen>
     <dimen name="screenshot_width">108dip</dimen>
     <dimen name="screenshot_height">170dip</dimen>
     <dimen name="wallpaper_divider_width">1dp</dimen>

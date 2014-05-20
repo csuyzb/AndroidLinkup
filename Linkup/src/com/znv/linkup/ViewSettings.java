@@ -68,7 +68,7 @@ public class ViewSettings {
     /**
      * 数据缓存版本字符串
      */
-    public static String CacheVersion = "120_3";
+    public static String CacheVersion = "120";
 
     /**
      * 全局配置的 Shared Preference
@@ -88,7 +88,7 @@ public class ViewSettings {
     /**
      * 初始激活的关卡，按升序排列
      */
-    public static int[] DefaultActiveLevels = new int[] { 0, 1, 2, 24, 25, 26 };
+    public static int[] DefaultActiveLevels = new int[] { 0, 1, 2, 3, 24, 25, 26, 27, 48, 49, 50, 51 };
 
     /**
      * 两次back退出间的间隔
@@ -111,17 +111,13 @@ public class ViewSettings {
     public static String ADS_SECRET_KEY = "0efaaffde0edf35c5352985dcc15c20c";
 
     /**
-     * Rank的标题背景颜色
-     */
-    public static int[] RankTitleBgColor = new int[] { R.color.rank_title_color_1, R.color.rank_title_color_2, R.color.rank_title_color_3 };
-
-    /**
      * Rank的关卡背景图片
      */
-    public static int[] RankLevelBgImages = new int[] { R.drawable.circle_green, R.drawable.circle_blue, R.drawable.circle_orange };
+    public static int[] RankLevelBgImages = new int[] { R.drawable.circle_green, R.drawable.circle_blue, R.drawable.circle_yellow, R.drawable.circle_orange,
+            R.drawable.circle_red };
 
     /**
      * Rank背景图片
      */
-    public static int[] RankBgImageIds = new int[] { R.drawable.bg1, R.drawable.bg2, R.drawable.bg3 };
+    public static int[] RankBgImageIds = new int[] { R.drawable.bg1, R.drawable.bg2, R.drawable.bg3, R.drawable.bg4, R.drawable.bg5 };
 }

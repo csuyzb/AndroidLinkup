@@ -14,7 +14,6 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.znv.linkup.R;
-import com.znv.linkup.ViewSettings;
 import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.core.config.RankCfg;
 
@@ -56,13 +55,12 @@ public class RankPager extends PagerAdapter {
      */
     private void initRankPages() {
 
-        int index = 0;
         for (final RankCfg rankCfg : rankCfgs) {
             View rank = inflater.inflate(R.layout.rank, null);
 
             TextView text = (TextView) rank.findViewById(R.id.rankName);
             text.setText(rankCfg.getRankName());
-            text.setTextColor(context.getResources().getColor(ViewSettings.RankTitleBgColor[index]));
+            text.setTextColor(context.getResources().getColor(R.color.rank_title_color_3));
 
             RankAdapter adapter = new RankAdapter(context, rankCfg);
             GridView grid = (GridView) rank.findViewById(R.id.rankGrid);
@@ -82,7 +80,6 @@ public class RankPager extends PagerAdapter {
             grids.add(rank);
 
             rankAdapters.add(adapter);
-            index++;
         }
     }
 

@@ -57,6 +57,10 @@ class DbHelper extends SQLiteOpenHelper {
      * @return 激活true
      */
     private boolean isActive(int index) {
+        if (ViewSettings.DefaultActiveLevels.length == 0) {
+            return true;
+        }
+
         for (int i : ViewSettings.DefaultActiveLevels) {
             if (i < index) {
                 continue;

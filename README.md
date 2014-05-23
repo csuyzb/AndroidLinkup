@@ -7,7 +7,7 @@ The most interesting linkup game for android.
 
 项目主页:http://csuyzb.github.io/AndroidLinkup
 
-![welcome](https://github.com/csuyzb/AndroidLinkup/raw/master/welcome.jpg)![face](https://github.com/csuyzb/AndroidLinkup/raw/master/face.jpg)![classic](https://github.com/csuyzb/AndroidLinkup/raw/master/classic.jpg)![fruit](https://github.com/csuyzb/AndroidLinkup/raw/master/fruit.jpg)
+![welcome](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/welcome.jpg)![face](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/face.jpg)![classic](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/classic.jpg)![fruit](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/fruit.jpg)
 
 
 v1.3.0 规划

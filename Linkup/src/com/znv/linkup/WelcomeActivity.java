@@ -2,12 +2,10 @@ package com.znv.linkup;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.wandoujia.ads.sdk.Ads;
 import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.util.ToastUtil;
 import com.znv.linkup.view.GameTitle;
@@ -36,8 +34,6 @@ public class WelcomeActivity extends BaseActivity {
         initSoundSetting();
 
         initTitle();
-
-        initAds();
     }
 
     @Override
@@ -117,18 +113,6 @@ public class WelcomeActivity extends BaseActivity {
     }
 
     /**
-     * 初始化广告
-     */
-    protected void initAds() {
-        // Init AdsSdk.
-        try {
-            Ads.init(this, ViewSettings.ADS_APP_ID, ViewSettings.ADS_SECRET_KEY);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * 初始化标题动画
      */
     private void initTitle() {
@@ -178,19 +162,6 @@ public class WelcomeActivity extends BaseActivity {
         helper.setMessage(getString(R.string.help_info));
         helper.setIcon(R.drawable.success);
         helper.show();
-    }
-
-    /**
-     * 点击帮助按钮时的处理，显示游戏帮助
-     * 
-     * @param v
-     */
-    public void startAds(View v) {
-        try {
-            Ads.showAppWall(this, ViewSettings.ADS_ID);
-        } catch (Exception ex) {
-            Log.d("ads", ex.getMessage());
-        }
     }
 
     /**

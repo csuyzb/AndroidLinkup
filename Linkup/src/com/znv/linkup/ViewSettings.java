@@ -96,21 +96,6 @@ public class ViewSettings {
     public static int TwoBackExitInterval = 2000;
 
     /**
-     * 豌豆荚广告位ID
-     */
-    public static String ADS_ID = "6a7a78bf496696865c0815dabc1c4606";
-
-    /**
-     * 豌豆荚广告Appkey ID
-     */
-    public static String ADS_APP_ID = "100004467";
-
-    /**
-     * 豌豆荚广告Secret Key
-     */
-    public static String ADS_SECRET_KEY = "0efaaffde0edf35c5352985dcc15c20c";
-
-    /**
      * Rank的关卡背景图片
      */
     public static int[] RankLevelBgImages = new int[] { R.drawable.circle_green, R.drawable.circle_blue, R.drawable.circle_yellow, R.drawable.circle_orange,

@@ -11,9 +11,6 @@
     <attr name="strokeWidth" format="dimension" />
     <attr name="unselectedColor" format="color" />
 
-    <item name="tag_key_ads_item_position" type="id"/>
-    <item name="tag_key_ads_item_downloading" type="id"/>
-
     <declare-styleable name="CirclePageIndicator">
 
         <!-- Whether or not the indicators should be centered. -->

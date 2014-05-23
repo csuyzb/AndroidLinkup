@@ -7,6 +7,8 @@ The most interesting linkup game for android.
 
 项目主页:http://csuyzb.github.io/AndroidLinkup
 
+应用商店:http://app.xiaomi.com/detail/61473
+
 ![welcome](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/welcome.jpg)![face](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/face.jpg)![classic](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/classic.jpg)![fruit](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/fruit.jpg)
 
 

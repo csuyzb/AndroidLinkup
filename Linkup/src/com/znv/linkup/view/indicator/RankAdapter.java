@@ -8,8 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.RatingBar;
-import android.widget.TextView;
 
 import com.znv.linkup.R;
 import com.znv.linkup.ViewSettings;
@@ -31,7 +31,7 @@ public class RankAdapter extends BaseAdapter {
      * 
      */
     class LevelViewHolder {
-        TextView tvLevel;
+        ImageView tvLevel;
         RatingBar rbStar;
     }
 
@@ -65,7 +65,7 @@ public class RankAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.level, null);
 
             holder = new LevelViewHolder();
-            holder.tvLevel = (TextView) convertView.findViewById(R.id.tvLevel);
+            holder.tvLevel = (ImageView) convertView.findViewById(R.id.tvLevel);
             holder.rbStar = (RatingBar) convertView.findViewById(R.id.rbStar);
             // 缓存holder
             convertView.setTag(holder);
@@ -105,13 +105,15 @@ public class RankAdapter extends BaseAdapter {
     private void updateLevelView(LevelViewHolder holder, int position) {
         LevelCfg levelCfg = getItem(position);
         if (levelCfg.isActive()) {
-            holder.tvLevel.setBackgroundResource(ViewSettings.RankLevelBgImages[Integer.parseInt(rankCfg.getRankId())]);
-            holder.tvLevel.setText(levelCfg.getLevelName());
+            holder.tvLevel.setBackgroundResource(R.drawable.levelbg);
+            int level = Integer.parseInt(levelCfg.getLevelName());
+            holder.tvLevel.setImageResource(ViewSettings.Numbers[level]);
+            holder.rbStar.setRating(getItem(position).getLevelStar());
         } else {
             holder.tvLevel.setBackgroundResource(R.drawable.locked);
+            holder.rbStar.setVisibility(View.INVISIBLE);
         }
 
-        holder.rbStar.setRating(getItem(position).getLevelStar());
     }
 
     private LayoutInflater inflater;

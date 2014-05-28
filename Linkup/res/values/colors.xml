@@ -2,9 +2,7 @@
     <color name="default_circle_indicator_fill_color">#FF6495ed</color>
     <color name="default_circle_indicator_page_color">#00000000</color>
     <color name="default_circle_indicator_stroke_color">#FFDDDDDD</color>
-    <color name="rank_title_color_1">#FF00CC00</color>
-    <color name="rank_title_color_2">#FF3333FF</color>
-    <color name="rank_title_color_3">#FFFFA500</color>
+    <color name="rank_title_color">#FFFFA500</color>
     <color name="check_color">#FFFF0000</color>
     <color name="prompt_color">#FFFF0000</color>
     <color name="path_color">#FFFF0000</color>

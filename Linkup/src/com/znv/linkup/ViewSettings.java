@@ -96,10 +96,11 @@ public class ViewSettings {
     public static int TwoBackExitInterval = 2000;
 
     /**
-     * Rank的关卡背景图片
+     * 数字图片
      */
-    public static int[] RankLevelBgImages = new int[] { R.drawable.circle_green, R.drawable.circle_blue, R.drawable.circle_yellow, R.drawable.circle_orange,
-            R.drawable.circle_red };
+    public static int[] Numbers = new int[] { R.drawable.n0, R.drawable.n1, R.drawable.n2, R.drawable.n3, R.drawable.n4, R.drawable.n5, R.drawable.n6,
+            R.drawable.n7, R.drawable.n8, R.drawable.n9, R.drawable.n10, R.drawable.n11, R.drawable.n12, R.drawable.n13, R.drawable.n14, R.drawable.n15,
+            R.drawable.n16, R.drawable.n17, R.drawable.n18, R.drawable.n19, R.drawable.n20, R.drawable.n21, R.drawable.n22, R.drawable.n23, R.drawable.n24 };
 
     /**
      * Rank背景图片

@@ -60,7 +60,6 @@ public class RankPager extends PagerAdapter {
 
             TextView text = (TextView) rank.findViewById(R.id.rankName);
             text.setText(rankCfg.getRankName());
-            text.setTextColor(context.getResources().getColor(R.color.rank_title_color_3));
 
             RankAdapter adapter = new RankAdapter(context, rankCfg);
             GridView grid = (GridView) rank.findViewById(R.id.rankGrid);

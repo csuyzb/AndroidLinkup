@@ -1,5 +1,5 @@
 <resources>
-    <color name="default_circle_indicator_fill_color">#FF6495ed</color>
+    <color name="default_circle_indicator_fill_color">#FFffa500</color>
     <color name="default_circle_indicator_page_color">#00000000</color>
     <color name="default_circle_indicator_stroke_color">#FFDDDDDD</color>
     <color name="rank_title_color">#FFFFA500</color>

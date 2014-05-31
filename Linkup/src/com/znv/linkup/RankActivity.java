@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 
 import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.view.indicator.CirclePageIndicator;
-import com.znv.linkup.view.indicator.RankPager;
+import com.znv.linkup.view.indicator.Ranks;
 
 /**
  * 关卡选择界面活动处理类
@@ -18,7 +18,7 @@ import com.znv.linkup.view.indicator.RankPager;
  */
 public class RankActivity extends BaseActivity implements OnPageChangeListener {
 
-    private static RankPager rankPager = null;
+    private static Ranks rankPager = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,15 +32,10 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
 
     @Override
     protected void playMusic() {
-        // if (musicMgr != null) {
-        // musicMgr.setBgMusicRes(R.raw.bgmusic2);
-        // musicMgr.play();
-        // }
-    }
-
-    @Override
-    protected void stopMusic() {
-
+        if (musicMgr != null) {
+            musicMgr.setBgMusicRes(R.raw.bgmusic2);
+            musicMgr.play();
+        }
     }
 
     /**
@@ -52,7 +47,7 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
         root.setBackgroundResource(ViewSettings.RankBgImageIds[0]);
 
         if (rankPager == null) {
-            rankPager = new RankPager(this, rankCfgs, new RankPager.ISelectedLevel() {
+            rankPager = new Ranks(this, rankCfgs, new Ranks.ISelectedLevel() {
 
                 @Override
                 public void onSelectedLevel(LevelCfg levelCfg) {

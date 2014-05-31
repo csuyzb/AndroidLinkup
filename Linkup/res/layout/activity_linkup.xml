@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:gravity="center"
-                android:textColor="#FF0099FF"
+                android:textColor="#FFffa500"
                 android:textSize="18sp" />
 
             <TextSwitcher
@@ -56,7 +56,7 @@
                 android:layout_marginRight="10dp"
                 android:gravity="center"
                 android:text=""
-                android:textColor="#FF0099FF"
+                android:textColor="#FFffa500"
                 android:textSize="18sp" />
         </LinearLayout>
     </LinearLayout>

@@ -23,7 +23,7 @@ import com.znv.linkup.core.config.RankCfg;
  * @author yzb
  * 
  */
-public class RankPager extends PagerAdapter {
+public class Ranks extends PagerAdapter {
 
     /**
      * 选择关卡时的处理接口
@@ -35,11 +35,11 @@ public class RankPager extends PagerAdapter {
         void onSelectedLevel(LevelCfg levelCfg);
     }
 
-    public RankPager(Context context, List<RankCfg> rankCfgs) {
+    public Ranks(Context context, List<RankCfg> rankCfgs) {
         this(context, rankCfgs, null);
     }
 
-    public RankPager(Context context, List<RankCfg> rankCfgs, ISelectedLevel levelListener) {
+    public Ranks(Context context, List<RankCfg> rankCfgs, ISelectedLevel levelListener) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
 
@@ -59,12 +59,12 @@ public class RankPager extends PagerAdapter {
             View rank = inflater.inflate(R.layout.rank, null);
 
             TextView text = (TextView) rank.findViewById(R.id.rankName);
-            text.setText(rankCfg.getRankName());
+            text.setText(rankPrefix[Integer.parseInt(rankCfg.getRankId())] + rankCfg.getRankName());
 
-            RankAdapter adapter = new RankAdapter(context, rankCfg);
+            Levels adapter = new Levels(context, rankCfg);
             GridView grid = (GridView) rank.findViewById(R.id.rankGrid);
             grid.setAdapter(adapter);
-            grid.setColumnWidth(rankCfg.getLevelInfos().get(0).getPieceWidth() + 20);
+//            grid.setColumnWidth(rankCfg.getLevelInfos().get(0).getPieceWidth() + 20);
 
             grid.setOnItemClickListener(new OnItemClickListener() {
 
@@ -120,7 +120,8 @@ public class RankPager extends PagerAdapter {
     private LayoutInflater inflater;
     private List<RankCfg> rankCfgs = new ArrayList<RankCfg>();
     private List<View> grids = new ArrayList<View>();
-    private List<RankAdapter> rankAdapters = new ArrayList<RankAdapter>();
+    private List<Levels> rankAdapters = new ArrayList<Levels>();
     private ISelectedLevel levelListener;
+    private static String[] rankPrefix = new String[] { "一.", "二.", "三.", "四.", "五.", "六.", "七.", "八.", "九.", "十." };
 
 }

@@ -211,9 +211,9 @@ public class BaseActivity extends Activity {
 
     @Override
     protected void onResume() {
+        super.onResume();
         // 开启背景音乐
         playMusic();
-        super.onResume();
     }
 
 }

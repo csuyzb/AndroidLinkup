@@ -38,7 +38,7 @@
             android:background="@drawable/rankname"
             android:gravity="center"
             android:textColor="@color/rank_title_color"
-            android:textSize="28sp"
+            android:textSize="26sp"
             android:textStyle="bold" />
 
         <!-- <TextView -->

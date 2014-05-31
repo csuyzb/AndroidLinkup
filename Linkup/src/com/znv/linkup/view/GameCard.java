@@ -70,8 +70,8 @@ public class GameCard extends FrameLayout {
             setXY(piece.getBeginX(), -piece.getHeight());
             // 从上面落下
             Animator anim = ObjectAnimator.ofFloat(this, "translationY", 0, piece.getBeginY() + piece.getHeight());
-            anim.setDuration(1000 - piece.getIndexY() * 60);
-            anim.setStartDelay((Piece.YSize - piece.getIndexY()) * 60 + ran.nextInt(60));
+            anim.setDuration(500);
+            anim.setStartDelay((Piece.YSize - piece.getIndexY()) * 50 - ran.nextInt(50));
             anim.start();
         } else {
             // 设置卡片的left和top
@@ -79,7 +79,7 @@ public class GameCard extends FrameLayout {
         }
 
         lineWidth = piece.getWidth() / 16 + 1;
-        rect = new RectF(lineWidth / 2, lineWidth / 2, piece.getWidth() - lineWidth, piece.getHeight() - lineWidth);
+        rect = new RectF(piece.getWidth() / 32, piece.getWidth() / 32, piece.getWidth() - lineWidth + 1, piece.getHeight() - lineWidth + 1);
     }
 
     /**
@@ -92,6 +92,8 @@ public class GameCard extends FrameLayout {
         if (checked) {
             checkedRect.setVisibility(View.VISIBLE);
             unPrompt();
+            // 解决放大遮挡问题
+            this.bringToFront();
             AnimatorUtil.animScale(this, 1f, 1.2f, 1f, 1.2f);
         } else {
             checkedRect.setVisibility(View.INVISIBLE);

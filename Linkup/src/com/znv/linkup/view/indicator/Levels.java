@@ -22,7 +22,7 @@ import com.znv.linkup.core.config.RankCfg;
  * @author yzb
  * 
  */
-public class RankAdapter extends BaseAdapter {
+public class Levels extends BaseAdapter {
 
     /**
      * 利用ViewHolder提升adapter效率
@@ -35,7 +35,7 @@ public class RankAdapter extends BaseAdapter {
         RatingBar rbStar;
     }
 
-    public RankAdapter(Context context, RankCfg rankCfg) {
+    public Levels(Context context, RankCfg rankCfg) {
         inflater = LayoutInflater.from(context);
         this.rankCfg = rankCfg;
     }

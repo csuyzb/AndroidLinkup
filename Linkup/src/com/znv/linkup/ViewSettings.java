@@ -66,6 +66,16 @@ public class ViewSettings {
     public static int RefreshMaxNum = 10;
 
     /**
+     * 最大的重排数
+     */
+    public static int AddTimeMaxNum = 10;
+
+    /**
+     * 增加时间的秒数
+     */
+    public static int AddTimeSeconds = 5;
+
+    /**
      * 数据缓存版本字符串
      */
     public static String CacheVersion = "120";

@@ -95,6 +95,19 @@
             android:onClick="refresh"
             android:textColor="#FFFF0000"
             android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/addTime"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="#00000000"
+            android:drawableLeft="@drawable/addtime"
+            android:gravity="center"
+            android:onClick="addTime"
+            android:textColor="#FFFF0000"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <ImageView

@@ -61,6 +61,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
         holder.tools = findViewById(R.id.tools);
         holder.btnPrompt = (Button) findViewById(R.id.prompt);
         holder.btnRefresh = (Button) findViewById(R.id.refresh);
+        holder.btnAddTime = (Button) findViewById(R.id.addTime);
         holder.tsScore.setFactory(new ViewSwitcher.ViewFactory() {
 
             @Override
@@ -102,6 +103,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
 
         holder.btnPrompt.setText(String.valueOf(LevelCfg.globalCfg.getPromptNum()));
         holder.btnRefresh.setText(String.valueOf(LevelCfg.globalCfg.getRefreshNum()));
+        holder.btnAddTime.setText(String.valueOf(LevelCfg.globalCfg.getAddTimeNum()));
         holder.tvLevel.setText(curLevelCfg.getRankName() + "-" + curLevelCfg.getLevelName());
         holder.pbTime.setMax(curLevelCfg.getLevelTime());
         holder.tsScore.setText("0");
@@ -306,6 +308,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
     public void onRefresh() {
         cardsView.createCards(false);
 
+        soundMgr.refresh();
         // 减少重排一次
         LevelCfg.globalCfg.setRefreshNum(LevelCfg.globalCfg.getRefreshNum() - 1);
         setGlobalCfg();
@@ -455,10 +458,34 @@ public class GameActivity extends BaseActivity implements IGameAction {
     public void refresh(View v) {
         if (LevelCfg.globalCfg.getRefreshNum() > 0) {
             game.refresh();
-            soundMgr.refresh();
         }
     }
 
+    /**
+     * 重排按钮按下时的处理
+     * 
+     * @param v
+     */
+    public void addTime(View v) {
+        if (LevelCfg.globalCfg.getAddTimeNum() > 0) {
+            // 减少加时间一次
+            LevelCfg.globalCfg.setAddTimeNum(LevelCfg.globalCfg.getAddTimeNum() - 1);
+            setGlobalCfg();
+            game.addGameTime(ViewSettings.AddTimeSeconds);
+            
+            showAddTime();
+        }
+    }
+
+    /**
+     * 重排按钮按下时的处理
+     * 
+     * @param v
+     */
+    public void stop(View v) {
+        game.stop();
+    }
+    
     /**
      * Handler的消息处理--显示时间
      */
@@ -511,6 +538,13 @@ public class GameActivity extends BaseActivity implements IGameAction {
     public void showRefresh() {
         holder.btnRefresh.setText(String.valueOf(LevelCfg.globalCfg.getRefreshNum()));
     }
+    
+    /**
+     * Handler的消息处理--显示加时间数
+     */
+    public void showAddTime() {
+        holder.btnAddTime.setText(String.valueOf(LevelCfg.globalCfg.getAddTimeNum()));
+    }
 
     private Game game;
     private CardsView cardsView;
@@ -542,6 +576,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
         View tools;
         Button btnPrompt;
         Button btnRefresh;
+        Button btnAddTime;
     }
 
 }

@@ -7,75 +7,91 @@ package com.znv.linkup.core.config;
  * 
  */
 public class GlobalCfg {
-	// 是否播放游戏音效
-	private boolean gameSound = true;
-	// 是否播放背景音乐
-	private boolean gameBgMusic = true;
-	// 提示数
-	private int promptNum;
-	// 重排数
-	private int refreshNum;
+    // 是否播放游戏音效
+    private boolean gameSound = true;
+    // 是否播放背景音乐
+    private boolean gameBgMusic = true;
+    // 提示数
+    private int promptNum;
+    // 重排数
+    private int refreshNum;
+    // 加时间的数目
+    private int addTimeNum;
 
-	/**
-	 * 从字符串解析出全局配置信息
-	 * 
-	 * @param globalCfgStr
-	 *            配置信息字符串
-	 * @return 全局配置信息
-	 */
-	public static GlobalCfg parse(String globalCfgStr) {
-		String[] cfgs = globalCfgStr.split(";");
-		if (cfgs.length == 4) {
-			GlobalCfg globalCfg = new GlobalCfg();
-			globalCfg.setGameSound(cfgs[0].equals("1"));
-			globalCfg.setGameBgMusic(cfgs[1].equals("1"));
-			globalCfg.setPromptNum(Integer.parseInt(cfgs[2]));
-			globalCfg.setRefreshNum(Integer.parseInt(cfgs[3]));
-			return globalCfg;
-		}
-		return null;
-	}
+    /**
+     * 从字符串解析出全局配置信息
+     * 
+     * @param globalCfgStr
+     *            配置信息字符串
+     * @return 全局配置信息
+     */
+    public static GlobalCfg parse(String globalCfgStr) {
+        String[] cfgs = globalCfgStr.split(";");
+        try {
+            GlobalCfg globalCfg = new GlobalCfg();
+            globalCfg.setGameSound(cfgs[0].equals("1"));
+            globalCfg.setGameBgMusic(cfgs[1].equals("1"));
+            globalCfg.setPromptNum(Integer.parseInt(cfgs[2]));
+            globalCfg.setRefreshNum(Integer.parseInt(cfgs[3]));
+            if (cfgs.length > 4) {
+                globalCfg.setAddTimeNum(Integer.parseInt(cfgs[4]));
+            } else {
+                // 默认3次
+                globalCfg.setAddTimeNum(3);
+            }
+            return globalCfg;
+        } catch (Exception ex) {
+            return null;
+        }
+    }
 
-	/**
-	 * 转化为配置信息字符串
-	 */
-	@Override
-	public String toString() {
-		String soundStr = gameSound ? "1" : "0";
-		String musicStr = gameBgMusic ? "1" : "0";
-		return String.format("%s;%s;%s;%s;", soundStr, musicStr, promptNum,
-				refreshNum);
-	}
+    /**
+     * 转化为配置信息字符串
+     */
+    @Override
+    public String toString() {
+        String soundStr = gameSound ? "1" : "0";
+        String musicStr = gameBgMusic ? "1" : "0";
+        return String.format("%s;%s;%s;%s;%s;", soundStr, musicStr, promptNum, refreshNum, addTimeNum);
+    }
 
-	public boolean isGameSound() {
-		return gameSound;
-	}
+    public boolean isGameSound() {
+        return gameSound;
+    }
 
-	public void setGameSound(boolean gameSound) {
-		this.gameSound = gameSound;
-	}
+    public void setGameSound(boolean gameSound) {
+        this.gameSound = gameSound;
+    }
 
-	public boolean isGameBgMusic() {
-		return gameBgMusic;
-	}
+    public boolean isGameBgMusic() {
+        return gameBgMusic;
+    }
 
-	public void setGameBgMusic(boolean gameBgMusic) {
-		this.gameBgMusic = gameBgMusic;
-	}
+    public void setGameBgMusic(boolean gameBgMusic) {
+        this.gameBgMusic = gameBgMusic;
+    }
 
-	public int getPromptNum() {
-		return promptNum;
-	}
+    public int getPromptNum() {
+        return promptNum;
+    }
 
-	public void setPromptNum(int promptNum) {
-		this.promptNum = promptNum;
-	}
+    public void setPromptNum(int promptNum) {
+        this.promptNum = promptNum;
+    }
 
-	public int getRefreshNum() {
-		return refreshNum;
-	}
+    public int getRefreshNum() {
+        return refreshNum;
+    }
 
-	public void setRefreshNum(int refreshNum) {
-		this.refreshNum = refreshNum;
-	}
+    public void setRefreshNum(int refreshNum) {
+        this.refreshNum = refreshNum;
+    }
+
+    public int getAddTimeNum() {
+        return addTimeNum;
+    }
+
+    public void setAddTimeNum(int addTimeNum) {
+        this.addTimeNum = addTimeNum;
+    }
 }

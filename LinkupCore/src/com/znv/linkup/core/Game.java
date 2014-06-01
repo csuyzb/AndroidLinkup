@@ -232,6 +232,10 @@ public class Game {
         }
         gameStatus.refresh();
     }
+    
+    public void addGameTime(int seconds) {
+        gameStatus.addGameTime(seconds);
+    }
 
     /**
      * 获取当前关卡配置信息

@@ -147,6 +147,10 @@ public class GameStatus {
         gameTime.addTime(GameSettings.RewardTime);
         gameScore.addScore(GameSettings.CardScore * 2 + gameScore.getCornerScore(linkInfo) + gameCombo.getComboScore());
     }
+    
+    public void addGameTime(int seconds) {
+        gameTime.addTime(seconds);
+    }
 
     /**
      * 获取游戏时间

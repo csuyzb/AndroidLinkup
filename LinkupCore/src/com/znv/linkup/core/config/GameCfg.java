@@ -104,6 +104,7 @@ public class GameCfg {
         gamecfg.setGameBgMusic(xrp.getAttributeValue(null, "bgmusic").equals("1"));
         gamecfg.setPromptNum(Integer.parseInt(xrp.getAttributeValue(null, "prompt")));
         gamecfg.setRefreshNum(Integer.parseInt(xrp.getAttributeValue(null, "refresh")));
+        gamecfg.setAddTimeNum(Integer.parseInt(xrp.getAttributeValue(null, "addtime")));
 
         // 设置所有关卡的全局配置
         LevelCfg.globalCfg = gamecfg;

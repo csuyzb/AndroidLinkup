@@ -25,7 +25,7 @@ public class MusicService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        int bgMusicRes = intent.getIntExtra("bgmusic", R.raw.bgmusic3);
+        int bgMusicRes = intent.getIntExtra("bgmusic", R.raw.bgmusic2);
         if (mediaPlayer == null) {
             mediaPlayer = MediaPlayer.create(this, bgMusicRes);
             mediaPlayer.setLooping(true);

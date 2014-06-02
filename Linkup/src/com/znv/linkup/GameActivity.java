@@ -82,10 +82,14 @@ public class GameActivity extends BaseActivity implements IGameAction {
         start();
     }
 
+    /**
+     * 随机播放背景音乐
+     */
     @Override
     protected void playMusic() {
         if (musicMgr != null) {
-            musicMgr.setBgMusicRes(R.raw.bgmusic3);
+            int bgmusic = (int) (Math.random() * ViewSettings.BgMusics.length);
+            musicMgr.setBgMusicRes(ViewSettings.BgMusics[bgmusic]);
             musicMgr.play();
         }
     }
@@ -472,7 +476,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
             LevelCfg.globalCfg.setAddTimeNum(LevelCfg.globalCfg.getAddTimeNum() - 1);
             setGlobalCfg();
             game.addGameTime(ViewSettings.AddTimeSeconds);
-            
+
             showAddTime();
         }
     }
@@ -485,7 +489,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
     public void stop(View v) {
         game.stop();
     }
-    
+
     /**
      * Handler的消息处理--显示时间
      */
@@ -538,7 +542,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
     public void showRefresh() {
         holder.btnRefresh.setText(String.valueOf(LevelCfg.globalCfg.getRefreshNum()));
     }
-    
+
     /**
      * Handler的消息处理--显示加时间数
      */

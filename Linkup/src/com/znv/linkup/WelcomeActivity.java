@@ -39,7 +39,7 @@ public class WelcomeActivity extends BaseActivity {
     @Override
     protected void playMusic() {
         if (musicMgr != null) {
-            musicMgr.setBgMusicRes(R.raw.bgmusic1);
+            musicMgr.setBgMusicRes(R.raw.welcomebg);
             musicMgr.play();
         }
     }

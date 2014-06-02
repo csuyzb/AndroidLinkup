@@ -106,6 +106,11 @@ public class ViewSettings {
     public static int TwoBackExitInterval = 2000;
 
     /**
+     * 游戏背景音乐
+     */
+    public static int[] BgMusics = new int[] { R.raw.bgmusic1, R.raw.bgmusic2 };
+
+    /**
      * 数字图片
      */
     public static int[] Numbers = new int[] { R.drawable.n0, R.drawable.n1, R.drawable.n2, R.drawable.n3, R.drawable.n4, R.drawable.n5, R.drawable.n6,

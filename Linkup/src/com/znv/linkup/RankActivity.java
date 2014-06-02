@@ -32,10 +32,15 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
 
     @Override
     protected void playMusic() {
-        if (musicMgr != null) {
-            musicMgr.setBgMusicRes(R.raw.bgmusic2);
-            musicMgr.play();
-        }
+        // if (musicMgr != null) {
+        // musicMgr.setBgMusicRes(R.raw.bgmusic2);
+        // musicMgr.play();
+        // }
+    }
+
+    @Override
+    protected void stopMusic() {
+
     }
 
     /**
@@ -52,6 +57,7 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
                 @Override
                 public void onSelectedLevel(LevelCfg levelCfg) {
                     if (levelCfg.isActive()) {
+                        soundMgr.select();
                         Intent intent = new Intent(RankActivity.this, GameActivity.class);
                         intent.putExtra("levelIndex", levelCfg.getLevelId());
                         startActivity(intent);
@@ -77,6 +83,7 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
      */
     @Override
     public void onPageSelected(int arg0) {
+        soundMgr.pageChanged();
         LinearLayout root = (LinearLayout) RankActivity.this.findViewById(R.id.rankBg);
         root.setBackgroundResource(ViewSettings.RankBgImageIds[arg0]);
     }

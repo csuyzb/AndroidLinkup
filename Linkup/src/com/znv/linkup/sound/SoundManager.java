@@ -27,6 +27,7 @@ public class SoundManager {
         soundIds[6] = soundPool.load(context, R.raw.win, 1);
         soundIds[7] = soundPool.load(context, R.raw.fail, 1);
         soundIds[8] = soundPool.load(context, R.raw.prompt, 1);
+        soundIds[9] = soundPool.load(context, R.raw.page, 1);
     }
 
     /**
@@ -103,7 +104,11 @@ public class SoundManager {
     public void prompt() {
         playSound(soundIds[8]);
     }
-    
+
+    public void pageChanged() {
+        playSound(soundIds[9]);
+    }
+
     /**
      * 获取是否开启音效
      * 

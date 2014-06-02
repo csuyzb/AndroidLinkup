@@ -53,8 +53,8 @@ public class GameActivity extends BaseActivity implements IGameAction {
         holder.flBackground = (FrameLayout) findViewById(R.id.rootFrame);
         holder.startCoin = (ImageView) findViewById(R.id.startCoin);
         holder.endCoin = (ImageView) findViewById(R.id.endCoin);
-        holder.tvComb = (TextView) findViewById(R.id.comboText);
-        holder.tvOther = (TextView) findViewById(R.id.otherText);
+        holder.tvCombo = (TextView) findViewById(R.id.tvCombo);
+        holder.tvAnimMsg = (TextView) findViewById(R.id.tvAnimMsg);
         holder.screenWidth = size.x;
         holder.screenHeight = size.y;
         holder.screenCenter = new Point((int) (size.x * 0.5), (int) (size.y * 0.5));
@@ -120,7 +120,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
         cardsView.setGame(game);
 
         // 播放声音和动画
-        showCenterToast(getString(R.string.game_ready_go));
+        showAnimMsg(getString(R.string.game_ready_go));
         soundMgr.readyGo();
 
         game.start();
@@ -159,7 +159,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
             start();
         } else {
             // 通过所有关卡
-            showCenterToast(getString(R.string.game_success));
+            showAnimMsg(getString(R.string.game_success));
             onBackPressed();
         }
     }
@@ -234,29 +234,32 @@ public class GameActivity extends BaseActivity implements IGameAction {
      */
     @Override
     public void onCombo() {
-        String msgFmt = "%s" + getResources().getString(R.string.game_combo_info) + ", +%s";
-        String msg = String.format(msgFmt, game.getGameCombo(), game.getComboScore());
-        showCenterToast(msg);
+        String msg = String.valueOf(game.getGameCombo());
+        holder.tvCombo.setText(msg);
+        int msgWidth = msg.length() * holder.screenWidth / 50 + getResources().getDrawable(R.drawable.combo).getMinimumWidth() / 2;
+        Point startPoint = new Point(holder.screenCenter.x - msgWidth, holder.screenCenter.y);
+        Point endPoint = new Point(startPoint.x, startPoint.y - 50);
+        animTranslate(holder.tvCombo, startPoint, endPoint, 1500);
 
-        if (game.getGameCombo() == ViewSettings.ComboAddPrompt) {
-            if (LevelCfg.globalCfg.getPromptNum() < ViewSettings.PromptMaxNum) {
-                // promt 增加一次
-                LevelCfg.globalCfg.setPromptNum(LevelCfg.globalCfg.getPromptNum() + 1);
-                setGlobalCfg();
-                handler.sendEmptyMessage(ViewSettings.PromptMessage);
-
-                showToolsAdd(holder.btnPrompt, getString(R.string.game_prompt_add));
-            }
-        } else if (game.getGameCombo() == ViewSettings.ComboAddRefresh) {
-            if (LevelCfg.globalCfg.getRefreshNum() < ViewSettings.RefreshMaxNum) {
-                // refresh 增加一次
-                LevelCfg.globalCfg.setRefreshNum(LevelCfg.globalCfg.getRefreshNum() + 1);
-                setGlobalCfg();
-                handler.sendEmptyMessage(ViewSettings.RefreshMessage);
-
-                showToolsAdd(holder.btnRefresh, getString(R.string.game_refresh_add));
-            }
-        }
+        // if (game.getGameCombo() == ViewSettings.ComboAddPrompt) {
+        // if (LevelCfg.globalCfg.getPromptNum() < ViewSettings.PromptMaxNum) {
+        // // promt 增加一次
+        // LevelCfg.globalCfg.setPromptNum(LevelCfg.globalCfg.getPromptNum() + 1);
+        // setGlobalCfg();
+        // handler.sendEmptyMessage(ViewSettings.PromptMessage);
+        //
+        // showToolsAdd(holder.btnPrompt, getString(R.string.game_prompt_add));
+        // }
+        // } else if (game.getGameCombo() == ViewSettings.ComboAddRefresh) {
+        // if (LevelCfg.globalCfg.getRefreshNum() < ViewSettings.RefreshMaxNum) {
+        // // refresh 增加一次
+        // LevelCfg.globalCfg.setRefreshNum(LevelCfg.globalCfg.getRefreshNum() + 1);
+        // setGlobalCfg();
+        // handler.sendEmptyMessage(ViewSettings.RefreshMessage);
+        //
+        // showToolsAdd(holder.btnRefresh, getString(R.string.game_refresh_add));
+        // }
+        // }
 
         soundMgr.combo();
     }
@@ -267,28 +270,28 @@ public class GameActivity extends BaseActivity implements IGameAction {
      * @param msg
      *            文字信息
      */
-    private void showCenterToast(String msg) {
-        holder.tvComb.setText(msg);
+    private void showAnimMsg(String msg) {
+        holder.tvAnimMsg.setText(msg);
         int msgWidth = msg.length() * holder.screenWidth / 50;
         Point startPoint = new Point(holder.screenCenter.x - msgWidth, holder.screenCenter.y);
         Point endPoint = new Point(startPoint.x, startPoint.y - 50);
-        animTranslate(holder.tvComb, startPoint, endPoint, 1500);
+        animTranslate(holder.tvAnimMsg, startPoint, endPoint, 1500);
     }
 
-    /**
-     * 增加道具提示动画
-     * 
-     * @param btn
-     *            道具button
-     * @param msg
-     *            提示信息
-     */
-    private void showToolsAdd(View btn, String msg) {
-        holder.tvOther.setText(msg);
-        Point startPoint = new Point((int) btn.getX(), (int) holder.tools.getY() - 30);
-        Point endPoint = new Point(startPoint.x, startPoint.y - 30);
-        animTranslate(holder.tvOther, startPoint, endPoint, 1500);
-    }
+    // /**
+    // * 增加道具提示动画
+    // *
+    // * @param btn
+    // * 道具button
+    // * @param msg
+    // * 提示信息
+    // */
+    // private void showToolsAdd(View btn, String msg) {
+    // holder.tvOther.setText(msg);
+    // Point startPoint = new Point((int) btn.getX(), (int) holder.tools.getY() - 30);
+    // Point endPoint = new Point(startPoint.x, startPoint.y - 30);
+    // animTranslate(holder.tvOther, startPoint, endPoint, 1500);
+    // }
 
     /**
      * 获取游戏结果信息
@@ -572,8 +575,8 @@ public class GameActivity extends BaseActivity implements IGameAction {
         FrameLayout flBackground;
         ImageView startCoin;
         ImageView endCoin;
-        TextView tvComb;
-        TextView tvOther;
+        TextView tvCombo;
+        TextView tvAnimMsg;
         int screenWidth;
         int screenHeight;
         Point screenCenter;

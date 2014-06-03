@@ -4,6 +4,8 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.view.View;
 
+import com.znv.linkup.view.animation.HideAnimator;
+
 /**
  * 动画辅助类，包括褪色，缩放，旋转和平移
  * 
@@ -148,7 +150,7 @@ public class AnimatorUtil {
      *            结束Y坐标
      */
     public static void animTranslate(View view, float fromX, float toX, float fromY, float toY) {
-        animTranslate(view, fromX, toX, fromY, toY, defaultDuration);
+        animTranslate(view, fromX, toX, fromY, toY, defaultDuration, false);
     }
 
     /**
@@ -167,9 +169,15 @@ public class AnimatorUtil {
      * @param duration
      *            动画时长
      */
-    public static void animTranslate(View view, float fromX, float toX, float fromY, float toY, int duration) {
-        ObjectAnimator.ofFloat(view, "translationX", fromX, toX).setDuration(duration).start();
-        ObjectAnimator.ofFloat(view, "translationY", fromY, toY).setDuration(duration).start();
+    public static void animTranslate(View view, float fromX, float toX, float fromY, float toY, int duration, boolean isHide) {
+        Animator animX = ObjectAnimator.ofFloat(view, "translationX", fromX, toX).setDuration(duration);
+        Animator animY = ObjectAnimator.ofFloat(view, "translationY", fromY, toY).setDuration(duration);
+
+        animX.start();
+        if (isHide) {
+            animY.addListener(new HideAnimator(view));
+            animY.start();
+        }
     }
 
 }

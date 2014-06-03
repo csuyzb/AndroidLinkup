@@ -114,16 +114,16 @@
         android:id="@+id/startCoin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:alpha="0"
         android:src="@drawable/coin"
+        android:visibility="gone"
         tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/endCoin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:alpha="0"
         android:src="@drawable/coin"
+        android:visibility="gone"
         tools:ignore="ContentDescription" >
     </ImageView>
 
@@ -131,25 +131,25 @@
         android:id="@+id/tvCombo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:alpha="0"
         android:background="#00000000"
         android:drawableRight="@drawable/combo"
         android:gravity="center"
         android:textColor="#FFFFFF00"
         android:textSize="48sp"
-        android:textStyle="bold" >
+        android:textStyle="bold"
+        android:visibility="gone" >
     </TextView>
 
     <TextView
         android:id="@+id/tvAnimMsg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:alpha="0"
         android:background="#00000000"
         android:gravity="center"
         android:textColor="#FFFF3399"
         android:textSize="30sp"
-        android:textStyle="bold" >
+        android:textStyle="bold"
+        android:visibility="gone" >
     </TextView>
 
 </FrameLayout>

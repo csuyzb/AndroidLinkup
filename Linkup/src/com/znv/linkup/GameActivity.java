@@ -362,9 +362,9 @@ public class GameActivity extends BaseActivity implements IGameAction {
         Point startPoint = linkInfo.getLinkPieces().get(0).getCenter();
         Point endPoint = new Point((int) (holder.tsScore.getLeft() + holder.tsScore.getWidth() * 0.5),
                 (int) (holder.tsScore.getTop() + holder.tsScore.getHeight() * 0.5));
-        animTranslate(holder.startCoin, startPoint, endPoint, 500);
+        animTranslate(holder.startCoin, startPoint, endPoint, 400);
         startPoint = linkInfo.getLinkPieces().get(linkInfo.getLinkPieces().size() - 1).getCenter();
-        animTranslate(holder.endCoin, startPoint, endPoint, 500);
+        animTranslate(holder.endCoin, startPoint, endPoint, 400);
 
         soundMgr.erase();
     }
@@ -382,9 +382,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
      *            动画时长
      */
     private void animTranslate(View view, Point start, Point end, int duration) {
-        AnimatorUtil.animAlpha(view, 0f, 1f, 10);
-        AnimatorUtil.animTranslate(view, start.x, end.x, start.y, end.y, duration);
-        AnimatorUtil.animAlpha(view, 1f, 0f, 10, duration - 10);
+        AnimatorUtil.animTranslate(view, start.x, end.x, start.y, end.y, duration, true);
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.znv.linkup;
 
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Display;
@@ -120,7 +121,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
         cardsView.setGame(game);
 
         // 播放声音和动画
-        showAnimMsg(getString(R.string.game_ready_go));
+        showAnimMsg(getString(R.string.game_ready_go), 30, true);
         soundMgr.readyGo();
 
         game.start();
@@ -159,7 +160,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
             start();
         } else {
             // 通过所有关卡
-            showAnimMsg(getString(R.string.game_success));
+            showAnimMsg(getString(R.string.game_success), 30, true);
             onBackPressed();
         }
     }
@@ -270,12 +271,34 @@ public class GameActivity extends BaseActivity implements IGameAction {
      * @param msg
      *            文字信息
      */
-    private void showAnimMsg(String msg) {
-        holder.tvAnimMsg.setText(msg);
+    private void showAnimMsg(String msg, int textSize, boolean isBold) {
+        setAnimMsgStyle(msg, textSize, isBold);
         int msgWidth = msg.length() * holder.screenWidth / 50;
         Point startPoint = new Point(holder.screenCenter.x - msgWidth, holder.screenCenter.y);
         Point endPoint = new Point(startPoint.x, startPoint.y - 50);
         animTranslate(holder.tvAnimMsg, startPoint, endPoint, 1500);
+    }
+
+    /**
+     * 显示增加分数动画
+     * 
+     * @param msg
+     * @param textSize
+     */
+    private void showAddScore(String msg, int textSize, boolean isBold) {
+        setAnimMsgStyle(msg, textSize, isBold);
+        int msgWidth = msg.length() * holder.screenWidth / 60;
+        Point startPoint = new Point(holder.screenCenter.x - msgWidth, (int) holder.tsScore.getY() + 100);
+        Point endPoint = new Point(startPoint.x, startPoint.y - 40);
+        animTranslate(holder.tvAnimMsg, startPoint, endPoint, 500);
+    }
+
+    private void setAnimMsgStyle(String msg, int textSize, boolean isBold) {
+        holder.tvAnimMsg.setText(msg);
+        holder.tvAnimMsg.setTextSize(textSize);
+        if (isBold) {
+            holder.tvAnimMsg.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+        }
     }
 
     // /**
@@ -365,6 +388,8 @@ public class GameActivity extends BaseActivity implements IGameAction {
         animTranslate(holder.startCoin, startPoint, endPoint, 400);
         startPoint = linkInfo.getLinkPieces().get(linkInfo.getLinkPieces().size() - 1).getCenter();
         animTranslate(holder.endCoin, startPoint, endPoint, 400);
+
+        //
 
         soundMgr.erase();
     }
@@ -502,6 +527,12 @@ public class GameActivity extends BaseActivity implements IGameAction {
      * Handler的消息处理--显示分数
      */
     public void showScore() {
+
+        // 显示增加分数动画
+        int lastScore = Integer.parseInt((String) ((TextView) holder.tsScore.getCurrentView()).getText());
+        String msg = "+" + String.valueOf(game.getGameScore() - lastScore);
+        showAddScore(msg, 20, false);
+
         holder.tsScore.setText(String.valueOf(game.getGameScore()));
     }
 

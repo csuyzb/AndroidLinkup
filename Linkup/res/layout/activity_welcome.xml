@@ -60,13 +60,24 @@
             tools:ignore="contentDescription" />
 
         <ImageView
-            android:id="@+id/about"
+            android:id="@+id/help"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:gravity="center"
             android:onClick="startHelp"
+            android:src="@drawable/more"
+            tools:ignore="contentDescription" />
+
+        <ImageView
+            android:id="@+id/about"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:onClick="startAbout"
             android:src="@drawable/about"
             tools:ignore="contentDescription" />
     </LinearLayout>

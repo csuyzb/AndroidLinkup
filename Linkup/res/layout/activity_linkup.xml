@@ -84,19 +84,6 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/refresh"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="#00000000"
-            android:drawableLeft="@drawable/refresh"
-            android:gravity="center"
-            android:onClick="refresh"
-            android:textColor="#FFFF0000"
-            android:textSize="20sp" />
-
-        <Button
             android:id="@+id/addTime"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
@@ -106,6 +93,19 @@
             android:drawableLeft="@drawable/addtime"
             android:gravity="center"
             android:onClick="addTime"
+            android:textColor="#FFFF0000"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/refresh"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="#00000000"
+            android:drawableLeft="@drawable/refresh"
+            android:gravity="center"
+            android:onClick="refresh"
             android:textColor="#FFFF0000"
             android:textSize="20sp" />
     </LinearLayout>
@@ -146,7 +146,7 @@
         android:layout_height="wrap_content"
         android:background="#00000000"
         android:gravity="center"
-        android:textColor="#FFFF3399"
+        android:textColor="#ffff6347"
         android:textSize="30sp"
         android:textStyle="bold"
         android:visibility="gone" >

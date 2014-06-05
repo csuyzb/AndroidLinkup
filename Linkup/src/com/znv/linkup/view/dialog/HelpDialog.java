@@ -1,14 +1,13 @@
 package com.znv.linkup.view.dialog;
 
-import com.znv.linkup.R;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.znv.linkup.R;
 
 /**
  * 自定义的警告框
@@ -16,11 +15,11 @@ import android.widget.TextView;
  * @author yzb
  * 
  */
-public class AlertDialog extends Dialog {
+public class HelpDialog extends Dialog {
 
-    public AlertDialog(Context context) {
+    public HelpDialog(Context context) {
         super(context, R.style.CustomDialogStyle);
-        setContentView(R.layout.alert_dialog);
+        setContentView(R.layout.help_dialog);
         setCancelable(false);
         setCanceledOnTouchOutside(false);
         setPositiveButton(context.getResources().getString(R.string.submit), null);
@@ -33,7 +32,7 @@ public class AlertDialog extends Dialog {
      *            标题
      * @return 警告框实例
      */
-    public AlertDialog setTitle(String title) {
+    public HelpDialog setTitle(String title) {
         TextView tvTitle = (TextView) findViewById(R.id.dialog_title);
         tvTitle.setText(title);
         return this;
@@ -46,22 +45,9 @@ public class AlertDialog extends Dialog {
      *            信息
      * @return 警告框示例
      */
-    public AlertDialog setMessage(String msg) {
+    public HelpDialog setMessage(String msg) {
         TextView tvMessage = (TextView) findViewById(R.id.dialog_message);
         tvMessage.setText(msg);
-        return this;
-    }
-
-    /**
-     * 设置图标
-     * 
-     * @param resId
-     *            图标resid
-     * @return 警告框实例
-     */
-    public AlertDialog setIcon(int resId) {
-        ImageView ivImage = (ImageView) findViewById(R.id.dialog_title_image);
-        ivImage.setBackgroundResource(resId);
         return this;
     }
 
@@ -74,7 +60,7 @@ public class AlertDialog extends Dialog {
      *            确认操作
      * @return 警告框实例
      */
-    public AlertDialog setPositiveButton(String text, final View.OnClickListener listener) {
+    public HelpDialog setPositiveButton(String text, final View.OnClickListener listener) {
         Button btn = (Button) findViewById(R.id.dialog_button_ok);
         btn.setText(text);
         btn.setOnClickListener(new View.OnClickListener() {

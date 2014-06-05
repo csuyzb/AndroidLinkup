@@ -13,7 +13,7 @@ import com.znv.linkup.R;
  * @author yzb
  * 
  */
-public class ConfirmDialog extends AlertDialog {
+public class ConfirmDialog extends HelpDialog {
 
     public ConfirmDialog(Context context) {
         super(context);

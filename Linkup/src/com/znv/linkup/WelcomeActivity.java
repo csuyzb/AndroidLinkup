@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.util.ToastUtil;
 import com.znv.linkup.view.GameTitle;
-import com.znv.linkup.view.dialog.AlertDialog;
+import com.znv.linkup.view.dialog.HelpDialog;
 
 /**
  * 欢迎界面活动处理类
@@ -157,10 +157,22 @@ public class WelcomeActivity extends BaseActivity {
      * @param v
      */
     public void startHelp(View v) {
-        AlertDialog helper = new AlertDialog(this);
+        HelpDialog helper = new HelpDialog(this);
         helper.setTitle(getString(R.string.help));
         helper.setMessage(getString(R.string.help_info));
-        helper.setIcon(R.drawable.success);
+        helper.show();
+    }
+    
+
+    /**
+     * 点击帮助按钮时的处理，显示游戏帮助
+     * 
+     * @param v
+     */
+    public void startAbout(View v) {
+        HelpDialog helper = new HelpDialog(this);
+        helper.setTitle(getString(R.string.about));
+        helper.setMessage(getString(R.string.about_info));
         helper.show();
     }
 

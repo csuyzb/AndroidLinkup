@@ -198,7 +198,7 @@ public class BaseActivity extends Activity {
     /**
      * 设置全局配置
      */
-    protected void setGlobalCfg() {
+    public void setGlobalCfg() {
         CacheUtil.setBindStr(getApplicationContext(), ViewSettings.GlobalCfgStr, LevelCfg.globalCfg.toString());
     }
 

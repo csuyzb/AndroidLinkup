@@ -46,16 +46,6 @@ public class ViewSettings {
     public static int SkinImageCount = 16;
 
     /**
-     * 增加提示的连击数
-     */
-    public static int ComboAddPrompt = 3;
-
-    /**
-     * 增加重排的连击数
-     */
-    public static int ComboAddRefresh = 6;
-
-    /**
      * 最大的提示数
      */
     public static int PromptMaxNum = 10;

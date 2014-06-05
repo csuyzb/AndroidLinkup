@@ -1,7 +1,6 @@
 package com.znv.linkup;
 
 import android.graphics.Point;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Display;
@@ -28,7 +27,8 @@ import com.znv.linkup.util.AnimatorUtil;
 import com.znv.linkup.util.ToastUtil;
 import com.znv.linkup.view.CardsView;
 import com.znv.linkup.view.PathView;
-import com.znv.linkup.view.dialog.GameResultDialogs;
+import com.znv.linkup.view.dialog.FailDialog;
+import com.znv.linkup.view.dialog.SuccessDialog;
 import com.znv.linkup.view.handler.GameMsgHandler;
 
 /**
@@ -78,7 +78,8 @@ public class GameActivity extends BaseActivity implements IGameAction {
         pathView = new PathView(this);
         holder.flBackground.addView(pathView, -1, -1);
         cardsView = (CardsView) findViewById(R.id.cardsView);
-        resultDialog = new GameResultDialogs(this);
+        failDialog = new FailDialog(this);
+        successDialog = new SuccessDialog(this);
 
         start();
     }
@@ -121,7 +122,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
         cardsView.setGame(game);
 
         // 播放声音和动画
-        showAnimMsg(getString(R.string.game_ready_go), 30, true);
+        showAnimMsg(getString(R.string.game_ready_go), 30);
         soundMgr.readyGo();
 
         game.start();
@@ -160,7 +161,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
             start();
         } else {
             // 通过所有关卡
-            showAnimMsg(getString(R.string.game_success), 30, true);
+            showAnimMsg(getString(R.string.game_success), 30);
             onBackPressed();
         }
     }
@@ -242,26 +243,6 @@ public class GameActivity extends BaseActivity implements IGameAction {
         Point endPoint = new Point(startPoint.x, startPoint.y - 50);
         animTranslate(holder.tvCombo, startPoint, endPoint, 1500);
 
-        // if (game.getGameCombo() == ViewSettings.ComboAddPrompt) {
-        // if (LevelCfg.globalCfg.getPromptNum() < ViewSettings.PromptMaxNum) {
-        // // promt 增加一次
-        // LevelCfg.globalCfg.setPromptNum(LevelCfg.globalCfg.getPromptNum() + 1);
-        // setGlobalCfg();
-        // handler.sendEmptyMessage(ViewSettings.PromptMessage);
-        //
-        // showToolsAdd(holder.btnPrompt, getString(R.string.game_prompt_add));
-        // }
-        // } else if (game.getGameCombo() == ViewSettings.ComboAddRefresh) {
-        // if (LevelCfg.globalCfg.getRefreshNum() < ViewSettings.RefreshMaxNum) {
-        // // refresh 增加一次
-        // LevelCfg.globalCfg.setRefreshNum(LevelCfg.globalCfg.getRefreshNum() + 1);
-        // setGlobalCfg();
-        // handler.sendEmptyMessage(ViewSettings.RefreshMessage);
-        //
-        // showToolsAdd(holder.btnRefresh, getString(R.string.game_refresh_add));
-        // }
-        // }
-
         soundMgr.combo();
     }
 
@@ -270,9 +251,11 @@ public class GameActivity extends BaseActivity implements IGameAction {
      * 
      * @param msg
      *            文字信息
+     * @param textSize
+     *            字体大小
      */
-    private void showAnimMsg(String msg, int textSize, boolean isBold) {
-        setAnimMsgStyle(msg, textSize, isBold);
+    private void showAnimMsg(String msg, int textSize) {
+        setAnimMsgStyle(msg, textSize);
         int msgWidth = msg.length() * holder.screenWidth / 50;
         Point startPoint = new Point(holder.screenCenter.x - msgWidth, holder.screenCenter.y);
         Point endPoint = new Point(startPoint.x, startPoint.y - 50);
@@ -283,51 +266,43 @@ public class GameActivity extends BaseActivity implements IGameAction {
      * 显示增加分数动画
      * 
      * @param msg
+     *            文字信息
      * @param textSize
+     *            字体大小
      */
-    private void showAddScore(String msg, int textSize, boolean isBold) {
-        setAnimMsgStyle(msg, textSize, isBold);
+    private void showAddScore(String msg, int textSize) {
+        setAnimMsgStyle(msg, textSize);
         int msgWidth = msg.length() * holder.screenWidth / 60;
         Point startPoint = new Point(holder.screenCenter.x - msgWidth, (int) holder.tsScore.getY() + 100);
         Point endPoint = new Point(startPoint.x, startPoint.y - 40);
         animTranslate(holder.tvAnimMsg, startPoint, endPoint, 500);
     }
 
-    private void setAnimMsgStyle(String msg, int textSize, boolean isBold) {
+    /**
+     * 设置动画文字的样式
+     * 
+     * @param msg
+     *            文字信息
+     * @param textSize
+     *            字体大小
+     */
+    private void setAnimMsgStyle(String msg, int textSize) {
         holder.tvAnimMsg.setText(msg);
         holder.tvAnimMsg.setTextSize(textSize);
-        if (isBold) {
-            holder.tvAnimMsg.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-        }
     }
 
-    // /**
-    // * 增加道具提示动画
-    // *
-    // * @param btn
-    // * 道具button
-    // * @param msg
-    // * 提示信息
-    // */
-    // private void showToolsAdd(View btn, String msg) {
-    // holder.tvOther.setText(msg);
-    // Point startPoint = new Point((int) btn.getX(), (int) holder.tools.getY() - 30);
-    // Point endPoint = new Point(startPoint.x, startPoint.y - 30);
-    // animTranslate(holder.tvOther, startPoint, endPoint, 1500);
-    // }
-
     /**
-     * 获取游戏结果信息
+     * 获取游戏得分
      * 
      * @param isSuccess
      *            是否胜利
-     * @return 游戏结果信息字符串
+     * @return 游戏总得分
      */
-    public String getGameResult(boolean isSuccess) {
+    public int getGameScore(boolean isSuccess) {
         if (isSuccess) {
-            return String.format("%s%s", getString(R.string.game_score), String.valueOf(game.getGameScore() + game.getRewardScore()));
+            return game.getGameScore() + game.getRewardScore();
         } else {
-            return getString(R.string.game_score) + String.valueOf(game.getGameScore());
+            return game.getGameScore();
         }
     }
 
@@ -388,8 +363,6 @@ public class GameActivity extends BaseActivity implements IGameAction {
         animTranslate(holder.startCoin, startPoint, endPoint, 400);
         startPoint = linkInfo.getLinkPieces().get(linkInfo.getLinkPieces().size() - 1).getCenter();
         animTranslate(holder.endCoin, startPoint, endPoint, 400);
-
-        //
 
         soundMgr.erase();
     }
@@ -531,7 +504,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
         // 显示增加分数动画
         int lastScore = Integer.parseInt((String) ((TextView) holder.tsScore.getCurrentView()).getText());
         String msg = "+" + String.valueOf(game.getGameScore() - lastScore);
-        showAddScore(msg, 20, false);
+        showAddScore(msg, 20);
 
         holder.tsScore.setText(String.valueOf(game.getGameScore()));
     }
@@ -540,7 +513,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
      * Handler的消息处理--显示失败
      */
     public void showFail() {
-        resultDialog.lost();
+        failDialog.showDialog();
 
         soundMgr.fail();
     }
@@ -556,7 +529,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
             isNewRecord = true;
             curLevelCfg.setMaxScore(game.getTotalScore());
         }
-        resultDialog.success(stars, isNewRecord);
+        successDialog.showDialog(stars, isNewRecord);
 
         soundMgr.win();
     }
@@ -584,7 +557,8 @@ public class GameActivity extends BaseActivity implements IGameAction {
 
     private Game game;
     private CardsView cardsView;
-    private GameResultDialogs resultDialog;
+    private FailDialog failDialog;
+    private SuccessDialog successDialog;
     private LevelCfg curLevelCfg = null;
     private LevelHolder holder = new LevelHolder();
     private Handler handler = new GameMsgHandler(this);

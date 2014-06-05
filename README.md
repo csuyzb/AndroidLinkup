@@ -8,12 +8,19 @@ The most interesting linkup game for android.
 项目主页:http://csuyzb.github.io/AndroidLinkup
 
 小米商店:http://app.xiaomi.com/detail/61473
+
 豌豆荚:http://www.wandoujia.com/apps/com.znv.linkup
+
 百度手机助手:http://as.baidu.com/a/item?docid=6530178
+
 360手机助手:http://zhushou.360.cn/detail/index/soft_id/1667515
+
 91助手:http://apk.91.com/Soft/Android/com.znv.linkup-4.html
+
 安卓市场:http://apk.hiapk.com/html/2014/05/2704660.html
 
+
+截图
 
 ![welcome](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/welcome.jpg)![rank](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/rank.jpg)![classic](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/classic.jpg)![fish](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/fish.jpg)
 

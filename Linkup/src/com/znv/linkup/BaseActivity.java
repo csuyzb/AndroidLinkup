@@ -14,6 +14,7 @@ import com.baidu.android.pushservice.PushManager;
 import com.znv.linkup.core.config.GameCfg;
 import com.znv.linkup.core.config.GlobalCfg;
 import com.znv.linkup.core.config.LevelCfg;
+import com.znv.linkup.core.config.ModeCfg;
 import com.znv.linkup.core.config.RankCfg;
 import com.znv.linkup.db.DbScore;
 import com.znv.linkup.db.LevelScore;
@@ -36,7 +37,7 @@ public class BaseActivity extends Activity {
     // 游戏音效
     protected static SoundManager soundMgr = null;
     // 游戏关卡配置
-    protected static List<RankCfg> rankCfgs = null;
+    protected static List<ModeCfg> modeCfgs = null;
     // 游戏配置Map
     protected static SparseArray<LevelCfg> levelCfgs = null;
 
@@ -136,14 +137,16 @@ public class BaseActivity extends Activity {
      * 加载关卡配置
      */
     private void loadCfgs() {
-        if (rankCfgs == null) {
+        if (modeCfgs == null) {
             XmlResourceParser xrp = getResources().getXml(R.xml.gamecfg);
             GameCfg gameCfg = new GameCfg(xrp);
-            rankCfgs = gameCfg.getRankInfos();
+            modeCfgs = gameCfg.getModeInfos();
             levelCfgs = new SparseArray<LevelCfg>();
-            for (RankCfg rankCfg : rankCfgs) {
-                for (LevelCfg levelCfg : rankCfg.getLevelInfos()) {
-                    levelCfgs.put(levelCfg.getLevelId(), levelCfg);
+            for (ModeCfg modeCfg : modeCfgs) {
+                for (RankCfg rankCfg : modeCfg.getRankInfos()) {
+                    for (LevelCfg levelCfg : rankCfg.getLevelInfos()) {
+                        levelCfgs.put(levelCfg.getLevelId(), levelCfg);
+                    }
                 }
             }
         }
@@ -172,7 +175,7 @@ public class BaseActivity extends Activity {
      */
     private void loadLevelScores() {
         // 初始化数据库
-        DbScore.init(this, rankCfgs);
+        DbScore.init(this, modeCfgs);
 
         List<LevelScore> levelScores = DbScore.selectAll();
         for (LevelScore score : levelScores) {

@@ -1,6 +1,7 @@
 package com.znv.linkup.core.card.align;
 
 import com.znv.linkup.core.card.Piece;
+import com.znv.linkup.core.config.GameAlign;
 
 /**
  * 游戏卡片聚集的处理类

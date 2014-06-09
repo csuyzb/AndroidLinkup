@@ -4,17 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.znv.linkup.R;
 import com.znv.linkup.ViewSettings;
+import com.znv.linkup.core.config.GameMode;
 import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.core.config.RankCfg;
+import com.znv.linkup.util.StringUtil;
 
 /**
  * Rank下所有关卡的数据适配类
@@ -33,9 +37,12 @@ public class Levels extends BaseAdapter {
     class LevelViewHolder {
         ImageView tvLevel;
         RatingBar rbStar;
+        TextView tvTime;
+        TextView tvTask;
     }
 
     public Levels(Context context, RankCfg rankCfg) {
+        this.context = context;
         inflater = LayoutInflater.from(context);
         this.rankCfg = rankCfg;
     }
@@ -67,6 +74,8 @@ public class Levels extends BaseAdapter {
             holder = new LevelViewHolder();
             holder.tvLevel = (ImageView) convertView.findViewById(R.id.tvLevel);
             holder.rbStar = (RatingBar) convertView.findViewById(R.id.rbStar);
+            holder.tvTime = (TextView) convertView.findViewById(R.id.tvTime);
+            holder.tvTask = (TextView) convertView.findViewById(R.id.tvTask);
             // 缓存holder
             convertView.setTag(holder);
 
@@ -108,14 +117,40 @@ public class Levels extends BaseAdapter {
             holder.tvLevel.setBackgroundResource(R.drawable.levelbg);
             int level = Integer.parseInt(levelCfg.getLevelName());
             holder.tvLevel.setImageResource(ViewSettings.Numbers[level]);
-            holder.rbStar.setRating(getItem(position).getLevelStar());
+            if (levelCfg.getLevelMode() == GameMode.Level) {
+                holder.rbStar.setVisibility(View.VISIBLE);
+                holder.tvTime.setVisibility(View.GONE);
+                holder.tvTask.setVisibility(View.GONE);
+                holder.rbStar.setRating(getItem(position).getLevelStar());
+            } else if (levelCfg.getLevelMode() == GameMode.Time) {
+                holder.rbStar.setVisibility(View.GONE);
+                holder.tvTime.setVisibility(View.VISIBLE);
+                holder.tvTask.setVisibility(View.GONE);
+                if (getItem(position).getMaxScore() > 0) {
+                    holder.tvTime.setText(StringUtil.secondToString(getItem(position).getMaxScore()));
+                } else {
+                    holder.tvTime.setText("");
+                }
+            } else if (levelCfg.getLevelMode() == GameMode.Task) {
+                holder.rbStar.setVisibility(View.GONE);
+                holder.tvTime.setVisibility(View.GONE);
+                holder.tvTask.setVisibility(View.VISIBLE);
+                holder.tvTask.setText(String.valueOf(getItem(position).getTask()));
+                if (getItem(position).getMaxScore() > 0) {
+                    Drawable drawable = context.getResources().getDrawable(R.drawable.pass);
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                    holder.tvTask.setCompoundDrawables(null, null, drawable, null);
+                }
+            }
         } else {
             holder.tvLevel.setBackgroundResource(R.drawable.locked);
             holder.rbStar.setVisibility(View.INVISIBLE);
+            holder.tvTime.setVisibility(View.GONE);
+            holder.tvTask.setVisibility(View.GONE);
         }
-
     }
 
+    private Context context = null;
     private LayoutInflater inflater;
     private RankCfg rankCfg;
     private List<LevelViewHolder> levels = new ArrayList<LevelViewHolder>();

@@ -3,7 +3,6 @@ package com.znv.linkup.core.config;
 import java.io.Serializable;
 
 import com.znv.linkup.core.GameSettings;
-import com.znv.linkup.core.card.align.GameAlign;
 
 /**
  * 关卡配置
@@ -31,6 +30,9 @@ public class LevelCfg implements Serializable {
     private int xSize;
     private int ySize;
     private int levelTime;
+    private GameMode levelMode;
+    // 任务目标
+    private int task;
     private GameAlign levelAlign;
     private int maxScore;
     private boolean isActive;
@@ -58,6 +60,8 @@ public class LevelCfg implements Serializable {
             starScores[0] = (min + starScores[1]) / 2;
             starScores[2] = starScores[1] + levelTime * GameSettings.TimeScore / 2;
         }
+        // 设置任务为2颗星的分数值
+        task = starScores[1];
     }
 
     /**
@@ -68,8 +72,6 @@ public class LevelCfg implements Serializable {
      * @return 游戏星级
      */
     public int getStar(int score) {
-        initStarScores();
-
         if (score < starScores[0])
             return 0;
         else if (score < starScores[1])
@@ -102,6 +104,22 @@ public class LevelCfg implements Serializable {
 
     public void setRankName(String rankName) {
         this.rankName = rankName;
+    }
+
+    public GameMode getLevelMode() {
+        return levelMode;
+    }
+
+    public void setLevelMode(GameMode levelMode) {
+        this.levelMode = levelMode;
+    }
+
+    public int getTask() {
+        return task;
+    }
+
+    public void setTask(int task) {
+        this.task = task;
     }
 
     public String getGameSkin() {

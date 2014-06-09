@@ -1,4 +1,4 @@
-package com.znv.linkup.core.card.align;
+package com.znv.linkup.core.config;
 
 /**
  * 游戏聚集对齐方式

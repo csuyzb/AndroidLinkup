@@ -17,7 +17,7 @@ import com.znv.linkup.view.dialog.HelpDialog;
  * @author yzb
  * 
  */
-public class WelcomeActivity extends BaseActivity {
+public class WelcomeActivity extends BaseActivity implements View.OnClickListener {
 
     private long exitTime = 0;
     private ImageView ivMusic = null;
@@ -29,11 +29,19 @@ public class WelcomeActivity extends BaseActivity {
 
         setContentView(R.layout.activity_welcome);
 
+        initMode();
+
         initMusicSetting();
 
         initSoundSetting();
 
         initTitle();
+    }
+
+    private void initMode() {
+        findViewById(R.id.mode0).setOnClickListener(this);
+        findViewById(R.id.mode1).setOnClickListener(this);
+        findViewById(R.id.mode2).setOnClickListener(this);
     }
 
     @Override
@@ -140,16 +148,16 @@ public class WelcomeActivity extends BaseActivity {
         initTitle();
     }
 
-    /**
-     * 点击开始按钮时的处理
-     * 
-     * @param v
-     */
-    public void startGame(View v) {
-        soundMgr.select();
-        Intent intent = new Intent(WelcomeActivity.this, RankActivity.class);
-        startActivity(intent);
-    }
+    // /**
+    // * 点击开始按钮时的处理
+    // *
+    // * @param v
+    // */
+    // public void startGame(View v) {
+    // soundMgr.select();
+    // Intent intent = new Intent(WelcomeActivity.this, ModeActivity.class);
+    // startActivity(intent);
+    // }
 
     /**
      * 点击帮助按钮时的处理，显示游戏帮助
@@ -162,7 +170,6 @@ public class WelcomeActivity extends BaseActivity {
         helper.setMessage(getString(R.string.help_info));
         helper.show();
     }
-    
 
     /**
      * 点击帮助按钮时的处理，显示游戏帮助
@@ -191,6 +198,17 @@ public class WelcomeActivity extends BaseActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onClick(View v) {
+        int modeIndex = Integer.parseInt((String) v.getTag());
+        if (modeIndex >= 0 && modeIndex < 3) {
+            soundMgr.select();
+            Intent intent = new Intent(WelcomeActivity.this, RankActivity.class);
+            intent.putExtra("modeIndex", modeIndex);
+            startActivity(intent);
+        }
     }
 
 }

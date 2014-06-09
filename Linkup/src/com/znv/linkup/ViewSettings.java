@@ -83,12 +83,12 @@ public class ViewSettings {
     /**
      * 本地数据库的版本
      */
-    public static int DbVersion = 1;
+    public static int DbVersion = 2;
 
     /**
      * 初始激活的关卡，按升序排列
      */
-    public static int[] DefaultActiveLevels = new int[] { 0, 1, 2, 3, 24, 25, 26, 27, 48, 49, 50, 51 };
+    public static int[] DefaultActiveLevels = new int[] { 0, 1, 2, 3, 24, 25, 26, 27, 48, 49, 50, 51, 120, 121, 122, 123, 192, 193, 194, 195 };
 
     /**
      * 两次back退出间的间隔

@@ -27,4 +27,27 @@
         android:paddingTop="2dp"
         android:rating="0" />
 
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="#FFFFFF33"
+        android:textSize="16sp"
+        android:textStyle="bold" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/tvTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawablePadding="2dp"
+        android:gravity="center"
+        android:textColor="#FFFFFF33"
+        android:textSize="16sp"
+        android:textStyle="bold" >
+    </TextView>
+
 </LinearLayout>

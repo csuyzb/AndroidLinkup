@@ -29,7 +29,7 @@ public class GameStatus {
 
     public GameStatus(LevelCfg levelCfg, IGameStatus listener) {
         this.listener = listener;
-        gameTime = new GameTime(levelCfg.getLevelTime(), listener);
+        gameTime = new GameTime(levelCfg.getLevelMode(), levelCfg.getLevelTime(), listener);
         gameScore = new GameScore(listener);
         gameCombo = new GameCombo(listener);
     }
@@ -58,7 +58,7 @@ public class GameStatus {
      */
     public void pause() {
         // 游戏结束时暂停和重启游戏无效
-        if(gameState != GameState.None) {
+        if (gameState != GameState.None) {
             gameTime.stop();
             gameState = GameState.Pause;
             if (listener != null) {
@@ -72,7 +72,7 @@ public class GameStatus {
      */
     public void resume() {
         if (gameState == GameState.Pause) {
-            if (gameTime.getGameTime() > 0) {
+            if (gameTime.getGameTime() >= 0) {
                 gameTime.start();
                 if (listener != null) {
                     listener.onGameResume();
@@ -125,6 +125,7 @@ public class GameStatus {
 
     /**
      * 取消提示
+     * 
      * @param pair
      *            取消提示的卡片对
      */
@@ -147,7 +148,7 @@ public class GameStatus {
         gameTime.addTime(GameSettings.RewardTime);
         gameScore.addScore(GameSettings.CardScore * 2 + gameScore.getCornerScore(linkInfo) + gameCombo.getComboScore());
     }
-    
+
     public void addGameTime(int seconds) {
         gameTime.addTime(seconds);
     }

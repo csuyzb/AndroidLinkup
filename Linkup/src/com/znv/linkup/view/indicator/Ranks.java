@@ -54,17 +54,17 @@ public class Ranks extends PagerAdapter {
      * 初始化游戏等级页面
      */
     private void initRankPages() {
-
+        int rankIndex = 0;
         for (final RankCfg rankCfg : rankCfgs) {
             View rank = inflater.inflate(R.layout.rank, null);
 
             TextView text = (TextView) rank.findViewById(R.id.rankName);
-            text.setText(rankPrefix[Integer.parseInt(rankCfg.getRankId())] + rankCfg.getRankName());
+            text.setText(rankPrefix[rankIndex] + rankCfg.getRankName());
 
             Levels adapter = new Levels(context, rankCfg);
             GridView grid = (GridView) rank.findViewById(R.id.rankGrid);
             grid.setAdapter(adapter);
-//            grid.setColumnWidth(rankCfg.getLevelInfos().get(0).getPieceWidth() + 20);
+            // grid.setColumnWidth(rankCfg.getLevelInfos().get(0).getPieceWidth() + 20);
 
             grid.setOnItemClickListener(new OnItemClickListener() {
 
@@ -79,6 +79,8 @@ public class Ranks extends PagerAdapter {
             grids.add(rank);
 
             rankAdapters.add(adapter);
+
+            rankIndex++;
         }
     }
 

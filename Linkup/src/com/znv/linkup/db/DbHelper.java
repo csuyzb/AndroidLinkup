@@ -5,9 +5,10 @@ import java.util.List;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.znv.linkup.ViewSettings;
-import com.znv.linkup.core.config.RankCfg;
+import com.znv.linkup.core.config.ModeCfg;
 
 /**
  * SQLite数据库处理帮助类，存储关卡最高分，是否激活，游戏星级
@@ -17,11 +18,11 @@ import com.znv.linkup.core.config.RankCfg;
  */
 class DbHelper extends SQLiteOpenHelper {
 
-    private List<RankCfg> rankCfgs;
+    private List<ModeCfg> modeCfgs;
 
-    public DbHelper(Context context, List<RankCfg> config) {
+    public DbHelper(Context context, List<ModeCfg> config) {
         super(context, ViewSettings.DbFileName, null, ViewSettings.DbVersion);
-        this.rankCfgs = config;
+        this.modeCfgs = config;
     }
 
     /**
@@ -32,21 +33,7 @@ class DbHelper extends SQLiteOpenHelper {
         String sql = "create table scores(level int primary key, rank int, maxscore int, isactive int, star int);";
         db.execSQL(sql);
 
-        int index = 0;
-        db.beginTransaction();
-        for (int r = 0; r < rankCfgs.size(); r++) {
-            for (int l = 0; l < rankCfgs.get(r).getLevelInfos().size(); l++) {
-                sql = "insert into scores(level, rank, maxscore, isactive, star) values(?,?,?,?,?)";
-                // 控制默认激活的关卡数
-                if (isActive(index)) {
-                    db.execSQL(sql, new Object[] { index++, r, 0, 1, 0 });
-                } else {
-                    db.execSQL(sql, new Object[] { index++, r, 0, 0, 0 });
-                }
-            }
-        }
-        db.setTransactionSuccessful();
-        db.endTransaction();
+        initDb(db);
     }
 
     /**
@@ -73,10 +60,40 @@ class DbHelper extends SQLiteOpenHelper {
         return false;
     }
 
+    private void initDb(SQLiteDatabase db) {
+        String sql;
+        int index = 0;
+        db.beginTransaction();
+        for (int m = 0; m < modeCfgs.size(); m++) {
+            for (int r = 0; r < modeCfgs.get(m).getRankInfos().size(); r++) {
+                for (int l = 0; l < modeCfgs.get(m).getRankInfos().get(r).getLevelInfos().size(); l++) {
+                    sql = "insert into scores(level, rank, maxscore, isactive, star) values(?,?,?,?,?)";
+                    // 控制默认激活的关卡数
+                    if (isActive(index)) {
+                        try {
+                            db.execSQL(sql, new Object[] { index++, r, 0, 1, 0 });
+                        } catch (Exception ex) {
+                            Log.d("sqlite", ex.getMessage());
+                        }
+                    } else {
+                        try {
+                            db.execSQL(sql, new Object[] { index++, r, 0, 0, 0 });
+                        } catch (Exception ex) {
+                            Log.d("sqlite", ex.getMessage());
+                        }
+                    }
+                }
+            }
+        }
+        db.setTransactionSuccessful();
+        db.endTransaction();
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // TODO Auto-generated method stub
 
+        // 如果level存在，则insert不成功，不存在，则新增
+        initDb(db);
     }
 
 }

@@ -7,8 +7,6 @@ import org.xmlpull.v1.XmlPullParser;
 
 import android.content.res.XmlResourceParser;
 
-import com.znv.linkup.core.card.align.GameAlign;
-
 /**
  * 游戏配置类，根据xml文件解析游戏关卡配置
  * 
@@ -32,6 +30,7 @@ public class GameCfg {
             return;
         }
 
+        ModeCfg modeInfo = null;
         RankCfg rankInfo = null;
         LevelCfg levelInfo = null;
         try {
@@ -40,19 +39,37 @@ public class GameCfg {
                     String tagName = xrp.getName();
                     if (tagName.equals("game")) {
                         LoadGlobalCfg(xrp);
+                    } else if (tagName.equals("mode")) {
+                        if (modeInfo != null) {
+                            if (rankInfo != null) {
+                                if (levelInfo != null) {
+                                    setlevelByMode(levelInfo, modeInfo);
+                                    setlevelByRank(levelInfo, rankInfo);
+                                    rankInfo.getLevelInfos().add(levelInfo);
+                                    levelInfo = null;
+                                }
+                                modeInfo.getRankInfos().add(rankInfo);
+                                rankInfo = null;
+                            }
+                            modeInfos.add(modeInfo);
+                            modeInfo = null;
+                        }
+                        modeInfo = LoadModeCfg(xrp);
                     } else if (tagName.equals("rank")) {
                         if (rankInfo != null) {
                             if (levelInfo != null) {
+                                setlevelByMode(levelInfo, modeInfo);
                                 setlevelByRank(levelInfo, rankInfo);
                                 rankInfo.getLevelInfos().add(levelInfo);
                                 levelInfo = null;
                             }
-                            rankInfos.add(rankInfo);
+                            modeInfo.getRankInfos().add(rankInfo);
                             rankInfo = null;
                         }
                         rankInfo = LoadRankCfg(xrp);
                     } else if (tagName.equals("level")) {
                         if (rankInfo != null && levelInfo != null) {
+                            setlevelByMode(levelInfo, modeInfo);
                             setlevelByRank(levelInfo, rankInfo);
                             rankInfo.getLevelInfos().add(levelInfo);
                             levelInfo = null;
@@ -61,18 +78,35 @@ public class GameCfg {
                     }
                 } else if (xrp.getEventType() == XmlResourceParser.END_TAG) {
                     String tagName = xrp.getName();
-                    if (tagName.equals("rank")) {
+                    if (tagName.equals("mode")) {
+                        if (modeInfo != null) {
+                            if (rankInfo != null) {
+                                if (levelInfo != null) {
+                                    setlevelByMode(levelInfo, modeInfo);
+                                    setlevelByRank(levelInfo, rankInfo);
+                                    rankInfo.getLevelInfos().add(levelInfo);
+                                    levelInfo = null;
+                                }
+                                modeInfo.getRankInfos().add(rankInfo);
+                                rankInfo = null;
+                            }
+                            modeInfos.add(modeInfo);
+                            modeInfo = null;
+                        }
+                    } else if (tagName.equals("rank")) {
                         if (rankInfo != null) {
                             if (levelInfo != null) {
+                                setlevelByMode(levelInfo, modeInfo);
                                 setlevelByRank(levelInfo, rankInfo);
                                 rankInfo.getLevelInfos().add(levelInfo);
                                 levelInfo = null;
                             }
-                            rankInfos.add(rankInfo);
+                            modeInfo.getRankInfos().add(rankInfo);
                             rankInfo = null;
                         }
                     } else if (tagName.equals("level")) {
                         if (rankInfo != null && levelInfo != null) {
+                            setlevelByMode(levelInfo, modeInfo);
                             setlevelByRank(levelInfo, rankInfo);
                             rankInfo.getLevelInfos().add(levelInfo);
                             levelInfo = null;
@@ -84,6 +118,10 @@ public class GameCfg {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    private void setlevelByMode(LevelCfg levelInfo, ModeCfg modeInfo) {
+        levelInfo.setLevelMode(GameMode.valueOf(Integer.parseInt(modeInfo.getModeId())));
     }
 
     private void setlevelByRank(LevelCfg levelInfo, RankCfg rankInfo) {
@@ -108,6 +146,20 @@ public class GameCfg {
 
         // 设置所有关卡的全局配置
         LevelCfg.globalCfg = gamecfg;
+    }
+
+    /**
+     * 加载模式配置
+     * 
+     * @param xrp
+     *            xml节点
+     * @return 模式配置信息
+     */
+    private ModeCfg LoadModeCfg(XmlResourceParser xrp) {
+        String name = xrp.getAttributeValue(null, "name");
+        ModeCfg gMode = new ModeCfg(name);
+        gMode.setModeId(String.valueOf(modeCount++));
+        return gMode;
     }
 
     /**
@@ -144,6 +196,7 @@ public class GameCfg {
         levelCfg.setEmptyNum(Integer.parseInt(xrp.getAttributeValue(null, "empty")));
         levelCfg.setObstacleNum(Integer.parseInt(xrp.getAttributeValue(null, "obstacle")));
         levelCfg.setMaptplStr(xrp.getAttributeValue(null, "maptpl"));
+        levelCfg.initStarScores();
         return levelCfg;
     }
 
@@ -152,11 +205,12 @@ public class GameCfg {
      * 
      * @return 游戏等级信息列表
      */
-    public List<RankCfg> getRankInfos() {
-        return rankInfos;
+    public List<ModeCfg> getModeInfos() {
+        return modeInfos;
     }
 
     private int levelCount = 0;
     private int rankCount = 0;
-    private List<RankCfg> rankInfos = new ArrayList<RankCfg>();
+    private int modeCount = 0;
+    private List<ModeCfg> modeInfos = new ArrayList<ModeCfg>();
 }

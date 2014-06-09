@@ -1,5 +1,7 @@
 package com.znv.linkup;
 
+import java.util.List;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -7,6 +9,7 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.widget.LinearLayout;
 
 import com.znv.linkup.core.config.LevelCfg;
+import com.znv.linkup.core.config.RankCfg;
 import com.znv.linkup.view.indicator.CirclePageIndicator;
 import com.znv.linkup.view.indicator.Ranks;
 
@@ -18,7 +21,9 @@ import com.znv.linkup.view.indicator.Ranks;
  */
 public class RankActivity extends BaseActivity implements OnPageChangeListener {
 
+    private static int modeIndex = -1;
     private static Ranks rankPager = null;
+    private List<RankCfg> rankCfgs = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +54,12 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
     private void initRank() {
 
         LinearLayout root = (LinearLayout) RankActivity.this.findViewById(R.id.rankBg);
-        root.setBackgroundResource(ViewSettings.RankBgImageIds[0]);
 
-        if (rankPager == null) {
+        int index = getIntent().getIntExtra("modeIndex", 0);
+        if (index != modeIndex) {
+            modeIndex = index;
+            rankCfgs = modeCfgs.get(index).getRankInfos();
+            root.setBackgroundResource(ViewSettings.RankBgImageIds[rankCfgs.get(0).getRankBackground()]);
             rankPager = new Ranks(this, rankCfgs, new Ranks.ISelectedLevel() {
 
                 @Override
@@ -85,7 +93,7 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
     public void onPageSelected(int arg0) {
         soundMgr.pageChanged();
         LinearLayout root = (LinearLayout) RankActivity.this.findViewById(R.id.rankBg);
-        root.setBackgroundResource(ViewSettings.RankBgImageIds[arg0]);
+        root.setBackgroundResource(ViewSettings.RankBgImageIds[rankCfgs.get(arg0).getRankBackground()]);
     }
 
     @Override

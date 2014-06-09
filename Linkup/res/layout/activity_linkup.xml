@@ -31,10 +31,11 @@
 
             <TextView
                 android:id="@+id/tvLevel"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:gravity="center"
+                android:layout_weight="1"
+                android:gravity="left"
                 android:textColor="#FFffa500"
                 android:textSize="18sp" />
 
@@ -44,17 +45,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:inAnimation="@anim/slide_in_up"
-                android:outAnimation="@anim/slide_out_up"
                 android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/maxScore"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="10dp"
-                android:gravity="center"
+                android:layout_weight="1"
+                android:gravity="right"
                 android:text=""
                 android:textColor="#FFffa500"
                 android:textSize="18sp" />

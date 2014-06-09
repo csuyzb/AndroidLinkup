@@ -7,7 +7,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.znv.linkup.core.config.RankCfg;
+import com.znv.linkup.core.config.ModeCfg;
 
 /**
  * 关卡积分数据操作类
@@ -19,8 +19,8 @@ public class DbScore {
 
     private static DbHelper database = null;
 
-    public static void init(Context context, List<RankCfg> rankCfgs) {
-        database = new DbHelper(context, rankCfgs);
+    public static void init(Context context, List<ModeCfg> modeCfgs) {
+        database = new DbHelper(context, modeCfgs);
     }
 
     /**

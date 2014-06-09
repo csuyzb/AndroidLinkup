@@ -68,12 +68,12 @@ public class SuccessDialog extends Dialog {
     /**
      * 显示游戏胜利对话框
      * 
-     * @param stars
-     *            游戏星级
      * @param isNewRecord
      *            是否是新记录
+     * @param stars
+     *            游戏星级
      */
-    public void showDialog(int stars, boolean isNewRecord) {
+    public void showDialog(boolean isNewRecord, int stars) {
         setGameScore(linkup.getGameScore(true));
         setGameStar(stars);
         isNewRecord(isNewRecord);

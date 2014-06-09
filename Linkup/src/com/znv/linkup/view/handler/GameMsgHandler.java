@@ -27,16 +27,16 @@ public class GameMsgHandler extends Handler {
         GameActivity gameAct = gameActs.get();
         switch (msg.what) {
         case ViewSettings.TimeMessage:
-            gameAct.showTime();
+            gameAct.showTime(msg.arg1);
             break;
         case ViewSettings.ScoreMessage:
-            gameAct.showScore();
+            gameAct.showScore(msg.arg1);
             break;
         case ViewSettings.FailMessage:
             gameAct.showFail();
             break;
         case ViewSettings.WinMessage:
-            gameAct.showSuccess();
+            gameAct.showSuccess(msg.arg1, msg.arg2);
             break;
         case ViewSettings.PromptMessage:
             gameAct.showPrompt();

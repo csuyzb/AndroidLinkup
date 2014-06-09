@@ -20,15 +20,19 @@ import com.znv.linkup.core.IGameAction;
 import com.znv.linkup.core.card.Piece;
 import com.znv.linkup.core.card.PiecePair;
 import com.znv.linkup.core.card.path.LinkInfo;
+import com.znv.linkup.core.config.GameMode;
 import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.db.DbScore;
 import com.znv.linkup.db.LevelScore;
 import com.znv.linkup.util.AnimatorUtil;
+import com.znv.linkup.util.StringUtil;
 import com.znv.linkup.util.ToastUtil;
 import com.znv.linkup.view.CardsView;
 import com.znv.linkup.view.PathView;
 import com.znv.linkup.view.dialog.FailDialog;
 import com.znv.linkup.view.dialog.SuccessDialog;
+import com.znv.linkup.view.dialog.TaskDialog;
+import com.znv.linkup.view.dialog.TimeDialog;
 import com.znv.linkup.view.handler.GameMsgHandler;
 
 /**
@@ -74,12 +78,18 @@ public class GameActivity extends BaseActivity implements IGameAction {
                 return tv;
             }
         });
+        if (curLevelCfg.getLevelMode() == GameMode.Level || curLevelCfg.getLevelMode() == GameMode.Task) {
+            holder.tsScore.setInAnimation(this, R.anim.slide_in_up);
+            holder.tsScore.setOutAnimation(this, R.anim.slide_out_up);
+        }
 
         pathView = new PathView(this);
         holder.flBackground.addView(pathView, -1, -1);
         cardsView = (CardsView) findViewById(R.id.cardsView);
         failDialog = new FailDialog(this);
         successDialog = new SuccessDialog(this);
+        timeDialog = new TimeDialog(this);
+        taskDialog = new TaskDialog(this);
 
         start();
     }
@@ -112,9 +122,25 @@ public class GameActivity extends BaseActivity implements IGameAction {
         holder.btnAddTime.setText(String.valueOf(LevelCfg.globalCfg.getAddTimeNum()));
         holder.tvLevel.setText(curLevelCfg.getRankName() + "-" + curLevelCfg.getLevelName());
         holder.pbTime.setMax(curLevelCfg.getLevelTime());
-        holder.tsScore.setText("0");
-        holder.tvMaxScore.setText(getString(R.string.max_score) + String.valueOf(curLevelCfg.getMaxScore()));
+        holder.tvMaxScore.setText(getString(R.string.game_level_record) + String.valueOf(curLevelCfg.getMaxScore()));
         holder.flBackground.setBackgroundResource(ViewSettings.RankBgImageIds[curLevelCfg.getLevelBackground()]);
+        if (curLevelCfg.getLevelMode() == GameMode.Level) {
+            holder.tsScore.setText("0");
+        } else if (curLevelCfg.getLevelMode() == GameMode.Time) {
+            holder.pbTime.setVisibility(View.GONE);
+            holder.btnAddTime.setVisibility(View.GONE);
+            holder.tsScore.setText("00:00");
+            if (curLevelCfg.getMaxScore() == 0) {
+                holder.tvMaxScore.setText(getString(R.string.game_level_norecord));
+            } else {
+                holder.tvMaxScore.setText(getString(R.string.game_level_record) + StringUtil.secondToString(curLevelCfg.getMaxScore()));
+            }
+        } else if (curLevelCfg.getLevelMode() == GameMode.Task) {
+            holder.pbTime.setVisibility(View.GONE);
+            holder.btnAddTime.setVisibility(View.GONE);
+            holder.tsScore.setText("0");
+            holder.tvMaxScore.setText(getString(R.string.game_level_task) + curLevelCfg.getTask());
+        }
         // 工具条动画
         AnimatorUtil.animTranslate(holder.tools, holder.tools.getX(), holder.tools.getX(), holder.tools.getY() + 100, holder.tools.getY());
 
@@ -190,17 +216,48 @@ public class GameActivity extends BaseActivity implements IGameAction {
             DbScore.updateActive(nls);
         }
 
-        // 保存记录和星级
-        LevelScore cls = new LevelScore(curLevelCfg.getLevelId());
-        if (game.getTotalScore() > curLevelCfg.getMaxScore()) {
-            // 新纪录
-            cls = new LevelScore(curLevelCfg.getLevelId());
-            cls.setMaxScore(game.getTotalScore());
-            cls.setStar(curLevelCfg.getStar(game.getTotalScore()));
-            DbScore.updateScore(cls);
+        int isRecord = 0;
+        int stars = 0;
+        if (curLevelCfg.getLevelMode() == GameMode.Level) {
+            // 保存记录和星级
+            if (game.getTotalScore() > curLevelCfg.getMaxScore()) {
+                // 新纪录
+                LevelScore cls = new LevelScore(curLevelCfg.getLevelId());
+                cls.setMaxScore(game.getTotalScore());
+                cls.setStar(curLevelCfg.getStar(game.getTotalScore()));
+                DbScore.updateScore(cls);
+
+                // 更新缓存
+                curLevelCfg.setLevelStar(cls.getStar());
+                curLevelCfg.setMaxScore(cls.getMaxScore());
+                isRecord = 1;
+                stars = cls.getStar();
+            }
+        } else if (curLevelCfg.getLevelMode() == GameMode.Time) {
+            if (curLevelCfg.getMaxScore() == 0 || game.getGameTime() < curLevelCfg.getMaxScore()) {
+                // 更新时间记录
+                LevelScore cls = new LevelScore(curLevelCfg.getLevelId());
+                cls.setMaxScore(game.getGameTime());
+                DbScore.updateScore(cls);
+
+                // 更新缓存
+                curLevelCfg.setMaxScore(cls.getMaxScore());
+                isRecord = 1;
+            }
+        } else if (curLevelCfg.getLevelMode() == GameMode.Task) {
+            if (game.getTotalScore() >= curLevelCfg.getTask() && game.getTotalScore() > curLevelCfg.getMaxScore()) {
+                // 更新任务完成记录
+                LevelScore cls = new LevelScore(curLevelCfg.getLevelId());
+                cls.setMaxScore(game.getTotalScore());
+                DbScore.updateScore(cls);
+
+                // 更新缓存
+                curLevelCfg.setMaxScore(cls.getMaxScore());
+                isRecord = 1;
+            }
         }
 
-        handler.sendEmptyMessage(ViewSettings.WinMessage);
+        handler.sendMessage(handler.obtainMessage(ViewSettings.WinMessage, isRecord, stars));
     }
 
     /**
@@ -306,6 +363,10 @@ public class GameActivity extends BaseActivity implements IGameAction {
         }
     }
 
+    public int getGameTime() {
+        return game.getGameTime();
+    }
+
     /**
      * 重排时的处理
      */
@@ -356,13 +417,15 @@ public class GameActivity extends BaseActivity implements IGameAction {
     public void onLinkPath(LinkInfo linkInfo) {
         pathView.showLines(linkInfo.getLinkPieces());
 
-        // 收集金币的动画
-        Point startPoint = linkInfo.getLinkPieces().get(0).getCenter();
-        Point endPoint = new Point((int) (holder.tsScore.getLeft() + holder.tsScore.getWidth() * 0.5),
-                (int) (holder.tsScore.getTop() + holder.tsScore.getHeight() * 0.5));
-        animTranslate(holder.startCoin, startPoint, endPoint, 400);
-        startPoint = linkInfo.getLinkPieces().get(linkInfo.getLinkPieces().size() - 1).getCenter();
-        animTranslate(holder.endCoin, startPoint, endPoint, 400);
+        if (curLevelCfg.getLevelMode() == GameMode.Level || curLevelCfg.getLevelMode() == GameMode.Task) {
+            // 收集金币的动画
+            Point startPoint = linkInfo.getLinkPieces().get(0).getCenter();
+            Point endPoint = new Point((int) (holder.tsScore.getLeft() + holder.tsScore.getWidth() * 0.5),
+                    (int) (holder.tsScore.getTop() + holder.tsScore.getHeight() * 0.5));
+            animTranslate(holder.startCoin, startPoint, endPoint, 400);
+            startPoint = linkInfo.getLinkPieces().get(linkInfo.getLinkPieces().size() - 1).getCenter();
+            animTranslate(holder.endCoin, startPoint, endPoint, 400);
+        }
 
         soundMgr.erase();
     }
@@ -388,7 +451,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
      */
     @Override
     public void onTimeChanged(int time) {
-        handler.sendEmptyMessage(ViewSettings.TimeMessage);
+        handler.sendMessage(handler.obtainMessage(ViewSettings.TimeMessage, time, 0));
     }
 
     /**
@@ -396,7 +459,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
      */
     @Override
     public void onScoreChanged(int score) {
-        handler.sendEmptyMessage(ViewSettings.ScoreMessage);
+        handler.sendMessage(handler.obtainMessage(ViewSettings.ScoreMessage, score, 0));
     }
 
     /**
@@ -491,46 +554,53 @@ public class GameActivity extends BaseActivity implements IGameAction {
 
     /**
      * Handler的消息处理--显示时间
+     * 
+     * @param seconds
+     *            显示的时间秒数
      */
-    public void showTime() {
-        holder.pbTime.setProgress(game.getGameTime());
+    public void showTime(int seconds) {
+        if (curLevelCfg.getLevelMode() == GameMode.Level) {
+            holder.pbTime.setProgress(seconds);
+        } else if (curLevelCfg.getLevelMode() == GameMode.Time) {
+            holder.tsScore.setText(StringUtil.secondToString(seconds));
+        }
     }
 
     /**
      * Handler的消息处理--显示分数
      */
-    public void showScore() {
+    public void showScore(int score) {
+        if (curLevelCfg.getLevelMode() == GameMode.Level || curLevelCfg.getLevelMode() == GameMode.Task) {
+            // 显示增加分数动画
+            int lastScore = Integer.parseInt((String) ((TextView) holder.tsScore.getCurrentView()).getText());
+            String msg = "+" + String.valueOf(score - lastScore);
+            showAddScore(msg, 20);
 
-        // 显示增加分数动画
-        int lastScore = Integer.parseInt((String) ((TextView) holder.tsScore.getCurrentView()).getText());
-        String msg = "+" + String.valueOf(game.getGameScore() - lastScore);
-        showAddScore(msg, 20);
-
-        holder.tsScore.setText(String.valueOf(game.getGameScore()));
+            holder.tsScore.setText(String.valueOf(score));
+        }
     }
 
     /**
      * Handler的消息处理--显示失败
      */
     public void showFail() {
-        failDialog.showDialog();
-
-        soundMgr.fail();
+        if (curLevelCfg.getLevelMode() == GameMode.Level) {
+            failDialog.showDialog();
+            soundMgr.fail();
+        }
     }
 
     /**
      * Handler的消息处理--显示胜利
      */
-    public void showSuccess() {
-        int stars = curLevelCfg.getStar(game.getTotalScore());
-        curLevelCfg.setLevelStar(stars);
-        boolean isNewRecord = false;
-        if (game.getTotalScore() > curLevelCfg.getMaxScore()) {
-            isNewRecord = true;
-            curLevelCfg.setMaxScore(game.getTotalScore());
+    public void showSuccess(int isRecord, int stars) {
+        if (curLevelCfg.getLevelMode() == GameMode.Level) {
+            successDialog.showDialog(isRecord == 1, stars);
+        } else if (curLevelCfg.getLevelMode() == GameMode.Time) {
+            timeDialog.showDialog(isRecord == 1);
+        } else if (curLevelCfg.getLevelMode() == GameMode.Task) {
+            taskDialog.showDialog(isRecord == 1);
         }
-        successDialog.showDialog(stars, isNewRecord);
-
         soundMgr.win();
     }
 
@@ -552,13 +622,26 @@ public class GameActivity extends BaseActivity implements IGameAction {
      * Handler的消息处理--显示加时间数
      */
     public void showAddTime() {
-        holder.btnAddTime.setText(String.valueOf(LevelCfg.globalCfg.getAddTimeNum()));
+        if (curLevelCfg.getLevelMode() == GameMode.Level) {
+            holder.btnAddTime.setText(String.valueOf(LevelCfg.globalCfg.getAddTimeNum()));
+        }
+    }
+
+    /**
+     * 获取当前游戏关卡配置
+     * 
+     * @return 当前游戏关卡配置
+     */
+    public LevelCfg getLevelCfg() {
+        return curLevelCfg;
     }
 
     private Game game;
     private CardsView cardsView;
     private FailDialog failDialog;
     private SuccessDialog successDialog;
+    private TimeDialog timeDialog;
+    private TaskDialog taskDialog;
     private LevelCfg curLevelCfg = null;
     private LevelHolder holder = new LevelHolder();
     private Handler handler = new GameMsgHandler(this);

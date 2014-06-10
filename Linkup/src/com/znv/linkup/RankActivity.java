@@ -23,7 +23,7 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
 
     private static int modeIndex = -1;
     private static Ranks rankPager = null;
-    private List<RankCfg> rankCfgs = null;
+    private static List<RankCfg> rankCfgs = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +59,6 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
         if (index != modeIndex) {
             modeIndex = index;
             rankCfgs = modeCfgs.get(index).getRankInfos();
-            root.setBackgroundResource(ViewSettings.RankBgImageIds[rankCfgs.get(0).getRankBackground()]);
             rankPager = new Ranks(this, rankCfgs, new Ranks.ISelectedLevel() {
 
                 @Override
@@ -73,6 +72,7 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
                 }
             });
         }
+        root.setBackgroundResource(ViewSettings.RankBgImageIds[rankCfgs.get(0).getRankBackground()]);
 
         // 更新等级数据
         rankPager.updateRankData();

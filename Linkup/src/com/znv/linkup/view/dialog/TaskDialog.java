@@ -55,22 +55,25 @@ public class TaskDialog extends Dialog {
     /**
      * 显示游戏胜利对话框
      * 
-     * @param isNewRecord
-     *            是否是新记录
+     * @param isSuccess
+     *            任务是否完成
      */
-    public void showDialog(boolean isNewRecord) {
+    public void showDialog(boolean isSuccess) {
         int score = linkup.getGameScore(true);
         TextView tvScore = (TextView) findViewById(R.id.success_score);
         tvScore.setText(String.valueOf(score));
         TextView tvTask = (TextView) findViewById(R.id.task_score);
         tvTask.setText(String.valueOf(linkup.getLevelCfg().getTask()));
 
+        TextView tvTaskTitle = (TextView) findViewById(R.id.dialog_title);
+        tvTaskTitle.setText(R.string.game_task_fail);
         ImageView ivRecord = (ImageView) findViewById(R.id.task_pass);
         ivRecord.setVisibility(View.INVISIBLE);
         Button btnAgainOrNext = (Button) findViewById(R.id.btnAgainOrNext);
         btnAgainOrNext.setBackgroundResource(R.drawable.again);
         btnAgainOrNext.setOnClickListener(againHandler);
-        if (isNewRecord) {
+        if (isSuccess) {
+            tvTaskTitle.setText(R.string.game_task_success);
             ivRecord.setVisibility(View.VISIBLE);
             btnAgainOrNext.setBackgroundResource(R.drawable.next);
             btnAgainOrNext.setOnClickListener(nextHandler);

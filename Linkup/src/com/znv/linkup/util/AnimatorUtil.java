@@ -173,10 +173,18 @@ public class AnimatorUtil {
         Animator animX = ObjectAnimator.ofFloat(view, "translationX", fromX, toX).setDuration(duration);
         Animator animY = ObjectAnimator.ofFloat(view, "translationY", fromY, toY).setDuration(duration);
 
-        animX.start();
+        if (fromX != toX) {
+            animX.start();
+        } else {
+            view.setTranslationX(fromX);
+        }
         if (isHide) {
             animY.addListener(new HideAnimator(view));
-            animY.start();
+            if (fromY != toY) {
+                animY.start();
+            } else {
+                view.setTranslationY(fromY);
+            }
         }
     }
 

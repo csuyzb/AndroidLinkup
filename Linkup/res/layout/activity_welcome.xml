@@ -37,7 +37,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_margin="10dp"
         android:gravity="center_horizontal|center_vertical"
         android:orientation="horizontal" >
 
@@ -45,8 +45,8 @@
             android:id="@+id/mode0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/qiu_cyan"
+            android:layout_margin="10dp"
+            android:background="@drawable/level_selector"
             android:tag="0"
             tools:ignore="contentDescription" />
 
@@ -54,8 +54,8 @@
             android:id="@+id/mode1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/qiu_yellow"
+            android:layout_margin="10dp"
+            android:background="@drawable/time_selector"
             android:tag="1"
             tools:ignore="contentDescription" />
 
@@ -63,8 +63,8 @@
             android:id="@+id/mode2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/qiu_green"
+            android:layout_margin="10dp"
+            android:background="@drawable/task_selector"
             android:tag="2"
             tools:ignore="contentDescription" />
     </LinearLayout>

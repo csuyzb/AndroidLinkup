@@ -27,6 +27,7 @@
     <string name="game_time">游戏时间:</string>
     <string name="game_time_min">最快记录:</string>
     <string name="game_task_success">任务完成！</string>
+    <string name="game_task_fail">任务失败！</string>
     <string name="game_task_score">游戏得分:</string>
     <string name="game_task_taskscore">任务分:</string>
     <string name="game_level_success_ask">\n\n进入下一关？</string>

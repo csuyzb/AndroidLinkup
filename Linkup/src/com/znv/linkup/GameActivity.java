@@ -141,8 +141,6 @@ public class GameActivity extends BaseActivity implements IGameAction {
             holder.tsScore.setText("0");
             holder.tvMaxScore.setText(getString(R.string.game_level_task) + curLevelCfg.getTask());
         }
-        // 工具条动画
-        AnimatorUtil.animTranslate(holder.tools, holder.tools.getX(), holder.tools.getX(), holder.tools.getY() + 100, holder.tools.getY());
 
         game = new Game(curLevelCfg, this);
         cardsView.setGame(game);
@@ -150,6 +148,8 @@ public class GameActivity extends BaseActivity implements IGameAction {
         // 播放声音和动画
         showAnimMsg(getString(R.string.game_ready_go), 30);
         soundMgr.readyGo();
+        // 工具条动画
+        AnimatorUtil.animTranslate(holder.tools, holder.tools.getX(), holder.tools.getX(), holder.tools.getY() + 100, holder.tools.getY());
 
         game.start();
     }
@@ -231,8 +231,8 @@ public class GameActivity extends BaseActivity implements IGameAction {
                 curLevelCfg.setLevelStar(cls.getStar());
                 curLevelCfg.setMaxScore(cls.getMaxScore());
                 isRecord = 1;
-                stars = cls.getStar();
             }
+            stars = curLevelCfg.getStar(game.getTotalScore());
         } else if (curLevelCfg.getLevelMode() == GameMode.Time) {
             if (curLevelCfg.getMaxScore() == 0 || game.getGameTime() < curLevelCfg.getMaxScore()) {
                 // 更新时间记录
@@ -245,14 +245,17 @@ public class GameActivity extends BaseActivity implements IGameAction {
                 isRecord = 1;
             }
         } else if (curLevelCfg.getLevelMode() == GameMode.Task) {
-            if (game.getTotalScore() >= curLevelCfg.getTask() && game.getTotalScore() > curLevelCfg.getMaxScore()) {
-                // 更新任务完成记录
-                LevelScore cls = new LevelScore(curLevelCfg.getLevelId());
-                cls.setMaxScore(game.getTotalScore());
-                DbScore.updateScore(cls);
+            if (game.getTotalScore() >= curLevelCfg.getTask()) {
+                if (game.getTotalScore() > curLevelCfg.getMaxScore()) {
+                    // 更新任务完成记录
+                    LevelScore cls = new LevelScore(curLevelCfg.getLevelId());
+                    cls.setMaxScore(game.getTotalScore());
+                    DbScore.updateScore(cls);
+                }
 
                 // 更新缓存
-                curLevelCfg.setMaxScore(cls.getMaxScore());
+                curLevelCfg.setMaxScore(game.getTotalScore());
+                // 是否完成任务
                 isRecord = 1;
             }
         }

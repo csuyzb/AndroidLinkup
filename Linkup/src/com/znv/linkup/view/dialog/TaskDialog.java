@@ -55,11 +55,12 @@ public class TaskDialog extends Dialog {
     /**
      * 显示游戏胜利对话框
      * 
+     * @param score
+     *            游戏分数
      * @param isSuccess
      *            任务是否完成
      */
-    public void showDialog(boolean isSuccess) {
-        int score = linkup.getGameScore(true);
+    public void showDialog(int score, boolean isSuccess) {
         TextView tvScore = (TextView) findViewById(R.id.success_score);
         tvScore.setText(String.valueOf(score));
         TextView tvTask = (TextView) findViewById(R.id.task_score);

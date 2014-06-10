@@ -33,6 +33,15 @@ class AlignUp extends AlignBase {
         int indexX = p.getIndexX();
         int curIndexY = p.getIndexY();
         int nextIndexY = curIndexY + 1;
+        // 填补游戏块前面的空块
+        while(curIndexY - 1 > 0) {
+            Piece lastPiece = pieces[curIndexY - 1][indexX];
+            if (!Piece.hasImage(lastPiece)) {
+                curIndexY -= 1;
+            }else {
+                break;
+            }
+        }
         while (curIndexY < pieces.length - 1) {
             Piece curPiece = pieces[curIndexY][indexX];
             if (!Piece.hasImage(curPiece)) {

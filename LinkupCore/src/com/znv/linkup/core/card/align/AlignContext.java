@@ -1,5 +1,7 @@
 package com.znv.linkup.core.card.align;
 
+import java.util.Random;
+
 import com.znv.linkup.core.card.Piece;
 import com.znv.linkup.core.config.GameAlign;
 
@@ -53,6 +55,10 @@ public class AlignContext {
             break;
         case AlignRight:
             gAlign = new AlignRight(pieces);
+            break;
+        case AlignRandom:
+            Random ran = new Random((int) System.currentTimeMillis());
+            gAlign = CreateAlign(GameAlign.valueOf(ran.nextInt(5)));
             break;
         default:
             gAlign = new AlignNone(pieces);

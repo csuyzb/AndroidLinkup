@@ -21,6 +21,8 @@ public enum GameAlign {
             return AlignLeft;
         case 4:
             return AlignRight;
+        case 5:
+            return AlignRandom;
         default:
             return AlignNone;
         }

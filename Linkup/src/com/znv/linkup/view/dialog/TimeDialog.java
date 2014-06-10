@@ -76,11 +76,12 @@ public class TimeDialog extends Dialog {
     /**
      * 显示游戏胜利对话框
      * 
+     * @param seconds
+     *            游戏时间
      * @param isNewRecord
      *            是否是新记录
      */
-    public void showDialog(boolean isNewRecord) {
-        int seconds = linkup.getGameTime();
+    public void showDialog(int seconds, boolean isNewRecord) {
         TextView tvTime = (TextView) findViewById(R.id.success_time);
         tvTime.setText(StringUtil.secondToString(seconds));
         TextView tvRecord = (TextView) findViewById(R.id.time_record);

@@ -352,25 +352,6 @@ public class GameActivity extends BaseActivity implements IGameAction {
     }
 
     /**
-     * 获取游戏得分
-     * 
-     * @param isSuccess
-     *            是否胜利
-     * @return 游戏总得分
-     */
-    public int getGameScore(boolean isSuccess) {
-        if (isSuccess) {
-            return game.getGameScore() + game.getRewardScore();
-        } else {
-            return game.getGameScore();
-        }
-    }
-
-    public int getGameTime() {
-        return game.getGameTime();
-    }
-
-    /**
      * 重排时的处理
      */
     @Override
@@ -588,7 +569,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
      */
     public void showFail() {
         if (curLevelCfg.getLevelMode() == GameMode.Level) {
-            failDialog.showDialog();
+            failDialog.showDialog(game.getGameScore());
             soundMgr.fail();
         }
     }
@@ -598,11 +579,11 @@ public class GameActivity extends BaseActivity implements IGameAction {
      */
     public void showSuccess(int isRecord, int stars) {
         if (curLevelCfg.getLevelMode() == GameMode.Level) {
-            successDialog.showDialog(isRecord == 1, stars);
+            successDialog.showDialog(game.getTotalScore(), isRecord == 1, stars);
         } else if (curLevelCfg.getLevelMode() == GameMode.Time) {
-            timeDialog.showDialog(isRecord == 1);
+            timeDialog.showDialog(game.getGameTime(), isRecord == 1);
         } else if (curLevelCfg.getLevelMode() == GameMode.Task) {
-            taskDialog.showDialog(isRecord == 1);
+            taskDialog.showDialog(game.getGameScore(), isRecord == 1);
         }
         soundMgr.win();
     }

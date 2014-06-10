@@ -8,7 +8,7 @@
     <string name="help">帮助</string>
     <string name="help_info">将2个相同图案的对子连接起来,连接线不多于3根直线,就可以成功将对子消除。</string>
     <string name="about">关于</string>
-    <string name="about_info">应用名：休闲连连看 \n版本号：1.2.2\n作  者：白杨\n邮  箱：csu_yzb@126.com\n源代码：https://github.com/csuyzb/AndroidLinkup</string>
+    <string name="about_info">应用名：休闲连连看 \n版本号：1.2.3\n作  者：白杨,神保,艳峥\n邮  箱：csu_yzb@126.com\n源代码：https://github.com/csuyzb/AndroidLinkup</string>
     <string name="submit">确定</string>
     <string name="cancel">取消</string>
     <string name="game_success">恭喜你，游戏已通关！</string>

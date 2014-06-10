@@ -33,6 +33,15 @@ class AlignLeft extends AlignBase {
         int indexY = p.getIndexY();
         int curIndexX = p.getIndexX();
         int nextIndexX = curIndexX + 1;
+        // 填补游戏块前面的空块
+        while (curIndexX - 1 > 0) {
+            Piece lastPiece = pieces[indexY][curIndexX - 1];
+            if (!Piece.hasImage(lastPiece)) {
+                curIndexX -= 1;
+            } else {
+                break;
+            }
+        }
         while (curIndexX < pieces[indexY].length - 1) {
             Piece curPiece = pieces[indexY][curIndexX];
             if (!Piece.hasImage(curPiece)) {

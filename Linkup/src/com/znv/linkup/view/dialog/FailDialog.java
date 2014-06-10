@@ -17,11 +17,8 @@ import com.znv.linkup.R;
  */
 public class FailDialog extends Dialog {
 
-    private GameActivity linkup = null;
-
     public FailDialog(final GameActivity linkup) {
         super(linkup, R.style.CustomDialogStyle);
-        this.linkup = linkup;
         setContentView(R.layout.fail_dialog);
         setCancelable(false);
         setCanceledOnTouchOutside(false);
@@ -34,12 +31,12 @@ public class FailDialog extends Dialog {
                 cancel();
                 linkup.onBackPressed();
             }
-            
+
         });
-        
+
         Button btnOk = (Button) findViewById(R.id.fail_button_ok);
         btnOk.setOnClickListener(new View.OnClickListener() {
-            
+
             @Override
             public void onClick(View v) {
                 cancel();
@@ -63,21 +60,13 @@ public class FailDialog extends Dialog {
 
     /**
      * 显示游戏失败对话框
-     */
-    public void showDialog() {
-        setGameScore(linkup.getGameScore(false));
-        show();
-    }
-
-    /**
-     * 设置游戏总得分
      * 
      * @param score
-     *            游戏得分
+     *            游戏分数
      */
-    private void setGameScore(int score) {
+    public void showDialog(int score) {
         TextView tvScore = (TextView) findViewById(R.id.fail_score);
         tvScore.setText(String.valueOf(score));
+        show();
     }
-
 }

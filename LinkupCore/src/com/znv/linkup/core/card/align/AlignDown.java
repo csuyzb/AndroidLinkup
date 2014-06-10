@@ -20,7 +20,7 @@ class AlignDown extends AlignBase {
      * 向下聚集的变换
      */
     public void Translate(Piece p1, Piece p2) {
-        PiecePair pair = new PiecePair(p1,p2);
+        PiecePair pair = new PiecePair(p1, p2);
         pair.sort();
 
         // 先变换p1，再变换p2
@@ -33,6 +33,15 @@ class AlignDown extends AlignBase {
         int indexX = p.getIndexX();
         int curIndexY = p.getIndexY();
         int nextIndexY = curIndexY - 1;
+        // 填补游戏块前面的空块
+        while (curIndexY + 1 < pieces.length - 1) {
+            Piece lastPiece = pieces[curIndexY + 1][indexX];
+            if (!Piece.hasImage(lastPiece)) {
+                curIndexY += 1;
+            } else {
+                break;
+            }
+        }
         while (curIndexY > 0) {
             Piece curPiece = pieces[curIndexY][indexX];
             if (!Piece.hasImage(curPiece)) {
@@ -41,17 +50,15 @@ class AlignDown extends AlignBase {
                     Piece nextPiece = pieces[nextIndexY][indexX];
                     if (Piece.hasImage(nextPiece)) {
                         // 游戏卡片则交换
-                        if(Piece.canSelect(nextPiece)) {
+                        if (Piece.canSelect(nextPiece)) {
                             ExchangePiece(curPiece, nextPiece);
                             nextIndexY--;
                             break;
-                        }
-                        else {
+                        } else {
                             // 障碍卡片则停止交换
                             nextIndexY = 0;
                         }
-                    }
-                    else {
+                    } else {
                         nextIndexY--;
                     }
                 }

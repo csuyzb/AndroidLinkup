@@ -148,17 +148,6 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
         initTitle();
     }
 
-    // /**
-    // * 点击开始按钮时的处理
-    // *
-    // * @param v
-    // */
-    // public void startGame(View v) {
-    // soundMgr.select();
-    // Intent intent = new Intent(WelcomeActivity.this, ModeActivity.class);
-    // startActivity(intent);
-    // }
-
     /**
      * 点击帮助按钮时的处理，显示游戏帮助
      * 

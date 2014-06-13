@@ -5,24 +5,16 @@ AndroidLinkup
 The most interesting linkup game for android.
 最好玩的Android开源连连看
 
-项目主页:http://csuyzb.github.io/AndroidLinkup
+项目主页:http://xxllk.aliapp.com
 
 小米商店:http://app.xiaomi.com/detail/61473
 
 豌豆荚:http://www.wandoujia.com/apps/com.znv.linkup
 
-百度手机助手:http://as.baidu.com/a/item?docid=6530178
 
-360手机助手:http://zhushou.360.cn/detail/index/soft_id/1667515
+应用截图
 
-91助手:http://apk.91.com/Soft/Android/com.znv.linkup-4.html
-
-安卓市场:http://apk.hiapk.com/html/2014/05/2704660.html
-
-
-截图
-
-![welcome](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/welcome.jpg)![rank](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/rank.jpg)![classic](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/classic.jpg)![fish](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/fish.jpg)
+![welcome](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/welcome.jpg)![classic](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/classic.jpg)![time](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/time.jpg)![task](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/task.jpg)
 
 
 v1.3.0 规划
@@ -30,6 +22,11 @@ v1.3.0 规划
 2.增加网络排行榜
 3.支持QQ和新浪微博登录
 4.支持分享到新浪微博和微信
+
+v1.2.3(2014-06-12)
+1.新增计时和任务模式
+2.新增144个不同关卡
+3.界面修改和优化
 
 v1.2.2(2014-06-05)
 1.调整游戏背景图片 

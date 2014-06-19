@@ -109,6 +109,14 @@
         </LinearLayout>
     </LinearLayout>
 
+    <com.znv.linkup.view.LevelTop
+        android:id="@+id/time_top"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="horizontal" >
+    </com.znv.linkup.view.LevelTop>
+
     <LinearLayout
         android:id="@+id/success_btn"
         android:layout_width="fill_parent"

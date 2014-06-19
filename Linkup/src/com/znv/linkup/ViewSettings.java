@@ -41,6 +41,56 @@ public class ViewSettings {
     public final static int RefreshMessage = 0x6;
 
     /**
+     * 用户登录消息
+     */
+    public static final int MSG_LOGIN = 0x11;
+
+    /**
+     * 用户取消登录消息
+     */
+    public static final int MSG_AUTH_CANCEL = 0x12;
+
+    /**
+     * 用户登录错误消息
+     */
+    public static final int MSG_AUTH_ERROR = 0x13;
+
+    /**
+     * 用户上传分数消息
+     */
+    public static final int MSG_SCORE_ADD = 0x14;
+
+    /**
+     * 用户获取分数排行榜
+     */
+    public static final int MSG_SCORE_GET = 0x15;
+
+    /**
+     * 用户上传时间
+     */
+    public static final int MSG_TIME_ADD = 0x16;
+
+    /**
+     * 用户获取时间排行榜
+     */
+    public static final int MSG_TIME_GET = 0x17;
+
+    /**
+     * 网络问题
+     */
+    public static final int MSG_NETWORK_EXCEPTION = 0x18;
+
+    /**
+     * 获取用户图标
+     */
+    public static final int MSG_IMAGE_GET = 0x19;
+
+    /**
+     * 获取排行榜图标
+     */
+    public static final int MSG_TOPIMAGES_GET = 0x20;
+
+    /**
      * 每种皮肤的图片数量
      */
     public static int SkinImageCount = 16;
@@ -83,7 +133,7 @@ public class ViewSettings {
     /**
      * 本地数据库的版本
      */
-    public static int DbVersion = 2;
+    public static int DbVersion = 3;
 
     /**
      * 初始激活的关卡，按升序排列

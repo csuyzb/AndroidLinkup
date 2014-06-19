@@ -2,13 +2,19 @@ package com.znv.linkup;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 
 import com.znv.linkup.core.config.LevelCfg;
+import com.znv.linkup.rest.IUpload;
+import com.znv.linkup.rest.UserInfo;
+import com.znv.linkup.rest.UserScore;
 import com.znv.linkup.util.ToastUtil;
 import com.znv.linkup.view.GameTitle;
+import com.znv.linkup.view.LevelTop;
 import com.znv.linkup.view.dialog.HelpDialog;
 
 /**
@@ -17,11 +23,12 @@ import com.znv.linkup.view.dialog.HelpDialog;
  * @author yzb
  * 
  */
-public class WelcomeActivity extends BaseActivity implements View.OnClickListener {
+public class WelcomeActivity extends BaseActivity implements OnClickListener, IUpload {
 
     private long exitTime = 0;
     private ImageView ivMusic = null;
     private ImageView ivSound = null;
+    private LevelTop levelTop = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +43,13 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
         initSoundSetting();
 
         initTitle();
+
+        initLogin();
+    }
+
+    private void initLogin() {
+        levelTop = (LevelTop) findViewById(R.id.welcome_user);
+        levelTop.setUploadListener(this);
     }
 
     private void initMode() {
@@ -191,13 +205,41 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        int modeIndex = Integer.parseInt((String) v.getTag());
-        if (modeIndex >= 0 && modeIndex < 3) {
+        switch (v.getId()) {
+        case R.id.mode0:
+        case R.id.mode1:
+        case R.id.mode2: {
             soundMgr.select();
-            Intent intent = new Intent(WelcomeActivity.this, RankActivity.class);
-            intent.putExtra("modeIndex", modeIndex);
-            startActivity(intent);
+            int modeIndex = Integer.parseInt((String) v.getTag());
+            if (modeIndex >= 0 && modeIndex < 3) {
+                Intent intent = new Intent(WelcomeActivity.this, RankActivity.class);
+                intent.putExtra("modeIndex", modeIndex);
+                startActivity(intent);
+            }
+            break;
         }
+        }
+    }
+
+    @Override
+    public void onLoginSuccess(Message msg) {
+        userInfo = (UserInfo) msg.obj;
+        if (userInfo != null) {
+            UserScore.getUserImage(userInfo.getUserId(), userInfo.getUserIcon(), levelTop);
+        }
+    }
+
+    @Override
+    public void onScoreAdd(Message msg) {
+    }
+
+    @Override
+    public void onTimeAdd(Message msg) {
+    }
+
+    @Override
+    public void onAuthorizeClick() {
+        soundMgr.select();
     }
 
 }

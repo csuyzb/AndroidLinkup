@@ -1,6 +1,7 @@
 package com.znv.linkup.view.dialog;
 
 import android.app.Dialog;
+import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -11,7 +12,13 @@ import com.znv.linkup.GameActivity;
 import com.znv.linkup.R;
 import com.znv.linkup.ViewSettings;
 import com.znv.linkup.core.config.LevelCfg;
+import com.znv.linkup.db.DbScore;
+import com.znv.linkup.db.LevelScore;
+import com.znv.linkup.rest.IUpload;
+import com.znv.linkup.rest.UserInfo;
+import com.znv.linkup.rest.UserScore;
 import com.znv.linkup.util.AnimatorUtil;
+import com.znv.linkup.view.LevelTop;
 
 /**
  * 游戏结果确认框
@@ -19,9 +26,11 @@ import com.znv.linkup.util.AnimatorUtil;
  * @author yzb
  * 
  */
-public class SuccessDialog extends Dialog {
+public class SuccessDialog extends Dialog implements IUpload {
 
     private GameActivity linkup = null;
+    private ResultInfo resultInfo = null;
+    private LevelTop levelTop = null;
 
     public SuccessDialog(final GameActivity linkup) {
         super(linkup, R.style.CustomDialogStyle);
@@ -50,6 +59,9 @@ public class SuccessDialog extends Dialog {
                 linkup.next();
             }
         });
+
+        levelTop = (LevelTop) findViewById(R.id.level_top);
+        levelTop.setUploadListener(this);
     }
 
     /**
@@ -68,17 +80,15 @@ public class SuccessDialog extends Dialog {
     /**
      * 显示游戏胜利对话框
      * 
-     * @param score
-     *            游戏分数
-     * @param isNewRecord
-     *            是否是新记录
-     * @param stars
-     *            游戏星级
+     * @param ResultInfo
+     *            游戏结果
      */
-    public void showDialog(int score, boolean isNewRecord, int stars) {
-        setGameScore(score);
-        setGameStar(stars);
-        isNewRecord(isNewRecord);
+    public void showDialog(ResultInfo resultInfo) {
+        this.resultInfo = resultInfo;
+        setGameScore(resultInfo.getScore());
+        setGameStar(resultInfo.getStars());
+        isNewRecord(resultInfo.isNewRecord());
+        uploadScore();
         show();
     }
 
@@ -147,5 +157,52 @@ public class SuccessDialog extends Dialog {
             level_star3.setImageResource(R.drawable.pass_ok);
         }
         linkup.setGlobalCfg();
+    }
+
+    /**
+     * 上传分数
+     */
+    private void uploadScore() {
+        // 判断是否已登录
+        if (!resultInfo.getUserId().equals("")) {
+            if (resultInfo.isNewRecord()) {
+                UserScore.addScore(resultInfo.getUserId(), resultInfo.getLevel(), resultInfo.getScore(), levelTop);
+            } else {
+                if (!resultInfo.isUpload()) {
+                    UserScore.addScore(resultInfo.getUserId(), resultInfo.getLevel(), resultInfo.getMaxScore(), levelTop);
+                }
+            }
+
+            // 获取排行榜
+            UserScore.getTopScores(resultInfo.getLevel(), levelTop);
+        } else {
+            // 没有登录则提示登录
+        }
+    }
+
+    @Override
+    public void onLoginSuccess(Message msg) {
+        UserInfo userInfo = (UserInfo) msg.obj;
+        if (userInfo != null) {
+            resultInfo.setUserId(userInfo.getUserId());
+            uploadScore();
+        }
+    }
+
+    @Override
+    public void onScoreAdd(Message msg) {
+        // 更新是否已上传
+        linkup.getLevelCfg().setUpload(true);
+        LevelScore ls = new LevelScore(resultInfo.getLevel());
+        ls.setIsUpload(1);
+        DbScore.updateUpload(ls);
+    }
+
+    @Override
+    public void onTimeAdd(Message msg) {
+    }
+
+    @Override
+    public void onAuthorizeClick() {
     }
 }

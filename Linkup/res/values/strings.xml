@@ -8,7 +8,7 @@
     <string name="help">帮助</string>
     <string name="help_info">将2个相同图案的对子连接起来,连接线不多于3根直线,就可以成功将对子消除。</string>
     <string name="about">关于</string>
-    <string name="about_info">应用名：休闲连连看 \n版本号：1.2.3\n作  者：白杨,神保,艳峥\n邮  箱：csu_yzb@126.com\n源代码：https://github.com/csuyzb/AndroidLinkup</string>
+    <string name="about_info">应用名：休闲连连看 \n版本号：1.2.4\n作  者：白杨,神保,艳峥\n邮  箱：csu_yzb@126.com\n源代码：https://github.com/csuyzb/AndroidLinkup</string>
     <string name="submit">确定</string>
     <string name="cancel">取消</string>
     <string name="game_success">恭喜你，游戏已通关！</string>
@@ -36,5 +36,12 @@
     <string name="game_reward_add">+１</string>
     <string name="game_ready_go">GO!</string>
     <string name="game_prompt_none">已经不能消除了，请重排或按返回退出!</string>
+    <string name="login_with_sina_weibo">新浪微博登录</string>
+    <string name="login_with_qzone">QQ空间登录</string>
+    <string name="network_exception">登录失败，请检查网络设置。</string>
+    <string name="logining">使用%s帐号登录成功。</string>
+    <string name="auth_cancel">授权操作已取消</string>
+    <string name="auth_error">授权操作遇到错误，请阅读Logcat输出</string>
+    <string name="user_hello">, 你好, 欢迎回来!</string>
 
 </resources>

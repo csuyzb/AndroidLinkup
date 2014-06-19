@@ -12,6 +12,7 @@ public class LevelScore {
     private int maxScore;
     private int isActive;
     private int star;
+    private int isUpload;
 
     public LevelScore(int level) {
         this.level = String.valueOf(level);
@@ -21,12 +22,13 @@ public class LevelScore {
         this.level = level;
     }
 
-    public LevelScore(String level, String rank, int maxScore, int isActive, int star) {
+    public LevelScore(String level, String rank, int maxScore, int isActive, int star, int isUpload) {
         this.level = level;
         this.rank = rank;
         this.maxScore = maxScore;
         this.isActive = isActive;
         this.star = star;
+        this.isUpload = isUpload;
     }
 
     public String getLevel() {
@@ -67,5 +69,13 @@ public class LevelScore {
 
     public void setStar(int star) {
         this.star = star;
+    }
+
+    public int getIsUpload() {
+        return isUpload;
+    }
+
+    public void setIsUpload(int isUpload) {
+        this.isUpload = isUpload;
     }
 }

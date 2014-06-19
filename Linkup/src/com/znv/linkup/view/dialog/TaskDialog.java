@@ -1,6 +1,7 @@
 package com.znv.linkup.view.dialog;
 
 import android.app.Dialog;
+import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -9,6 +10,12 @@ import android.widget.TextView;
 
 import com.znv.linkup.GameActivity;
 import com.znv.linkup.R;
+import com.znv.linkup.db.DbScore;
+import com.znv.linkup.db.LevelScore;
+import com.znv.linkup.rest.IUpload;
+import com.znv.linkup.rest.UserInfo;
+import com.znv.linkup.rest.UserScore;
+import com.znv.linkup.view.LevelTop;
 
 /**
  * 计时模式结果
@@ -16,9 +23,11 @@ import com.znv.linkup.R;
  * @author yzb
  * 
  */
-public class TaskDialog extends Dialog {
+public class TaskDialog extends Dialog implements IUpload {
 
     private GameActivity linkup = null;
+    private ResultInfo resultInfo = null;
+    private LevelTop levelTop = null;
 
     public TaskDialog(final GameActivity linkup) {
         super(linkup, R.style.CustomDialogStyle);
@@ -37,6 +46,9 @@ public class TaskDialog extends Dialog {
             }
 
         });
+
+        levelTop = (LevelTop) findViewById(R.id.task_top);
+        levelTop.setUploadListener(this);
     }
 
     /**
@@ -55,14 +67,13 @@ public class TaskDialog extends Dialog {
     /**
      * 显示游戏胜利对话框
      * 
-     * @param score
-     *            游戏分数
-     * @param isSuccess
-     *            任务是否完成
+     * @param resultInfo
+     *            游戏结果
      */
-    public void showDialog(int score, boolean isSuccess) {
+    public void showDialog(ResultInfo resultInfo) {
+        this.resultInfo = resultInfo;
         TextView tvScore = (TextView) findViewById(R.id.success_score);
-        tvScore.setText(String.valueOf(score));
+        tvScore.setText(String.valueOf(resultInfo.getScore()));
         TextView tvTask = (TextView) findViewById(R.id.task_score);
         tvTask.setText(String.valueOf(linkup.getLevelCfg().getTask()));
 
@@ -73,13 +84,14 @@ public class TaskDialog extends Dialog {
         Button btnAgainOrNext = (Button) findViewById(R.id.btnAgainOrNext);
         btnAgainOrNext.setBackgroundResource(R.drawable.again);
         btnAgainOrNext.setOnClickListener(againHandler);
-        if (isSuccess) {
+        if (resultInfo.isNewRecord()) {
             tvTaskTitle.setText(R.string.game_task_success);
             ivRecord.setVisibility(View.VISIBLE);
             btnAgainOrNext.setBackgroundResource(R.drawable.next);
             btnAgainOrNext.setOnClickListener(nextHandler);
         }
-
+        
+        uploadScore();
         show();
     }
 
@@ -100,4 +112,52 @@ public class TaskDialog extends Dialog {
             linkup.next();
         }
     };
+
+    /**
+     * 上传分数
+     */
+    private void uploadScore() {
+        // 判断是否已登录
+        if (!resultInfo.getUserId().equals("")) {
+            if (resultInfo.isNewRecord()) {
+                UserScore.addScore(resultInfo.getUserId(), resultInfo.getLevel(), resultInfo.getScore(), levelTop);
+            } else {
+                if (!resultInfo.isUpload()) {
+                    UserScore.addScore(resultInfo.getUserId(), resultInfo.getLevel(), resultInfo.getMaxScore(), levelTop);
+                }
+            }
+
+            // 获取排行榜
+            UserScore.getTopScores(resultInfo.getLevel(), levelTop);
+        } else {
+            // 没有登录则提示登录
+        }
+    }
+
+    @Override
+    public void onLoginSuccess(Message msg) {
+        UserInfo userInfo = (UserInfo) msg.obj;
+        if(userInfo != null) {
+            resultInfo.setUserId(userInfo.getUserId());
+            uploadScore();
+        }
+    }
+
+    @Override
+    public void onScoreAdd(Message msg) {
+        // 更新是否已上传
+        linkup.getLevelCfg().setUpload(true);
+        LevelScore ls = new LevelScore(resultInfo.getLevel());
+        ls.setIsUpload(1);
+        DbScore.updateUpload(ls);
+    }
+
+    @Override
+    public void onTimeAdd(Message msg) {
+    }
+
+    @Override
+    public void onAuthorizeClick() {
+        
+    }
 }

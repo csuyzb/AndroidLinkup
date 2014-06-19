@@ -37,6 +37,7 @@ public class LevelCfg implements Serializable {
     private int maxScore;
     private boolean isActive;
     private int levelStar;
+    private boolean isUpload = false;
     private int[] starScores = null;
     private int emptyNum;
     private int obstacleNum;
@@ -184,6 +185,14 @@ public class LevelCfg implements Serializable {
 
     public void setLevelStar(int levelStar) {
         this.levelStar = levelStar;
+    }
+
+    public boolean isUpload() {
+        return isUpload;
+    }
+
+    public void setUpload(boolean isUpload) {
+        this.isUpload = isUpload;
     }
 
     public int[] getStarScores() {

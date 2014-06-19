@@ -6,5 +6,6 @@
     <color name="check_color">#FFFF0000</color>
     <color name="prompt_color">#FFFF0000</color>
     <color name="path_color">#FF00FF00</color>
+    <color name="white">#ffffffff</color>
 
 </resources>

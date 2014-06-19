@@ -7,6 +7,15 @@
     android:orientation="vertical"
     tools:context=".WelcomeActivity" >
 
+    <com.znv.linkup.view.LevelTop
+        android:id="@+id/welcome_user"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="horizontal" >
+    </com.znv.linkup.view.LevelTop>
+
     <ImageView
         android:id="@+id/logo"
         android:layout_width="wrap_content"
@@ -24,15 +33,6 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="horizontal" />
-
-    <!-- <ImageButton -->
-    <!-- android:id="@+id/ibtnStart" -->
-    <!-- android:layout_width="wrap_content" -->
-    <!-- android:layout_height="wrap_content" -->
-    <!-- android:layout_margin="40dp" -->
-    <!-- android:background="@drawable/start_selector" -->
-    <!-- android:onClick="startGame" -->
-    <!-- tools:ignore="contentDescription" /> -->
 
     <LinearLayout
         android:layout_width="fill_parent"

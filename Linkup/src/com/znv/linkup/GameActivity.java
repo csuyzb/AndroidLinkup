@@ -30,6 +30,7 @@ import com.znv.linkup.util.ToastUtil;
 import com.znv.linkup.view.CardsView;
 import com.znv.linkup.view.PathView;
 import com.znv.linkup.view.dialog.FailDialog;
+import com.znv.linkup.view.dialog.ResultInfo;
 import com.znv.linkup.view.dialog.SuccessDialog;
 import com.znv.linkup.view.dialog.TaskDialog;
 import com.znv.linkup.view.dialog.TimeDialog;
@@ -578,12 +579,25 @@ public class GameActivity extends BaseActivity implements IGameAction {
      * Handler的消息处理--显示胜利
      */
     public void showSuccess(int isRecord, int stars) {
+        ResultInfo resultInfo = new ResultInfo();
+        resultInfo.setNewRecord(isRecord == 1);
+        resultInfo.setMaxScore(curLevelCfg.getMaxScore());
+        resultInfo.setMinTime(curLevelCfg.getMaxScore());
+        resultInfo.setUpload(curLevelCfg.isUpload());
+        resultInfo.setLevel(curLevelCfg.getLevelId());
+        if (userInfo != null) {
+            resultInfo.setUserId(userInfo.getUserId());
+        }
         if (curLevelCfg.getLevelMode() == GameMode.Level) {
-            successDialog.showDialog(game.getTotalScore(), isRecord == 1, stars);
+            resultInfo.setScore(game.getTotalScore());
+            resultInfo.setStars(stars);
+            successDialog.showDialog(resultInfo);
         } else if (curLevelCfg.getLevelMode() == GameMode.Time) {
-            timeDialog.showDialog(game.getGameTime(), isRecord == 1);
+            resultInfo.setTime(game.getGameTime());
+            timeDialog.showDialog(resultInfo);
         } else if (curLevelCfg.getLevelMode() == GameMode.Task) {
-            taskDialog.showDialog(game.getGameScore(), isRecord == 1);
+            resultInfo.setScore(game.getGameScore());
+            taskDialog.showDialog(resultInfo);
         }
         soundMgr.win();
     }

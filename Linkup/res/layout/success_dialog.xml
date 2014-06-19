@@ -184,6 +184,14 @@
         </LinearLayout>
     </LinearLayout>
 
+    <com.znv.linkup.view.LevelTop
+        android:id="@+id/level_top"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="horizontal" >
+    </com.znv.linkup.view.LevelTop>
+
     <LinearLayout
         android:id="@+id/success_btn"
         android:layout_width="fill_parent"
@@ -197,7 +205,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="20dp"
             android:background="@drawable/back"
             android:gravity="center"
             android:textSize="20sp" />
@@ -208,7 +217,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
             android:background="@drawable/next"
             android:gravity="center"
             android:textSize="20sp" />

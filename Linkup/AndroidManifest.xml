@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.znv.linkup"
-    android:versionCode="6"
-    android:versionName="1.2.3" >
+    android:versionCode="7"
+    android:versionName="1.2.4" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -20,6 +20,8 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
     <application
         android:name="com.baidu.frontia.FrontiaApplication"
@@ -69,7 +71,16 @@
             </intent-filter>
         </service>
 
-        <!-- For Baidu push -->
+        <!-- share sdk begin -->
+        <activity
+            android:name="cn.sharesdk.framework.ShareSDKUIShell"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <!-- share sdk end -->
+
+        <!-- For Baidu push -->
         <receiver android:name="com.znv.linkup.push.LinkupPushReceiver" >
             <intent-filter>
                 <action android:name="com.baidu.android.pushservice.action.MESSAGE" />

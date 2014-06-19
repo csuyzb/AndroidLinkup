@@ -1,0 +1,240 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/level_login"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/level_tvWeibo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="8dp"
+            android:background="@drawable/weibo_login"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/login_with_sina_weibo"
+            android:textColor="@color/white"
+            android:textSize="18sp" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/level_tvQq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="8dp"
+            android:background="@drawable/qq_login"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/login_with_qzone"
+            android:textColor="@color/white"
+            android:textSize="18sp" >
+        </TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/user_info"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#88888888"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <ImageView
+            android:id="@+id/ivIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            tools:ignore="contentDescription" >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/tvUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_vertical"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="#ffff6347"
+            android:textSize="20sp" >
+        </TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/level_top_users"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <ImageView
+                android:id="@+id/level_ivgold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/gold"
+                tools:ignore="contentDescription" >
+            </ImageView>
+
+            <ImageView
+                android:id="@+id/level_ivgoldIcon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="left|center_vertical"
+                android:layout_toRightOf="@id/level_ivgold"
+                android:gravity="center"
+                android:src="@drawable/icon_default"
+                tools:ignore="contentDescription" >
+            </ImageView>
+
+            <TextView
+                android:id="@+id/level_tvgolduser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|center_vertical"
+                android:layout_toRightOf="@id/level_ivgoldIcon"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="#ffff6347"
+                android:textSize="12sp" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/level_tvgoldscore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/level_tvgolduser"
+                android:layout_gravity="center|center_vertical"
+                android:layout_toRightOf="@id/level_ivgoldIcon"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="#ffff6347"
+                android:textSize="16sp" >
+            </TextView>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <ImageView
+                android:id="@+id/level_ivsilver"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/silver"
+                tools:ignore="contentDescription" >
+            </ImageView>
+
+            <ImageView
+                android:id="@+id/level_ivsilverIcon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="left|center_vertical"
+                android:layout_toRightOf="@id/level_ivsilver"
+                android:gravity="center"
+                android:src="@drawable/icon_default"
+                tools:ignore="contentDescription" >
+            </ImageView>
+
+            <TextView
+                android:id="@+id/level_tvsilveruser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|center_vertical"
+                android:layout_toRightOf="@id/level_ivsilverIcon"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="#ffff6347"
+                android:textSize="12sp" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/level_tvsilverscore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/level_tvsilveruser"
+                android:layout_gravity="center|center_vertical"
+                android:layout_toRightOf="@id/level_ivsilverIcon"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="#ffff6347"
+                android:textSize="16sp" >
+            </TextView>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <ImageView
+                android:id="@+id/level_ivthird"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bronze"
+                tools:ignore="contentDescription" >
+            </ImageView>
+
+            <ImageView
+                android:id="@+id/level_ivthirdIcon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="left|center_vertical"
+                android:layout_toRightOf="@id/level_ivthird"
+                android:gravity="center"
+                android:src="@drawable/icon_default"
+                tools:ignore="contentDescription" >
+            </ImageView>
+
+            <TextView
+                android:id="@+id/level_tvthirduser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|center_vertical"
+                android:layout_toRightOf="@id/level_ivthirdIcon"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="#ffff6347"
+                android:textSize="12sp" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/level_tvthirdscore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/level_tvthirduser"
+                android:layout_gravity="center|center_vertical"
+                android:layout_toRightOf="@id/level_ivthirdIcon"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="#ffff6347"
+                android:textSize="16sp" >
+            </TextView>
+        </RelativeLayout>
+    </LinearLayout>
+
+</FrameLayout>

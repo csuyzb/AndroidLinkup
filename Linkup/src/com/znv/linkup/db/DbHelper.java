@@ -89,11 +89,22 @@ class DbHelper extends SQLiteOpenHelper {
         db.endTransaction();
     }
 
+    private void alterTable(SQLiteDatabase db) {
+        String sql = "alter table scores add column isupload integer DEFAULT 0";
+        try {
+            db.execSQL(sql);
+        } catch (Exception ex) {
+            Log.d("sqlite", ex.getMessage());
+        }
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
         // 如果level存在，则insert不成功，不存在，则新增
         initDb(db);
+
+        // 在表中增加一列,确定是否上传
+        alterTable(db);
     }
 
 }

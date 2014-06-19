@@ -63,6 +63,19 @@ public class DbScore {
     }
 
     /**
+     * 是否上传网络
+     * 
+     * @param levelScore
+     *            关卡数据
+     */
+    public static void updateUpload(LevelScore levelScore) {
+        SQLiteDatabase db = database.getWritableDatabase();
+        String sql = "update scores set isupload=? where level=?";
+        db.execSQL(sql, new Object[] { levelScore.getIsUpload(), levelScore.getLevel() });
+        db.close();
+    }
+
+    /**
      * 根据关卡id删除关卡数据（未用）
      * 
      * @param level
@@ -108,7 +121,8 @@ public class DbScore {
             Cursor cursor = db.rawQuery(sql, new String[] {});
             List<LevelScore> levelScores = new ArrayList<LevelScore>();
             while (cursor.moveToNext()) {
-                levelScores.add(new LevelScore(cursor.getString(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3), cursor.getInt(4)));
+                levelScores
+                        .add(new LevelScore(cursor.getString(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5)));
             }
             return levelScores;
         } finally {

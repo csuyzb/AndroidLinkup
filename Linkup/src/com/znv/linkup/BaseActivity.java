@@ -9,6 +9,8 @@ import android.util.SparseArray;
 import android.view.Window;
 import android.view.WindowManager;
 
+import cn.sharesdk.framework.ShareSDK;
+
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
 import com.znv.linkup.core.config.GameCfg;
@@ -18,6 +20,7 @@ import com.znv.linkup.core.config.ModeCfg;
 import com.znv.linkup.core.config.RankCfg;
 import com.znv.linkup.db.DbScore;
 import com.znv.linkup.db.LevelScore;
+import com.znv.linkup.rest.UserInfo;
 import com.znv.linkup.sound.MusicManager;
 import com.znv.linkup.sound.SoundManager;
 import com.znv.linkup.util.AppMetaUtil;
@@ -40,6 +43,8 @@ public class BaseActivity extends Activity {
     protected static List<ModeCfg> modeCfgs = null;
     // 游戏配置Map
     protected static SparseArray<LevelCfg> levelCfgs = null;
+    // 第三方登录用户id
+    public static UserInfo userInfo = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +68,12 @@ public class BaseActivity extends Activity {
                 loadCfgs();
             }
         }).start();
+
+        try {
+            ShareSDK.initSDK(this);
+        } catch (Exception ex) {
+
+        }
     }
 
     /**
@@ -185,6 +196,7 @@ public class BaseActivity extends Activity {
                 cfg.setMaxScore(score.getMaxScore());
                 cfg.setActive(score.getIsActive() == 1);
                 cfg.setLevelStar(score.getStar());
+                cfg.setUpload(score.getIsUpload() == 1);
             }
         }
     }
@@ -217,6 +229,15 @@ public class BaseActivity extends Activity {
         super.onResume();
         // 开启背景音乐
         playMusic();
+    }
+
+    @Override
+    protected void onDestroy() {
+        try {
+            ShareSDK.stopSDK(this);
+        } catch (Exception ex) {
+        }
+        super.onDestroy();
     }
 
 }

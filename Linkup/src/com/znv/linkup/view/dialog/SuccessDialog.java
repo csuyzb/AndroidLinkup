@@ -18,6 +18,7 @@ import com.znv.linkup.rest.IUpload;
 import com.znv.linkup.rest.UserInfo;
 import com.znv.linkup.rest.UserScore;
 import com.znv.linkup.util.AnimatorUtil;
+import com.znv.linkup.util.ShareUtil;
 import com.znv.linkup.view.LevelTop;
 
 /**
@@ -48,6 +49,17 @@ public class SuccessDialog extends Dialog implements IUpload {
                 linkup.onBackPressed();
             }
 
+        });
+
+        Button btnShare = (Button) findViewById(R.id.btnshare);
+        btnShare.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String msg = String.format(getContext().getString(R.string.share_score), getContext().getString(R.string.app_name), linkup.getLevelCfg()
+                        .getRankName() + "-" + linkup.getLevelCfg().getLevelName(), String.valueOf(resultInfo.getScore()));
+                ShareUtil.shareMessage(linkup, msg);
+            }
         });
 
         Button btnOk = (Button) findViewById(R.id.success_button_ok);
@@ -88,6 +100,9 @@ public class SuccessDialog extends Dialog implements IUpload {
         setGameScore(resultInfo.getScore());
         setGameStar(resultInfo.getStars());
         isNewRecord(resultInfo.isNewRecord());
+        if (levelTop != null) {
+            levelTop.reset();
+        }
         uploadScore();
         show();
     }
@@ -170,11 +185,11 @@ public class SuccessDialog extends Dialog implements IUpload {
             } else {
                 if (!resultInfo.isUpload()) {
                     UserScore.addScore(resultInfo.getUserId(), resultInfo.getLevel(), resultInfo.getMaxScore(), levelTop);
+                } else {
+                    // 获取排行榜
+                    UserScore.getTopScores(resultInfo.getLevel(), levelTop);
                 }
             }
-
-            // 获取排行榜
-            UserScore.getTopScores(resultInfo.getLevel(), levelTop);
         } else {
             // 没有登录则提示登录
         }
@@ -196,6 +211,9 @@ public class SuccessDialog extends Dialog implements IUpload {
         LevelScore ls = new LevelScore(resultInfo.getLevel());
         ls.setIsUpload(1);
         DbScore.updateUpload(ls);
+
+        // 获取排行榜
+        UserScore.getTopScores(resultInfo.getLevel(), levelTop);
     }
 
     @Override

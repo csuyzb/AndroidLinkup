@@ -239,7 +239,6 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
 
     @Override
     public void onAuthorizeClick() {
-        soundMgr.select();
     }
 
 }

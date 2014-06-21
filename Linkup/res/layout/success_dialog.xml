@@ -212,6 +212,19 @@
             android:textSize="20sp" />
 
         <Button
+            android:id="@+id/btnshare"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/share"
+            android:gravity="center"
+            android:textSize="20sp" />
+
+        <Button
             android:id="@+id/success_button_ok"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"

@@ -24,19 +24,6 @@ public class DbScore {
     }
 
     /**
-     * 插入关卡数据
-     * 
-     * @param levelScore
-     *            关卡数据
-     */
-    public static void insert(LevelScore levelScore) {
-        SQLiteDatabase db = database.getWritableDatabase();
-        String sql = "insert into scores(level, rank, maxscore, isactive, star) values(?,?,?,?,?)";
-        db.execSQL(sql, new Object[] { levelScore.getLevel(), levelScore.getRank(), levelScore.getMaxScore(), levelScore.getIsActive(), levelScore.getStar() });
-        db.close();
-    }
-
-    /**
      * 更新关卡数据
      * 
      * @param levelScore
@@ -121,8 +108,12 @@ public class DbScore {
             Cursor cursor = db.rawQuery(sql, new String[] {});
             List<LevelScore> levelScores = new ArrayList<LevelScore>();
             while (cursor.moveToNext()) {
-                levelScores
-                        .add(new LevelScore(cursor.getString(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5)));
+                LevelScore ls = new LevelScore(cursor.getString(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3), cursor.getInt(4));
+                if (cursor.getColumnCount() > 5) {
+                    ls.setIsUpload(cursor.getInt(5));
+                }
+                levelScores.add(ls);
+
             }
             return levelScores;
         } finally {

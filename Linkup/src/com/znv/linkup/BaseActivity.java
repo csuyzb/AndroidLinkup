@@ -38,7 +38,7 @@ public class BaseActivity extends Activity {
     // 游戏背景音乐
     protected static MusicManager musicMgr = null;
     // 游戏音效
-    protected static SoundManager soundMgr = null;
+    public static SoundManager soundMgr = null;
     // 游戏关卡配置
     protected static List<ModeCfg> modeCfgs = null;
     // 游戏配置Map
@@ -49,6 +49,11 @@ public class BaseActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        try {
+            ShareSDK.initSDK(this);
+        } catch (Exception ex) {
+        }
 
         initFullScreen();
 
@@ -68,12 +73,6 @@ public class BaseActivity extends Activity {
                 loadCfgs();
             }
         }).start();
-
-        try {
-            ShareSDK.initSDK(this);
-        } catch (Exception ex) {
-
-        }
     }
 
     /**

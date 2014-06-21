@@ -90,7 +90,10 @@ public class TaskDialog extends Dialog implements IUpload {
             btnAgainOrNext.setBackgroundResource(R.drawable.next);
             btnAgainOrNext.setOnClickListener(nextHandler);
         }
-        
+
+        if (levelTop != null) {
+            levelTop.reset();
+        }
         uploadScore();
         show();
     }
@@ -124,11 +127,12 @@ public class TaskDialog extends Dialog implements IUpload {
             } else {
                 if (!resultInfo.isUpload()) {
                     UserScore.addScore(resultInfo.getUserId(), resultInfo.getLevel(), resultInfo.getMaxScore(), levelTop);
+                } else {
+                    // 获取排行榜
+                    UserScore.getTopScores(resultInfo.getLevel(), levelTop);
                 }
             }
 
-            // 获取排行榜
-            UserScore.getTopScores(resultInfo.getLevel(), levelTop);
         } else {
             // 没有登录则提示登录
         }
@@ -137,7 +141,7 @@ public class TaskDialog extends Dialog implements IUpload {
     @Override
     public void onLoginSuccess(Message msg) {
         UserInfo userInfo = (UserInfo) msg.obj;
-        if(userInfo != null) {
+        if (userInfo != null) {
             resultInfo.setUserId(userInfo.getUserId());
             uploadScore();
         }
@@ -150,6 +154,9 @@ public class TaskDialog extends Dialog implements IUpload {
         LevelScore ls = new LevelScore(resultInfo.getLevel());
         ls.setIsUpload(1);
         DbScore.updateUpload(ls);
+
+        // 获取排行榜
+        UserScore.getTopScores(resultInfo.getLevel(), levelTop);
     }
 
     @Override
@@ -158,6 +165,6 @@ public class TaskDialog extends Dialog implements IUpload {
 
     @Override
     public void onAuthorizeClick() {
-        
+
     }
 }

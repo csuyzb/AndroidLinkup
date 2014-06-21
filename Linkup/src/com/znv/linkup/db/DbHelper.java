@@ -30,7 +30,7 @@ class DbHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "create table scores(level int primary key, rank int, maxscore int, isactive int, star int);";
+        String sql = "create table scores(level int primary key, rank int, maxscore int, isactive int, star int, isupload int);";
         db.execSQL(sql);
 
         initDb(db);
@@ -67,17 +67,17 @@ class DbHelper extends SQLiteOpenHelper {
         for (int m = 0; m < modeCfgs.size(); m++) {
             for (int r = 0; r < modeCfgs.get(m).getRankInfos().size(); r++) {
                 for (int l = 0; l < modeCfgs.get(m).getRankInfos().get(r).getLevelInfos().size(); l++) {
-                    sql = "insert into scores(level, rank, maxscore, isactive, star) values(?,?,?,?,?)";
+                    sql = "insert into scores(level, rank, maxscore, isactive, star, isupload) values(?,?,?,?,?,?)";
                     // 控制默认激活的关卡数
                     if (isActive(index)) {
                         try {
-                            db.execSQL(sql, new Object[] { index++, r, 0, 1, 0 });
+                            db.execSQL(sql, new Object[] { index++, r, 0, 1, 0, 0 });
                         } catch (Exception ex) {
                             Log.d("sqlite", ex.getMessage());
                         }
                     } else {
                         try {
-                            db.execSQL(sql, new Object[] { index++, r, 0, 0, 0 });
+                            db.execSQL(sql, new Object[] { index++, r, 0, 0, 0, 0 });
                         } catch (Exception ex) {
                             Log.d("sqlite", ex.getMessage());
                         }

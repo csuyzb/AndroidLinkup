@@ -23,10 +23,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.framework.utils.UIHandler;
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qzone.QZone;
 
+import com.znv.linkup.BaseActivity;
 import com.znv.linkup.R;
 import com.znv.linkup.ViewSettings;
 import com.znv.linkup.WelcomeActivity;
@@ -46,6 +48,7 @@ public class LevelTop extends LinearLayout implements Callback, PlatformActionLi
 
     private int imageWidth = 50;
     private IUpload uploadListener = null;
+    private levelTopHolder holder = new levelTopHolder();
 
     public LevelTop(final Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -57,6 +60,7 @@ public class LevelTop extends LinearLayout implements Callback, PlatformActionLi
 
             @Override
             public void onClick(View arg0) {
+                beforeLogin();
                 authorize(new SinaWeibo(context));
             }
         });
@@ -64,23 +68,41 @@ public class LevelTop extends LinearLayout implements Callback, PlatformActionLi
 
             @Override
             public void onClick(View v) {
-
+                beforeLogin();
                 authorize(new QZone(context));
             }
         });
+
+        getControls();
+    }
+
+    private void beforeLogin() {
+        try {
+            ShareSDK.initSDK(getContext());
+        } catch (Exception ex) {
+        }
+        BaseActivity.soundMgr.select();
+        if (uploadListener != null) {
+            uploadListener.onAuthorizeClick();
+        }
     }
 
     private void authorize(Platform plat) {
-        if (plat.isValid()) {
-            String userId = plat.getDb().getUserId();
-            if (!TextUtils.isEmpty(userId)) {
-                login(plat);
-                return;
+        try {
+            // plat.getDb().removeAccount();
+            if (plat.isValid()) {
+                String userId = plat.getDb().getUserId();
+                if (!TextUtils.isEmpty(userId)) {
+                    login(plat);
+                    return;
+                }
             }
+            plat.setPlatformActionListener(this);
+            plat.SSOSetting(true);
+            plat.showUser(null);
+        } catch (Exception ex) {
+            Log.d("LevelTop-authorize", ex.getMessage());
         }
-        plat.setPlatformActionListener(this);
-        plat.SSOSetting(true);
-        plat.showUser(null);
     }
 
     public void onComplete(Platform plat, int action, HashMap<String, Object> res) {
@@ -112,6 +134,50 @@ public class LevelTop extends LinearLayout implements Callback, PlatformActionLi
         }
     }
 
+    /**
+     * 缓存控件，提高效率
+     */
+    private void getControls() {
+        holder.levelLogin = (View) findViewById(R.id.level_login);
+        holder.levelTopUsers = (View) findViewById(R.id.level_top_users);
+        holder.userInfo = (View) findViewById(R.id.user_info);
+        holder.tvgolduser = (TextView) findViewById(R.id.level_tvgolduser);
+        holder.tvgoldscore = (TextView) findViewById(R.id.level_tvgoldscore);
+        holder.ivgoldIcon = (ImageView) findViewById(R.id.level_ivgoldIcon);
+        holder.tvsilveruser = (TextView) findViewById(R.id.level_tvsilveruser);
+        holder.tvsilverscore = (TextView) findViewById(R.id.level_tvsilverscore);
+        holder.ivsilverIcon = (ImageView) findViewById(R.id.level_ivsilverIcon);
+        holder.tvthirduser = (TextView) findViewById(R.id.level_tvthirduser);
+        holder.tvthirdscore = (TextView) findViewById(R.id.level_tvthirdscore);
+        holder.ivthirdIcon = (ImageView) findViewById(R.id.level_ivthirdIcon);
+        holder.ivIcon = (ImageView) findViewById(R.id.ivIcon);
+        holder.tvUser = (TextView) findViewById(R.id.tvUser);
+    }
+
+    /**
+     * 重新初始化控件
+     */
+    public void reset() {
+        try {
+            ShareSDK.initSDK(getContext());
+        } catch (Exception ex) {
+        }
+        holder.levelLogin.setVisibility(View.VISIBLE);
+        holder.levelTopUsers.setVisibility(View.GONE);
+        holder.userInfo.setVisibility(View.GONE);
+        holder.tvgolduser.setText("");
+        holder.tvgoldscore.setText("");
+        holder.ivgoldIcon.setImageResource(R.drawable.icon_default);
+        holder.tvsilveruser.setText("");
+        holder.tvsilverscore.setText("");
+        holder.ivsilverIcon.setImageResource(R.drawable.icon_default);
+        holder.tvthirduser.setText("");
+        holder.tvthirdscore.setText("");
+        holder.ivthirdIcon.setImageResource(R.drawable.icon_default);
+        holder.ivIcon.setImageResource(R.drawable.icon_default);
+        holder.tvUser.setText("");
+    }
+
     @Override
     public boolean handleMessage(Message msg) {
         switch (msg.what) {
@@ -128,8 +194,8 @@ public class LevelTop extends LinearLayout implements Callback, PlatformActionLi
         }
             break;
         case ViewSettings.MSG_SCORE_GET: {
-            findViewById(R.id.level_login).setVisibility(View.GONE);
-            findViewById(R.id.level_top_users).setVisibility(View.VISIBLE);
+            holder.levelLogin.setVisibility(View.GONE);
+            holder.levelTopUsers.setVisibility(View.VISIBLE);
 
             List<String> userIds = new ArrayList<String>();
             List<String> urls = new ArrayList<String>();
@@ -140,20 +206,20 @@ public class LevelTop extends LinearLayout implements Callback, PlatformActionLi
                     JSONObject obj = (JSONObject) array.get(0);
                     userIds.add(obj.getString("userId"));
                     urls.add(obj.getString("userIcon"));
-                    ((TextView) findViewById(R.id.level_tvgolduser)).setText(obj.getString("userName"));
-                    ((TextView) findViewById(R.id.level_tvgoldscore)).setText(obj.getString("score"));
+                    holder.tvgolduser.setText(obj.getString("userName"));
+                    holder.tvgoldscore.setText(obj.getString("score"));
                     if (array.length() > 1) {
                         JSONObject obj2 = (JSONObject) array.get(1);
                         userIds.add(obj2.getString("userId"));
                         urls.add(obj2.getString("userIcon"));
-                        ((TextView) findViewById(R.id.level_tvsilveruser)).setText(obj2.getString("userName"));
-                        ((TextView) findViewById(R.id.level_tvsilverscore)).setText(obj2.getString("score"));
+                        holder.tvsilveruser.setText(obj2.getString("userName"));
+                        holder.tvsilverscore.setText(obj2.getString("score"));
                         if (array.length() > 2) {
                             JSONObject obj3 = (JSONObject) array.get(2);
                             userIds.add(obj3.getString("userId"));
                             urls.add(obj3.getString("userIcon"));
-                            ((TextView) findViewById(R.id.level_tvthirduser)).setText(obj3.getString("userName"));
-                            ((TextView) findViewById(R.id.level_tvthirdscore)).setText(obj3.getString("score"));
+                            holder.tvthirduser.setText(obj3.getString("userName"));
+                            holder.tvthirdscore.setText(obj3.getString("score"));
                         }
                     }
                 }
@@ -164,8 +230,8 @@ public class LevelTop extends LinearLayout implements Callback, PlatformActionLi
         }
             break;
         case ViewSettings.MSG_TIME_GET: {
-            findViewById(R.id.level_login).setVisibility(View.GONE);
-            findViewById(R.id.level_top_users).setVisibility(View.VISIBLE);
+            holder.levelLogin.setVisibility(View.GONE);
+            holder.levelTopUsers.setVisibility(View.VISIBLE);
 
             List<String> userIds = new ArrayList<String>();
             List<String> urls = new ArrayList<String>();
@@ -176,20 +242,20 @@ public class LevelTop extends LinearLayout implements Callback, PlatformActionLi
                     JSONObject obj = (JSONObject) array.get(0);
                     userIds.add(obj.getString("userId"));
                     urls.add(obj.getString("userIcon"));
-                    ((TextView) findViewById(R.id.level_tvgolduser)).setText(obj.getString("userName"));
-                    ((TextView) findViewById(R.id.level_tvgoldscore)).setText(StringUtil.secondToString(Integer.parseInt(obj.getString("time"))));
+                    holder.tvgolduser.setText(obj.getString("userName"));
+                    holder.tvgoldscore.setText(StringUtil.secondToString(Integer.parseInt(obj.getString("time"))));
                     if (array.length() > 1) {
                         JSONObject obj2 = (JSONObject) array.get(1);
                         userIds.add(obj2.getString("userId"));
                         urls.add(obj2.getString("userIcon"));
-                        ((TextView) findViewById(R.id.level_tvsilveruser)).setText(obj2.getString("userName"));
-                        ((TextView) findViewById(R.id.level_tvsilverscore)).setText(StringUtil.secondToString(Integer.parseInt(obj2.getString("time"))));
+                        holder.tvsilveruser.setText(obj2.getString("userName"));
+                        holder.tvsilverscore.setText(StringUtil.secondToString(Integer.parseInt(obj2.getString("time"))));
                         if (array.length() > 2) {
                             JSONObject obj3 = (JSONObject) array.get(2);
                             userIds.add(obj3.getString("userId"));
                             urls.add(obj3.getString("userIcon"));
-                            ((TextView) findViewById(R.id.level_tvthirduser)).setText(obj3.getString("userName"));
-                            ((TextView) findViewById(R.id.level_tvthirdscore)).setText(StringUtil.secondToString(Integer.parseInt(obj3.getString("time"))));
+                            holder.tvthirduser.setText(obj3.getString("userName"));
+                            holder.tvthirdscore.setText(StringUtil.secondToString(Integer.parseInt(obj3.getString("time"))));
                         }
                     }
                 }
@@ -208,21 +274,18 @@ public class LevelTop extends LinearLayout implements Callback, PlatformActionLi
         case ViewSettings.MSG_TOPIMAGES_GET: {
             @SuppressWarnings("unchecked")
             List<Bitmap> images = (List<Bitmap>) msg.obj;
-            if (images.size() > 0) {
+            if (images != null && images.size() > 0) {
                 if (images.get(0) != null) {
-                    ImageView ivgoldIcon = (ImageView) findViewById(R.id.level_ivgoldIcon);
-                    ivgoldIcon.setImageBitmap(ImageUtil.scaleBitmap(images.get(0), imageWidth, imageWidth));
+                    holder.ivgoldIcon.setImageBitmap(ImageUtil.scaleBitmap(images.get(0), imageWidth, imageWidth));
                 }
                 if (images.size() > 1) {
                     if (images.get(1) != null) {
-                        ImageView ivsilverIcon = (ImageView) findViewById(R.id.level_ivsilverIcon);
-                        ivsilverIcon.setImageBitmap(ImageUtil.scaleBitmap(images.get(1), imageWidth, imageWidth));
+                        holder.ivsilverIcon.setImageBitmap(ImageUtil.scaleBitmap(images.get(1), imageWidth, imageWidth));
                     }
 
                     if (images.size() > 2) {
                         if (images.get(2) != null) {
-                            ImageView ivthirdIcon = (ImageView) findViewById(R.id.level_ivthirdIcon);
-                            ivthirdIcon.setImageBitmap(ImageUtil.scaleBitmap(images.get(2), imageWidth, imageWidth));
+                            holder.ivthirdIcon.setImageBitmap(ImageUtil.scaleBitmap(images.get(2), imageWidth, imageWidth));
                         }
                     }
                 }
@@ -232,14 +295,12 @@ public class LevelTop extends LinearLayout implements Callback, PlatformActionLi
         case ViewSettings.MSG_IMAGE_GET: {
             Bitmap bm = (Bitmap) msg.obj;
             if (bm != null) {
-                findViewById(R.id.level_login).setVisibility(View.GONE);
-                findViewById(R.id.user_info).setVisibility(View.VISIBLE);
+                holder.levelLogin.setVisibility(View.GONE);
+                holder.userInfo.setVisibility(View.VISIBLE);
 
-                ImageView ivIcon = (ImageView) findViewById(R.id.ivIcon);
-                ivIcon.setImageBitmap(ImageUtil.roundBitmap(ImageUtil.scaleBitmap(bm, 64, 64)));
-                TextView tvUser = (TextView) findViewById(R.id.tvUser);
+                holder.ivIcon.setImageBitmap(ImageUtil.roundBitmap(ImageUtil.scaleBitmap(bm, 64, 64)));
                 if (WelcomeActivity.userInfo != null) {
-                    tvUser.setText(WelcomeActivity.userInfo.getUserName() + getContext().getString(R.string.user_hello));
+                    holder.tvUser.setText(WelcomeActivity.userInfo.getUserName() + getContext().getString(R.string.user_hello));
                     String text = getContext().getString(R.string.logining, WelcomeActivity.userInfo.getPlat());
                     Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
                 }
@@ -268,6 +329,23 @@ public class LevelTop extends LinearLayout implements Callback, PlatformActionLi
 
     public void setUploadListener(IUpload uploadListener) {
         this.uploadListener = uploadListener;
+    }
+
+    class levelTopHolder {
+        public View levelLogin;
+        public View levelTopUsers;
+        public View userInfo;
+        public TextView tvgolduser;
+        public TextView tvgoldscore;
+        public ImageView ivgoldIcon;
+        public TextView tvsilveruser;
+        public TextView tvsilverscore;
+        public ImageView ivsilverIcon;
+        public TextView tvthirduser;
+        public TextView tvthirdscore;
+        public ImageView ivthirdIcon;
+        public ImageView ivIcon;
+        public TextView tvUser;
     }
 
 }

@@ -102,9 +102,12 @@ public class TimeDialog extends Dialog implements IUpload {
         if (resultInfo.isNewRecord()) {
             ivRecord.setVisibility(View.VISIBLE);
         }
-        
+
+        if (levelTop != null) {
+            levelTop.reset();
+        }
         uploadTime();
-        
+
         show();
     }
 
@@ -119,11 +122,11 @@ public class TimeDialog extends Dialog implements IUpload {
             } else {
                 if (!resultInfo.isUpload()) {
                     UserScore.addTime(resultInfo.getUserId(), resultInfo.getLevel(), resultInfo.getMinTime(), levelTop);
+                } else {
+                    // 获取排行榜
+                    UserScore.getTopTimes(resultInfo.getLevel(), levelTop);
                 }
             }
-
-            // 获取排行榜
-            UserScore.getTopTimes(resultInfo.getLevel(), levelTop);
         } else {
             // 没有登录则提示登录
         }
@@ -149,10 +152,13 @@ public class TimeDialog extends Dialog implements IUpload {
         LevelScore ls = new LevelScore(resultInfo.getLevel());
         ls.setIsUpload(1);
         DbScore.updateUpload(ls);
+
+        // 获取排行榜
+        UserScore.getTopTimes(resultInfo.getLevel(), levelTop);
     }
 
     @Override
     public void onAuthorizeClick() {
-        
+
     }
 }

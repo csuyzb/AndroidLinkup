@@ -121,40 +121,38 @@
         android:id="@+id/success_btn"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dip"
+        android:layout_marginBottom="10dip"
         android:gravity="center" >
 
-        <Button
+        <TextView
             android:id="@+id/btnBack"
-            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="20dp"
-            android:background="@drawable/back"
+            android:drawableTop="@drawable/back"
             android:gravity="center"
-            android:textSize="20sp" />
-        <Button
-            android:id="@+id/btnshare"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="20dp"
-            android:background="@drawable/share"
-            android:gravity="center"
-            android:textSize="20sp" />
+            android:text="@string/back" />
 
-        <Button
-            android:id="@+id/btnAgainOrNext"
-            style="?android:attr/buttonBarButtonStyle"
+        <TextView
+            android:id="@+id/btnshare"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="20dp"
-            android:background="@drawable/next"
+            android:drawableTop="@drawable/share"
             android:gravity="center"
-            android:textSize="20sp" />
+            android:text="@string/share" />
+
+        <TextView
+            android:id="@+id/btnAgainOrNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:drawableTop="@drawable/next"
+            android:gravity="center"
+            android:text="@string/next" />
     </LinearLayout>
 
 </LinearLayout>

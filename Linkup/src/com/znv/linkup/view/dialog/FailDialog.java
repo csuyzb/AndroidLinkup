@@ -3,7 +3,6 @@ package com.znv.linkup.view.dialog;
 import android.app.Dialog;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.znv.linkup.GameActivity;
@@ -23,7 +22,7 @@ public class FailDialog extends Dialog {
         setCancelable(false);
         setCanceledOnTouchOutside(false);
 
-        Button btnCancel = (Button) findViewById(R.id.fail_button_cancel);
+        TextView btnCancel = (TextView) findViewById(R.id.fail_button_cancel);
         btnCancel.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -34,7 +33,7 @@ public class FailDialog extends Dialog {
 
         });
 
-        Button btnOk = (Button) findViewById(R.id.fail_button_ok);
+        TextView btnOk = (TextView) findViewById(R.id.fail_button_ok);
         btnOk.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -51,7 +50,7 @@ public class FailDialog extends Dialog {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Button btn = (Button) findViewById(R.id.fail_button_cancel);
+            TextView btn = (TextView) findViewById(R.id.fail_button_cancel);
             btn.performClick();
             return true;
         }

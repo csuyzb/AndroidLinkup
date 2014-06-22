@@ -76,45 +76,43 @@
         android:gravity="center_horizontal|center_vertical"
         android:orientation="horizontal" >
 
-        <ImageView
+        <TextView
             android:id="@+id/music"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:gravity="center"
-            tools:ignore="contentDescription" />
+            android:text="@string/music" />
 
-        <ImageView
+        <TextView
             android:id="@+id/sound"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:gravity="center"
-            tools:ignore="contentDescription" />
+            android:text="@string/sound" />
 
-        <ImageView
+        <TextView
             android:id="@+id/help"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
+            android:drawableTop="@drawable/more"
             android:gravity="center"
-            android:onClick="startHelp"
-            android:src="@drawable/more"
-            tools:ignore="contentDescription" />
+            android:text="@string/help" />
 
-        <ImageView
+        <TextView
             android:id="@+id/about"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
+            android:drawableTop="@drawable/about"
             android:gravity="center"
-            android:onClick="startAbout"
-            android:src="@drawable/about"
-            tools:ignore="contentDescription" />
+            android:text="@string/about" />
     </LinearLayout>
 
 </LinearLayout>

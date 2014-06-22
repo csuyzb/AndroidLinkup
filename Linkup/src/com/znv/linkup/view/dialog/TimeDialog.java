@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,7 +38,7 @@ public class TimeDialog extends Dialog implements IUpload {
         setCancelable(false);
         setCanceledOnTouchOutside(false);
 
-        Button btnBack = (Button) findViewById(R.id.btnBack);
+        TextView btnBack = (TextView) findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -50,7 +49,7 @@ public class TimeDialog extends Dialog implements IUpload {
 
         });
 
-        Button btnShare = (Button) findViewById(R.id.btnshare);
+        TextView btnShare = (TextView) findViewById(R.id.btnshare);
         btnShare.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -72,7 +71,7 @@ public class TimeDialog extends Dialog implements IUpload {
             }
         });
 
-        Button btnAgain = (Button) findViewById(R.id.btnAgain);
+        TextView btnAgain = (TextView) findViewById(R.id.btnAgain);
         btnAgain.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -82,7 +81,7 @@ public class TimeDialog extends Dialog implements IUpload {
             }
         });
 
-        Button btnNext = (Button) findViewById(R.id.btnNext);
+        TextView btnNext = (TextView) findViewById(R.id.btnNext);
         btnNext.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -102,7 +101,7 @@ public class TimeDialog extends Dialog implements IUpload {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Button btn = (Button) findViewById(R.id.btnBack);
+            TextView btn = (TextView) findViewById(R.id.btnBack);
             btn.performClick();
             return true;
         }

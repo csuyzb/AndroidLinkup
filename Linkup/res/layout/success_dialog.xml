@@ -199,42 +199,39 @@
         android:layout_margin="10dip"
         android:gravity="center" >
 
-        <Button
+        <TextView
             android:id="@+id/success_button_cancel"
-            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="20dp"
-            android:background="@drawable/back"
+            android:drawableTop="@drawable/back"
             android:gravity="center"
-            android:textSize="20sp" />
+            android:text="@string/back" />
 
-        <Button
+        <TextView
             android:id="@+id/btnshare"
-            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/share"
+            android:drawableTop="@drawable/share"
             android:gravity="center"
-            android:textSize="20sp" />
+            android:text="@string/share" />
 
-        <Button
+        <TextView
             android:id="@+id/success_button_ok"
-            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="20dp"
-            android:background="@drawable/next"
+            android:drawableTop="@drawable/next"
             android:gravity="center"
-            android:textSize="20sp" />
+            android:text="@string/next" />
     </LinearLayout>
 
 </LinearLayout>

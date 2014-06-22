@@ -1,10 +1,10 @@
 package com.znv.linkup.view.dialog;
 
 import android.app.Dialog;
+import android.graphics.drawable.Drawable;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,7 +38,7 @@ public class TaskDialog extends Dialog implements IUpload {
         setCancelable(false);
         setCanceledOnTouchOutside(false);
 
-        Button btnBack = (Button) findViewById(R.id.btnBack);
+        TextView btnBack = (TextView) findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -49,7 +49,7 @@ public class TaskDialog extends Dialog implements IUpload {
 
         });
 
-        Button btnShare = (Button) findViewById(R.id.btnshare);
+        TextView btnShare = (TextView) findViewById(R.id.btnshare);
         btnShare.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -81,7 +81,7 @@ public class TaskDialog extends Dialog implements IUpload {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Button btn = (Button) findViewById(R.id.btnBack);
+            TextView btn = (TextView) findViewById(R.id.btnBack);
             btn.performClick();
             return true;
         }
@@ -105,13 +105,19 @@ public class TaskDialog extends Dialog implements IUpload {
         tvTaskTitle.setText(R.string.game_task_fail);
         ImageView ivRecord = (ImageView) findViewById(R.id.task_pass);
         ivRecord.setVisibility(View.INVISIBLE);
-        Button btnAgainOrNext = (Button) findViewById(R.id.btnAgainOrNext);
-        btnAgainOrNext.setBackgroundResource(R.drawable.again);
+        TextView btnAgainOrNext = (TextView) findViewById(R.id.btnAgainOrNext);
+        Drawable drawableAgain = getContext().getResources().getDrawable(R.drawable.again);
+        drawableAgain.setBounds(0, 0, drawableAgain.getMinimumWidth(), drawableAgain.getMinimumHeight());
+        btnAgainOrNext.setCompoundDrawables(null, drawableAgain, null, null);
+        btnAgainOrNext.setText(R.string.again);
         btnAgainOrNext.setOnClickListener(againHandler);
         if (resultInfo.isNewRecord()) {
             tvTaskTitle.setText(R.string.game_task_success);
             ivRecord.setVisibility(View.VISIBLE);
-            btnAgainOrNext.setBackgroundResource(R.drawable.next);
+            Drawable drawableNext = getContext().getResources().getDrawable(R.drawable.next);
+            drawableNext.setBounds(0, 0, drawableNext.getMinimumWidth(), drawableNext.getMinimumHeight());
+            btnAgainOrNext.setCompoundDrawables(null, drawableNext, null, null);
+            btnAgainOrNext.setText(R.string.next);
             btnAgainOrNext.setOnClickListener(nextHandler);
         }
 

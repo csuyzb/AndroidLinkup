@@ -1,12 +1,13 @@
 package com.znv.linkup;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.rest.IUpload;
@@ -26,8 +27,8 @@ import com.znv.linkup.view.dialog.HelpDialog;
 public class WelcomeActivity extends BaseActivity implements OnClickListener, IUpload {
 
     private long exitTime = 0;
-    private ImageView ivMusic = null;
-    private ImageView ivSound = null;
+    private TextView ivMusic = null;
+    private TextView ivSound = null;
     private LevelTop levelTop = null;
 
     @Override
@@ -36,7 +37,7 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
 
         setContentView(R.layout.activity_welcome);
 
-        initMode();
+        initClickListener();
 
         initMusicSetting();
 
@@ -52,10 +53,15 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
         levelTop.setUploadListener(this);
     }
 
-    private void initMode() {
+    private void initClickListener() {
         findViewById(R.id.mode0).setOnClickListener(this);
         findViewById(R.id.mode1).setOnClickListener(this);
         findViewById(R.id.mode2).setOnClickListener(this);
+
+        findViewById(R.id.music).setOnClickListener(this);
+        findViewById(R.id.sound).setOnClickListener(this);
+        findViewById(R.id.help).setOnClickListener(this);
+        findViewById(R.id.about).setOnClickListener(this);
     }
 
     @Override
@@ -70,46 +76,22 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
      * 初始化背景音乐设置
      */
     private void initMusicSetting() {
-        ivMusic = (ImageView) findViewById(R.id.music);
+        ivMusic = (TextView) findViewById(R.id.music);
         setGameMusic();
         if (musicMgr != null) {
             musicMgr.setBgMisicEnabled(LevelCfg.globalCfg.isGameBgMusic());
         }
-        ivMusic.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (musicMgr != null) {
-                    musicMgr.setBgMisicEnabled(!musicMgr.isBgMisicEnabled());
-                    // 保存全局设置--背景音乐
-                    setGlobalCfg();
-                    setGameMusic();
-                }
-            }
-        });
     }
 
     /**
      * 初始化音效设置
      */
     private void initSoundSetting() {
-        ivSound = (ImageView) findViewById(R.id.sound);
+        ivSound = (TextView) findViewById(R.id.sound);
         setGameSound();
         if (soundMgr != null) {
             soundMgr.setSoundEnabled(LevelCfg.globalCfg.isGameSound());
         }
-        ivSound.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (soundMgr != null) {
-                    soundMgr.setSoundEnabled(!soundMgr.isSoundEnabled());
-                    // 保存全局设置--音效
-                    setGlobalCfg();
-                    setGameSound();
-                }
-            }
-        });
     }
 
     /**
@@ -117,9 +99,13 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
      */
     private void setGameMusic() {
         if (LevelCfg.globalCfg.isGameBgMusic()) {
-            ivMusic.setImageResource(R.drawable.music);
+            Drawable drawable = getResources().getDrawable(R.drawable.music);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            ivMusic.setCompoundDrawables(null, drawable, null, null);
         } else {
-            ivMusic.setImageResource(R.drawable.music_d);
+            Drawable drawable = getResources().getDrawable(R.drawable.music_d);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            ivMusic.setCompoundDrawables(null, drawable, null, null);
         }
     }
 
@@ -128,9 +114,13 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
      */
     private void setGameSound() {
         if (LevelCfg.globalCfg.isGameSound()) {
-            ivSound.setImageResource(R.drawable.sound);
+            Drawable drawable = getResources().getDrawable(R.drawable.sound);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            ivSound.setCompoundDrawables(null, drawable, null, null);
         } else {
-            ivSound.setImageResource(R.drawable.sound_d);
+            Drawable drawable = getResources().getDrawable(R.drawable.sound_d);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            ivSound.setCompoundDrawables(null, drawable, null, null);
         }
     }
 
@@ -160,30 +150,6 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
     protected void onResume() {
         super.onResume();
         initTitle();
-    }
-
-    /**
-     * 点击帮助按钮时的处理，显示游戏帮助
-     * 
-     * @param v
-     */
-    public void startHelp(View v) {
-        HelpDialog helper = new HelpDialog(this);
-        helper.setTitle(getString(R.string.help));
-        helper.setMessage(getString(R.string.help_info));
-        helper.show();
-    }
-
-    /**
-     * 点击帮助按钮时的处理，显示游戏帮助
-     * 
-     * @param v
-     */
-    public void startAbout(View v) {
-        HelpDialog helper = new HelpDialog(this);
-        helper.setTitle(getString(R.string.about));
-        helper.setMessage(getString(R.string.about_info));
-        helper.show();
     }
 
     /**
@@ -218,6 +184,38 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
             }
             break;
         }
+        case R.id.music: {
+            if (musicMgr != null) {
+                musicMgr.setBgMisicEnabled(!musicMgr.isBgMisicEnabled());
+                // 保存全局设置--背景音乐
+                setGlobalCfg();
+                setGameMusic();
+            }
+        }
+            break;
+        case R.id.sound: {
+            if (soundMgr != null) {
+                soundMgr.setSoundEnabled(!soundMgr.isSoundEnabled());
+                // 保存全局设置--音效
+                setGlobalCfg();
+                setGameSound();
+            }
+        }
+            break;
+        case R.id.help: {
+            HelpDialog helper = new HelpDialog(this);
+            helper.setTitle(getString(R.string.help));
+            helper.setMessage(getString(R.string.help_info));
+            helper.show();
+        }
+            break;
+        case R.id.about: {
+            HelpDialog helper = new HelpDialog(this);
+            helper.setTitle(getString(R.string.about));
+            helper.setMessage(getString(R.string.about_info));
+            helper.show();
+        }
+            break;
         }
     }
 

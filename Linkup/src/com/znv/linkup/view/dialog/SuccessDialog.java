@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,7 +40,7 @@ public class SuccessDialog extends Dialog implements IUpload {
         setCancelable(false);
         setCanceledOnTouchOutside(false);
 
-        Button btnCancel = (Button) findViewById(R.id.success_button_cancel);
+        TextView btnCancel = (TextView) findViewById(R.id.success_button_cancel);
         btnCancel.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -52,7 +51,7 @@ public class SuccessDialog extends Dialog implements IUpload {
 
         });
 
-        Button btnShare = (Button) findViewById(R.id.btnshare);
+        TextView btnShare = (TextView) findViewById(R.id.btnshare);
         btnShare.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -74,7 +73,7 @@ public class SuccessDialog extends Dialog implements IUpload {
             }
         });
 
-        Button btnOk = (Button) findViewById(R.id.success_button_ok);
+        TextView btnOk = (TextView) findViewById(R.id.success_button_ok);
         btnOk.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -94,7 +93,7 @@ public class SuccessDialog extends Dialog implements IUpload {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Button btn = (Button) findViewById(R.id.success_button_cancel);
+            TextView btn = (TextView) findViewById(R.id.success_button_cancel);
             btn.performClick();
             return true;
         }

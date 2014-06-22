@@ -49,6 +49,11 @@ public class LevelTop extends LinearLayout implements Callback, PlatformActionLi
     private int imageWidth = 50;
     private IUpload uploadListener = null;
     private levelTopHolder holder = new levelTopHolder();
+    private LevelTopStatus topStatus = LevelTopStatus.Login;
+
+    public enum LevelTopStatus {
+        Login, UserInfo, TopInfo
+    }
 
     public LevelTop(final Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -89,7 +94,9 @@ public class LevelTop extends LinearLayout implements Callback, PlatformActionLi
 
     private void authorize(Platform plat) {
         try {
+            // 先清除缓存账户
             // plat.getDb().removeAccount();
+
             if (plat.isValid()) {
                 String userId = plat.getDb().getUserId();
                 if (!TextUtils.isEmpty(userId)) {
@@ -162,6 +169,7 @@ public class LevelTop extends LinearLayout implements Callback, PlatformActionLi
             ShareSDK.initSDK(getContext());
         } catch (Exception ex) {
         }
+        topStatus = LevelTopStatus.Login;
         holder.levelLogin.setVisibility(View.VISIBLE);
         holder.levelTopUsers.setVisibility(View.GONE);
         holder.userInfo.setVisibility(View.GONE);
@@ -196,34 +204,34 @@ public class LevelTop extends LinearLayout implements Callback, PlatformActionLi
         case ViewSettings.MSG_SCORE_GET: {
             holder.levelLogin.setVisibility(View.GONE);
             holder.levelTopUsers.setVisibility(View.VISIBLE);
+            topStatus = LevelTopStatus.TopInfo;
 
-            List<String> userIds = new ArrayList<String>();
             List<String> urls = new ArrayList<String>();
             String result = (String) msg.obj;
             try {
                 JSONArray array = new JSONArray(result);
                 if (array.length() > 0) {
                     JSONObject obj = (JSONObject) array.get(0);
-                    userIds.add(obj.getString("userId"));
                     urls.add(obj.getString("userIcon"));
                     holder.tvgolduser.setText(obj.getString("userName"));
                     holder.tvgoldscore.setText(obj.getString("score"));
                     if (array.length() > 1) {
                         JSONObject obj2 = (JSONObject) array.get(1);
-                        userIds.add(obj2.getString("userId"));
                         urls.add(obj2.getString("userIcon"));
                         holder.tvsilveruser.setText(obj2.getString("userName"));
                         holder.tvsilverscore.setText(obj2.getString("score"));
                         if (array.length() > 2) {
                             JSONObject obj3 = (JSONObject) array.get(2);
-                            userIds.add(obj3.getString("userId"));
                             urls.add(obj3.getString("userIcon"));
                             holder.tvthirduser.setText(obj3.getString("userName"));
                             holder.tvthirdscore.setText(obj3.getString("score"));
                         }
                     }
                 }
-                UserScore.getTopImages(userIds, urls, this);
+
+                if (urls.size() > 0) {
+                    UserScore.getTopImages(urls, this);
+                }
             } catch (JSONException e) {
                 Log.d("MSG_SCORE_GET", e.getMessage());
             }
@@ -232,34 +240,33 @@ public class LevelTop extends LinearLayout implements Callback, PlatformActionLi
         case ViewSettings.MSG_TIME_GET: {
             holder.levelLogin.setVisibility(View.GONE);
             holder.levelTopUsers.setVisibility(View.VISIBLE);
+            topStatus = LevelTopStatus.TopInfo;
 
-            List<String> userIds = new ArrayList<String>();
             List<String> urls = new ArrayList<String>();
             String result = (String) msg.obj;
             try {
                 JSONArray array = new JSONArray(result);
                 if (array.length() > 0) {
                     JSONObject obj = (JSONObject) array.get(0);
-                    userIds.add(obj.getString("userId"));
                     urls.add(obj.getString("userIcon"));
                     holder.tvgolduser.setText(obj.getString("userName"));
                     holder.tvgoldscore.setText(StringUtil.secondToString(Integer.parseInt(obj.getString("time"))));
                     if (array.length() > 1) {
                         JSONObject obj2 = (JSONObject) array.get(1);
-                        userIds.add(obj2.getString("userId"));
                         urls.add(obj2.getString("userIcon"));
                         holder.tvsilveruser.setText(obj2.getString("userName"));
                         holder.tvsilverscore.setText(StringUtil.secondToString(Integer.parseInt(obj2.getString("time"))));
                         if (array.length() > 2) {
                             JSONObject obj3 = (JSONObject) array.get(2);
-                            userIds.add(obj3.getString("userId"));
                             urls.add(obj3.getString("userIcon"));
                             holder.tvthirduser.setText(obj3.getString("userName"));
                             holder.tvthirdscore.setText(StringUtil.secondToString(Integer.parseInt(obj3.getString("time"))));
                         }
                     }
                 }
-                UserScore.getTopImages(userIds, urls, this);
+                if (urls.size() > 0) {
+                    UserScore.getTopImages(urls, this);
+                }
             } catch (JSONException e) {
                 Log.d("MSG_TIME_GET", e.getMessage());
             }
@@ -297,6 +304,7 @@ public class LevelTop extends LinearLayout implements Callback, PlatformActionLi
             if (bm != null) {
                 holder.levelLogin.setVisibility(View.GONE);
                 holder.userInfo.setVisibility(View.VISIBLE);
+                topStatus = LevelTopStatus.UserInfo;
 
                 holder.ivIcon.setImageBitmap(ImageUtil.roundBitmap(ImageUtil.scaleBitmap(bm, 64, 64)));
                 if (WelcomeActivity.userInfo != null) {
@@ -329,6 +337,10 @@ public class LevelTop extends LinearLayout implements Callback, PlatformActionLi
 
     public void setUploadListener(IUpload uploadListener) {
         this.uploadListener = uploadListener;
+    }
+
+    public LevelTopStatus getTopStatus() {
+        return topStatus;
     }
 
     class levelTopHolder {

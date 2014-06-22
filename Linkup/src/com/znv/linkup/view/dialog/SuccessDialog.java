@@ -20,6 +20,7 @@ import com.znv.linkup.rest.UserScore;
 import com.znv.linkup.util.AnimatorUtil;
 import com.znv.linkup.util.ShareUtil;
 import com.znv.linkup.view.LevelTop;
+import com.znv.linkup.view.LevelTop.LevelTopStatus;
 
 /**
  * 游戏结果确认框
@@ -56,9 +57,20 @@ public class SuccessDialog extends Dialog implements IUpload {
 
             @Override
             public void onClick(View v) {
+                // 分享
                 String msg = String.format(getContext().getString(R.string.share_score), getContext().getString(R.string.app_name), linkup.getLevelCfg()
                         .getRankName() + "-" + linkup.getLevelCfg().getLevelName(), String.valueOf(resultInfo.getScore()));
-                ShareUtil.shareMessage(linkup, msg);
+                if (levelTop.getTopStatus() == LevelTopStatus.TopInfo) {
+                    View topMain = levelTop.findViewById(R.id.level_top_main);
+                    // 带截图分享
+                    if (topMain != null) {
+                        ShareUtil.shareMsgView(linkup, msg, topMain);
+                    } else {
+                        ShareUtil.shareMsgView(linkup, msg, levelTop);
+                    }
+                } else {
+                    ShareUtil.shareMessage(linkup, msg);
+                }
             }
         });
 

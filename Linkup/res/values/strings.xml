@@ -43,8 +43,9 @@
     <string name="auth_cancel">授权操作已取消</string>
     <string name="auth_error">授权操作遇到错误，请阅读Logcat输出</string>
     <string name="user_hello">, 你好, 欢迎回来!</string>
+    <string name="share_comment">继续加油!</string>
     <string name="share_score" formatted="false">我在[%s]的[%s]关卡中,闯关成功得到了[%s]分,快来挑战我吧!</string>
-    <string name="share_task" formatted="false">我在[%s]的[%s]关卡中，完成任务得到了[%s]分，快来挑战我吧！</string>
-    <string name="share_time" formatted="false">我在[%s]的[%s]关卡中，完成任务只用了[%s]秒，快来挑战我吧！</string>
+    <string name="share_task" formatted="false">我在[%s]的[%s]关卡中,完成任务得到了[%s]分,快来挑战我吧!</string>
+    <string name="share_time" formatted="false">我在[%s]的[%s]关卡中,完成任务只用了[%s]秒,快来挑战我吧!</string>
 
 </resources>

@@ -188,12 +188,12 @@ public class UserScore {
      * @param callback
      *            回调
      */
-    public static void getUserImage(final String userId, final String url, final Callback callback) {
+    public static void getUserImage(final String url, final Callback callback) {
         new Thread(new Runnable() {
 
             @Override
             public void run() {
-                Bitmap bm = IconCacheUtil.getIcon(userId);
+                Bitmap bm = IconCacheUtil.getIcon(url);
                 if (bm == null) {
                     try {
                         bm = BitmapFactory.decodeStream((new URL(url)).openStream());
@@ -203,7 +203,7 @@ public class UserScore {
                     }
                 }
                 if (bm != null) {
-                    IconCacheUtil.putIcon(userId, bm);
+                    IconCacheUtil.putIcon(url, bm);
                     // 成功获取排名信息
                     Message msg = new Message();
                     msg.what = ViewSettings.MSG_IMAGE_GET;
@@ -225,7 +225,7 @@ public class UserScore {
      * @param callback
      *            回调
      */
-    public static void getTopImages(final List<String> userIds, final List<String> urls, final Callback callback) {
+    public static void getTopImages(final List<String> urls, final Callback callback) {
         new Thread(new Runnable() {
 
             @Override
@@ -233,21 +233,21 @@ public class UserScore {
                 boolean hasImage = false;
                 List<Bitmap> images = new ArrayList<Bitmap>();
                 Bitmap bm = null;
-                for (int i = 0; i < userIds.size(); i++) {
-                    bm = IconCacheUtil.getIcon(userIds.get(i));
+                for (int i = 0; i < urls.size(); i++) {
+                    bm = IconCacheUtil.getIcon(urls.get(i));
                     if (bm == null) {
                         try {
                             bm = BitmapFactory.decodeStream((new URL(urls.get(i))).openStream());
-                            IconCacheUtil.putIcon(userIds.get(i), bm);
+                            hasImage = true;
+                            IconCacheUtil.putIcon(urls.get(i), bm);
                         } catch (Exception e) {
                             e.printStackTrace();
                             bm = null;
                         }
+                    } else {
+                        hasImage = true;
                     }
-                }
-                images.add(bm);
-                if (bm != null && !hasImage) {
-                    hasImage = true;
+                    images.add(bm);
                 }
                 if (hasImage) {
                     // 成功获取排名信息

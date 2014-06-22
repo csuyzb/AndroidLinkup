@@ -1,6 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:id="@+id/level_top_main"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent" >
 
     <LinearLayout
@@ -76,6 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:background="#88888888"
         android:baselineAligned="false"
         android:orientation="horizontal"
         android:visibility="gone" >
@@ -95,8 +97,8 @@
 
             <ImageView
                 android:id="@+id/level_ivgoldIcon"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="left|center_vertical"
                 android:layout_toRightOf="@id/level_ivgold"
                 android:gravity="center"
@@ -147,8 +149,8 @@
 
             <ImageView
                 android:id="@+id/level_ivsilverIcon"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="left|center_vertical"
                 android:layout_toRightOf="@id/level_ivsilver"
                 android:gravity="center"
@@ -199,8 +201,8 @@
 
             <ImageView
                 android:id="@+id/level_ivthirdIcon"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="left|center_vertical"
                 android:layout_toRightOf="@id/level_ivthird"
                 android:gravity="center"

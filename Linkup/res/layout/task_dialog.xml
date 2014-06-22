@@ -134,6 +134,16 @@
             android:background="@drawable/back"
             android:gravity="center"
             android:textSize="20sp" />
+        <Button
+            android:id="@+id/btnshare"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:background="@drawable/share"
+            android:gravity="center"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/btnAgainOrNext"

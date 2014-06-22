@@ -18,13 +18,13 @@ public class IconCacheUtil {
     /**
      * 获取图标
      * 
-     * @param userId
-     *            用户id
+     * @param url
+     *            icon的url
      * @return 用户图标
      */
-    public static Bitmap getIcon(String userId) {
-        if (icons.containsKey(userId)) {
-            return icons.get(userId);
+    public static Bitmap getIcon(String url) {
+        if (icons.containsKey(url)) {
+            return icons.get(url);
         }
         return null;
     }
@@ -32,14 +32,14 @@ public class IconCacheUtil {
     /**
      * 缓存用户图标
      * 
-     * @param userId
-     *            用户id
+     * @param url
+     *            icon的url
      * @param bm
      *            用户图标
      */
-    public static void putIcon(String userId, Bitmap bm) {
-        if (!userId.equals("") && bm != null) {
-            icons.put(userId, bm);
+    public static void putIcon(String url, Bitmap bm) {
+        if (!url.equals("") && bm != null) {
+            icons.put(url, bm);
         }
     }
 

@@ -8,9 +8,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.os.Handler.Callback;
+import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -24,7 +25,6 @@ import android.widget.Toast;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.framework.utils.UIHandler;
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qzone.QZone;
 
@@ -44,7 +44,7 @@ import com.znv.linkup.util.StringUtil;
  * @author yzb
  * 
  */
-public class LevelTop extends LinearLayout implements Callback, PlatformActionListener {
+public class LevelTop extends LinearLayout implements PlatformActionListener {
 
     private int imageWidth = 50;
     private IUpload uploadListener = null;
@@ -95,7 +95,7 @@ public class LevelTop extends LinearLayout implements Callback, PlatformActionLi
     private void authorize(Platform plat) {
         try {
             // 先清除缓存账户
-            // plat.getDb().removeAccount();
+            plat.getDb().removeAccount();
 
             if (plat.isValid()) {
                 String userId = plat.getDb().getUserId();
@@ -126,18 +126,18 @@ public class LevelTop extends LinearLayout implements Callback, PlatformActionLi
         userInfo.setUserName(plat.getDb().getUserName());
         userInfo.setUserGender(plat.getDb().getUserGender());
         userInfo.setUserIcon(plat.getDb().getUserIcon());
-        UserScore.login(userInfo, this);
+        UserScore.login(userInfo, netMsgHandler);
     }
 
     public void onError(Platform platform, int action, Throwable t) {
         if (action == Platform.ACTION_USER_INFOR) {
-            UIHandler.sendEmptyMessage(ViewSettings.MSG_AUTH_ERROR, this);
+            netMsgHandler.sendEmptyMessage(ViewSettings.MSG_AUTH_ERROR);
         }
     }
 
     public void onCancel(Platform platform, int action) {
         if (action == Platform.ACTION_USER_INFOR) {
-            UIHandler.sendEmptyMessage(ViewSettings.MSG_AUTH_CANCEL, this);
+            netMsgHandler.sendEmptyMessage(ViewSettings.MSG_AUTH_CANCEL);
         }
     }
 
@@ -186,150 +186,153 @@ public class LevelTop extends LinearLayout implements Callback, PlatformActionLi
         holder.tvUser.setText("");
     }
 
-    @Override
-    public boolean handleMessage(Message msg) {
-        switch (msg.what) {
-        case ViewSettings.MSG_SCORE_ADD: {
-            if (uploadListener != null) {
-                uploadListener.onScoreAdd(msg);
-            }
-        }
-            break;
-        case ViewSettings.MSG_TIME_ADD: {
-            if (uploadListener != null) {
-                uploadListener.onTimeAdd(msg);
-            }
-        }
-            break;
-        case ViewSettings.MSG_SCORE_GET: {
-            holder.levelLogin.setVisibility(View.GONE);
-            holder.levelTopUsers.setVisibility(View.VISIBLE);
-            topStatus = LevelTopStatus.TopInfo;
-
-            List<String> urls = new ArrayList<String>();
-            String result = (String) msg.obj;
-            try {
-                JSONArray array = new JSONArray(result);
-                if (array.length() > 0) {
-                    JSONObject obj = (JSONObject) array.get(0);
-                    urls.add(obj.getString("userIcon"));
-                    holder.tvgolduser.setText(obj.getString("userName"));
-                    holder.tvgoldscore.setText(obj.getString("score"));
-                    if (array.length() > 1) {
-                        JSONObject obj2 = (JSONObject) array.get(1);
-                        urls.add(obj2.getString("userIcon"));
-                        holder.tvsilveruser.setText(obj2.getString("userName"));
-                        holder.tvsilverscore.setText(obj2.getString("score"));
-                        if (array.length() > 2) {
-                            JSONObject obj3 = (JSONObject) array.get(2);
-                            urls.add(obj3.getString("userIcon"));
-                            holder.tvthirduser.setText(obj3.getString("userName"));
-                            holder.tvthirdscore.setText(obj3.getString("score"));
-                        }
-                    }
-                }
-
-                if (urls.size() > 0) {
-                    UserScore.getTopImages(urls, this);
-                }
-            } catch (JSONException e) {
-                Log.d("MSG_SCORE_GET", e.getMessage());
-            }
-        }
-            break;
-        case ViewSettings.MSG_TIME_GET: {
-            holder.levelLogin.setVisibility(View.GONE);
-            holder.levelTopUsers.setVisibility(View.VISIBLE);
-            topStatus = LevelTopStatus.TopInfo;
-
-            List<String> urls = new ArrayList<String>();
-            String result = (String) msg.obj;
-            try {
-                JSONArray array = new JSONArray(result);
-                if (array.length() > 0) {
-                    JSONObject obj = (JSONObject) array.get(0);
-                    urls.add(obj.getString("userIcon"));
-                    holder.tvgolduser.setText(obj.getString("userName"));
-                    holder.tvgoldscore.setText(StringUtil.secondToString(Integer.parseInt(obj.getString("time"))));
-                    if (array.length() > 1) {
-                        JSONObject obj2 = (JSONObject) array.get(1);
-                        urls.add(obj2.getString("userIcon"));
-                        holder.tvsilveruser.setText(obj2.getString("userName"));
-                        holder.tvsilverscore.setText(StringUtil.secondToString(Integer.parseInt(obj2.getString("time"))));
-                        if (array.length() > 2) {
-                            JSONObject obj3 = (JSONObject) array.get(2);
-                            urls.add(obj3.getString("userIcon"));
-                            holder.tvthirduser.setText(obj3.getString("userName"));
-                            holder.tvthirdscore.setText(StringUtil.secondToString(Integer.parseInt(obj3.getString("time"))));
-                        }
-                    }
-                }
-                if (urls.size() > 0) {
-                    UserScore.getTopImages(urls, this);
-                }
-            } catch (JSONException e) {
-                Log.d("MSG_TIME_GET", e.getMessage());
-            }
-        }
-            break;
-        case ViewSettings.MSG_LOGIN: {
-            if (uploadListener != null) {
-                uploadListener.onLoginSuccess(msg);
-            }
-        }
-            break;
-        case ViewSettings.MSG_TOPIMAGES_GET: {
-            @SuppressWarnings("unchecked")
-            List<Bitmap> images = (List<Bitmap>) msg.obj;
-            if (images != null && images.size() > 0) {
-                if (images.get(0) != null) {
-                    holder.ivgoldIcon.setImageBitmap(ImageUtil.scaleBitmap(images.get(0), imageWidth, imageWidth));
-                }
-                if (images.size() > 1) {
-                    if (images.get(1) != null) {
-                        holder.ivsilverIcon.setImageBitmap(ImageUtil.scaleBitmap(images.get(1), imageWidth, imageWidth));
-                    }
-
-                    if (images.size() > 2) {
-                        if (images.get(2) != null) {
-                            holder.ivthirdIcon.setImageBitmap(ImageUtil.scaleBitmap(images.get(2), imageWidth, imageWidth));
-                        }
-                    }
+    @SuppressLint("HandlerLeak")
+    public Handler netMsgHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+            case ViewSettings.MSG_SCORE_ADD: {
+                if (uploadListener != null) {
+                    uploadListener.onScoreAdd(msg);
                 }
             }
-        }
-            break;
-        case ViewSettings.MSG_IMAGE_GET: {
-            Bitmap bm = (Bitmap) msg.obj;
-            if (bm != null) {
+                break;
+            case ViewSettings.MSG_TIME_ADD: {
+                if (uploadListener != null) {
+                    uploadListener.onTimeAdd(msg);
+                }
+            }
+                break;
+            case ViewSettings.MSG_SCORE_GET: {
                 holder.levelLogin.setVisibility(View.GONE);
-                holder.userInfo.setVisibility(View.VISIBLE);
-                topStatus = LevelTopStatus.UserInfo;
+                holder.levelTopUsers.setVisibility(View.VISIBLE);
+                topStatus = LevelTopStatus.TopInfo;
 
-                holder.ivIcon.setImageBitmap(ImageUtil.roundBitmap(ImageUtil.scaleBitmap(bm, 64, 64)));
-                if (WelcomeActivity.userInfo != null) {
-                    holder.tvUser.setText(WelcomeActivity.userInfo.getUserName() + getContext().getString(R.string.user_hello));
-                    String text = getContext().getString(R.string.logining, WelcomeActivity.userInfo.getPlat());
-                    Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
+                List<String> urls = new ArrayList<String>();
+                String result = (String) msg.obj;
+                try {
+                    JSONArray array = new JSONArray(result);
+                    if (array.length() > 0) {
+                        JSONObject obj = (JSONObject) array.get(0);
+                        urls.add(obj.getString("userIcon"));
+                        holder.tvgolduser.setText(obj.getString("userName"));
+                        holder.tvgoldscore.setText(obj.getString("score"));
+                        if (array.length() > 1) {
+                            JSONObject obj2 = (JSONObject) array.get(1);
+                            urls.add(obj2.getString("userIcon"));
+                            holder.tvsilveruser.setText(obj2.getString("userName"));
+                            holder.tvsilverscore.setText(obj2.getString("score"));
+                            if (array.length() > 2) {
+                                JSONObject obj3 = (JSONObject) array.get(2);
+                                urls.add(obj3.getString("userIcon"));
+                                holder.tvthirduser.setText(obj3.getString("userName"));
+                                holder.tvthirdscore.setText(obj3.getString("score"));
+                            }
+                        }
+                    }
+
+                    if (urls.size() > 0) {
+                        UserScore.getTopImages(urls, this);
+                    }
+                } catch (JSONException e) {
+                    Log.d("MSG_SCORE_GET", e.getMessage());
                 }
             }
+                break;
+            case ViewSettings.MSG_TIME_GET: {
+                holder.levelLogin.setVisibility(View.GONE);
+                holder.levelTopUsers.setVisibility(View.VISIBLE);
+                topStatus = LevelTopStatus.TopInfo;
+
+                List<String> urls = new ArrayList<String>();
+                String result = (String) msg.obj;
+                try {
+                    JSONArray array = new JSONArray(result);
+                    if (array.length() > 0) {
+                        JSONObject obj = (JSONObject) array.get(0);
+                        urls.add(obj.getString("userIcon"));
+                        holder.tvgolduser.setText(obj.getString("userName"));
+                        holder.tvgoldscore.setText(StringUtil.secondToString(Integer.parseInt(obj.getString("time"))));
+                        if (array.length() > 1) {
+                            JSONObject obj2 = (JSONObject) array.get(1);
+                            urls.add(obj2.getString("userIcon"));
+                            holder.tvsilveruser.setText(obj2.getString("userName"));
+                            holder.tvsilverscore.setText(StringUtil.secondToString(Integer.parseInt(obj2.getString("time"))));
+                            if (array.length() > 2) {
+                                JSONObject obj3 = (JSONObject) array.get(2);
+                                urls.add(obj3.getString("userIcon"));
+                                holder.tvthirduser.setText(obj3.getString("userName"));
+                                holder.tvthirdscore.setText(StringUtil.secondToString(Integer.parseInt(obj3.getString("time"))));
+                            }
+                        }
+                    }
+                    if (urls.size() > 0) {
+                        UserScore.getTopImages(urls, this);
+                    }
+                } catch (JSONException e) {
+                    Log.d("MSG_TIME_GET", e.getMessage());
+                }
+            }
+                break;
+            case ViewSettings.MSG_LOGIN: {
+                if (uploadListener != null) {
+                    uploadListener.onLoginSuccess(msg);
+                }
+            }
+                break;
+            case ViewSettings.MSG_TOPIMAGES_GET: {
+                @SuppressWarnings("unchecked")
+                List<Bitmap> images = (List<Bitmap>) msg.obj;
+                if (images != null && images.size() > 0) {
+                    if (images.get(0) != null) {
+                        holder.ivgoldIcon.setImageBitmap(ImageUtil.scaleBitmap(images.get(0), imageWidth, imageWidth));
+                    }
+                    if (images.size() > 1) {
+                        if (images.get(1) != null) {
+                            holder.ivsilverIcon.setImageBitmap(ImageUtil.scaleBitmap(images.get(1), imageWidth, imageWidth));
+                        }
+
+                        if (images.size() > 2) {
+                            if (images.get(2) != null) {
+                                holder.ivthirdIcon.setImageBitmap(ImageUtil.scaleBitmap(images.get(2), imageWidth, imageWidth));
+                            }
+                        }
+                    }
+                }
+            }
+                break;
+            case ViewSettings.MSG_IMAGE_GET: {
+                Bitmap bm = (Bitmap) msg.obj;
+                if (bm != null) {
+                    holder.levelLogin.setVisibility(View.GONE);
+                    holder.userInfo.setVisibility(View.VISIBLE);
+                    topStatus = LevelTopStatus.UserInfo;
+
+                    holder.ivIcon.setImageBitmap(ImageUtil.roundBitmap(ImageUtil.scaleBitmap(bm, 64, 64)));
+                    if (WelcomeActivity.userInfo != null) {
+                        holder.tvUser.setText(WelcomeActivity.userInfo.getUserName() + getContext().getString(R.string.user_hello));
+                        String text = getContext().getString(R.string.logining, WelcomeActivity.userInfo.getPlat());
+                        Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+                break;
+            case ViewSettings.MSG_AUTH_CANCEL: {
+                Toast.makeText(getContext(), R.string.auth_cancel, Toast.LENGTH_SHORT).show();
+            }
+                break;
+            case ViewSettings.MSG_AUTH_ERROR: {
+                Toast.makeText(getContext(), R.string.auth_error, Toast.LENGTH_SHORT).show();
+            }
+                break;
+            case ViewSettings.MSG_NETWORK_EXCEPTION: {
+                Toast.makeText(getContext(), R.string.network_exception, Toast.LENGTH_SHORT).show();
+            }
+                break;
+            }
         }
-            break;
-        case ViewSettings.MSG_AUTH_CANCEL: {
-            Toast.makeText(getContext(), R.string.auth_cancel, Toast.LENGTH_SHORT).show();
-        }
-            break;
-        case ViewSettings.MSG_AUTH_ERROR: {
-            Toast.makeText(getContext(), R.string.auth_error, Toast.LENGTH_SHORT).show();
-        }
-            break;
-        case ViewSettings.MSG_NETWORK_EXCEPTION: {
-            Toast.makeText(getContext(), R.string.network_exception, Toast.LENGTH_SHORT).show();
-        }
-            break;
-        }
-        return false;
-    }
+
+    };
 
     public IUpload getUploadListener() {
         return uploadListener;

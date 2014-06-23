@@ -153,13 +153,13 @@ public class TaskDialog extends Dialog implements IUpload {
         // 判断是否已登录
         if (!resultInfo.getUserId().equals("")) {
             if (resultInfo.isNewRecord()) {
-                UserScore.addScore(resultInfo.getUserId(), resultInfo.getLevel(), resultInfo.getScore(), levelTop);
+                UserScore.addScore(resultInfo.getUserId(), resultInfo.getLevel(), resultInfo.getScore(), levelTop.netMsgHandler);
             } else {
                 if (!resultInfo.isUpload()) {
-                    UserScore.addScore(resultInfo.getUserId(), resultInfo.getLevel(), resultInfo.getMaxScore(), levelTop);
+                    UserScore.addScore(resultInfo.getUserId(), resultInfo.getLevel(), resultInfo.getMaxScore(), levelTop.netMsgHandler);
                 } else {
                     // 获取排行榜
-                    UserScore.getTopScores(resultInfo.getLevel(), levelTop);
+                    UserScore.getTopScores(resultInfo.getLevel(), levelTop.netMsgHandler);
                 }
             }
 
@@ -186,7 +186,7 @@ public class TaskDialog extends Dialog implements IUpload {
         DbScore.updateUpload(ls);
 
         // 获取排行榜
-        UserScore.getTopScores(resultInfo.getLevel(), levelTop);
+        UserScore.getTopScores(resultInfo.getLevel(), levelTop.netMsgHandler);
     }
 
     @Override

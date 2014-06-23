@@ -141,13 +141,13 @@ public class TimeDialog extends Dialog implements IUpload {
         // 判断是否已登录
         if (!resultInfo.getUserId().equals("")) {
             if (resultInfo.isNewRecord()) {
-                UserScore.addTime(resultInfo.getUserId(), resultInfo.getLevel(), resultInfo.getTime(), levelTop);
+                UserScore.addTime(resultInfo.getUserId(), resultInfo.getLevel(), resultInfo.getTime(), levelTop.netMsgHandler);
             } else {
                 if (!resultInfo.isUpload()) {
-                    UserScore.addTime(resultInfo.getUserId(), resultInfo.getLevel(), resultInfo.getMinTime(), levelTop);
+                    UserScore.addTime(resultInfo.getUserId(), resultInfo.getLevel(), resultInfo.getMinTime(), levelTop.netMsgHandler);
                 } else {
                     // 获取排行榜
-                    UserScore.getTopTimes(resultInfo.getLevel(), levelTop);
+                    UserScore.getTopTimes(resultInfo.getLevel(), levelTop.netMsgHandler);
                 }
             }
         } else {
@@ -177,7 +177,7 @@ public class TimeDialog extends Dialog implements IUpload {
         DbScore.updateUpload(ls);
 
         // 获取排行榜
-        UserScore.getTopTimes(resultInfo.getLevel(), levelTop);
+        UserScore.getTopTimes(resultInfo.getLevel(), levelTop.netMsgHandler);
     }
 
     @Override

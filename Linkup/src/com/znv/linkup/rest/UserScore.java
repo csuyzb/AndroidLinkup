@@ -9,9 +9,8 @@ import org.apache.http.message.BasicNameValuePair;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Handler.Callback;
+import android.os.Handler;
 import android.os.Message;
-import cn.sharesdk.framework.utils.UIHandler;
 
 import com.znv.linkup.ViewSettings;
 import com.znv.linkup.util.IconCacheUtil;
@@ -38,7 +37,7 @@ public class UserScore {
      * @param userInfo
      *            用户登录信息
      */
-    public static void login(final UserInfo userInfo, final Callback callback) {
+    public static void login(final UserInfo userInfo, final Handler handler) {
         final List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("userid", userInfo.getUserId()));
         params.add(new BasicNameValuePair("username", userInfo.getUserName()));
@@ -55,10 +54,10 @@ public class UserScore {
                     Message msg = new Message();
                     msg.what = ViewSettings.MSG_LOGIN;
                     msg.obj = userInfo;
-                    UIHandler.sendMessage(msg, callback);
+                    handler.sendMessage(msg);
                 } else {
                     // 网络或其它问题
-                    UIHandler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION, callback);
+                    handler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION);
                 }
             }
         }).start();
@@ -74,7 +73,7 @@ public class UserScore {
      * @param score
      *            最高分数
      */
-    public static void addScore(String userId, int level, int score, final Callback callback) {
+    public static void addScore(String userId, int level, int score, final Handler handler) {
         final List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("userid", userId));
         params.add(new BasicNameValuePair("level", String.valueOf(level)));
@@ -86,10 +85,10 @@ public class UserScore {
                 String result = RestUtil.post(SCORE_ADD_URI, params);
                 if (result != null) {
                     // 成功post用户关卡分数
-                    UIHandler.sendEmptyMessage(ViewSettings.MSG_SCORE_ADD, callback);
+                    handler.sendEmptyMessage(ViewSettings.MSG_SCORE_ADD);
                 } else {
                     // 网络或其它问题
-                    UIHandler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION, callback);
+                    handler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION);
                 }
             }
         }).start();
@@ -101,7 +100,7 @@ public class UserScore {
      * @param level
      *            关卡id
      */
-    public static void getTopScores(int level, final Callback callback) {
+    public static void getTopScores(int level, final Handler handler) {
         final String uri = SCORE_GET_URI + "?level=" + String.valueOf(level) + "&top=" + String.valueOf(topN);
         new Thread(new Runnable() {
 
@@ -113,10 +112,10 @@ public class UserScore {
                     Message msg = new Message();
                     msg.what = ViewSettings.MSG_SCORE_GET;
                     msg.obj = result;
-                    UIHandler.sendMessage(msg, callback);
+                    handler.sendMessage(msg);
                 } else {
                     // 网络或其它问题
-                    UIHandler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION, callback);
+                    handler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION);
                 }
             }
         }).start();
@@ -132,7 +131,7 @@ public class UserScore {
      * @param time
      *            最小时间
      */
-    public static void addTime(String userId, int level, int time, final Callback callback) {
+    public static void addTime(String userId, int level, int time, final Handler handler) {
         final List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("userid", userId));
         params.add(new BasicNameValuePair("level", String.valueOf(level)));
@@ -144,10 +143,10 @@ public class UserScore {
                 String result = RestUtil.post(TIME_ADD_URI, params);
                 if (result != null) {
                     // 成功post用户关卡时间
-                    UIHandler.sendEmptyMessage(ViewSettings.MSG_TIME_ADD, callback);
+                    handler.sendEmptyMessage(ViewSettings.MSG_TIME_ADD);
                 } else {
                     // 网络或其它问题
-                    UIHandler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION, callback);
+                    handler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION);
                 }
             }
         }).start();
@@ -159,7 +158,7 @@ public class UserScore {
      * @param level
      *            关卡id
      */
-    public static void getTopTimes(int level, final Callback callback) {
+    public static void getTopTimes(int level, final Handler handler) {
         final String uri = TIME_GET_URI + "?level=" + String.valueOf(level) + "&top=" + String.valueOf(topN);
         new Thread(new Runnable() {
 
@@ -171,10 +170,10 @@ public class UserScore {
                     Message msg = new Message();
                     msg.what = ViewSettings.MSG_TIME_GET;
                     msg.obj = result;
-                    UIHandler.sendMessage(msg, callback);
+                    handler.sendMessage(msg);
                 } else {
                     // 网络或其它问题
-                    UIHandler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION, callback);
+                    handler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION);
                 }
             }
         }).start();
@@ -188,30 +187,35 @@ public class UserScore {
      * @param callback
      *            回调
      */
-    public static void getUserImage(final String url, final Callback callback) {
+    public static void getUserImage(final String url, final Handler handler) {
         new Thread(new Runnable() {
 
             @Override
             public void run() {
-                Bitmap bm = IconCacheUtil.getIcon(url);
+                String newUrl = url;
+                // 获取清晰的QQ图像
+                // if(newUrl.endsWith("/30")){
+                // newUrl = newUrl.substring(0, newUrl.length() - 3) + "/100";
+                // }
+                Bitmap bm = IconCacheUtil.getIcon(newUrl);
                 if (bm == null) {
                     try {
-                        bm = BitmapFactory.decodeStream((new URL(url)).openStream());
+                        bm = BitmapFactory.decodeStream((new URL(newUrl)).openStream());
                     } catch (Exception e) {
                         e.printStackTrace();
                         bm = null;
                     }
                 }
                 if (bm != null) {
-                    IconCacheUtil.putIcon(url, bm);
+                    IconCacheUtil.putIcon(newUrl, bm);
                     // 成功获取排名信息
                     Message msg = new Message();
                     msg.what = ViewSettings.MSG_IMAGE_GET;
                     msg.obj = bm;
-                    UIHandler.sendMessage(msg, callback);
+                    handler.sendMessage(msg);
                 } else {
                     // 网络或其它问题
-                    UIHandler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION, callback);
+                    handler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION);
                 }
             }
         }).start();
@@ -225,7 +229,7 @@ public class UserScore {
      * @param callback
      *            回调
      */
-    public static void getTopImages(final List<String> urls, final Callback callback) {
+    public static void getTopImages(final List<String> urls, final Handler handler) {
         new Thread(new Runnable() {
 
             @Override
@@ -254,10 +258,10 @@ public class UserScore {
                     Message msg = new Message();
                     msg.what = ViewSettings.MSG_TOPIMAGES_GET;
                     msg.obj = images;
-                    UIHandler.sendMessage(msg, callback);
+                    handler.sendMessage(msg);
                 } else {
                     // 网络或其它问题
-                    UIHandler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION, callback);
+                    handler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION);
                 }
             }
         }).start();

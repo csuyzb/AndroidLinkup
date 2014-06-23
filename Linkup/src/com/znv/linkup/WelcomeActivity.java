@@ -223,7 +223,7 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
     public void onLoginSuccess(Message msg) {
         userInfo = (UserInfo) msg.obj;
         if (userInfo != null) {
-            UserScore.getUserImage(userInfo.getUserIcon(), levelTop);
+            UserScore.getUserImage(userInfo.getUserIcon(), levelTop.netMsgHandler);
         }
     }
 

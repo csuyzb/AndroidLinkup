@@ -3,8 +3,6 @@
 
     <string name="app_name">休闲连连看</string>
     <string name="back_again">再按一次退出程序</string>
-    <string name="exit">退出</string>
-    <string name="exit_info">您确定退出游戏吗？\n\n点错了，请选择[取消]</string>
     <string name="music">音乐</string>
     <string name="sound">音效</string>
     <string name="help">帮助</string>
@@ -22,12 +20,7 @@
     <string name="game_level_task">任务分:</string>
     <string name="game_score">总得分:</string>
     <string name="game_level_lost">闯关失败！</string>
-<!--     <string name="game_level_lost_cancel">返回</string> -->
-<!--     <string name="game_level_lost_ok">再来</string> -->
-<!--     <string name="game_level_lost_ask">\n\n重新开始？</string> -->
     <string name="game_level_success">闯关成功！</string>
-<!--     <string name="game_level_success_cancel">返回</string> -->
-<!--     <string name="game_level_success_ok">继续</string> -->
     <string name="game_time_success">游戏胜利！</string>
     <string name="game_time">游戏时间:</string>
     <string name="game_time_min">最快记录:</string>
@@ -35,9 +28,6 @@
     <string name="game_task_fail">任务失败！</string>
     <string name="game_task_score">游戏得分:</string>
     <string name="game_task_taskscore">任务分:</string>
-<!--     <string name="game_level_success_ask">\n\n进入下一关？</string> -->
-<!--     <string name="game_prompt_add">提示 +１</string> -->
-<!--     <string name="game_refresh_add">重排 +１</string> -->
     <string name="game_reward_add">+１</string>
     <string name="game_ready_go">GO!</string>
     <string name="game_prompt_none">已经不能消除了，请重排或按返回退出!</string>

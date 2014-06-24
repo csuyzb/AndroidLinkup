@@ -51,6 +51,7 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
     private void initLogin() {
         levelTop = (LevelTop) findViewById(R.id.welcome_user);
         levelTop.setUploadListener(this);
+        levelTop.reset();
     }
 
     private void initClickListener() {

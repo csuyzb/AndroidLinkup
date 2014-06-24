@@ -46,13 +46,14 @@ import com.znv.linkup.util.StringUtil;
  */
 public class LevelTop extends LinearLayout implements PlatformActionListener {
 
-    private int imageWidth = 50;
-    private IUpload uploadListener = null;
-    private levelTopHolder holder = new levelTopHolder();
-    private LevelTopStatus topStatus = LevelTopStatus.Login;
-
+    /**
+     * 登录状态
+     * 
+     * @author yzb
+     * 
+     */
     public enum LevelTopStatus {
-        Login, UserInfo, TopInfo
+        None, Login, UserInfo, TopInfo
     }
 
     public LevelTop(final Context context, AttributeSet attrs) {
@@ -81,52 +82,60 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
         getControls();
     }
 
-    private void beforeLogin() {
+    /**
+     * 根据状态显示界面
+     */
+    private void showStatus(LevelTopStatus status) {
+        topStatus = status;
+        holder.levelLogin.setVisibility(View.GONE);
+        holder.userInfo.setVisibility(View.GONE);
+        holder.levelTopUsers.setVisibility(View.GONE);
+        switch (topStatus) {
+        case Login:
+            holder.levelLogin.setVisibility(View.VISIBLE);
+            break;
+        case UserInfo:
+            holder.userInfo.setVisibility(View.VISIBLE);
+            break;
+        case TopInfo:
+            holder.levelTopUsers.setVisibility(View.VISIBLE);
+            break;
+        case None:
+            break;
+        }
+    }
+
+    /**
+     * 重新初始化控件
+     */
+    public void reset() {
         try {
             ShareSDK.initSDK(getContext());
         } catch (Exception ex) {
         }
-        BaseActivity.soundMgr.select();
-        if (uploadListener != null) {
-            uploadListener.onAuthorizeClick();
+        if (BaseActivity.userInfo == null) {
+            // 显示登录
+            showStatus(LevelTopStatus.Login);
+        } else {
+            showStatus(LevelTopStatus.None);
         }
-    }
-
-    private void authorize(Platform plat) {
-        try {
-            // 先清除缓存账户
-            // plat.getDb().removeAccount();
-
-            if (plat.isValid()) {
-                String userId = plat.getDb().getUserId();
-                if (!TextUtils.isEmpty(userId)) {
-                    login(plat);
-                    return;
-                }
-            }
-            plat.setPlatformActionListener(this);
-            plat.SSOSetting(true);
-            plat.showUser(null);
-        } catch (Exception ex) {
-            Log.d("LevelTop-authorize", ex.getMessage());
-        }
+        holder.tvgolduser.setText("");
+        holder.tvgoldscore.setText("");
+        holder.ivgoldIcon.setImageResource(R.drawable.icon_default);
+        holder.tvsilveruser.setText("");
+        holder.tvsilverscore.setText("");
+        holder.ivsilverIcon.setImageResource(R.drawable.icon_default);
+        holder.tvthirduser.setText("");
+        holder.tvthirdscore.setText("");
+        holder.ivthirdIcon.setImageResource(R.drawable.icon_default);
+        holder.ivIcon.setImageResource(R.drawable.icon_default);
+        holder.tvUser.setText("");
     }
 
     public void onComplete(Platform plat, int action, HashMap<String, Object> res) {
         if (action == Platform.ACTION_USER_INFOR) {
             login(plat);
         }
-    }
-
-    private void login(Platform plat) {
-        UserInfo userInfo = new UserInfo();
-        userInfo.setPlat(plat.getName());
-        userInfo.setPlatVersion(plat.getDb().getPlatformVersion());
-        userInfo.setUserId(plat.getDb().getUserId());
-        userInfo.setUserName(plat.getDb().getUserName());
-        userInfo.setUserGender(plat.getDb().getUserGender());
-        userInfo.setUserIcon(plat.getDb().getUserIcon());
-        UserScore.login(userInfo, netMsgHandler);
     }
 
     public void onError(Platform platform, int action, Throwable t) {
@@ -142,50 +151,8 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
     }
 
     /**
-     * 缓存控件，提高效率
+     * 处理网络消息回调的handler
      */
-    private void getControls() {
-        holder.levelLogin = (View) findViewById(R.id.level_login);
-        holder.levelTopUsers = (View) findViewById(R.id.level_top_users);
-        holder.userInfo = (View) findViewById(R.id.user_info);
-        holder.tvgolduser = (TextView) findViewById(R.id.level_tvgolduser);
-        holder.tvgoldscore = (TextView) findViewById(R.id.level_tvgoldscore);
-        holder.ivgoldIcon = (ImageView) findViewById(R.id.level_ivgoldIcon);
-        holder.tvsilveruser = (TextView) findViewById(R.id.level_tvsilveruser);
-        holder.tvsilverscore = (TextView) findViewById(R.id.level_tvsilverscore);
-        holder.ivsilverIcon = (ImageView) findViewById(R.id.level_ivsilverIcon);
-        holder.tvthirduser = (TextView) findViewById(R.id.level_tvthirduser);
-        holder.tvthirdscore = (TextView) findViewById(R.id.level_tvthirdscore);
-        holder.ivthirdIcon = (ImageView) findViewById(R.id.level_ivthirdIcon);
-        holder.ivIcon = (ImageView) findViewById(R.id.ivIcon);
-        holder.tvUser = (TextView) findViewById(R.id.tvUser);
-    }
-
-    /**
-     * 重新初始化控件
-     */
-    public void reset() {
-        try {
-            ShareSDK.initSDK(getContext());
-        } catch (Exception ex) {
-        }
-        topStatus = LevelTopStatus.Login;
-        holder.levelLogin.setVisibility(View.VISIBLE);
-        holder.levelTopUsers.setVisibility(View.GONE);
-        holder.userInfo.setVisibility(View.GONE);
-        holder.tvgolduser.setText("");
-        holder.tvgoldscore.setText("");
-        holder.ivgoldIcon.setImageResource(R.drawable.icon_default);
-        holder.tvsilveruser.setText("");
-        holder.tvsilverscore.setText("");
-        holder.ivsilverIcon.setImageResource(R.drawable.icon_default);
-        holder.tvthirduser.setText("");
-        holder.tvthirdscore.setText("");
-        holder.ivthirdIcon.setImageResource(R.drawable.icon_default);
-        holder.ivIcon.setImageResource(R.drawable.icon_default);
-        holder.tvUser.setText("");
-    }
-
     @SuppressLint("HandlerLeak")
     public Handler netMsgHandler = new Handler() {
         @Override
@@ -204,9 +171,7 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
             }
                 break;
             case ViewSettings.MSG_SCORE_GET: {
-                holder.levelLogin.setVisibility(View.GONE);
-                holder.levelTopUsers.setVisibility(View.VISIBLE);
-                topStatus = LevelTopStatus.TopInfo;
+                showStatus(LevelTopStatus.TopInfo);
 
                 List<String> urls = new ArrayList<String>();
                 String result = (String) msg.obj;
@@ -240,9 +205,7 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
             }
                 break;
             case ViewSettings.MSG_TIME_GET: {
-                holder.levelLogin.setVisibility(View.GONE);
-                holder.levelTopUsers.setVisibility(View.VISIBLE);
-                topStatus = LevelTopStatus.TopInfo;
+                showStatus(LevelTopStatus.TopInfo);
 
                 List<String> urls = new ArrayList<String>();
                 String result = (String) msg.obj;
@@ -304,9 +267,7 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
             case ViewSettings.MSG_IMAGE_GET: {
                 Bitmap bm = (Bitmap) msg.obj;
                 if (bm != null) {
-                    holder.levelLogin.setVisibility(View.GONE);
-                    holder.userInfo.setVisibility(View.VISIBLE);
-                    topStatus = LevelTopStatus.UserInfo;
+                    showStatus(LevelTopStatus.UserInfo);
 
                     holder.ivIcon.setImageBitmap(ImageUtil.roundBitmap(ImageUtil.scaleBitmap(bm, 64, 64)));
                     if (WelcomeActivity.userInfo != null) {
@@ -318,14 +279,17 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
             }
                 break;
             case ViewSettings.MSG_AUTH_CANCEL: {
+                showStatus(LevelTopStatus.Login);
                 Toast.makeText(getContext(), R.string.auth_cancel, Toast.LENGTH_SHORT).show();
             }
                 break;
             case ViewSettings.MSG_AUTH_ERROR: {
+                showStatus(LevelTopStatus.Login);
                 Toast.makeText(getContext(), R.string.auth_error, Toast.LENGTH_SHORT).show();
             }
                 break;
             case ViewSettings.MSG_NETWORK_EXCEPTION: {
+                showStatus(LevelTopStatus.Login);
                 Toast.makeText(getContext(), R.string.network_exception, Toast.LENGTH_SHORT).show();
             }
                 break;
@@ -346,7 +310,86 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
         return topStatus;
     }
 
-    class levelTopHolder {
+    /**
+     * 缓存控件，提高效率
+     */
+    private void getControls() {
+        holder.levelLogin = (View) findViewById(R.id.level_login);
+        holder.levelTopUsers = (View) findViewById(R.id.level_top_users);
+        holder.userInfo = (View) findViewById(R.id.user_info);
+        holder.tvgolduser = (TextView) findViewById(R.id.level_tvgolduser);
+        holder.tvgoldscore = (TextView) findViewById(R.id.level_tvgoldscore);
+        holder.ivgoldIcon = (ImageView) findViewById(R.id.level_ivgoldIcon);
+        holder.tvsilveruser = (TextView) findViewById(R.id.level_tvsilveruser);
+        holder.tvsilverscore = (TextView) findViewById(R.id.level_tvsilverscore);
+        holder.ivsilverIcon = (ImageView) findViewById(R.id.level_ivsilverIcon);
+        holder.tvthirduser = (TextView) findViewById(R.id.level_tvthirduser);
+        holder.tvthirdscore = (TextView) findViewById(R.id.level_tvthirdscore);
+        holder.ivthirdIcon = (ImageView) findViewById(R.id.level_ivthirdIcon);
+        holder.ivIcon = (ImageView) findViewById(R.id.ivIcon);
+        holder.tvUser = (TextView) findViewById(R.id.tvUser);
+    }
+
+    private void beforeLogin() {
+        try {
+            ShareSDK.initSDK(getContext());
+        } catch (Exception ex) {
+        }
+        BaseActivity.soundMgr.select();
+        if (uploadListener != null) {
+            uploadListener.onAuthorizeClick();
+        }
+    }
+
+    private void authorize(Platform plat) {
+        try {
+            // 先清除缓存账户
+            // plat.getDb().removeAccount();
+
+            if (plat.isValid()) {
+                String userId = plat.getDb().getUserId();
+                if (!TextUtils.isEmpty(userId)) {
+                    login(plat);
+                    return;
+                }
+            }
+            plat.setPlatformActionListener(this);
+            plat.SSOSetting(true);
+            plat.showUser(null);
+        } catch (Exception ex) {
+            Log.d("LevelTop-authorize", ex.getMessage());
+        }
+    }
+
+    /**
+     * 登录某个平台
+     * 
+     * @param plat
+     *            平台信息
+     */
+    private void login(Platform plat) {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setPlat(plat.getName());
+        userInfo.setPlatVersion(plat.getDb().getPlatformVersion());
+        userInfo.setUserId(plat.getDb().getUserId());
+        userInfo.setUserName(plat.getDb().getUserName());
+        userInfo.setUserGender(plat.getDb().getUserGender());
+        userInfo.setUserIcon(plat.getDb().getUserIcon());
+        UserScore.login(userInfo, netMsgHandler);
+    }
+
+    private int imageWidth = 50;
+    private IUpload uploadListener = null;
+    private levelTopHolder holder = new levelTopHolder();
+    private LevelTopStatus topStatus = LevelTopStatus.Login;
+
+    /**
+     * 缓存控件，提高效率
+     * 
+     * @author yzb
+     * 
+     */
+    private class levelTopHolder {
         public View levelLogin;
         public View levelTopUsers;
         public View userInfo;

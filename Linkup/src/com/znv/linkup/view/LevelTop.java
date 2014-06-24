@@ -95,7 +95,7 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
     private void authorize(Platform plat) {
         try {
             // 先清除缓存账户
-            plat.getDb().removeAccount();
+            // plat.getDb().removeAccount();
 
             if (plat.isValid()) {
                 String userId = plat.getDb().getUserId();

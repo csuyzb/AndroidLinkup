@@ -19,19 +19,25 @@
  <ShareSDK AppKey="1d2cdd768de9" /> <!-- 修改成你在sharesdk后台注册的应用的appkey" -->
 
  <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
- <SinaWeibo Id="4" SortId="4" AppKey="419637886"
+ <SinaWeibo Id="1" SortId="1" AppKey="419637886"
   AppSecret="999d342abc8f0fbb76474c7a3c39ff53" RedirectUrl="http://xxllk.aliapp.com"
   ShareByAppClient="true" Enable="true" />
 
  <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
- <QZone Id="2" SortId="2" AppId="101123517" AppKey="8a7c02f5f20d5f45226080f61145aaed"
+ <QZone Id="3" SortId="3" AppId="101123517" AppKey="8a7c02f5f20d5f45226080f61145aaed"
   ShareByAppClient="true" Enable="true" />
 
-<!--  <QQ Id="1" SortId="1" AppId="101123517" AppKey="8a7c02f5f20d5f45226080f61145aaed" -->
-<!--   Enable="true" /> -->
+ <QQ Id="2" SortId="2" AppId="101123517" AppKey="8a7c02f5f20d5f45226080f61145aaed"
+  Enable="true" />
 
- <TencentWeibo Id="3" SortId="3" AppKey="801516795"
+ <TencentWeibo Id="4" SortId="4" AppKey="801516795"
   AppSecret="fc0079df844bd877cb11d80254e8e3eb" RedirectUri="http://www.wandoujia.com/apps/com.znv.linkup"
   Enable="true" />
+
+ <Wechat Id="5" SortId="5" AppId="wx276bf4aa0059cec0"
+  BypassApproval="true" Enable="true" />
+
+ <WechatMoments Id="6" SortId="6" AppId="wx276bf4aa0059cec0"
+  BypassApproval="true" Enable="true" />
 
 </DevInfor>

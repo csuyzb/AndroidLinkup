@@ -17,11 +17,16 @@ The most interesting linkup game for android.
 ![welcome](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/welcome.jpg)![classic](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/classic.jpg)![time](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/time.jpg)![task](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/task.jpg)
 
 
+v1.4.0 规划
+1.收集金币和钻石
+2.抽奖，每日随机奖励一次
+3.完善项目主页和web排名查询
+
 v1.3.0 规划
-1.支持闯关，计时，无限模式
-2.增加网络排行榜
-3.支持QQ和新浪微博登录
-4.支持分享到新浪微博和微信
+1.支持闯关，计时，积分任务模式
+2.增加网络排行榜,每个关卡单独排名
+3.支持新浪微博和QQ登录
+4.支持分享到新浪微博/QQ好友/QQ空间/腾讯微博/微信好友和微信朋友圈
 
 v1.2.3(2014-06-12)
 1.新增计时和任务模式

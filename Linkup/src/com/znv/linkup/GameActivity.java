@@ -79,7 +79,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
                 return tv;
             }
         });
-        if (curLevelCfg.getLevelMode() == GameMode.Level || curLevelCfg.getLevelMode() == GameMode.Task) {
+        if (curLevelCfg.getLevelMode() == GameMode.Level || curLevelCfg.getLevelMode() == GameMode.ScoreTask) {
             holder.tsScore.setInAnimation(this, R.anim.slide_in_up);
             holder.tsScore.setOutAnimation(this, R.anim.slide_out_up);
         }
@@ -136,7 +136,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
             } else {
                 holder.tvMaxScore.setText(getString(R.string.game_level_record) + StringUtil.secondToString(curLevelCfg.getMaxScore()));
             }
-        } else if (curLevelCfg.getLevelMode() == GameMode.Task) {
+        } else if (curLevelCfg.getLevelMode() == GameMode.ScoreTask) {
             holder.pbTime.setVisibility(View.GONE);
             holder.btnAddTime.setVisibility(View.GONE);
             holder.tsScore.setText("0");
@@ -245,7 +245,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
                 curLevelCfg.setMaxScore(cls.getMaxScore());
                 isRecord = 1;
             }
-        } else if (curLevelCfg.getLevelMode() == GameMode.Task) {
+        } else if (curLevelCfg.getLevelMode() == GameMode.ScoreTask) {
             if (game.getTotalScore() >= curLevelCfg.getTask()) {
                 if (game.getTotalScore() > curLevelCfg.getMaxScore()) {
                     // 更新任务完成记录
@@ -402,7 +402,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
     public void onLinkPath(LinkInfo linkInfo) {
         pathView.showLines(linkInfo.getLinkPieces());
 
-        if (curLevelCfg.getLevelMode() == GameMode.Level || curLevelCfg.getLevelMode() == GameMode.Task) {
+        if (curLevelCfg.getLevelMode() == GameMode.Level || curLevelCfg.getLevelMode() == GameMode.ScoreTask) {
             // 收集金币的动画
             Point startPoint = linkInfo.getLinkPieces().get(0).getCenter();
             Point endPoint = new Point((int) (holder.tsScore.getLeft() + holder.tsScore.getWidth() * 0.5),
@@ -555,7 +555,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
      * Handler的消息处理--显示分数
      */
     public void showScore(int score) {
-        if (curLevelCfg.getLevelMode() == GameMode.Level || curLevelCfg.getLevelMode() == GameMode.Task) {
+        if (curLevelCfg.getLevelMode() == GameMode.Level || curLevelCfg.getLevelMode() == GameMode.ScoreTask) {
             // 显示增加分数动画
             int lastScore = Integer.parseInt((String) ((TextView) holder.tsScore.getCurrentView()).getText());
             String msg = "+" + String.valueOf(score - lastScore);
@@ -595,7 +595,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
         } else if (curLevelCfg.getLevelMode() == GameMode.Time) {
             resultInfo.setTime(game.getGameTime());
             timeDialog.showDialog(resultInfo);
-        } else if (curLevelCfg.getLevelMode() == GameMode.Task) {
+        } else if (curLevelCfg.getLevelMode() == GameMode.ScoreTask) {
             resultInfo.setScore(game.getGameScore());
             taskDialog.showDialog(resultInfo);
         }

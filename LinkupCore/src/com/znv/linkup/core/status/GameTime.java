@@ -26,7 +26,7 @@ class GameTime {
         this.totalTime = totalTime;
         if (mode == GameMode.Level) {
             this.gameTime = totalTime;
-        } else if (mode == GameMode.Time || mode == GameMode.Task) {
+        } else if (mode == GameMode.Time || mode == GameMode.ScoreTask) {
             this.gameTime = 0;
         }
         this.listener = listener;

@@ -238,6 +238,7 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
             }
                 break;
             case ViewSettings.MSG_LOGIN: {
+                BaseActivity.userInfo = (UserInfo) msg.obj;
                 if (uploadListener != null) {
                     uploadListener.onLoginSuccess(msg);
                 }

@@ -1,9 +1,15 @@
 package com.znv.linkup;
 
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,7 +17,6 @@ import android.widget.TextView;
 
 import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.rest.IUpload;
-import com.znv.linkup.rest.UserInfo;
 import com.znv.linkup.rest.UserScore;
 import com.znv.linkup.util.ToastUtil;
 import com.znv.linkup.view.GameTitle;
@@ -30,6 +35,9 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
     private TextView ivMusic = null;
     private TextView ivSound = null;
     private LevelTop levelTop = null;
+    private TextView tsNotice = null;
+    private Animator noticeAnim = null;
+    private int noticeIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +51,52 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
 
         initSoundSetting();
 
-        initTitle();
+        startAnimation();
 
         initLogin();
+
+        initNotice();
+    }
+
+    private void initNotice() {
+        final String[] NoticeMsg = getString(R.string.notice).split("@");
+        Display mDisplay = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        mDisplay.getSize(size);
+        tsNotice = (TextView) findViewById(R.id.tsNotice);
+        tsNotice.setTextSize(16);
+        tsNotice.setTextColor(0xffff6347);
+        tsNotice.setGravity(Gravity.CENTER);
+        noticeAnim = ObjectAnimator.ofFloat(tsNotice, "translationX", size.x, 0);
+        noticeAnim.addListener(new AnimatorListener() {
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                noticeIndex++;
+                if (noticeIndex > NoticeMsg.length - 1) {
+                    noticeIndex = 0;
+                }
+                animation.start();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationStart(Animator animation) {
+                tsNotice.setText(NoticeMsg[noticeIndex]);
+            }
+        });
+        noticeAnim.setDuration(2000);
+        noticeAnim.setStartDelay(5000);
+        noticeAnim.start();
     }
 
     private void initLogin() {
@@ -128,29 +179,37 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
     /**
      * 初始化标题动画
      */
-    private void initTitle() {
+    private void startAnimation() {
         GameTitle gameTitle = (GameTitle) findViewById(R.id.gameTitle);
         gameTitle.startAnimation();
+
+        // if (noticeAnim != null && !noticeAnim.isRunning()) {
+        // noticeAnim.start();
+        // }
     }
 
     /**
      * 反初始化标题动画
      */
-    private void unInitTitle() {
+    private void stopAnimation() {
         GameTitle gameTitle = (GameTitle) findViewById(R.id.gameTitle);
         gameTitle.stopAnimation();
+
+        // if (noticeAnim != null && noticeAnim.isRunning()) {
+        // noticeAnim.cancel();
+        // }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        unInitTitle();
+        stopAnimation();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        initTitle();
+        startAnimation();
     }
 
     /**
@@ -222,7 +281,6 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
 
     @Override
     public void onLoginSuccess(Message msg) {
-        userInfo = (UserInfo) msg.obj;
         if (userInfo != null) {
             UserScore.getUserImage(userInfo.getUserIcon(), levelTop.netMsgHandler);
         }

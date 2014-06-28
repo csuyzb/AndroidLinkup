@@ -208,7 +208,8 @@
             android:layout_marginRight="20dp"
             android:drawableTop="@drawable/back"
             android:gravity="center"
-            android:text="@string/back" />
+            android:text="@string/back"
+            android:textColor="#ffa500" />
 
         <TextView
             android:id="@+id/btnshare"
@@ -220,7 +221,8 @@
             android:layout_marginRight="10dp"
             android:drawableTop="@drawable/share"
             android:gravity="center"
-            android:text="@string/share" />
+            android:text="@string/share"
+            android:textColor="#ffa500" />
 
         <TextView
             android:id="@+id/success_button_ok"
@@ -231,7 +233,8 @@
             android:layout_marginLeft="20dp"
             android:drawableTop="@drawable/next"
             android:gravity="center"
-            android:text="@string/next" />
+            android:text="@string/next"
+            android:textColor="#ffa500" />
     </LinearLayout>
 
 </LinearLayout>

@@ -27,15 +27,15 @@
  <QZone Id="2" SortId="2" AppId="101123517" AppKey="8a7c02f5f20d5f45226080f61145aaed"
   ShareByAppClient="true" Enable="true" />
 
- <TencentWeibo Id="3" SortId="3" AppKey="801516795"
-  AppSecret="fc0079df844bd877cb11d80254e8e3eb" RedirectUri="http://www.wandoujia.com/apps/com.znv.linkup"
-  Enable="true" />
+ <!-- <TencentWeibo Id="3" SortId="3" AppKey="801516795" -->
+ <!-- AppSecret="fc0079df844bd877cb11d80254e8e3eb" RedirectUri="http://www.wandoujia.com/apps/com.znv.linkup" -->
+ <!-- Enable="true" /> -->
 
- <QQ Id="4" SortId="4" AppId="101123517" AppKey="8a7c02f5f20d5f45226080f61145aaed"
-  Enable="true" />
+ <!-- <QQ Id="4" SortId="4" AppId="101123517" AppKey="8a7c02f5f20d5f45226080f61145aaed" -->
+ <!-- Enable="true" /> -->
 
- <Wechat Id="5" SortId="5" AppId="wx276bf4aa0059cec0"
-  BypassApproval="true" Enable="true" />
+ <!-- <Wechat Id="5" SortId="5" AppId="wx276bf4aa0059cec0" -->
+ <!-- BypassApproval="true" Enable="true" /> -->
 
  <WechatMoments Id="6" SortId="6" AppId="wx276bf4aa0059cec0"
   BypassApproval="true" Enable="true" />

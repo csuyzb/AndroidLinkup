@@ -131,7 +131,7 @@ public class Levels extends BaseAdapter {
                 } else {
                     holder.tvTime.setText("");
                 }
-            } else if (levelCfg.getLevelMode() == GameMode.Task) {
+            } else if (levelCfg.getLevelMode() == GameMode.ScoreTask) {
                 holder.rbStar.setVisibility(View.GONE);
                 holder.tvTime.setVisibility(View.GONE);
                 holder.tvTask.setVisibility(View.VISIBLE);

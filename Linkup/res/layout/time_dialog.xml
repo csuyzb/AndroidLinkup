@@ -134,7 +134,8 @@
             android:layout_marginTop="20dp"
             android:drawableTop="@drawable/back"
             android:gravity="center"
-            android:text="@string/back" />
+            android:text="@string/back"
+            android:textColor="#ffa500" />
 
         <TextView
             android:id="@+id/btnshare"
@@ -147,7 +148,8 @@
             android:layout_marginTop="20dp"
             android:drawableTop="@drawable/share"
             android:gravity="center"
-            android:text="@string/share" />
+            android:text="@string/share"
+            android:textColor="#ffa500" />
 
         <TextView
             android:id="@+id/btnAgain"
@@ -160,7 +162,8 @@
             android:layout_marginTop="20dp"
             android:drawableTop="@drawable/again"
             android:gravity="center"
-            android:text="@string/again" />
+            android:text="@string/again"
+            android:textColor="#ffa500" />
 
         <TextView
             android:id="@+id/btnNext"
@@ -173,7 +176,8 @@
             android:layout_marginTop="20dp"
             android:drawableTop="@drawable/next"
             android:gravity="center"
-            android:text="@string/next" />
+            android:text="@string/next"
+            android:textColor="#ffa500" />
     </LinearLayout>
 
 </LinearLayout>

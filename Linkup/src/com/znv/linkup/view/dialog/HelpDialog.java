@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.znv.linkup.R;
@@ -22,7 +21,7 @@ public class HelpDialog extends Dialog {
         setContentView(R.layout.help_dialog);
         setCancelable(false);
         setCanceledOnTouchOutside(false);
-        setPositiveButton(context.getResources().getString(R.string.submit), null);
+        setPositiveButton(context.getString(R.string.submit), null);
     }
 
     /**
@@ -61,7 +60,7 @@ public class HelpDialog extends Dialog {
      * @return 警告框实例
      */
     public HelpDialog setPositiveButton(String text, final View.OnClickListener listener) {
-        Button btn = (Button) findViewById(R.id.dialog_button_ok);
+        TextView btn = (TextView) findViewById(R.id.dialog_button_ok);
         btn.setText(text);
         btn.setOnClickListener(new View.OnClickListener() {
 
@@ -82,7 +81,7 @@ public class HelpDialog extends Dialog {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Button btn = (Button) findViewById(R.id.dialog_button_ok);
+            TextView btn = (TextView) findViewById(R.id.dialog_button_ok);
             btn.performClick();
             return true;
         }

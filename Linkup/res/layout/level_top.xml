@@ -86,7 +86,10 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" >
+            android:layout_gravity="center"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:gravity="center" >
 
             <ImageView
                 android:id="@+id/level_ivgold"
@@ -111,8 +114,9 @@
                 android:id="@+id/level_tvgolduser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/level_ivgoldIcon"
                 android:layout_gravity="center|center_vertical"
-                android:layout_toRightOf="@id/level_ivgoldIcon"
+                android:layout_toRightOf="@id/level_ivgold"
                 android:gravity="center"
                 android:singleLine="true"
                 android:text=""
@@ -124,8 +128,8 @@
                 android:id="@+id/level_tvgoldscore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/level_tvgolduser"
                 android:layout_gravity="center|center_vertical"
+                android:layout_marginTop="10dp"
                 android:layout_toRightOf="@id/level_ivgoldIcon"
                 android:gravity="center"
                 android:singleLine="true"
@@ -138,7 +142,10 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" >
+            android:layout_gravity="center"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:gravity="center" >
 
             <ImageView
                 android:id="@+id/level_ivsilver"
@@ -163,8 +170,9 @@
                 android:id="@+id/level_tvsilveruser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/level_ivsilverIcon"
                 android:layout_gravity="center|center_vertical"
-                android:layout_toRightOf="@id/level_ivsilverIcon"
+                android:layout_toRightOf="@id/level_ivsilver"
                 android:gravity="center"
                 android:singleLine="true"
                 android:text=""
@@ -176,8 +184,8 @@
                 android:id="@+id/level_tvsilverscore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/level_tvsilveruser"
                 android:layout_gravity="center|center_vertical"
+                android:layout_marginTop="10dp"
                 android:layout_toRightOf="@id/level_ivsilverIcon"
                 android:gravity="center"
                 android:singleLine="true"
@@ -190,7 +198,10 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" >
+            android:layout_gravity="center"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:gravity="center" >
 
             <ImageView
                 android:id="@+id/level_ivthird"
@@ -215,8 +226,9 @@
                 android:id="@+id/level_tvthirduser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/level_ivthirdIcon"
                 android:layout_gravity="center|center_vertical"
-                android:layout_toRightOf="@id/level_ivthirdIcon"
+                android:layout_toRightOf="@id/level_ivthird"
                 android:gravity="center"
                 android:singleLine="true"
                 android:text=""
@@ -228,8 +240,8 @@
                 android:id="@+id/level_tvthirdscore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/level_tvthirduser"
                 android:layout_gravity="center|center_vertical"
+                android:layout_marginTop="10dp"
                 android:layout_toRightOf="@id/level_ivthirdIcon"
                 android:gravity="center"
                 android:singleLine="true"

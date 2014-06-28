@@ -60,6 +60,8 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
         super(context, attrs);
 
         View v = LayoutInflater.from(context).inflate(R.layout.level_top, null);
+        // LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        // v.setLayoutParams(params);
         this.addView(v);
 
         findViewById(R.id.level_tvWeibo).setOnClickListener(new View.OnClickListener() {

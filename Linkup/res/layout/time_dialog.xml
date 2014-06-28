@@ -39,13 +39,16 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_margin="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:text="@string/game_time"
                 android:textColor="#FFFF3333"
                 android:textSize="24sp" />
@@ -57,7 +60,8 @@
                 android:layout_gravity="center|center_vertical"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:text=""
                 android:textColor="#FFFF3333"
                 android:textSize="36sp" />
@@ -67,7 +71,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center_vertical"
-                android:padding="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:src="@drawable/champion"
                 tools:ignore="contentDescription" />
         </LinearLayout>
@@ -75,13 +80,16 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_margin="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:text="@string/game_time_min"
                 android:textColor="#FFFF3333"
                 android:textSize="24sp" />
@@ -93,7 +101,8 @@
                 android:layout_gravity="center|center_vertical"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:text=""
                 android:textColor="#FFFF3333"
                 android:textSize="36sp" />
@@ -102,7 +111,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center_vertical"
-                android:padding="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:src="@drawable/champion"
                 android:visibility="invisible"
                 tools:ignore="contentDescription" />

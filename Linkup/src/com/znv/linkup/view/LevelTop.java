@@ -249,18 +249,19 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
             case ViewSettings.MSG_TOPIMAGES_GET: {
                 @SuppressWarnings("unchecked")
                 List<Bitmap> images = (List<Bitmap>) msg.obj;
+                int topImageWidth = ViewSettings.TopImageWidth;
                 if (images != null && images.size() > 0) {
                     if (images.get(0) != null) {
-                        holder.ivgoldIcon.setImageBitmap(ImageUtil.scaleBitmap(images.get(0), imageWidth, imageWidth));
+                        holder.ivgoldIcon.setImageBitmap(ImageUtil.scaleBitmap(images.get(0), topImageWidth, topImageWidth));
                     }
                     if (images.size() > 1) {
                         if (images.get(1) != null) {
-                            holder.ivsilverIcon.setImageBitmap(ImageUtil.scaleBitmap(images.get(1), imageWidth, imageWidth));
+                            holder.ivsilverIcon.setImageBitmap(ImageUtil.scaleBitmap(images.get(1), topImageWidth, topImageWidth));
                         }
 
                         if (images.size() > 2) {
                             if (images.get(2) != null) {
-                                holder.ivthirdIcon.setImageBitmap(ImageUtil.scaleBitmap(images.get(2), imageWidth, imageWidth));
+                                holder.ivthirdIcon.setImageBitmap(ImageUtil.scaleBitmap(images.get(2), topImageWidth, topImageWidth));
                             }
                         }
                     }
@@ -272,9 +273,11 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
                 if (bm != null) {
                     showStatus(LevelTopStatus.UserInfo);
 
-                    holder.ivIcon.setImageBitmap(ImageUtil.roundBitmap(ImageUtil.scaleBitmap(bm, 64, 64)));
+                    holder.ivIcon.setImageBitmap(ImageUtil.roundBitmap(ImageUtil.scaleBitmap(bm, ViewSettings.UserImageWidth, ViewSettings.UserImageWidth)));
                     if (WelcomeActivity.userInfo != null) {
                         holder.tvUser.setText(WelcomeActivity.userInfo.getUserName() + getContext().getString(R.string.user_hello));
+                        holder.tvDiamond.setText(String.valueOf(WelcomeActivity.userInfo.getDiamond()));
+                        holder.tvCoin.setText(String.valueOf(WelcomeActivity.userInfo.getCoin()));
                         String text = getContext().getString(R.string.logining, WelcomeActivity.userInfo.getPlat());
                         Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
                     }
@@ -331,6 +334,8 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
         holder.ivthirdIcon = (ImageView) findViewById(R.id.level_ivthirdIcon);
         holder.ivIcon = (ImageView) findViewById(R.id.ivIcon);
         holder.tvUser = (TextView) findViewById(R.id.tvUser);
+        holder.tvDiamond = (TextView) findViewById(R.id.tvDiamond);
+        holder.tvCoin = (TextView) findViewById(R.id.tvCoin);
     }
 
     private void beforeLogin() {
@@ -381,7 +386,6 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
         UserScore.login(userInfo, netMsgHandler);
     }
 
-    private int imageWidth = 50;
     private IUpload uploadListener = null;
     private levelTopHolder holder = new levelTopHolder();
     private LevelTopStatus topStatus = LevelTopStatus.Login;
@@ -407,6 +411,8 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
         public ImageView ivthirdIcon;
         public ImageView ivIcon;
         public TextView tvUser;
+        public TextView tvDiamond;
+        public TextView tvCoin;
     }
 
 }

@@ -56,10 +56,28 @@ public class UserInfo {
         this.platVersion = platVersion;
     }
 
+    public int getDiamond() {
+        return diamond;
+    }
+
+    public void setDiamond(int diamond) {
+        this.diamond = diamond;
+    }
+
+    public int getCoin() {
+        return coin;
+    }
+
+    public void setCoin(int coin) {
+        this.coin = coin;
+    }
+
     private String userId;
     private String userName;
     private String userGender;
     private String userIcon;
     private String plat;
     private int platVersion;
+    private int diamond;
+    private int coin;
 }

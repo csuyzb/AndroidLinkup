@@ -116,6 +116,16 @@ public class ViewSettings {
     public static int AddTimeSeconds = 5;
 
     /**
+     * 排行榜图像宽度
+     */
+    public static int TopImageWidth = 50;
+
+    /**
+     * 用户图像宽度
+     */
+    public static int UserImageWidth = 60;
+
+    /**
      * 数据缓存版本字符串
      */
     public static String CacheVersion = "120";

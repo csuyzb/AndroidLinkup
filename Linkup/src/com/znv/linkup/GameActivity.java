@@ -1,5 +1,7 @@
 package com.znv.linkup;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,6 +31,7 @@ import com.znv.linkup.util.StringUtil;
 import com.znv.linkup.util.ToastUtil;
 import com.znv.linkup.view.CardsView;
 import com.znv.linkup.view.PathView;
+import com.znv.linkup.view.animation.AppearAnimator;
 import com.znv.linkup.view.dialog.FailDialog;
 import com.znv.linkup.view.dialog.ResultInfo;
 import com.znv.linkup.view.dialog.SuccessDialog;
@@ -146,13 +149,34 @@ public class GameActivity extends BaseActivity implements IGameAction {
         game = new Game(curLevelCfg, this);
         cardsView.setGame(game);
 
-        // 播放声音和动画
-        showAnimMsg(getString(R.string.game_ready_go), 30);
-        soundMgr.readyGo();
-        // 工具条动画
-        AnimatorUtil.animTranslate(holder.tools, holder.tools.getX(), holder.tools.getX(), holder.tools.getY() + 100, holder.tools.getY());
-
+        initAnimation();
         game.start();
+    }
+
+    /**
+     * 处理开始动画
+     */
+    private void initAnimation() {
+        // 从上面落下
+        cardsView.setVisibility(View.GONE);
+        Animator cardsAnim = ObjectAnimator.ofFloat(cardsView, "translationY", -holder.screenHeight, 0);
+        cardsAnim.setDuration(750);
+        cardsAnim.setStartDelay(50);
+        cardsAnim.addListener(new AppearAnimator(cardsView));
+        cardsAnim.start();
+
+        // 播放声音和动画
+        showAnimMsg(getString(R.string.game_ready_go), 30, 20);
+        soundMgr.readyGo();
+
+        // 工具条动画
+        holder.tools.setVisibility(View.GONE);
+        Animator toolsAnim = ObjectAnimator.ofFloat(holder.tools, "translationY", holder.tools.getY() + 100, holder.tools.getY());
+        toolsAnim.setDuration(200);
+        toolsAnim.setStartDelay(800);
+        toolsAnim.addListener(new AppearAnimator(holder.tools));
+        toolsAnim.start();
+
     }
 
     /**
@@ -188,7 +212,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
             start();
         } else {
             // 通过所有关卡
-            showAnimMsg(getString(R.string.game_success), 30);
+            showAnimMsg(getString(R.string.game_success), 30, 0);
             onBackPressed();
         }
     }
@@ -302,7 +326,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
         int msgWidth = msg.length() * holder.screenWidth / 50 + getResources().getDrawable(R.drawable.combo).getMinimumWidth() / 2;
         Point startPoint = new Point(holder.screenCenter.x - msgWidth, holder.screenCenter.y);
         Point endPoint = new Point(startPoint.x, startPoint.y - 50);
-        animTranslate(holder.tvCombo, startPoint, endPoint, 1500);
+        animTranslate(holder.tvCombo, startPoint, endPoint, 1500, 0);
 
         soundMgr.combo();
     }
@@ -315,12 +339,12 @@ public class GameActivity extends BaseActivity implements IGameAction {
      * @param textSize
      *            字体大小
      */
-    private void showAnimMsg(String msg, int textSize) {
+    private void showAnimMsg(String msg, int textSize, int delay) {
         setAnimMsgStyle(msg, textSize);
         int msgWidth = msg.length() * holder.screenWidth / 50;
         Point startPoint = new Point(holder.screenCenter.x - msgWidth, holder.screenCenter.y);
         Point endPoint = new Point(startPoint.x, startPoint.y - 50);
-        animTranslate(holder.tvAnimMsg, startPoint, endPoint, 1500);
+        animTranslate(holder.tvAnimMsg, startPoint, endPoint, 1500, delay);
     }
 
     /**
@@ -336,7 +360,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
         int msgWidth = msg.length() * holder.screenWidth / 60;
         Point startPoint = new Point(holder.screenCenter.x - msgWidth, (int) holder.tsScore.getY() + 100);
         Point endPoint = new Point(startPoint.x, startPoint.y - 40);
-        animTranslate(holder.tvAnimMsg, startPoint, endPoint, 500);
+        animTranslate(holder.tvAnimMsg, startPoint, endPoint, 500, 0);
     }
 
     /**
@@ -407,9 +431,9 @@ public class GameActivity extends BaseActivity implements IGameAction {
             Point startPoint = linkInfo.getLinkPieces().get(0).getCenter();
             Point endPoint = new Point((int) (holder.tsScore.getLeft() + holder.tsScore.getWidth() * 0.5),
                     (int) (holder.tsScore.getTop() + holder.tsScore.getHeight() * 0.5));
-            animTranslate(holder.startCoin, startPoint, endPoint, 400);
+            animTranslate(holder.startCoin, startPoint, endPoint, 400, 0);
             startPoint = linkInfo.getLinkPieces().get(linkInfo.getLinkPieces().size() - 1).getCenter();
-            animTranslate(holder.endCoin, startPoint, endPoint, 400);
+            animTranslate(holder.endCoin, startPoint, endPoint, 400, 0);
         }
 
         soundMgr.erase();
@@ -427,8 +451,8 @@ public class GameActivity extends BaseActivity implements IGameAction {
      * @param duration
      *            动画时长
      */
-    private void animTranslate(View view, Point start, Point end, int duration) {
-        AnimatorUtil.animTranslate(view, start.x, end.x, start.y, end.y, duration, true);
+    private void animTranslate(View view, Point start, Point end, int duration, int delay) {
+        AnimatorUtil.animTranslate(view, start.x, end.x, start.y, end.y, duration, delay, true);
     }
 
     /**
@@ -556,10 +580,12 @@ public class GameActivity extends BaseActivity implements IGameAction {
      */
     public void showScore(int score) {
         if (curLevelCfg.getLevelMode() == GameMode.Level || curLevelCfg.getLevelMode() == GameMode.ScoreTask) {
-            // 显示增加分数动画
-            int lastScore = Integer.parseInt((String) ((TextView) holder.tsScore.getCurrentView()).getText());
-            String msg = "+" + String.valueOf(score - lastScore);
-            showAddScore(msg, 20);
+            if (score > 0) {
+                // 显示增加分数动画
+                int lastScore = Integer.parseInt((String) ((TextView) holder.tsScore.getCurrentView()).getText());
+                String msg = "+" + String.valueOf(score - lastScore);
+                showAddScore(msg, 20);
+            }
 
             holder.tsScore.setText(String.valueOf(score));
         }

@@ -46,7 +46,7 @@ public class CardsView extends RelativeLayout {
         loadImages(skinName);
 
         // 生成游戏卡片
-        createCards(true);
+        createCards(false);
     }
 
     /**

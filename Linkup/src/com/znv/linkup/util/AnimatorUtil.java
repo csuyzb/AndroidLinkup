@@ -150,7 +150,7 @@ public class AnimatorUtil {
      *            结束Y坐标
      */
     public static void animTranslate(View view, float fromX, float toX, float fromY, float toY) {
-        animTranslate(view, fromX, toX, fromY, toY, defaultDuration, false);
+        animTranslate(view, fromX, toX, fromY, toY, defaultDuration, 0, false);
     }
 
     /**
@@ -169,11 +169,12 @@ public class AnimatorUtil {
      * @param duration
      *            动画时长
      */
-    public static void animTranslate(View view, float fromX, float toX, float fromY, float toY, int duration, boolean isHide) {
+    public static void animTranslate(View view, float fromX, float toX, float fromY, float toY, int duration, int delay, boolean isHide) {
         Animator animX = ObjectAnimator.ofFloat(view, "translationX", fromX, toX).setDuration(duration);
         Animator animY = ObjectAnimator.ofFloat(view, "translationY", fromY, toY).setDuration(duration);
 
         if (fromX != toX) {
+            animX.setStartDelay(delay);
             animX.start();
         } else {
             view.setTranslationX(fromX);
@@ -181,6 +182,7 @@ public class AnimatorUtil {
         if (isHide) {
             animY.addListener(new HideAnimator(view));
             if (fromY != toY) {
+                animY.setStartDelay(delay);
                 animY.start();
             } else {
                 view.setTranslationY(fromY);

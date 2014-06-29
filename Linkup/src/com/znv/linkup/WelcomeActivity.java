@@ -58,6 +58,9 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
         initNotice();
     }
 
+    /**
+     * 初始化公告
+     */
     private void initNotice() {
         final String[] NoticeMsg = getString(R.string.notice).split("@");
         Display mDisplay = getWindowManager().getDefaultDisplay();

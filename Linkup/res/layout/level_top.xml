@@ -72,45 +72,49 @@
             android:textSize="20sp" >
         </TextView>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tvUser"
-            android:layout_toRightOf="@id/ivIcon"
-            android:orientation="horizontal" >
+        <!-- <LinearLayout -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:layout_below="@id/tvUser" -->
+        <!-- android:layout_toRightOf="@id/ivIcon" -->
+        <!-- android:orientation="horizontal" > -->
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/diamond"
-                tools:ignore="contentDescription" />
 
-            <TextView
-                android:id="@+id/tvDiamond"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="" >
-            </TextView>
+        <!-- <ImageView -->
+        <!-- android:layout_width="20dp" -->
+        <!-- android:layout_height="20dp" -->
+        <!-- android:layout_marginLeft="10dp" -->
+        <!-- android:layout_marginRight="10dp" -->
+        <!-- android:src="@drawable/diamond" -->
+        <!-- tools:ignore="contentDescription" /> -->
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/coins"
-                tools:ignore="contentDescription" />
 
-            <TextView
-                android:id="@+id/tvCoin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="" >
-            </TextView>
-        </LinearLayout>
+        <!-- <TextView -->
+        <!-- android:id="@+id/tvDiamond" -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:layout_weight="1" -->
+        <!-- android:text="" > -->
+        <!-- </TextView> -->
+
+
+        <!-- <ImageView -->
+        <!-- android:layout_width="20dp" -->
+        <!-- android:layout_height="20dp" -->
+        <!-- android:layout_marginLeft="10dp" -->
+        <!-- android:layout_marginRight="10dp" -->
+        <!-- android:src="@drawable/coins" -->
+        <!-- tools:ignore="contentDescription" /> -->
+
+
+        <!-- <TextView -->
+        <!-- android:id="@+id/tvCoin" -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:layout_weight="1" -->
+        <!-- android:text="" > -->
+        <!-- </TextView> -->
+        <!-- </LinearLayout> -->
     </RelativeLayout>
 
     <LinearLayout
@@ -176,7 +180,7 @@
                 android:singleLine="true"
                 android:text=""
                 android:textColor="#ffff6347"
-                android:textSize="16sp" >
+                android:textSize="15sp" >
             </TextView>
         </RelativeLayout>
 
@@ -232,7 +236,7 @@
                 android:singleLine="true"
                 android:text=""
                 android:textColor="#ffff6347"
-                android:textSize="16sp" >
+                android:textSize="15sp" >
             </TextView>
         </RelativeLayout>
 
@@ -288,7 +292,7 @@
                 android:singleLine="true"
                 android:text=""
                 android:textColor="#ffff6347"
-                android:textSize="16sp" >
+                android:textSize="15sp" >
             </TextView>
         </RelativeLayout>
     </LinearLayout>

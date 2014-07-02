@@ -3,6 +3,7 @@ package com.znv.linkup;
 import java.util.List;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -11,7 +12,7 @@ import android.widget.LinearLayout;
 import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.core.config.RankCfg;
 import com.znv.linkup.view.indicator.CirclePageIndicator;
-import com.znv.linkup.view.indicator.Ranks;
+import com.znv.linkup.view.indicator.RankAdapter;
 
 /**
  * 关卡选择界面活动处理类
@@ -21,9 +22,9 @@ import com.znv.linkup.view.indicator.Ranks;
  */
 public class RankActivity extends BaseActivity implements OnPageChangeListener {
 
-    private static int modeIndex = -1;
-    private static Ranks rankPager = null;
-    private static List<RankCfg> rankCfgs = null;
+    private int modeIndex = -1;
+    private RankAdapter rankPager = null;
+    private List<RankCfg> rankCfgs = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,14 +34,13 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
 
         // 初始化游戏等级
         initRank();
+
+        new RankAsyncTask().execute();
     }
 
     @Override
     protected void playMusic() {
-        // if (musicMgr != null) {
-        // musicMgr.setBgMusicRes(R.raw.bgmusic2);
-        // musicMgr.play();
-        // }
+
     }
 
     @Override
@@ -59,31 +59,8 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
         if (index != modeIndex) {
             modeIndex = index;
             rankCfgs = modeCfgs.get(index).getRankInfos();
-            rankPager = new Ranks(this, rankCfgs, new Ranks.ISelectedLevel() {
-
-                @Override
-                public void onSelectedLevel(LevelCfg levelCfg) {
-                    if (levelCfg.isActive()) {
-                        soundMgr.select();
-                        Intent intent = new Intent(RankActivity.this, GameActivity.class);
-                        intent.putExtra("levelIndex", levelCfg.getLevelId());
-                        startActivity(intent);
-                    }
-                }
-            });
         }
-        root.setBackgroundResource(ViewSettings.RankBgImageIds[rankCfgs.get(0).getRankBackground()]);
-
-        // 更新等级数据
-        rankPager.updateRankData();
-
-        ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        pager.setAdapter(rankPager);
-
-        // 设置Indicator
-        CirclePageIndicator mIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
-        mIndicator.setViewPager(pager);
-        mIndicator.setOnPageChangeListener(this);
+        root.setBackgroundResource(ViewSettings.GameBgImageIds[rankCfgs.get(0).getRankBackground()]);
     }
 
     /**
@@ -93,7 +70,7 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
     public void onPageSelected(int arg0) {
         soundMgr.pageChanged();
         LinearLayout root = (LinearLayout) RankActivity.this.findViewById(R.id.rankBg);
-        root.setBackgroundResource(ViewSettings.RankBgImageIds[rankCfgs.get(arg0).getRankBackground()]);
+        root.setBackgroundResource(ViewSettings.GameBgImageIds[rankCfgs.get(arg0).getRankBackground()]);
     }
 
     @Override
@@ -107,9 +84,52 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
     @Override
     public void onResume() {
         super.onResume();
+
         if (rankPager != null) {
-            // 更新等级数据
             rankPager.updateRankData();
+        }
+    }
+
+    /**
+     * 异步加载关卡
+     * 
+     * @author yzb
+     * 
+     */
+    private class RankAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            rankPager = new RankAdapter(RankActivity.this, rankCfgs, new RankAdapter.ISelectedLevel() {
+
+                @Override
+                public void onSelectedLevel(LevelCfg levelCfg) {
+                    if (levelCfg.isActive()) {
+                        soundMgr.select();
+                        Intent intent = new Intent(RankActivity.this, GameActivity.class);
+                        intent.putExtra("levelIndex", levelCfg.getLevelId());
+                        startActivity(intent);
+                    }
+                }
+            });
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            ViewPager pager = (ViewPager) findViewById(R.id.pager);
+            pager.setAdapter(rankPager);
+
+            // 设置Indicator
+            CirclePageIndicator mIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
+            mIndicator.setViewPager(pager);
+            mIndicator.setOnPageChangeListener(RankActivity.this);
+
+            if (rankPager != null) {
+                rankPager.updateRankData();
+            }
+
         }
     }
 }

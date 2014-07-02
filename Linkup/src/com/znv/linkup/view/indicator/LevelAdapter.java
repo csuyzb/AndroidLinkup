@@ -1,17 +1,10 @@
 package com.znv.linkup.view.indicator;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
 
 import com.znv.linkup.R;
 import com.znv.linkup.ViewSettings;
@@ -19,6 +12,7 @@ import com.znv.linkup.core.config.GameMode;
 import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.core.config.RankCfg;
 import com.znv.linkup.util.StringUtil;
+import com.znv.linkup.view.indicator.Level.LevelHolder;
 
 /**
  * Rank下所有关卡的数据适配类
@@ -26,30 +20,20 @@ import com.znv.linkup.util.StringUtil;
  * @author yzb
  * 
  */
-public class Levels extends BaseAdapter {
+public class LevelAdapter extends BaseAdapter {
 
-    /**
-     * 利用ViewHolder提升adapter效率
-     * 
-     * @author yzb
-     * 
-     */
-    class LevelViewHolder {
-        ImageView tvLevel;
-        RatingBar rbStar;
-        TextView tvTime;
-        TextView tvTask;
-    }
-
-    public Levels(Context context, RankCfg rankCfg) {
+    public LevelAdapter(Context context, RankCfg rankCfg) {
         this.context = context;
-        inflater = LayoutInflater.from(context);
         this.rankCfg = rankCfg;
+        this.levels = new Level[rankCfg.getLevelInfos().size()];
+        for (int i = 0; i < levels.length; i++) {
+            levels[i] = new Level(context);
+        }
     }
 
     @Override
     public int getCount() {
-        return rankCfg.getLevelInfos().size();
+        return levels.length;
     }
 
     @Override
@@ -67,39 +51,23 @@ public class Levels extends BaseAdapter {
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LevelViewHolder holder;
-        if (convertView == null) {
-            convertView = inflater.inflate(R.layout.level, null);
+        if (position >= 0 && position < levels.length) {
+            // 更新holder
+            updateLevelView(levels[position].getLevelHolder(), position);
 
-            holder = new LevelViewHolder();
-            holder.tvLevel = (ImageView) convertView.findViewById(R.id.tvLevel);
-            holder.rbStar = (RatingBar) convertView.findViewById(R.id.rbStar);
-            holder.tvTime = (TextView) convertView.findViewById(R.id.tvTime);
-            holder.tvTask = (TextView) convertView.findViewById(R.id.tvTask);
-            // 缓存holder
-            convertView.setTag(holder);
-
-            levels.add(holder);
-        } else {
-            holder = (LevelViewHolder) convertView.getTag();
+            return levels[position].getLevelView();
         }
-
-        // 更新holder
-        updateLevelView(holder, position);
-
-        return convertView;
+        return null;
     }
 
     /**
      * 更新关卡数据，包括星级和是否解锁
      */
-    public void updateLevelData() {
-        int levelCount = levels.size();
-        if (levelCount > rankCfg.getLevelInfos().size()) {
-            levelCount = rankCfg.getLevelInfos().size();
-        }
-        for (int i = 0; i < levelCount; i++) {
-            updateLevelView(levels.get(i), i);
+    public void updateLevelData(boolean isInit) {
+        for (int i = 0; i < levels.length; i++) {
+            if (isInit || getItem(i).isActive()) {
+                updateLevelView(levels[i].getLevelHolder(), i);
+            }
         }
     }
 
@@ -111,7 +79,7 @@ public class Levels extends BaseAdapter {
      * @param position
      *            关卡索引
      */
-    private void updateLevelView(LevelViewHolder holder, int position) {
+    private void updateLevelView(LevelHolder holder, int position) {
         LevelCfg levelCfg = getItem(position);
         if (levelCfg.isActive()) {
             holder.tvLevel.setBackgroundResource(R.drawable.levelbg);
@@ -142,16 +110,10 @@ public class Levels extends BaseAdapter {
                     holder.tvTask.setCompoundDrawables(null, null, drawable, null);
                 }
             }
-        } else {
-            holder.tvLevel.setBackgroundResource(R.drawable.locked);
-            holder.rbStar.setVisibility(View.INVISIBLE);
-            holder.tvTime.setVisibility(View.GONE);
-            holder.tvTask.setVisibility(View.GONE);
         }
     }
 
     private Context context = null;
-    private LayoutInflater inflater;
     private RankCfg rankCfg;
-    private List<LevelViewHolder> levels = new ArrayList<LevelViewHolder>();
+    private Level[] levels = null;
 }

@@ -126,6 +126,11 @@ public class ViewSettings {
     public static int UserImageWidth = 60;
 
     /**
+     * 昵称显示长度
+     */
+    public static int ShowNameLength = 12;
+
+    /**
      * 数据缓存版本字符串
      */
     public static String CacheVersion = "120";
@@ -168,7 +173,7 @@ public class ViewSettings {
             R.drawable.n16, R.drawable.n17, R.drawable.n18, R.drawable.n19, R.drawable.n20, R.drawable.n21, R.drawable.n22, R.drawable.n23, R.drawable.n24 };
 
     /**
-     * Rank背景图片
+     * 游戏背景图片
      */
-    public static int[] RankBgImageIds = new int[] { R.drawable.bg1, R.drawable.bg2, R.drawable.bg3, R.drawable.bg4, R.drawable.bg5 };
+    public static int[] GameBgImageIds = new int[] { R.drawable.bg1, R.drawable.bg2, R.drawable.bg3, R.drawable.bg4, R.drawable.bg5 };
 }

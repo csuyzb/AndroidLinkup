@@ -23,7 +23,7 @@ import com.znv.linkup.core.config.RankCfg;
  * @author yzb
  * 
  */
-public class Ranks extends PagerAdapter {
+public class RankAdapter extends PagerAdapter {
 
     /**
      * 选择关卡时的处理接口
@@ -35,11 +35,11 @@ public class Ranks extends PagerAdapter {
         void onSelectedLevel(LevelCfg levelCfg);
     }
 
-    public Ranks(Context context, List<RankCfg> rankCfgs) {
+    public RankAdapter(Context context, List<RankCfg> rankCfgs) {
         this(context, rankCfgs, null);
     }
 
-    public Ranks(Context context, List<RankCfg> rankCfgs, ISelectedLevel levelListener) {
+    public RankAdapter(Context context, List<RankCfg> rankCfgs, ISelectedLevel levelListener) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
 
@@ -61,10 +61,9 @@ public class Ranks extends PagerAdapter {
             TextView text = (TextView) rank.findViewById(R.id.rankName);
             text.setText(rankPrefix[rankIndex] + rankCfg.getRankName());
 
-            Levels adapter = new Levels(context, rankCfg);
+            LevelAdapter adapter = new LevelAdapter(context, rankCfg);
             GridView grid = (GridView) rank.findViewById(R.id.rankGrid);
             grid.setAdapter(adapter);
-            // grid.setColumnWidth(rankCfg.getLevelInfos().get(0).getPieceWidth() + 20);
 
             grid.setOnItemClickListener(new OnItemClickListener() {
 
@@ -89,7 +88,7 @@ public class Ranks extends PagerAdapter {
      */
     public void updateRankData() {
         for (int i = 0; i < rankCfgs.size(); i++) {
-            rankAdapters.get(i).updateLevelData();
+            rankAdapters.get(i).updateLevelData(false);
         }
     }
 
@@ -122,7 +121,7 @@ public class Ranks extends PagerAdapter {
     private LayoutInflater inflater;
     private List<RankCfg> rankCfgs = new ArrayList<RankCfg>();
     private List<View> grids = new ArrayList<View>();
-    private List<Levels> rankAdapters = new ArrayList<Levels>();
+    private List<LevelAdapter> rankAdapters = new ArrayList<LevelAdapter>();
     private ISelectedLevel levelListener;
     private static String[] rankPrefix = new String[] { "一.", "二.", "三.", "四.", "五.", "六.", "七.", "八.", "九.", "十." };
 

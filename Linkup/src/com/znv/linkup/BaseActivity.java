@@ -9,8 +9,6 @@ import android.util.SparseArray;
 import android.view.Window;
 import android.view.WindowManager;
 
-import cn.sharesdk.framework.ShareSDK;
-
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
 import com.znv.linkup.core.config.GameCfg;
@@ -49,11 +47,6 @@ public class BaseActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        try {
-            ShareSDK.initSDK(this);
-        } catch (Exception ex) {
-        }
 
         initFullScreen();
 
@@ -228,15 +221,6 @@ public class BaseActivity extends Activity {
         super.onResume();
         // 开启背景音乐
         playMusic();
-    }
-
-    @Override
-    protected void onDestroy() {
-        try {
-            ShareSDK.stopSDK(this);
-        } catch (Exception ex) {
-        }
-        super.onDestroy();
     }
 
 }

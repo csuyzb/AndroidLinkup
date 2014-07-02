@@ -38,8 +38,7 @@
             android:background="@drawable/rankname"
             android:gravity="center"
             android:textColor="@color/rank_title_color"
-            android:textSize="26sp"
-            android:textStyle="bold" />
+            android:textSize="24sp" />
 
         <!-- <TextView -->
         <!-- android:id="@+id/rankStars" -->

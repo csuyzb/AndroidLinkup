@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import cn.sharesdk.framework.ShareSDK;
+
 import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.rest.IUpload;
 import com.znv.linkup.rest.UserScore;
@@ -42,6 +44,11 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        try {
+            ShareSDK.initSDK(this);
+        } catch (Exception ex) {
+        }
 
         setContentView(R.layout.activity_welcome);
 
@@ -280,6 +287,15 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
         }
             break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        try {
+            ShareSDK.stopSDK(this);
+        } catch (Exception ex) {
+        }
+        super.onDestroy();
     }
 
     @Override

@@ -127,7 +127,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
         holder.tvLevel.setText(curLevelCfg.getRankName() + "-" + curLevelCfg.getLevelName());
         holder.pbTime.setMax(curLevelCfg.getLevelTime());
         holder.tvMaxScore.setText(getString(R.string.game_level_record) + String.valueOf(curLevelCfg.getMaxScore()));
-        holder.flBackground.setBackgroundResource(ViewSettings.RankBgImageIds[curLevelCfg.getLevelBackground()]);
+        holder.flBackground.setBackgroundResource(ViewSettings.GameBgImageIds[curLevelCfg.getLevelBackground()]);
         if (curLevelCfg.getLevelMode() == GameMode.Level) {
             holder.tsScore.setText("0");
         } else if (curLevelCfg.getLevelMode() == GameMode.Time) {
@@ -171,7 +171,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
 
         // 工具条动画
         holder.tools.setVisibility(View.GONE);
-        Animator toolsAnim = ObjectAnimator.ofFloat(holder.tools, "translationY", holder.tools.getY() + 100, holder.tools.getY());
+        Animator toolsAnim = ObjectAnimator.ofFloat(holder.tools, "translationY", 100, 0);
         toolsAnim.setDuration(200);
         toolsAnim.setStartDelay(800);
         toolsAnim.addListener(new AppearAnimator(holder.tools));
@@ -324,7 +324,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
         String msg = String.valueOf(game.getGameCombo());
         holder.tvCombo.setText(msg);
         int msgWidth = msg.length() * holder.screenWidth / 50 + getResources().getDrawable(R.drawable.combo).getMinimumWidth() / 2;
-        Point startPoint = new Point(holder.screenCenter.x - msgWidth, holder.screenCenter.y);
+        Point startPoint = new Point(holder.screenCenter.x - msgWidth, (int) holder.tsScore.getY() + 100);
         Point endPoint = new Point(startPoint.x, startPoint.y - 50);
         animTranslate(holder.tvCombo, startPoint, endPoint, 1500, 0);
 

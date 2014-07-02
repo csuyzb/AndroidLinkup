@@ -6,16 +6,10 @@ import java.util.List;
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.GridView;
-import android.widget.TextView;
 
-import com.znv.linkup.R;
-import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.core.config.RankCfg;
+import com.znv.linkup.view.indicator.Rank.RankHolder;
 
 /**
  * Rank数据的分页适配类
@@ -25,61 +19,13 @@ import com.znv.linkup.core.config.RankCfg;
  */
 public class RankAdapter extends PagerAdapter {
 
-    /**
-     * 选择关卡时的处理接口
-     * 
-     * @author yzb
-     * 
-     */
-    public interface ISelectedLevel {
-        void onSelectedLevel(LevelCfg levelCfg);
-    }
-
-    public RankAdapter(Context context, List<RankCfg> rankCfgs) {
-        this(context, rankCfgs, null);
-    }
-
-    public RankAdapter(Context context, List<RankCfg> rankCfgs, ISelectedLevel levelListener) {
-        this.context = context;
-        this.inflater = LayoutInflater.from(context);
-
+    public RankAdapter(Context context, List<RankCfg> rankCfgs, Rank.ISelectedLevel iSelectedLevel) {
         this.rankCfgs = rankCfgs;
-        this.levelListener = levelListener;
-
-        // 初始化游戏等级页面
-        initRankPages();
-    }
-
-    /**
-     * 初始化游戏等级页面
-     */
-    private void initRankPages() {
-        int rankIndex = 0;
-        for (final RankCfg rankCfg : rankCfgs) {
-            View rank = inflater.inflate(R.layout.rank, null);
-
-            TextView text = (TextView) rank.findViewById(R.id.rankName);
-            text.setText(rankPrefix[rankIndex] + rankCfg.getRankName());
-
-            LevelAdapter adapter = new LevelAdapter(context, rankCfg);
-            GridView grid = (GridView) rank.findViewById(R.id.rankGrid);
-            grid.setAdapter(adapter);
-
-            grid.setOnItemClickListener(new OnItemClickListener() {
-
-                @Override
-                public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                    if (levelListener != null) {
-                        levelListener.onSelectedLevel(rankCfg.getLevelInfos().get(arg2));
-                    }
-                }
-            });
-
-            grids.add(rank);
-
-            rankAdapters.add(adapter);
-
-            rankIndex++;
+        this.ranks = new Rank[rankCfgs.size()];
+        for (int i = 0; i < ranks.length; i++) {
+            ranks[i] = new Rank(context, rankCfgs.get(i), iSelectedLevel);
+            // 设置rank名称，更新时不会改变
+            updateRankInfo(i);
         }
     }
 
@@ -88,7 +34,7 @@ public class RankAdapter extends PagerAdapter {
      */
     public void updateRankData() {
         for (int i = 0; i < rankCfgs.size(); i++) {
-            rankAdapters.get(i).updateLevelData(false);
+            ranks[i].getLevelAdapter().updateLevelData(false);
         }
     }
 
@@ -104,25 +50,32 @@ public class RankAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(View arg0, int arg1) {
-        View grid = grids.get(arg1);
-        if (grid.getParent() != null) {
-            ((ViewPager) grid.getParent()).removeView(grid);
+        View rankView = ranks[arg1].getRankView();
+        if (rankView.getParent() != null) {
+            ((ViewPager) rankView.getParent()).removeView(rankView);
         }
-        ((ViewPager) arg0).addView(grid);
-        return grid;
+        ((ViewPager) arg0).addView(rankView);
+        return rankView;
     }
 
     @Override
     public void destroyItem(View arg0, int arg1, Object arg2) {
-        ((ViewPager) arg0).removeView(grids.get(arg1));
+        ((ViewPager) arg0).removeView(ranks[arg1].getRankHolder().rankGrid);
     }
 
-    private Context context;
-    private LayoutInflater inflater;
+    /**
+     * 更新rank信息
+     * 
+     * @param i
+     *            页码
+     */
+    private void updateRankInfo(int i) {
+        RankHolder holder = ranks[i].getRankHolder();
+        holder.tvTitle.setText(rankPrefix[i] + rankCfgs.get(i).getRankName());
+    }
+
+    private Rank[] ranks = null;
     private List<RankCfg> rankCfgs = new ArrayList<RankCfg>();
-    private List<View> grids = new ArrayList<View>();
-    private List<LevelAdapter> rankAdapters = new ArrayList<LevelAdapter>();
-    private ISelectedLevel levelListener;
     private static String[] rankPrefix = new String[] { "一.", "二.", "三.", "四.", "五.", "六.", "七.", "八.", "九.", "十." };
 
 }

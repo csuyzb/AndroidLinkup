@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.core.config.RankCfg;
 import com.znv.linkup.view.indicator.CirclePageIndicator;
+import com.znv.linkup.view.indicator.Rank;
 import com.znv.linkup.view.indicator.RankAdapter;
 
 /**
@@ -57,7 +58,6 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
 
         int index = getIntent().getIntExtra("modeIndex", 0);
         if (index != modeIndex) {
-            modeIndex = index;
             rankCfgs = modeCfgs.get(index).getRankInfos();
         }
         root.setBackgroundResource(ViewSettings.GameBgImageIds[rankCfgs.get(0).getRankBackground()]);
@@ -100,24 +100,29 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
 
         @Override
         protected Void doInBackground(Void... params) {
-            rankPager = new RankAdapter(RankActivity.this, rankCfgs, new RankAdapter.ISelectedLevel() {
+            int index = getIntent().getIntExtra("modeIndex", 0);
+            if (index != modeIndex) {
+                modeIndex = index;
+                rankPager = new RankAdapter(RankActivity.this, rankCfgs, new Rank.ISelectedLevel() {
 
-                @Override
-                public void onSelectedLevel(LevelCfg levelCfg) {
-                    if (levelCfg.isActive()) {
-                        soundMgr.select();
-                        Intent intent = new Intent(RankActivity.this, GameActivity.class);
-                        intent.putExtra("levelIndex", levelCfg.getLevelId());
-                        startActivity(intent);
+                    @Override
+                    public void onSelectedLevel(LevelCfg levelCfg) {
+                        if (levelCfg.isActive()) {
+                            soundMgr.select();
+                            Intent intent = new Intent(RankActivity.this, GameActivity.class);
+                            intent.putExtra("levelIndex", levelCfg.getLevelId());
+                            startActivity(intent);
+                        }
                     }
-                }
-            });
+                });
+            }
             return null;
         }
 
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
+            
             ViewPager pager = (ViewPager) findViewById(R.id.pager);
             pager.setAdapter(rankPager);
 

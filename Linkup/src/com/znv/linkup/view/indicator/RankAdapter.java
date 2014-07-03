@@ -8,6 +8,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
+import com.znv.linkup.ViewSettings;
 import com.znv.linkup.core.config.RankCfg;
 import com.znv.linkup.view.indicator.Rank.RankHolder;
 
@@ -39,7 +40,7 @@ public class RankAdapter extends PagerAdapter {
         this.rankCfgs = rankCfgs;
         for (int i = 0; i < ranks.length; i++) {
             ranks[i].changeRankCfg(rankCfgs.get(i), isInit);
-            if(levelListener != null) {
+            if (levelListener != null) {
                 ranks[i].setLevelLister(levelListener);
             }
             // 设置rank名称，更新时不会改变
@@ -93,7 +94,7 @@ public class RankAdapter extends PagerAdapter {
      */
     private void updateRankInfo(int i) {
         RankHolder holder = ranks[i].getRankHolder();
-        holder.tvTitle.setText(rankPrefix[i] + rankCfgs.get(i).getRankName());
+        holder.tvTitle.setText(ViewSettings.RankPrefix[i] + rankCfgs.get(i).getRankName());
     }
 
     /**
@@ -108,6 +109,4 @@ public class RankAdapter extends PagerAdapter {
     private Rank[] ranks = null;
     private Rank.ISelectedLevel levelListener = null;
     private List<RankCfg> rankCfgs = new ArrayList<RankCfg>();
-    private static String[] rankPrefix = new String[] { "一.", "二.", "三.", "四.", "五.", "六.", "七.", "八.", "九.", "十." };
-
 }

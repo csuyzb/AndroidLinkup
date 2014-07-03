@@ -128,7 +128,7 @@ public class ViewSettings {
     /**
      * 昵称显示长度
      */
-    public static int ShowNameLength = 13;
+    public static int ShowNameLength = 11;
 
     /**
      * 数据缓存版本字符串
@@ -176,4 +176,9 @@ public class ViewSettings {
      * 游戏背景图片
      */
     public static int[] GameBgImageIds = new int[] { R.drawable.bg1, R.drawable.bg2, R.drawable.bg3, R.drawable.bg4, R.drawable.bg5 };
+
+    /**
+     * 等级名称前缀
+     */
+    public static String[] RankPrefix = new String[] { "一.", "二.", "三.", "四.", "五.", "六.", "七.", "八.", "九.", "十." };
 }

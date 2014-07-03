@@ -51,24 +51,37 @@ public class StringUtil {
      * @return 符合长度的字符串
      */
     public static String substring(String str, int len, String more) {
-        if (str == null) {
+        if (str == null || "".equals(str) || len < 1) {
             return "";
         }
-        byte[] strByte = str.getBytes();
-        int strLen = strByte.length;
-        if (len >= strLen || len < 1) {
-            return str;
-        }
+        char[] chars = str.toCharArray();
         int count = 0;
-        for (int i = 0; i < len; i++) {
-            int value = (int) strByte[i];
-            if (value < 0) {
-                count++;
+        int charIndex = 0;
+        for (int i = 0; i < chars.length; i++) {
+            int charLength = getCharLen(chars[i]);
+            if (count <= len - charLength) {
+                count += charLength;
+                charIndex++;
+            } else {
+                break;
             }
         }
-        if (count % 2 != 0) {
-            len = (len == 1) ? len + 1 : len - 1;
+        if (charIndex == chars.length) {
+            return new String(chars, 0, charIndex);
+        } else {
+            return new String(chars, 0, charIndex) + more;
         }
-        return new String(strByte, 0, len) + more.trim();
+    }
+
+    /**
+     * 获取字符长度
+     * 
+     * @param c
+     *            字符
+     * @return 长度
+     */
+    private static int getCharLen(char c) {
+        int k = 0x80;
+        return c / k == 0 ? 1 : 2;
     }
 }

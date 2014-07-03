@@ -45,12 +45,24 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.activity_welcome);
+
         try {
             ShareSDK.initSDK(this);
         } catch (Exception ex) {
         }
 
-        setContentView(R.layout.activity_welcome);
+        // 单独开线程加载配置
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                // 加载配置信息
+                loadCfgs();
+                // 加载关卡适配器
+                loadRankAdapters();
+            }
+        }).start();
 
         initClickListener();
 

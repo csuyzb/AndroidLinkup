@@ -128,7 +128,7 @@ public class ViewSettings {
     /**
      * 昵称显示长度
      */
-    public static int ShowNameLength = 12;
+    public static int ShowNameLength = 13;
 
     /**
      * 数据缓存版本字符串

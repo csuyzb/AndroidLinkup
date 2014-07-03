@@ -24,7 +24,7 @@ import com.znv.linkup.view.indicator.RankAdapter;
 public class RankActivity extends BaseActivity implements OnPageChangeListener {
 
     private int modeIndex = -1;
-    private RankAdapter rankPager = null;
+    private RankAdapter rankAdapter = null;
     private List<RankCfg> rankCfgs = null;
 
     @Override
@@ -85,8 +85,8 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
     public void onResume() {
         super.onResume();
 
-        if (rankPager != null) {
-            rankPager.updateRankData();
+        if (rankAdapter != null) {
+            rankAdapter.changeRankCfgs(rankCfgs, false);
         }
     }
 
@@ -103,7 +103,9 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
             int index = getIntent().getIntExtra("modeIndex", 0);
             if (index != modeIndex) {
                 modeIndex = index;
-                rankPager = new RankAdapter(RankActivity.this, rankCfgs, new Rank.ISelectedLevel() {
+                rankAdapter = rankAdapters[modeIndex];
+                rankAdapter.changeRankCfgs(rankCfgs, false);
+                rankAdapter.setLevelListener(new Rank.ISelectedLevel() {
 
                     @Override
                     public void onSelectedLevel(LevelCfg levelCfg) {
@@ -122,19 +124,14 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            
+
             ViewPager pager = (ViewPager) findViewById(R.id.pager);
-            pager.setAdapter(rankPager);
+            pager.setAdapter(rankAdapter);
 
             // 设置Indicator
             CirclePageIndicator mIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
             mIndicator.setViewPager(pager);
             mIndicator.setOnPageChangeListener(RankActivity.this);
-
-            if (rankPager != null) {
-                rankPager.updateRankData();
-            }
-
         }
     }
 }

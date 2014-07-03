@@ -20,21 +20,42 @@ import android.widget.AdapterView.OnItemClickListener;
  */
 public class Rank {
 
+    private RankCfg rankCfg = null;
     private View rankView = null;
     private LevelAdapter levels = null;
     private RankHolder holder = new RankHolder();
 
-    public Rank(Context ctx, final RankCfg rankCfg, final ISelectedLevel levelListener) {
+    public Rank(Context ctx, final RankCfg rankCfg) {
+        this.rankCfg = rankCfg;
         LayoutInflater inflater = LayoutInflater.from(ctx);
         rankView = inflater.inflate(R.layout.rank, null);
 
         holder.tvTitle = (TextView) rankView.findViewById(R.id.rankName);
         holder.rankGrid = (GridView) rankView.findViewById(R.id.rankGrid);
 
-        levels = new LevelAdapter(ctx, rankCfg);
+        levels = new LevelAdapter(ctx, rankCfg.getLevelInfos());
         holder.rankGrid.setAdapter(levels);
-        holder.rankGrid.setOnItemClickListener(new OnItemClickListener() {
+    }
 
+    /**
+     * 根据等级配置更新
+     * 
+     * @param rankCfg
+     *            等级配置
+     */
+    public void changeRankCfg(RankCfg rankCfg, boolean isInit) {
+        this.rankCfg = rankCfg;
+        levels.changeLevelCfgs(rankCfg.getLevelInfos(), isInit);
+    }
+
+    /**
+     * 设置关卡选择的监听器
+     * 
+     * @param levelListener
+     *            选择关卡操作接口
+     */
+    public void setLevelLister(final ISelectedLevel levelListener) {
+        holder.rankGrid.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 if (levelListener != null) {

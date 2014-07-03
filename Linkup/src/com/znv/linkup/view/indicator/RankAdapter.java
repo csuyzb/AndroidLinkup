@@ -19,22 +19,44 @@ import com.znv.linkup.view.indicator.Rank.RankHolder;
  */
 public class RankAdapter extends PagerAdapter {
 
-    public RankAdapter(Context context, List<RankCfg> rankCfgs, Rank.ISelectedLevel iSelectedLevel) {
+    public RankAdapter(Context context, List<RankCfg> rankCfgs) {
         this.rankCfgs = rankCfgs;
         this.ranks = new Rank[rankCfgs.size()];
         for (int i = 0; i < ranks.length; i++) {
-            ranks[i] = new Rank(context, rankCfgs.get(i), iSelectedLevel);
+            ranks[i] = new Rank(context, rankCfgs.get(i));
             // 设置rank名称，更新时不会改变
             updateRankInfo(i);
         }
     }
 
     /**
-     * 更新每个关卡的数据
+     * 根据rankCfgs更新RankCfg
+     * 
+     * @param rankCfgs
+     *            等级配置信息
      */
-    public void updateRankData() {
-        for (int i = 0; i < rankCfgs.size(); i++) {
-            ranks[i].getLevelAdapter().updateLevelData(false);
+    public void changeRankCfgs(List<RankCfg> rankCfgs, boolean isInit) {
+        this.rankCfgs = rankCfgs;
+        for (int i = 0; i < ranks.length; i++) {
+            ranks[i].changeRankCfg(rankCfgs.get(i), isInit);
+            if(levelListener != null) {
+                ranks[i].setLevelLister(levelListener);
+            }
+            // 设置rank名称，更新时不会改变
+            updateRankInfo(i);
+        }
+    }
+
+    /**
+     * 设置选择关卡的监听器
+     * 
+     * @param iSelectedLevel
+     *            选择关卡操作接口
+     */
+    public void setLevelListener(Rank.ISelectedLevel levelListener) {
+        this.levelListener = levelListener;
+        for (int i = 0; i < ranks.length; i++) {
+            ranks[i].setLevelLister(levelListener);
         }
     }
 
@@ -74,7 +96,17 @@ public class RankAdapter extends PagerAdapter {
         holder.tvTitle.setText(rankPrefix[i] + rankCfgs.get(i).getRankName());
     }
 
+    /**
+     * 获取rank集合信息
+     * 
+     * @return rank集合信息
+     */
+    public Rank[] getRanks() {
+        return ranks;
+    }
+
     private Rank[] ranks = null;
+    private Rank.ISelectedLevel levelListener = null;
     private List<RankCfg> rankCfgs = new ArrayList<RankCfg>();
     private static String[] rankPrefix = new String[] { "一.", "二.", "三.", "四.", "五.", "六.", "七.", "八.", "九.", "十." };
 

@@ -24,6 +24,7 @@ import com.znv.linkup.sound.SoundManager;
 import com.znv.linkup.util.AppMetaUtil;
 import com.znv.linkup.util.CacheUtil;
 import com.znv.linkup.util.ShortcutUtil;
+import com.znv.linkup.view.indicator.RankAdapter;
 
 /**
  * 游戏Activity的基类
@@ -43,6 +44,8 @@ public class BaseActivity extends Activity {
     protected static SparseArray<LevelCfg> levelCfgs = null;
     // 第三方登录用户id
     public static UserInfo userInfo = null;
+    // rankAdapter缓存
+    public static RankAdapter[] rankAdapters = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,15 +60,6 @@ public class BaseActivity extends Activity {
         initMusic();
 
         initSound();
-
-        // 单独开线程加载配置
-        new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                loadCfgs();
-            }
-        }).start();
     }
 
     /**
@@ -139,7 +133,7 @@ public class BaseActivity extends Activity {
     /**
      * 加载关卡配置
      */
-    private void loadCfgs() {
+    protected void loadCfgs() {
         if (modeCfgs == null) {
             XmlResourceParser xrp = getResources().getXml(R.xml.gamecfg);
             GameCfg gameCfg = new GameCfg(xrp);
@@ -190,6 +184,16 @@ public class BaseActivity extends Activity {
                 cfg.setLevelStar(score.getStar());
                 cfg.setUpload(score.getIsUpload() == 1);
             }
+        }
+    }
+
+    /**
+     * 加载rankAdapter
+     */
+    protected void loadRankAdapters() {
+        rankAdapters = new RankAdapter[modeCfgs.size()];
+        for (int i = 0; i < modeCfgs.size(); i++) {
+            rankAdapters[i] = new RankAdapter(this, modeCfgs.get(i).getRankInfos());
         }
     }
 

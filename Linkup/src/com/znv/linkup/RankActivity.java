@@ -103,13 +103,16 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
             int index = getIntent().getIntExtra("modeIndex", 0);
             if (index != modeIndex) {
                 modeIndex = index;
-                if (rankAdapters == null || rankAdapters.length <= modeIndex) {
-                    // 缓存中没有时创建，主要是容错，一般用不上
-                    rankAdapter = new RankAdapter(RankActivity.this, modeCfgs.get(index).getRankInfos());
-                } else {
-                    // 使用缓存数据
-                    rankAdapter = rankAdapters[modeIndex];
+                // 等待线程创建完成
+                while (rankAdapters == null || rankAdapters.length <= modeIndex || rankAdapters[modeIndex] == null) {
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
+                // 使用缓存数据
+                rankAdapter = rankAdapters[modeIndex];
 
                 rankAdapter.setLevelListener(new Rank.ISelectedLevel() {
 

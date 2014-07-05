@@ -64,7 +64,7 @@ public class GameSettings {
     public static int RewardTime = 1;
 
     /**
-     * 重排时尝试次数，默认3次
+     * 重排时尝试次数，默认5次
      */
-    public static int RefreshTryCount = 3;
+    public static int RefreshTryCount = 5;
 }

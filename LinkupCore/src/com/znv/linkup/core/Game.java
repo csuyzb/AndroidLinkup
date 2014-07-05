@@ -136,7 +136,9 @@ public class Game {
                 listener.onTranslate();
             }
         }
-
+        if (listener != null) {
+            listener.onErase();
+        }
         if (!gameService.hasPieces()) {
             gameStatus.win();
         }
@@ -208,6 +210,15 @@ public class Game {
     }
 
     /**
+     * 判断是否死锁
+     * 
+     * @return 死锁：true
+     */
+    public boolean isDeadLock() {
+        return promptPair() == null;
+    }
+
+    /**
      * 取消游戏提示
      */
     public void unPrompt() {
@@ -225,14 +236,14 @@ public class Game {
         // 刷新后保证有消除,尝试固定次数，避免死循环
         for (int i = 0; i < GameSettings.RefreshTryCount; i++) {
             gameService.refresh();
-            if (promptPair() != null) {
+            if (!isDeadLock()) {
                 // 有可以消除时不继续重排
                 break;
             }
         }
         gameStatus.refresh();
     }
-    
+
     public void addGameTime(int seconds) {
         gameStatus.addGameTime(seconds);
     }

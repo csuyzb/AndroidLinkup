@@ -416,7 +416,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
     public void onTranslate() {
         cardsView.createCards(false);
 
-        soundMgr.translate();
+        // soundMgr.translate();
     }
 
     /**
@@ -437,6 +437,14 @@ public class GameActivity extends BaseActivity implements IGameAction {
         }
 
         soundMgr.erase();
+    }
+    
+    @Override
+    public void onErase() {
+        // 判断是否需要自动重排
+        if (game.hasPieces() && game.isDeadLock()) {
+            refresh(null);
+        }
     }
 
     /**

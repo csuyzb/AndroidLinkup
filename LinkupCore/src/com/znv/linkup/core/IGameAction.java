@@ -22,6 +22,7 @@ public interface IGameAction extends IGameStatus {
 
     /**
      * 取消选择时的处理
+     * 
      * @param piece
      *            取消选择的卡片信息
      */
@@ -38,4 +39,9 @@ public interface IGameAction extends IGameStatus {
      * @param linkInfo
      */
     void onLinkPath(LinkInfo linkInfo);
+
+    /**
+     * 消除后的处理，用于自动检测死锁
+     */
+    void onErase();
 }

@@ -103,8 +103,14 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
             int index = getIntent().getIntExtra("modeIndex", 0);
             if (index != modeIndex) {
                 modeIndex = index;
-                rankAdapter = rankAdapters[modeIndex];
-                rankAdapter.changeRankCfgs(rankCfgs, false);
+                if (rankAdapters == null || rankAdapters.length <= modeIndex) {
+                    // 缓存中没有时创建，主要是容错，一般用不上
+                    rankAdapter = new RankAdapter(RankActivity.this, modeCfgs.get(index).getRankInfos());
+                } else {
+                    // 使用缓存数据
+                    rankAdapter = rankAdapters[modeIndex];
+                }
+
                 rankAdapter.setLevelListener(new Rank.ISelectedLevel() {
 
                     @Override
@@ -132,6 +138,9 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
             CirclePageIndicator mIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
             mIndicator.setViewPager(pager);
             mIndicator.setOnPageChangeListener(RankActivity.this);
+
+            // 更新
+            rankAdapter.changeRankCfgs(rankCfgs, false);
         }
     }
 }

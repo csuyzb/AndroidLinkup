@@ -6,6 +6,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
+import android.util.Log;
 
 /**
  * 游戏背景音乐服务
@@ -15,7 +16,7 @@ import android.os.IBinder;
  */
 public class MusicService extends Service {
 
-    private MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer = null;
 
     @Override
     public IBinder onBind(Intent arg0) {
@@ -25,11 +26,15 @@ public class MusicService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        int bgMusicRes = intent.getIntExtra("bgmusic", R.raw.bgmusic2);
-        if (mediaPlayer == null) {
-            mediaPlayer = MediaPlayer.create(this, bgMusicRes);
-            mediaPlayer.setLooping(true);
-            mediaPlayer.start();
+        try {
+            int bgMusicRes = intent.getIntExtra("bgmusic", R.raw.bgmusic2);
+            if (mediaPlayer == null) {
+                mediaPlayer = MediaPlayer.create(this, bgMusicRes);
+                mediaPlayer.setLooping(true);
+                mediaPlayer.start();
+            }
+        } catch (Exception ex) {
+            Log.d("MusicService", ex.getMessage());
         }
         return super.onStartCommand(intent, flags, startId);
     }

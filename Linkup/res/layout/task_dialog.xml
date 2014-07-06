@@ -36,76 +36,98 @@
         android:gravity="center"
         android:orientation="vertical" >
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
 
             <TextView
+                android:id="@+id/lb_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
                 android:text="@string/game_task_score"
-                android:textColor="#FFFF3333"
-                android:textSize="24sp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/success_score"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|center_vertical"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text=""
-                android:textColor="#FFFF3333"
-                android:textSize="36sp" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical"
-                android:padding="10dp"
-                android:src="@drawable/ok"
-                android:visibility="invisible"
-                tools:ignore="contentDescription" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="10dp"
-                android:text="@string/game_task_taskscore"
+                android:layout_margin="5dp"
+                android:layout_toRightOf="@id/lb_score"
                 android:textColor="#FFFF3333"
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/task_score"
-                android:layout_width="0dp"
+                android:id="@+id/lb_task"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center|center_vertical"
-                android:layout_weight="1"
+                android:layout_below="@id/success_score"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:text="@string/game_task_taskscore"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/task_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/success_score"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:layout_toRightOf="@id/lb_task"
                 android:gravity="center"
-                android:padding="10dp"
-                android:text=""
                 android:textColor="#FFFF3333"
-                android:textSize="36sp" />
+                android:textSize="24sp" />
 
             <ImageView
                 android:id="@+id/task_pass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center"
                 android:padding="10dp"
                 android:src="@drawable/ok"
                 tools:ignore="contentDescription" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:text="@string/game_get"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/level_diamond_reward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="2dp"
+                android:drawableLeft="@drawable/diamond_reward"
+                android:drawablePadding="2dp"
+                android:gravity="center"
+                android:textColor="#FFFF3333"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/level_coin_reward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="2dp"
+                android:drawableLeft="@drawable/coins_reward"
+                android:drawablePadding="2dp"
+                android:gravity="center"
+                android:textColor="#FFFF3333"
+                android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -121,7 +143,7 @@
         android:id="@+id/success_btn"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dip"
+        android:layout_marginBottom="20dp"
         android:gravity="center" >
 
         <TextView
@@ -129,7 +151,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
             android:drawableTop="@drawable/back"
             android:gravity="center"
             android:text="@string/back"
@@ -140,7 +162,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
             android:drawableTop="@drawable/share"
             android:gravity="center"
             android:text="@string/share"
@@ -151,7 +173,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
             android:drawableTop="@drawable/next"
             android:gravity="center"
             android:text="@string/next"

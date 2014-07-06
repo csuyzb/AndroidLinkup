@@ -181,4 +181,9 @@ public class ViewSettings {
      * 等级名称前缀
      */
     public static String[] RankPrefix = new String[] { "一.", "二.", "三.", "四.", "五.", "六.", "七.", "八.", "九.", "十." };
+
+    /**
+     * 游戏评级
+     */
+    public static int[] StarImages = new int[] { R.drawable.star1, R.drawable.star2, R.drawable.star3 };
 }

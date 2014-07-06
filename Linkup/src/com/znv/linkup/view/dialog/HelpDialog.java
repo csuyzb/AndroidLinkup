@@ -61,7 +61,7 @@ public class HelpDialog extends Dialog {
      */
     public HelpDialog setPositiveButton(String text, final View.OnClickListener listener) {
         TextView btn = (TextView) findViewById(R.id.dialog_button_ok);
-        btn.setText(text);
+        // btn.setText(text);
         btn.setOnClickListener(new View.OnClickListener() {
 
             @Override

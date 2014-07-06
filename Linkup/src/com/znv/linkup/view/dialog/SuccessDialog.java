@@ -16,7 +16,6 @@ import com.znv.linkup.db.LevelScore;
 import com.znv.linkup.rest.IUpload;
 import com.znv.linkup.rest.UserInfo;
 import com.znv.linkup.rest.UserScore;
-import com.znv.linkup.util.AnimatorUtil;
 import com.znv.linkup.util.ShareUtil;
 import com.znv.linkup.view.LevelTop;
 import com.znv.linkup.view.LevelTop.LevelTopStatus;
@@ -126,7 +125,10 @@ public class SuccessDialog extends Dialog implements IUpload {
      */
     private void setGameScore(int score) {
         TextView tvScore = (TextView) findViewById(R.id.success_score);
-        tvScore.setText(String.valueOf(score));
+        tvScore.setText(String.valueOf(score) + getContext().getString(R.string.score_unit));
+
+        TextView tvCoin = (TextView) findViewById(R.id.level_coin_reward);
+        tvCoin.setText("+" + String.valueOf(score / 10));
     }
 
     /**
@@ -147,40 +149,40 @@ public class SuccessDialog extends Dialog implements IUpload {
      *            星级数
      */
     private void setGameStar(int star) {
-        ImageView level_star1 = (ImageView) findViewById(R.id.level_star1_pass);
-        level_star1.setImageResource(R.drawable.pass_fail);
-        ImageView level_star2 = (ImageView) findViewById(R.id.level_star2_pass);
-        level_star2.setImageResource(R.drawable.pass_fail);
-        ImageView level_star3 = (ImageView) findViewById(R.id.level_star3_pass);
-        level_star3.setImageResource(R.drawable.pass_fail);
-
-        AnimatorUtil.animAlpha(level_star1, 0, 1, 500, 0);
-        AnimatorUtil.animAlpha(level_star2, 0, 1, 1000, 500);
-        AnimatorUtil.animAlpha(level_star3, 0, 1, 1500, 1000);
+        ImageView level_star = (ImageView) findViewById(R.id.level_star);
+        ImageView star1Reward = (ImageView) findViewById(R.id.level_star1_reward);
+        star1Reward.setVisibility(View.GONE);
+        ImageView star2Reward = (ImageView) findViewById(R.id.level_star2_reward);
+        star2Reward.setVisibility(View.GONE);
+        ImageView star3Reward = (ImageView) findViewById(R.id.level_star3_reward);
+        star3Reward.setVisibility(View.GONE);
+        TextView tvDiamond = (TextView) findViewById(R.id.level_diamond_reward);
 
         if (star <= 0 || star > 3) {
             return;
         }
+        level_star.setImageResource(ViewSettings.StarImages[star - 1]);
+        tvDiamond.setText("+" + String.valueOf(star));
         if (star > 0) {
             if (LevelCfg.globalCfg.getPromptNum() < ViewSettings.PromptMaxNum) {
                 // promt 增加一次
                 LevelCfg.globalCfg.setPromptNum(LevelCfg.globalCfg.getPromptNum() + 1);
             }
-            level_star1.setImageResource(R.drawable.pass_ok);
+            star1Reward.setVisibility(View.VISIBLE);
         }
         if (star > 1) {
             if (LevelCfg.globalCfg.getAddTimeNum() < ViewSettings.AddTimeMaxNum) {
                 // AddTime 增加一次
                 LevelCfg.globalCfg.setAddTimeNum(LevelCfg.globalCfg.getAddTimeNum() + 1);
             }
-            level_star2.setImageResource(R.drawable.pass_ok);
+            star2Reward.setVisibility(View.VISIBLE);
         }
         if (star > 2) {
             if (LevelCfg.globalCfg.getRefreshNum() < ViewSettings.RefreshMaxNum) {
                 // refresh 增加一次
                 LevelCfg.globalCfg.setRefreshNum(LevelCfg.globalCfg.getRefreshNum() + 1);
             }
-            level_star3.setImageResource(R.drawable.pass_ok);
+            star3Reward.setVisibility(View.VISIBLE);
         }
         linkup.setGlobalCfg();
     }

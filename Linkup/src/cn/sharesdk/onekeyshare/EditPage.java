@@ -156,7 +156,7 @@ public class EditPage extends FakeActivity implements OnClickListener, TextWatch
 			}
 		}.start();
 	}
-
+	
 	private RelativeLayout getPageView() {
 		rlPage = new RelativeLayout(getContext());
 		rlPage.setBackgroundDrawable(background);

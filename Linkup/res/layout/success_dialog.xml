@@ -29,12 +29,65 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_margin="10dp"
         android:gravity="center"
         android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/lb_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:text="@string/game_score"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/success_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|center_vertical"
+                android:layout_margin="5dp"
+                android:layout_toRightOf="@id/lb_score"
+                android:textColor="#FFFF3333"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/lb_star"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/success_score"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:text="@string/game_star"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/level_star"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/success_score"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:layout_toRightOf="@id/lb_star"
+                android:gravity="center"
+                android:src="@drawable/star1"
+                tools:ignore="contentDescription" />
+
+            <ImageView
+                android:id="@+id/level_champion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center"
+                android:padding="10dp"
+                android:src="@drawable/champion"
+                tools:ignore="contentDescription" />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -45,142 +98,63 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_margin="10dp"
-                android:text="@string/game_score"
-                android:textColor="#FFFF3333"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/success_score"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|center_vertical"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text=""
-                android:textColor="#FFFF3333"
-                android:textSize="36sp" />
+                android:layout_margin="5dp"
+                android:text="@string/game_get"
+                android:textSize="20sp" />
 
             <ImageView
-                android:id="@+id/level_champion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical"
-                android:padding="10dp"
-                android:src="@drawable/champion"
-                tools:ignore="contentDescription" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/level_star1"
-            android:layout_width="fill_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal" >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical"
-                android:padding="10dp"
-                android:src="@drawable/star1"
-                tools:ignore="contentDescription" />
-
-            <TextView
                 android:id="@+id/level_star1_reward"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_gravity="center"
-                android:layout_weight="1"
-                android:drawableLeft="@drawable/prompt"
+                android:layout_margin="2dp"
                 android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/game_reward_add"
-                android:textColor="#FFFFCC00"
-                android:textSize="30sp" />
-
-            <ImageView
-                android:id="@+id/level_star1_pass"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical"
-                android:alpha="0"
-                android:padding="10dp"
-                tools:ignore="contentDescription" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/level_star2"
-            android:layout_width="fill_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal" >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical"
-                android:padding="10dp"
-                android:src="@drawable/star2"
+                android:src="@drawable/prompt"
                 tools:ignore="contentDescription" />
 
-            <TextView
+            <ImageView
                 android:id="@+id/level_star2_reward"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_gravity="center"
-                android:layout_weight="1"
-                android:drawableLeft="@drawable/addtime"
+                android:layout_margin="2dp"
                 android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/game_reward_add"
-                android:textColor="#FFFFCC00"
-                android:textSize="30sp" />
-
-            <ImageView
-                android:id="@+id/level_star2_pass"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical"
-                android:alpha="0"
-                android:padding="10dp"
+                android:src="@drawable/addtime"
                 tools:ignore="contentDescription" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/level_star3"
-            android:layout_width="fill_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal" >
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical"
-                android:padding="10dp"
-                android:src="@drawable/star3"
+                android:id="@+id/level_star3_reward"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:layout_margin="2dp"
+                android:gravity="center"
+                android:src="@drawable/refresh"
                 tools:ignore="contentDescription" />
 
             <TextView
-                android:id="@+id/level_star3_reward"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:drawableLeft="@drawable/refresh"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/game_reward_add"
-                android:textColor="#FFFFCC00"
-                android:textSize="30sp" />
-
-            <ImageView
-                android:id="@+id/level_star3_pass"
+                android:id="@+id/level_diamond_reward"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical"
-                android:alpha="0"
-                android:padding="10dp"
-                tools:ignore="contentDescription" />
+                android:layout_gravity="center"
+                android:layout_margin="2dp"
+                android:drawableLeft="@drawable/diamond_reward"
+                android:drawablePadding="2dp"
+                android:gravity="center"
+                android:textColor="#FFFF3333"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/level_coin_reward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="2dp"
+                android:drawableLeft="@drawable/coins_reward"
+                android:drawablePadding="2dp"
+                android:gravity="center"
+                android:textColor="#FFFF3333"
+                android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
 

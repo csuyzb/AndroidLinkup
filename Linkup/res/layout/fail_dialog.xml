@@ -29,6 +29,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:gravity="center"
         android:orientation="horizontal" >
 
@@ -36,10 +37,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:text="@string/game_score"
-            android:textColor="#FFFF3333"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/fail_score"
@@ -47,16 +47,26 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center|center_vertical"
             android:gravity="center"
-            android:padding="10dp"
+            android:padding="5dp"
             android:text=""
             android:textColor="#FFFF3333"
-            android:textSize="36sp" />
+            android:textSize="24sp" />
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:gravity="center"
+        android:text="@string/game_fail"
+        android:textSize="20sp" />
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dip"
+        android:layout_marginBottom="10dp"
         android:gravity="center" >
 
         <TextView
@@ -64,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
             android:drawableTop="@drawable/back"
             android:gravity="center"
             android:text="@string/back"
@@ -75,7 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
             android:drawableTop="@drawable/again"
             android:gravity="center"
             android:text="@string/again"

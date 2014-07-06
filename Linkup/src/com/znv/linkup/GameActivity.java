@@ -269,20 +269,22 @@ public class GameActivity extends BaseActivity implements IGameAction {
                 curLevelCfg.setMaxScore(cls.getMaxScore());
                 isRecord = 1;
             }
+            stars = curLevelCfg.getStar(game.getGameScore());
         } else if (curLevelCfg.getLevelMode() == GameMode.ScoreTask) {
-            if (game.getTotalScore() >= curLevelCfg.getTask()) {
-                if (game.getTotalScore() > curLevelCfg.getMaxScore()) {
+            if (game.getGameScore() >= curLevelCfg.getTask()) {
+                if (game.getGameScore() > curLevelCfg.getMaxScore()) {
                     // 更新任务完成记录
                     LevelScore cls = new LevelScore(curLevelCfg.getLevelId());
-                    cls.setMaxScore(game.getTotalScore());
+                    cls.setMaxScore(game.getGameScore());
                     DbScore.updateScore(cls);
                 }
 
                 // 更新缓存
-                curLevelCfg.setMaxScore(game.getTotalScore());
+                curLevelCfg.setMaxScore(game.getGameScore());
                 // 是否完成任务
                 isRecord = 1;
             }
+            stars = curLevelCfg.getStar(game.getGameScore());
         }
 
         handler.sendMessage(handler.obtainMessage(ViewSettings.WinMessage, isRecord, stars));
@@ -438,7 +440,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
 
         soundMgr.erase();
     }
-    
+
     @Override
     public void onErase() {
         // 判断是否需要自动重排
@@ -622,11 +624,12 @@ public class GameActivity extends BaseActivity implements IGameAction {
         if (userInfo != null) {
             resultInfo.setUserId(userInfo.getUserId());
         }
+        resultInfo.setStars(stars);
         if (curLevelCfg.getLevelMode() == GameMode.Level) {
             resultInfo.setScore(game.getTotalScore());
-            resultInfo.setStars(stars);
             successDialog.showDialog(resultInfo);
         } else if (curLevelCfg.getLevelMode() == GameMode.Time) {
+            resultInfo.setScore(game.getTotalScore());
             resultInfo.setTime(game.getGameTime());
             timeDialog.showDialog(resultInfo);
         } else if (curLevelCfg.getLevelMode() == GameMode.ScoreTask) {

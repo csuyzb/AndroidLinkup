@@ -117,10 +117,14 @@ public class TimeDialog extends Dialog implements IUpload {
     public void showDialog(ResultInfo resultInfo) {
         this.resultInfo = resultInfo;
         TextView tvTime = (TextView) findViewById(R.id.success_time);
-        tvTime.setText(StringUtil.secondToString(resultInfo.getTime()));
+        tvTime.setText(StringUtil.secondToString(resultInfo.getTime()) + getContext().getString(R.string.time_unit));
         TextView tvRecord = (TextView) findViewById(R.id.time_record);
-        tvRecord.setText(StringUtil.secondToString(linkup.getLevelCfg().getMaxScore()));
+        tvRecord.setText(StringUtil.secondToString(linkup.getLevelCfg().getMaxScore()) + getContext().getString(R.string.time_unit));
         ImageView ivRecord = (ImageView) findViewById(R.id.level_champion);
+        TextView tvDiamond = (TextView) findViewById(R.id.level_diamond_reward);
+        tvDiamond.setText("+" + String.valueOf(resultInfo.getStars()));
+        TextView tvCoin = (TextView) findViewById(R.id.level_coin_reward);
+        tvCoin.setText("+" + String.valueOf(resultInfo.getScore() / 10));
         ivRecord.setVisibility(View.INVISIBLE);
         if (resultInfo.isNewRecord()) {
             ivRecord.setVisibility(View.VISIBLE);

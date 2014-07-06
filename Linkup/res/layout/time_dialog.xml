@@ -36,86 +36,98 @@
         android:gravity="center"
         android:orientation="vertical" >
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal" >
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
 
             <TextView
+                android:id="@+id/lb_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_margin="5dp"
                 android:text="@string/game_time"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/success_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|center_vertical"
+                android:layout_margin="5dp"
+                android:layout_toRightOf="@id/lb_time"
                 android:textColor="#FFFF3333"
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/success_time"
-                android:layout_width="0dp"
+                android:id="@+id/lb_star"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center|center_vertical"
-                android:layout_weight="1"
+                android:layout_below="@id/success_time"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:text="@string/game_time_min"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/time_record"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/success_time"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:layout_toRightOf="@id/lb_star"
                 android:gravity="center"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text=""
                 android:textColor="#FFFF3333"
-                android:textSize="36sp" />
+                android:textSize="24sp" />
 
             <ImageView
                 android:id="@+id/level_champion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center"
+                android:padding="10dp"
                 android:src="@drawable/champion"
                 tools:ignore="contentDescription" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
             android:orientation="horizontal" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:text="@string/game_time_min"
-                android:textColor="#FFFF3333"
-                android:textSize="24sp" />
+                android:layout_margin="5dp"
+                android:text="@string/game_get"
+                android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/time_record"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|center_vertical"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text=""
-                android:textColor="#FFFF3333"
-                android:textSize="36sp" />
-
-            <ImageView
+                android:id="@+id/level_diamond_reward"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:src="@drawable/champion"
-                android:visibility="invisible"
-                tools:ignore="contentDescription" />
+                android:layout_gravity="center"
+                android:layout_margin="2dp"
+                android:drawableLeft="@drawable/diamond_reward"
+                android:drawablePadding="2dp"
+                android:gravity="center"
+                android:textColor="#FFFF3333"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/level_coin_reward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="2dp"
+                android:drawableLeft="@drawable/coins_reward"
+                android:drawablePadding="2dp"
+                android:gravity="center"
+                android:textColor="#FFFF3333"
+                android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -139,9 +151,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="8dp"
             android:drawableTop="@drawable/back"
             android:gravity="center"
             android:text="@string/back"
@@ -153,9 +165,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="8dp"
             android:drawableTop="@drawable/share"
             android:gravity="center"
             android:text="@string/share"
@@ -167,9 +179,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="8dp"
             android:drawableTop="@drawable/again"
             android:gravity="center"
             android:text="@string/again"
@@ -181,9 +193,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="8dp"
             android:drawableTop="@drawable/next"
             android:gravity="center"
             android:text="@string/next"

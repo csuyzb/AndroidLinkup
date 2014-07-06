@@ -97,9 +97,14 @@ public class TaskDialog extends Dialog implements IUpload {
     public void showDialog(ResultInfo resultInfo) {
         this.resultInfo = resultInfo;
         TextView tvScore = (TextView) findViewById(R.id.success_score);
-        tvScore.setText(String.valueOf(resultInfo.getScore()));
+        tvScore.setText(String.valueOf(resultInfo.getScore()) + getContext().getString(R.string.score_unit));
         TextView tvTask = (TextView) findViewById(R.id.task_score);
-        tvTask.setText(String.valueOf(linkup.getLevelCfg().getTask()));
+        tvTask.setText(String.valueOf(linkup.getLevelCfg().getTask()) + getContext().getString(R.string.score_unit));
+
+        TextView tvDiamond = (TextView) findViewById(R.id.level_diamond_reward);
+        tvDiamond.setText("+" + String.valueOf(resultInfo.getStars()));
+        TextView tvCoin = (TextView) findViewById(R.id.level_coin_reward);
+        tvCoin.setText("+" + String.valueOf(resultInfo.getScore() / 10));
 
         TextView tvTaskTitle = (TextView) findViewById(R.id.dialog_title);
         tvTaskTitle.setText(R.string.game_task_fail);

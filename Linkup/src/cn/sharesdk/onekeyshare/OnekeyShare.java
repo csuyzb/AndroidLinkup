@@ -30,6 +30,8 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
@@ -297,6 +299,8 @@ public class OnekeyShare extends FakeActivity implements
 			return;
 		}
 
+        initFullScreen();
+        
 		finishing = false;
 		canceled = false;
 		initPageView();
@@ -317,6 +321,15 @@ public class OnekeyShare extends FakeActivity implements
 		// 打开分享菜单的统计
 		ShareSDK.logDemoEvent(1, null);
 	}
+	
+    /**
+     * 全屏初始化
+     */
+    private void initFullScreen() {
+        // set full screen
+        activity.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
 
 	private void initPageView() {
 		flPage = new FrameLayout(getContext());

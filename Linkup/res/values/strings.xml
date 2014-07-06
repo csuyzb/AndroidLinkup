@@ -18,7 +18,7 @@
     <string name="game_level_record">记录:</string>
     <string name="game_level_norecord">记录:无</string>
     <string name="game_level_task">任务分:</string>
-    <string name="game_score">总得分:</string>
+    <string name="game_score">游戏得分:</string>
     <string name="game_level_lost">闯关失败！</string>
     <string name="game_level_success">闯关成功！</string>
     <string name="game_time_success">游戏胜利！</string>
@@ -27,7 +27,7 @@
     <string name="game_task_success">任务完成！</string>
     <string name="game_task_fail">任务失败！</string>
     <string name="game_task_score">游戏得分:</string>
-    <string name="game_task_taskscore">任务分:</string>
+    <string name="game_task_taskscore">游戏任务:</string>
     <string name="game_reward_add">+１</string>
     <string name="game_ready_go">GO!</string>
     <string name="game_prompt_none">已经不能消除了，请重排或按返回退出!</string>
@@ -43,5 +43,10 @@
     <string name="share_task" formatted="false">我在[%s]的[%s]关卡中,完成任务得到了[%s]分,快来挑战我吧!</string>
     <string name="share_time" formatted="false">我在[%s]的[%s]关卡中,完成任务只用了[%s]秒,快来挑战我吧!</string>
     <string name="notice">微博或QQ登录后可参与网络排行@可以分享成就到QQ,微博和微信@关注微信公众号xx-llk了解最新动态</string>
+    <string name="game_star">游戏评级:</string>
+    <string name="game_get">游戏奖励:</string>
+    <string name="game_fail">一时失手,再来一盘.</string>
+    <string name="score_unit">分</string>
+    <string name="time_unit">秒</string>
 
 </resources>

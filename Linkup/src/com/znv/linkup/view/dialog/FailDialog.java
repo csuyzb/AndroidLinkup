@@ -65,7 +65,7 @@ public class FailDialog extends Dialog {
      */
     public void showDialog(int score) {
         TextView tvScore = (TextView) findViewById(R.id.fail_score);
-        tvScore.setText(String.valueOf(score));
+        tvScore.setText(String.valueOf(score) + getContext().getString(R.string.score_unit));
         show();
     }
 }

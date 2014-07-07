@@ -131,6 +131,16 @@ public class ViewSettings {
     public static int ShowNameLength = 11;
 
     /**
+     * 每次取排行榜前3名
+     */
+    public static int TopN = 3;
+
+    /**
+     * 网站的域名根目录
+     */
+    public static String WebRoot = "http://ttxl.aliapp.com";
+
+    /**
      * 数据缓存版本字符串
      */
     public static String CacheVersion = "120";

@@ -1,5 +1,9 @@
 package com.znv.linkup.rest;
 
+import android.content.Context;
+
+import com.znv.linkup.util.CacheUtil;
+
 /**
  * 第三方登录用户信息
  * 
@@ -40,44 +44,53 @@ public class UserInfo {
         this.userIcon = userIcon;
     }
 
-    public String getPlat() {
-        return plat;
+    public int getDiamond(Context context) {
+        String d = CacheUtil.getBindStr(context, userId + "_diamond");
+        if (d == null || d.equals("")) {
+            return 0;
+        } else {
+            return Integer.parseInt(d);
+        }
     }
 
-    public void setPlat(String plat) {
-        this.plat = plat;
+    public void setDiamond(Context context, int diamond) {
+        CacheUtil.setBindStr(context, userId + "_diamond", String.valueOf(diamond));
     }
 
-    public int getPlatVersion() {
-        return platVersion;
+    public void addDiamond(Context context, int addDiamond) {
+        CacheUtil.setBindStr(context, userId + "_diamond", String.valueOf(getDiamond(context) + addDiamond));
     }
 
-    public void setPlatVersion(int platVersion) {
-        this.platVersion = platVersion;
+    public int getGold(Context context) {
+        String d = CacheUtil.getBindStr(context, userId + "_gold");
+        if (d == null || d.equals("")) {
+            return 0;
+        } else {
+            return Integer.parseInt(d);
+        }
     }
 
-    public int getDiamond() {
-        return diamond;
+    public void setGold(Context context, int gold) {
+        CacheUtil.setBindStr(context, userId + "_gold", String.valueOf(gold));
     }
 
-    public void setDiamond(int diamond) {
-        this.diamond = diamond;
+    public void addGold(Context context, int addGold) {
+        CacheUtil.setBindStr(context, userId + "_gold", String.valueOf(getGold(context) + addGold));
     }
 
-    public int getCoin() {
-        return coin;
+    public boolean isAward() {
+        return isAward;
     }
 
-    public void setCoin(int coin) {
-        this.coin = coin;
+    public void setAward(boolean isAward) {
+        this.isAward = isAward;
     }
 
     private String userId;
     private String userName;
     private String userGender;
     private String userIcon;
-    private String plat;
-    private int platVersion;
-    private int diamond;
-    private int coin;
+    private boolean isAward = false;
+    // private int diamond;
+    // private int gold;
 }

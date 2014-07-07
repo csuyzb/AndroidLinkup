@@ -232,6 +232,9 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
     protected void onResume() {
         super.onResume();
         startAnimation();
+        if (userInfo != null && levelTop != null) {
+            levelTop.updateUserInfo();
+        }
     }
 
     /**

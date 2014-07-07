@@ -23,19 +23,19 @@ import com.znv.linkup.util.RestUtil;
  * 
  */
 public class UserScore {
-    public static int topN = 3;
-
-    private static String USER_ADD_URI = "http://xxllk.aliapp.com/webapi/user/add";
-    private static String SCORE_ADD_URI = "http://xxllk.aliapp.com/webapi/score/add";
-    private static String SCORE_GET_URI = "http://xxllk.aliapp.com/webapi/score/get";
-    private static String TIME_ADD_URI = "http://xxllk.aliapp.com/webapi/time/add";
-    private static String TIME_GET_URI = "http://xxllk.aliapp.com/webapi/time/get";
+    private static String USER_ADD_URI = ViewSettings.WebRoot + "/webapi/user/add";
+    private static String SCORE_ADD_URI = ViewSettings.WebRoot + "/webapi/score/add";
+    private static String SCORE_GET_URI = ViewSettings.WebRoot + "/webapi/score/get";
+    private static String TIME_ADD_URI = ViewSettings.WebRoot + "/webapi/time/add";
+    private static String TIME_GET_URI = ViewSettings.WebRoot + "/webapi/time/get";
 
     /**
      * 记录用户登录
      * 
      * @param userInfo
      *            用户登录信息
+     * @param handler
+     *            消息处理
      */
     public static void login(final UserInfo userInfo, final Handler handler) {
         final List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -43,8 +43,6 @@ public class UserScore {
         params.add(new BasicNameValuePair("username", userInfo.getUserName()));
         params.add(new BasicNameValuePair("usergender", userInfo.getUserGender()));
         params.add(new BasicNameValuePair("usericon", userInfo.getUserIcon()));
-        params.add(new BasicNameValuePair("plat", userInfo.getPlat()));
-        params.add(new BasicNameValuePair("platver", String.valueOf(userInfo.getPlatVersion())));
         new Thread(new Runnable() {
 
             @Override
@@ -53,7 +51,7 @@ public class UserScore {
                 if (result != null) {
                     Message msg = new Message();
                     msg.what = ViewSettings.MSG_LOGIN;
-                    msg.obj = userInfo;
+                    msg.obj = result;
                     handler.sendMessage(msg);
                 } else {
                     // 网络或其它问题
@@ -66,18 +64,18 @@ public class UserScore {
     /**
      * 新增用户关卡分数，用于排名
      * 
-     * @param userId
-     *            user的id信息,缓存于客户端
-     * @param level
-     *            关卡id
-     * @param score
-     *            最高分数
+     * @param scoreInfo
+     *            上传的分数信息
+     * @param handler
+     *            消息处理
      */
-    public static void addScore(String userId, int level, int score, final Handler handler) {
+    public static void addScore(ScoreInfo scoreInfo, final Handler handler) {
         final List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("userid", userId));
-        params.add(new BasicNameValuePair("level", String.valueOf(level)));
-        params.add(new BasicNameValuePair("score", String.valueOf(score)));
+        params.add(new BasicNameValuePair("userid", scoreInfo.getUserId()));
+        params.add(new BasicNameValuePair("level", String.valueOf(scoreInfo.getLevel())));
+        params.add(new BasicNameValuePair("score", String.valueOf(scoreInfo.getScore())));
+        params.add(new BasicNameValuePair("diamond", String.valueOf(scoreInfo.getDiamond())));
+        params.add(new BasicNameValuePair("gold", String.valueOf(scoreInfo.getGold())));
         new Thread(new Runnable() {
 
             @Override
@@ -99,9 +97,11 @@ public class UserScore {
      * 
      * @param level
      *            关卡id
+     * @param handler
+     *            消息处理
      */
     public static void getTopScores(int level, final Handler handler) {
-        final String uri = SCORE_GET_URI + "?level=" + String.valueOf(level) + "&top=" + String.valueOf(topN);
+        final String uri = SCORE_GET_URI + "?level=" + String.valueOf(level) + "&top=" + String.valueOf(ViewSettings.TopN);
         new Thread(new Runnable() {
 
             @Override
@@ -124,18 +124,18 @@ public class UserScore {
     /**
      * 新增用户关卡时间，用于排名
      * 
-     * @param userId
-     *            user的id信息,缓存于客户端
-     * @param level
-     *            关卡id
-     * @param time
-     *            最小时间
+     * @param timeInfo
+     *            上传的时间信息
+     * @param handler
+     *            消息处理
      */
-    public static void addTime(String userId, int level, int time, final Handler handler) {
+    public static void addTime(TimeInfo timeInfo, final Handler handler) {
         final List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("userid", userId));
-        params.add(new BasicNameValuePair("level", String.valueOf(level)));
-        params.add(new BasicNameValuePair("time", String.valueOf(time)));
+        params.add(new BasicNameValuePair("userid", timeInfo.getUserId()));
+        params.add(new BasicNameValuePair("level", String.valueOf(timeInfo.getLevel())));
+        params.add(new BasicNameValuePair("time", String.valueOf(timeInfo.getTime())));
+        params.add(new BasicNameValuePair("diamond", String.valueOf(timeInfo.getDiamond())));
+        params.add(new BasicNameValuePair("gold", String.valueOf(timeInfo.getGold())));
         new Thread(new Runnable() {
 
             @Override
@@ -157,9 +157,11 @@ public class UserScore {
      * 
      * @param level
      *            关卡id
+     * @param handler
+     *            消息处理
      */
     public static void getTopTimes(int level, final Handler handler) {
-        final String uri = TIME_GET_URI + "?level=" + String.valueOf(level) + "&top=" + String.valueOf(topN);
+        final String uri = TIME_GET_URI + "?level=" + String.valueOf(level) + "&top=" + String.valueOf(ViewSettings.TopN);
         new Thread(new Runnable() {
 
             @Override
@@ -184,8 +186,8 @@ public class UserScore {
      * 
      * @param url
      *            url地址
-     * @param callback
-     *            回调
+     * @param handler
+     *            消息处理
      */
     public static void getUserImage(final String url, final Handler handler) {
         new Thread(new Runnable() {
@@ -226,8 +228,8 @@ public class UserScore {
      * 
      * @param urls
      *            url地址集合
-     * @param callback
-     *            回调
+     * @param handler
+     *            消息处理
      */
     public static void getTopImages(final List<String> urls, final Handler handler) {
         new Thread(new Runnable() {

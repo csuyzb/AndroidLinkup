@@ -9,9 +9,11 @@ import android.widget.TextView;
 
 import com.znv.linkup.GameActivity;
 import com.znv.linkup.R;
+import com.znv.linkup.WelcomeActivity;
 import com.znv.linkup.db.DbScore;
 import com.znv.linkup.db.LevelScore;
 import com.znv.linkup.rest.IUpload;
+import com.znv.linkup.rest.TimeInfo;
 import com.znv.linkup.rest.UserInfo;
 import com.znv.linkup.rest.UserScore;
 import com.znv.linkup.util.ShareUtil;
@@ -144,11 +146,24 @@ public class TimeDialog extends Dialog implements IUpload {
     private void uploadTime() {
         // 判断是否已登录
         if (!resultInfo.getUserId().equals("")) {
+            TimeInfo timeInfo = new TimeInfo();
+            timeInfo.setUserId(resultInfo.getUserId());
+            timeInfo.setLevel(resultInfo.getLevel());
+            timeInfo.setDiamond(resultInfo.getStars());
+
+            // 增加奖励的钻石和金币
+            WelcomeActivity.userInfo.addDiamond(getContext(), timeInfo.getDiamond());
             if (resultInfo.isNewRecord()) {
-                UserScore.addTime(resultInfo.getUserId(), resultInfo.getLevel(), resultInfo.getTime(), levelTop.netMsgHandler);
+                timeInfo.setTime(resultInfo.getTime());
+                timeInfo.setGold(resultInfo.getScore() / 10);
+                WelcomeActivity.userInfo.addGold(getContext(), timeInfo.getGold());
+                UserScore.addTime(timeInfo, levelTop.netMsgHandler);
             } else {
                 if (!resultInfo.isUpload()) {
-                    UserScore.addTime(resultInfo.getUserId(), resultInfo.getLevel(), resultInfo.getMinTime(), levelTop.netMsgHandler);
+                    timeInfo.setTime(resultInfo.getMinTime());
+                    timeInfo.setGold(resultInfo.getScore() / 10);
+                    WelcomeActivity.userInfo.addGold(getContext(), timeInfo.getGold());
+                    UserScore.addTime(timeInfo, levelTop.netMsgHandler);
                 } else {
                     // 获取排行榜
                     UserScore.getTopTimes(resultInfo.getLevel(), levelTop.netMsgHandler);
@@ -161,7 +176,7 @@ public class TimeDialog extends Dialog implements IUpload {
 
     @Override
     public void onLoginSuccess(Message msg) {
-        UserInfo userInfo = (UserInfo) msg.obj;
+        UserInfo userInfo = WelcomeActivity.userInfo;
         if (userInfo != null) {
             resultInfo.setUserId(userInfo.getUserId());
             uploadTime();

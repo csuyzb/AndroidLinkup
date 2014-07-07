@@ -8,7 +8,7 @@
     <string name="help">帮助</string>
     <string name="help_info">将2个相同的图片连接起来,连线不多于3根,就可以成功将图片消除。\n微博或QQ登录后可以参与网络排行,还能将成就分享到QQ,微博和微信等平台。</string>
     <string name="about">关于</string>
-    <string name="about_info">应用名称：休闲连连看 \n版本编号：1.3.1\n应用作者：白杨，神保\n官方微信：xx-llk\n官网：http://xxllk.aliapp.com</string>
+    <string name="about_info">应用名称：休闲连连看 \n版本编号：1.3.2\n应用作者：白杨，神保\n官方微信：xx-llk\n官网：http://xxllk.aliapp.com</string>
     <string name="submit">确定</string>
     <string name="cancel">取消</string>
     <string name="back">返回</string>
@@ -28,16 +28,15 @@
     <string name="game_task_fail">任务失败！</string>
     <string name="game_task_score">游戏得分:</string>
     <string name="game_task_taskscore">游戏任务:</string>
-    <string name="game_reward_add">+１</string>
     <string name="game_ready_go">GO!</string>
     <string name="game_prompt_none">已经不能消除了，请重排或按返回退出!</string>
     <string name="login_with_sina_weibo">新浪微博登录</string>
     <string name="login_with_qzone">QQ空间登录</string>
     <string name="network_exception">登录失败，请检查网络设置。</string>
-    <string name="logining">使用%s帐号登录成功。</string>
+    <string name="logining">登录成功,欢迎回来!</string>
     <string name="auth_cancel">授权操作已取消</string>
     <string name="auth_error">授权操作遇到错误，请阅读Logcat输出</string>
-    <string name="user_hello">, 你好, 欢迎回来!</string>
+    <string name="user_hello">, 你好!</string>
     <string name="share_comment">继续加油!</string>
     <string name="share_score" formatted="false">我在[%s]的[%s]关卡中,闯关成功得到了[%s]分,快来挑战我吧!</string>
     <string name="share_task" formatted="false">我在[%s]的[%s]关卡中,完成任务得到了[%s]分,快来挑战我吧!</string>
@@ -48,5 +47,6 @@
     <string name="game_fail">一时失手,再来一盘.</string>
     <string name="score_unit">分</string>
     <string name="time_unit">秒</string>
+    <string name="login_award">获得每日登录奖励10钻石100金币</string>
 
 </resources>

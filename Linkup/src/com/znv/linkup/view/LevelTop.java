@@ -240,9 +240,24 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
             }
                 break;
             case ViewSettings.MSG_LOGIN: {
-                BaseActivity.userInfo = (UserInfo) msg.obj;
-                if (uploadListener != null) {
-                    uploadListener.onLoginSuccess(msg);
+                try {
+                    JSONObject json = new JSONObject((String) msg.obj);
+                    UserInfo userInfo = new UserInfo();
+                    userInfo.setUserId(json.getString("userId"));
+                    userInfo.setUserName(json.getString("userName"));
+                    userInfo.setUserGender(json.getString("userGender"));
+                    userInfo.setUserIcon(json.getString("userIcon"));
+                    userInfo.setDiamond(getContext(), json.getInt("diamond"));
+                    userInfo.setGold(getContext(), json.getInt("gold"));
+                    userInfo.setAward(json.getInt("isAward") == 1);
+
+                    BaseActivity.userInfo = userInfo;
+                    msg.obj = userInfo;
+                    if (uploadListener != null) {
+                        uploadListener.onLoginSuccess(msg);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
                 break;
@@ -276,9 +291,12 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
                     holder.ivIcon.setImageBitmap(ImageUtil.roundBitmap(ImageUtil.scaleBitmap(bm, ViewSettings.UserImageWidth, ViewSettings.UserImageWidth)));
                     if (WelcomeActivity.userInfo != null) {
                         holder.tvUser.setText(WelcomeActivity.userInfo.getUserName() + getContext().getString(R.string.user_hello));
-                        // holder.tvDiamond.setText(String.valueOf(WelcomeActivity.userInfo.getDiamond()));
-                        // holder.tvCoin.setText(String.valueOf(WelcomeActivity.userInfo.getCoin()));
-                        String text = getContext().getString(R.string.logining, WelcomeActivity.userInfo.getPlat());
+                        holder.tvDiamond.setText(String.valueOf(WelcomeActivity.userInfo.getDiamond(getContext())));
+                        holder.tvGold.setText(String.valueOf(WelcomeActivity.userInfo.getGold(getContext())));
+                        String text = getContext().getString(R.string.logining);
+                        if (WelcomeActivity.userInfo.isAward()) {
+                            text = getContext().getString(R.string.login_award);
+                        }
                         Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -317,6 +335,14 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
     }
 
     /**
+     * 更新用户钻石和金币信息
+     */
+    public void updateUserInfo() {
+        holder.tvDiamond.setText(String.valueOf(WelcomeActivity.userInfo.getDiamond(getContext())));
+        holder.tvGold.setText(String.valueOf(WelcomeActivity.userInfo.getGold(getContext())));
+    }
+
+    /**
      * 缓存控件，提高效率
      */
     private void getControls() {
@@ -334,8 +360,8 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
         holder.ivthirdIcon = (ImageView) findViewById(R.id.level_ivthirdIcon);
         holder.ivIcon = (ImageView) findViewById(R.id.ivIcon);
         holder.tvUser = (TextView) findViewById(R.id.tvUser);
-        // holder.tvDiamond = (TextView) findViewById(R.id.tvDiamond);
-        // holder.tvCoin = (TextView) findViewById(R.id.tvCoin);
+        holder.tvDiamond = (TextView) findViewById(R.id.tvDiamond);
+        holder.tvGold = (TextView) findViewById(R.id.tvCoin);
     }
 
     private void beforeLogin() {
@@ -377,8 +403,6 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
      */
     private void login(Platform plat) {
         UserInfo userInfo = new UserInfo();
-        userInfo.setPlat(plat.getName());
-        userInfo.setPlatVersion(plat.getDb().getPlatformVersion());
         userInfo.setUserId(plat.getDb().getUserId());
         userInfo.setUserName(plat.getDb().getUserName());
         userInfo.setUserGender(plat.getDb().getUserGender());
@@ -411,8 +435,8 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
         public ImageView ivthirdIcon;
         public ImageView ivIcon;
         public TextView tvUser;
-        // public TextView tvDiamond;
-        // public TextView tvCoin;
+        public TextView tvDiamond;
+        public TextView tvGold;
     }
 
 }

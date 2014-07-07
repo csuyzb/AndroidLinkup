@@ -10,9 +10,11 @@ import android.widget.TextView;
 
 import com.znv.linkup.GameActivity;
 import com.znv.linkup.R;
+import com.znv.linkup.WelcomeActivity;
 import com.znv.linkup.db.DbScore;
 import com.znv.linkup.db.LevelScore;
 import com.znv.linkup.rest.IUpload;
+import com.znv.linkup.rest.ScoreInfo;
 import com.znv.linkup.rest.UserInfo;
 import com.znv.linkup.rest.UserScore;
 import com.znv.linkup.util.ShareUtil;
@@ -157,11 +159,24 @@ public class TaskDialog extends Dialog implements IUpload {
     private void uploadScore() {
         // 判断是否已登录
         if (!resultInfo.getUserId().equals("")) {
+            ScoreInfo scoreInfo = new ScoreInfo();
+            scoreInfo.setUserId(resultInfo.getUserId());
+            scoreInfo.setLevel(resultInfo.getLevel());
+            scoreInfo.setDiamond(resultInfo.getStars());
+            
+            // 增加奖励的钻石和金币
+            WelcomeActivity.userInfo.addDiamond(getContext(), scoreInfo.getDiamond());
             if (resultInfo.isNewRecord()) {
-                UserScore.addScore(resultInfo.getUserId(), resultInfo.getLevel(), resultInfo.getScore(), levelTop.netMsgHandler);
+                scoreInfo.setScore(resultInfo.getScore());
+                scoreInfo.setGold(resultInfo.getScore() / 10);
+                WelcomeActivity.userInfo.addGold(getContext(), scoreInfo.getGold());
+                UserScore.addScore(scoreInfo, levelTop.netMsgHandler);
             } else {
                 if (!resultInfo.isUpload()) {
-                    UserScore.addScore(resultInfo.getUserId(), resultInfo.getLevel(), resultInfo.getMaxScore(), levelTop.netMsgHandler);
+                    scoreInfo.setScore(resultInfo.getMaxScore());
+                    scoreInfo.setGold(resultInfo.getMaxScore() / 10);
+                    WelcomeActivity.userInfo.addGold(getContext(), scoreInfo.getGold());
+                    UserScore.addScore(scoreInfo, levelTop.netMsgHandler);
                 } else {
                     // 获取排行榜
                     UserScore.getTopScores(resultInfo.getLevel(), levelTop.netMsgHandler);
@@ -175,7 +190,7 @@ public class TaskDialog extends Dialog implements IUpload {
 
     @Override
     public void onLoginSuccess(Message msg) {
-        UserInfo userInfo = (UserInfo) msg.obj;
+        UserInfo userInfo = WelcomeActivity.userInfo;
         if (userInfo != null) {
             resultInfo.setUserId(userInfo.getUserId());
             uploadScore();

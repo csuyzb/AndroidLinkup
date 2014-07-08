@@ -24,9 +24,12 @@ import com.znv.linkup.rest.NetMsgListener;
  * 
  */
 public class VolleyHelper {
+
+    private Context ctx = null;
     private RequestQueue requestQueue = null;
 
     public VolleyHelper(Context ctx) {
+        this.ctx = ctx;
         requestQueue = Volley.newRequestQueue(ctx);
     }
 
@@ -85,7 +88,10 @@ public class VolleyHelper {
         niv.setImageUrl(url, imageLoader);
     }
 
-    // public void cancelAll(Context ctx) {
-    // requestQueue.cancelAll(ctx);
-    // }
+    /**
+     * 取消所有请求
+     */
+    public void cancelAll() {
+        requestQueue.cancelAll(ctx);
+    }
 }

@@ -1,8 +1,6 @@
 package com.znv.linkup.view;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +35,7 @@ import com.znv.linkup.rest.IUpload;
 import com.znv.linkup.rest.UserInfo;
 import com.znv.linkup.rest.UserScore;
 import com.znv.linkup.util.StringUtil;
+import com.znv.linkup.util.VolleyHelper;
 
 /**
  * 登录或排行榜视图
@@ -82,6 +81,8 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
         });
 
         getControls();
+
+        volley = new VolleyHelper(context);
     }
 
     /**
@@ -181,32 +182,28 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
             case ViewSettings.MSG_SCORE_GET: {
                 showStatus(LevelTopStatus.TopInfo);
 
-                List<String> urls = new ArrayList<String>();
                 String result = (String) msg.obj;
                 try {
                     JSONArray array = new JSONArray(result);
                     if (array.length() > 0) {
                         JSONObject obj = (JSONObject) array.get(0);
-                        urls.add(obj.getString("userIcon"));
+                        volley.loadImage(holder.ivgoldIcon, obj.getString("userIcon"));
                         holder.tvgolduser.setText(StringUtil.substring(obj.getString("userName"), ViewSettings.ShowNameLength));
                         holder.tvgoldscore.setText(obj.getString("score"));
                         if (array.length() > 1) {
                             JSONObject obj2 = (JSONObject) array.get(1);
-                            urls.add(obj2.getString("userIcon"));
+                            volley.loadImage(holder.ivsilverIcon, obj2.getString("userIcon"));
                             holder.tvsilveruser.setText(StringUtil.substring(obj2.getString("userName"), ViewSettings.ShowNameLength));
                             holder.tvsilverscore.setText(obj2.getString("score"));
                             if (array.length() > 2) {
                                 JSONObject obj3 = (JSONObject) array.get(2);
-                                urls.add(obj3.getString("userIcon"));
+                                volley.loadImage(holder.ivthirdIcon, obj3.getString("userIcon"));
                                 holder.tvthirduser.setText(StringUtil.substring(obj3.getString("userName"), ViewSettings.ShowNameLength));
                                 holder.tvthirdscore.setText(obj3.getString("score"));
                             }
                         }
                     }
 
-                    if (urls.size() > 0) {
-                        UserScore.getTopImages(urls, this);
-                    }
                 } catch (JSONException e) {
                     Log.d("MSG_SCORE_GET", e.getMessage());
                 }
@@ -215,30 +212,26 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
             case ViewSettings.MSG_TIME_GET: {
                 showStatus(LevelTopStatus.TopInfo);
 
-                List<String> urls = new ArrayList<String>();
                 String result = (String) msg.obj;
                 try {
                     JSONArray array = new JSONArray(result);
                     if (array.length() > 0) {
                         JSONObject obj = (JSONObject) array.get(0);
-                        urls.add(obj.getString("userIcon"));
+                        volley.loadImage(holder.ivgoldIcon, obj.getString("userIcon"));
                         holder.tvgolduser.setText(StringUtil.substring(obj.getString("userName"), ViewSettings.ShowNameLength));
                         holder.tvgoldscore.setText(StringUtil.secondToString(Integer.parseInt(obj.getString("time"))));
                         if (array.length() > 1) {
                             JSONObject obj2 = (JSONObject) array.get(1);
-                            urls.add(obj2.getString("userIcon"));
+                            volley.loadImage(holder.ivsilverIcon, obj2.getString("userIcon"));
                             holder.tvsilveruser.setText(StringUtil.substring(obj2.getString("userName"), ViewSettings.ShowNameLength));
                             holder.tvsilverscore.setText(StringUtil.secondToString(Integer.parseInt(obj2.getString("time"))));
                             if (array.length() > 2) {
                                 JSONObject obj3 = (JSONObject) array.get(2);
-                                urls.add(obj3.getString("userIcon"));
+                                volley.loadImage(holder.ivthirdIcon, obj3.getString("userIcon"));
                                 holder.tvthirduser.setText(StringUtil.substring(obj3.getString("userName"), ViewSettings.ShowNameLength));
                                 holder.tvthirdscore.setText(StringUtil.secondToString(Integer.parseInt(obj3.getString("time"))));
                             }
                         }
-                    }
-                    if (urls.size() > 0) {
-                        UserScore.getTopImages(urls, this);
                     }
                 } catch (JSONException e) {
                     Log.d("MSG_TIME_GET", e.getMessage());
@@ -267,28 +260,28 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
                 }
             }
                 break;
-            case ViewSettings.MSG_TOPIMAGES_GET: {
-                @SuppressWarnings("unchecked")
-                List<Bitmap> images = (List<Bitmap>) msg.obj;
-                int topImageWidth = ViewSettings.TopImageWidth;
-                if (images != null && images.size() > 0) {
-                    if (images.get(0) != null) {
-                        holder.ivgoldIcon.setImageBitmap(ImageUtil.scaleBitmap(images.get(0), topImageWidth, topImageWidth));
-                    }
-                    if (images.size() > 1) {
-                        if (images.get(1) != null) {
-                            holder.ivsilverIcon.setImageBitmap(ImageUtil.scaleBitmap(images.get(1), topImageWidth, topImageWidth));
-                        }
-
-                        if (images.size() > 2) {
-                            if (images.get(2) != null) {
-                                holder.ivthirdIcon.setImageBitmap(ImageUtil.scaleBitmap(images.get(2), topImageWidth, topImageWidth));
-                            }
-                        }
-                    }
-                }
-            }
-                break;
+            // case ViewSettings.MSG_TOPIMAGES_GET: {
+            // @SuppressWarnings("unchecked")
+            // List<Bitmap> images = (List<Bitmap>) msg.obj;
+            // int topImageWidth = ViewSettings.TopImageWidth;
+            // if (images != null && images.size() > 0) {
+            // if (images.get(0) != null) {
+            // holder.ivgoldIcon.setImageBitmap(ImageUtil.scaleBitmap(images.get(0), topImageWidth, topImageWidth));
+            // }
+            // if (images.size() > 1) {
+            // if (images.get(1) != null) {
+            // holder.ivsilverIcon.setImageBitmap(ImageUtil.scaleBitmap(images.get(1), topImageWidth, topImageWidth));
+            // }
+            //
+            // if (images.size() > 2) {
+            // if (images.get(2) != null) {
+            // holder.ivthirdIcon.setImageBitmap(ImageUtil.scaleBitmap(images.get(2), topImageWidth, topImageWidth));
+            // }
+            // }
+            // }
+            // }
+            // }
+            // break;
             case ViewSettings.MSG_IMAGE_GET: {
                 Bitmap bm = (Bitmap) msg.obj;
                 if (bm != null) {
@@ -346,6 +339,13 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
     public void updateUserInfo() {
         holder.tvDiamond.setText(String.valueOf(WelcomeActivity.userInfo.getDiamond(getContext())));
         holder.tvGold.setText(String.valueOf(WelcomeActivity.userInfo.getGold(getContext())));
+    }
+
+    /**
+     * 取消所有获取image的网络请求
+     */
+    public void cancelUrlImages() {
+        volley.cancelAll();
     }
 
     /**
@@ -416,6 +416,7 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
     private IUpload uploadListener = null;
     private levelTopHolder holder = new levelTopHolder();
     private LevelTopStatus topStatus = LevelTopStatus.Login;
+    private VolleyHelper volley = null;
 
     /**
      * 缓存控件，提高效率

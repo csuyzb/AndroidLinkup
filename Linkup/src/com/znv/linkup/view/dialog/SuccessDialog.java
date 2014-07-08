@@ -46,6 +46,7 @@ public class SuccessDialog extends Dialog implements IUpload {
 
             @Override
             public void onClick(View v) {
+                levelTop.cancelUrlImages();
                 cancel();
                 linkup.onBackPressed();
             }
@@ -79,6 +80,7 @@ public class SuccessDialog extends Dialog implements IUpload {
 
             @Override
             public void onClick(View v) {
+                levelTop.cancelUrlImages();
                 cancel();
                 linkup.next();
             }

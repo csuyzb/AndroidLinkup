@@ -259,49 +259,49 @@ public class UserScore {
         }).start();
     }
 
-    /**
-     * 批量获取icon信息
-     * 
-     * @param urls
-     *            url地址集合
-     * @param handler
-     *            消息处理
-     */
-    public static void getTopImages(final List<String> urls, final Handler handler) {
-        new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                boolean hasImage = false;
-                List<Bitmap> images = new ArrayList<Bitmap>();
-                Bitmap bm = null;
-                for (int i = 0; i < urls.size(); i++) {
-                    bm = IconCacheUtil.getIcon(urls.get(i));
-                    if (bm == null) {
-                        try {
-                            bm = BitmapFactory.decodeStream((new URL(urls.get(i))).openStream());
-                            hasImage = true;
-                            IconCacheUtil.putIcon(urls.get(i), bm);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            bm = null;
-                        }
-                    } else {
-                        hasImage = true;
-                    }
-                    images.add(bm);
-                }
-                if (hasImage) {
-                    // 成功获取排名信息
-                    Message msg = new Message();
-                    msg.what = ViewSettings.MSG_TOPIMAGES_GET;
-                    msg.obj = images;
-                    handler.sendMessage(msg);
-                } else {
-                    // 网络或其它问题
-                    handler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION);
-                }
-            }
-        }).start();
-    }
+    // /**
+    // * 批量获取icon信息
+    // *
+    // * @param urls
+    // * url地址集合
+    // * @param handler
+    // * 消息处理
+    // */
+    // public static void getTopImages(final List<String> urls, final Handler handler) {
+    // new Thread(new Runnable() {
+    //
+    // @Override
+    // public void run() {
+    // boolean hasImage = false;
+    // List<Bitmap> images = new ArrayList<Bitmap>();
+    // Bitmap bm = null;
+    // for (int i = 0; i < urls.size(); i++) {
+    // bm = IconCacheUtil.getIcon(urls.get(i));
+    // if (bm == null) {
+    // try {
+    // bm = BitmapFactory.decodeStream((new URL(urls.get(i))).openStream());
+    // hasImage = true;
+    // IconCacheUtil.putIcon(urls.get(i), bm);
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // bm = null;
+    // }
+    // } else {
+    // hasImage = true;
+    // }
+    // images.add(bm);
+    // }
+    // if (hasImage) {
+    // // 成功获取排名信息
+    // Message msg = new Message();
+    // msg.what = ViewSettings.MSG_TOPIMAGES_GET;
+    // msg.obj = images;
+    // handler.sendMessage(msg);
+    // } else {
+    // // 网络或其它问题
+    // handler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION);
+    // }
+    // }
+    // }).start();
+    // }
 }

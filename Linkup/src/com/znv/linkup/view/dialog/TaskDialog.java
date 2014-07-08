@@ -45,6 +45,7 @@ public class TaskDialog extends Dialog implements IUpload {
 
             @Override
             public void onClick(View v) {
+                levelTop.cancelUrlImages();
                 cancel();
                 linkup.onBackPressed();
             }
@@ -139,6 +140,7 @@ public class TaskDialog extends Dialog implements IUpload {
 
         @Override
         public void onClick(View v) {
+            levelTop.cancelUrlImages();
             cancel();
             linkup.start();
         }
@@ -148,6 +150,7 @@ public class TaskDialog extends Dialog implements IUpload {
 
         @Override
         public void onClick(View v) {
+            levelTop.cancelUrlImages();
             cancel();
             linkup.next();
         }

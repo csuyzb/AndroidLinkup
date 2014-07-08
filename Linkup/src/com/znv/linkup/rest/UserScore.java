@@ -24,6 +24,7 @@ import com.znv.linkup.util.RestUtil;
  */
 public class UserScore {
     private static String USER_ADD_URI = ViewSettings.WebRoot + "/webapi/user/add";
+    private static String USER_UPDATE_URI = ViewSettings.WebRoot + "/webapi/user/update";
     private static String SCORE_ADD_URI = ViewSettings.WebRoot + "/webapi/score/add";
     private static String SCORE_GET_URI = ViewSettings.WebRoot + "/webapi/score/get";
     private static String TIME_ADD_URI = ViewSettings.WebRoot + "/webapi/time/add";
@@ -51,6 +52,41 @@ public class UserScore {
                 if (result != null) {
                     Message msg = new Message();
                     msg.what = ViewSettings.MSG_LOGIN;
+                    msg.obj = result;
+                    handler.sendMessage(msg);
+                } else {
+                    // 网络或其它问题
+                    handler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION);
+                }
+            }
+        }).start();
+    }
+
+    /**
+     * 更新用户的钻石和金币
+     * 
+     * @param userId
+     *            用户ID
+     * @param diamond
+     *            改变的钻石数
+     * @param gold
+     *            改变的金币数
+     * @param handler
+     *            消息处理
+     */
+    public static void updateAward(final String userId, int diamond, int gold, final Handler handler) {
+        final List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("userid", userId));
+        params.add(new BasicNameValuePair("diamond", String.valueOf(diamond)));
+        params.add(new BasicNameValuePair("gold", String.valueOf(gold)));
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                String result = RestUtil.post(USER_UPDATE_URI, params);
+                if (result != null) {
+                    Message msg = new Message();
+                    msg.what = ViewSettings.MSG_UPDATE_GOLD;
                     msg.obj = result;
                     handler.sendMessage(msg);
                 } else {

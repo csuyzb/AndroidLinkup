@@ -198,9 +198,4 @@ public class TimeDialog extends Dialog implements IUpload {
         // 获取排行榜
         UserScore.getTopTimes(resultInfo.getLevel(), levelTop.netMsgHandler);
     }
-
-    @Override
-    public void onAuthorizeClick() {
-
-    }
 }

@@ -15,13 +15,14 @@ import com.znv.linkup.R;
  * @author yzb
  * 
  */
-public class HelpDialog extends Dialog {
+public class ConfirmDialog extends Dialog {
 
-    public HelpDialog(Context context) {
+    public ConfirmDialog(Context context) {
         super(context, R.style.CustomDialogStyle);
-        setContentView(R.layout.help_dialog);
+        setContentView(R.layout.confirm_dialog);
         setCancelable(false);
         setCanceledOnTouchOutside(false);
+        setNegativeButton(null);
         setPositiveButton(null);
     }
 
@@ -32,7 +33,7 @@ public class HelpDialog extends Dialog {
      *            标题
      * @return 警告框实例
      */
-    public HelpDialog setTitle(String title) {
+    public ConfirmDialog setTitle(String title) {
         TextView tvTitle = (TextView) findViewById(R.id.dialog_title);
         tvTitle.setText(title);
         return this;
@@ -45,7 +46,7 @@ public class HelpDialog extends Dialog {
      *            信息
      * @return 警告框示例
      */
-    public HelpDialog setMessage(String msg) {
+    public ConfirmDialog setMessage(String msg) {
         TextView tvMessage = (TextView) findViewById(R.id.dialog_message);
         tvMessage.setText(msg);
         return this;
@@ -58,12 +59,35 @@ public class HelpDialog extends Dialog {
      *            确认按钮文字
      * @param listener
      *            确认操作
-     * @return 警告框实例
+     * @return 确认框实例
      */
-    public HelpDialog setPositiveButton(final View.OnClickListener listener) {
+    public ConfirmDialog setPositiveButton(final View.OnClickListener listener) {
         Button btn = (Button) findViewById(R.id.dialog_button_ok);
         btn.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                cancel();
+                if (listener != null) {
+                    listener.onClick(null);
+                }
+            }
+        });
+        return this;
+    }
+
+    /**
+     * 设置取消按钮
+     * 
+     * @param text
+     *            取消按钮文字
+     * @param listener
+     *            取消操作
+     * @return 确认框实例
+     */
+    public ConfirmDialog setNegativeButton(final View.OnClickListener listener) {
+        Button btn = (Button) findViewById(R.id.dialog_button_cancel);
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cancel();
@@ -81,7 +105,7 @@ public class HelpDialog extends Dialog {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Button btn = (Button) findViewById(R.id.dialog_button_ok);
+            Button btn = (Button) findViewById(R.id.dialog_button_cancel);
             btn.performClick();
             return true;
         }

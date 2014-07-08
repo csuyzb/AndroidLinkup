@@ -328,8 +328,4 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
     public void onTimeAdd(Message msg) {
     }
 
-    @Override
-    public void onAuthorizeClick() {
-    }
-
 }

@@ -58,7 +58,7 @@ public class UserInfo {
     }
 
     public void addDiamond(Context context, int addDiamond) {
-        CacheUtil.setBindStr(context, userId + "_diamond", String.valueOf(getDiamond(context) + addDiamond));
+        CacheUtil.setBindStr(context, userId + "_diamond", String.valueOf(getDiamond(context) + (addDiamond)));
     }
 
     public int getGold(Context context) {
@@ -75,7 +75,7 @@ public class UserInfo {
     }
 
     public void addGold(Context context, int addGold) {
-        CacheUtil.setBindStr(context, userId + "_gold", String.valueOf(getGold(context) + addGold));
+        CacheUtil.setBindStr(context, userId + "_gold", String.valueOf(getGold(context) + (addGold)));
     }
 
     public boolean isAward() {

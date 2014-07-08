@@ -12,7 +12,7 @@ public interface IUpload {
     /**
      * 点击验证时的处理
      */
-    void onAuthorizeClick();
+//    void onAuthorizeClick();
 
     /**
      * 登录成功后的处理

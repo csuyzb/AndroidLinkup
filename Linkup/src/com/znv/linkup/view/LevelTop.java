@@ -172,6 +172,12 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
                 }
             }
                 break;
+            case ViewSettings.MSG_UPDATE_GOLD: {
+                if (uploadListener != null) {
+                    uploadListener.onTimeAdd(msg);
+                }
+            }
+                break;
             case ViewSettings.MSG_SCORE_GET: {
                 showStatus(LevelTopStatus.TopInfo);
 
@@ -370,9 +376,6 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
         } catch (Exception ex) {
         }
         BaseActivity.soundMgr.select();
-        if (uploadListener != null) {
-            uploadListener.onAuthorizeClick();
-        }
     }
 
     private void authorize(Platform plat) {

@@ -212,9 +212,4 @@ public class TaskDialog extends Dialog implements IUpload {
     @Override
     public void onTimeAdd(Message msg) {
     }
-
-    @Override
-    public void onAuthorizeClick() {
-
-    }
 }

@@ -2,15 +2,24 @@ package com.znv.linkup;
 
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.core.config.RankCfg;
+import com.znv.linkup.db.DbScore;
+import com.znv.linkup.db.LevelScore;
+import com.znv.linkup.rest.UserScore;
+import com.znv.linkup.view.dialog.ConfirmDialog;
 import com.znv.linkup.view.indicator.CirclePageIndicator;
 import com.znv.linkup.view.indicator.Rank;
 import com.znv.linkup.view.indicator.RankAdapter;
@@ -91,6 +100,30 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
     }
 
     /**
+     * 处理网络消息回调的handler
+     */
+    @SuppressLint("HandlerLeak")
+    public Handler netMsgHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+            case ViewSettings.MSG_UPDATE_GOLD: {
+                onUpdateAward();
+            }
+                break;
+            case ViewSettings.MSG_NETWORK_EXCEPTION: {
+                Toast.makeText(RankActivity.this, R.string.network_exception, Toast.LENGTH_SHORT).show();
+            }
+                break;
+            }
+        }
+    };
+
+    public void onUpdateAward() {
+
+    }
+
+    /**
      * 异步加载关卡
      * 
      * @author yzb
@@ -117,12 +150,40 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
                 rankAdapter.setLevelListener(new Rank.ISelectedLevel() {
 
                     @Override
-                    public void onSelectedLevel(LevelCfg levelCfg) {
+                    public void onSelectedLevel(final LevelCfg levelCfg) {
+                        soundMgr.select();
                         if (levelCfg.isActive()) {
-                            soundMgr.select();
                             Intent intent = new Intent(RankActivity.this, GameActivity.class);
                             intent.putExtra("levelIndex", levelCfg.getLevelId());
                             startActivity(intent);
+                        } else {
+                            if (userInfo != null && userInfo.getDiamond(RankActivity.this) >= 5) {
+                                ConfirmDialog dialog = new ConfirmDialog(RankActivity.this);
+                                dialog.setTitle(RankActivity.this.getString(R.string.unlock_title));
+                                dialog.setMessage(RankActivity.this.getString(R.string.unlock_msg, levelCfg.getRankName() + "-" + levelCfg.getLevelName()));
+                                dialog.setPositiveButton(new View.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(View v) {
+                                        // 消耗钻石
+                                        userInfo.addDiamond(RankActivity.this, -5);
+                                        // 更新网络钻石数
+                                        UserScore.updateAward(userInfo.getUserId(), -5, 0, RankActivity.this.netMsgHandler);
+
+                                        // 解锁关卡
+                                        levelCfg.setActive(true);
+                                        LevelScore nls = new LevelScore(levelCfg.getLevelId());
+                                        nls.setIsActive(1);
+                                        DbScore.updateActive(nls);
+
+                                        // 进入关卡
+                                        Intent intent = new Intent(RankActivity.this, GameActivity.class);
+                                        intent.putExtra("levelIndex", levelCfg.getLevelId());
+                                        startActivity(intent);
+                                    }
+                                });
+                                dialog.show();
+                            }
                         }
                     }
                 });
@@ -145,5 +206,6 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
             // 更新
             rankAdapter.changeRankCfgs(rankCfgs, false);
         }
+
     }
 }

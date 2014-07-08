@@ -11,7 +11,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:drawableLeft="@drawable/ic_launcher"
+        android:drawableLeft="@drawable/success"
         android:gravity="center"
         android:paddingLeft="30dip"
         android:paddingRight="78dip"
@@ -43,13 +43,21 @@
         android:layout_marginBottom="20dp"
         android:gravity="bottom|center_horizontal" >
 
-        <TextView
+        <Button
             android:id="@+id/dialog_button_ok"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@drawable/next"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_bj"
+            android:drawableLeft="@drawable/ok"
             android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/submit"
             android:textColor="#ffa500" />
     </RelativeLayout>
 

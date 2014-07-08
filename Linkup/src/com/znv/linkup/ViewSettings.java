@@ -91,6 +91,11 @@ public class ViewSettings {
     public static final int MSG_TOPIMAGES_GET = 0x20;
 
     /**
+     * 更新用户的钻石和金币
+     */
+    public static final int MSG_UPDATE_GOLD = 0x21;
+
+    /**
      * 每种皮肤的图片数量
      */
     public static int SkinImageCount = 16;

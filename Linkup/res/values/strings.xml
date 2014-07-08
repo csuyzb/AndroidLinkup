@@ -50,5 +50,6 @@
     <string name="login_award">获得每日登录奖励10钻石100金币</string>
     <string name="unlock_title">强制解锁</string>
     <string name="unlock_msg">\n您确认消耗[5]钻石强制解锁关卡[%s]吗?</string>
+    <string name="share">分享</string>
 
 </resources>

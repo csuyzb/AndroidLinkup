@@ -14,19 +14,30 @@ The most interesting linkup game for android.
 
 应用截图
 
-![welcome](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/welcome.jpg)![classic](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/classic.jpg)![time](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/time.jpg)![task](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/task.jpg)
+![welcome](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/welcome.jpg)![classic](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/rank.jpg)![time](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/classic.jpg)![task](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/time.jpg)
 
 
 v1.4.0 规划
-1.收集金币和钻石
-2.抽奖，每日随机奖励一次
-3.完善项目主页和web排名查询
+1.收集钻石和金币,消耗钻石可以强制解锁关卡
+2.新增每日登录奖励
+3.完善排名查询
 
-v1.3.0 规划
+v1.3.1(2014-07-04)
+1.新增游戏公告
+2.新增分享到QQ好友，腾讯微博和微信好友
+3.优化游戏界面，修改排行榜昵称遮挡等问题
+4.优化关卡和游戏加载速度，使游戏更流畅
+
+v1.3.0(2014-06-26)
 1.支持闯关，计时，积分任务模式
 2.增加网络排行榜,每个关卡单独排名
 3.支持新浪微博和QQ登录
-4.支持分享到新浪微博/QQ好友/QQ空间/腾讯微博/微信好友和微信朋友圈
+4.支持分享到新浪微博，QQ空间和微信朋友圈
+
+v1.2.4(2014-06-19)
+1.新增QQ和微博登录 
+2.新增网络排行榜
+3.界面修改和优化 
 
 v1.2.3(2014-06-12)
 1.新增计时和任务模式

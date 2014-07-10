@@ -32,6 +32,7 @@ public class TaskDialog extends Dialog implements IUpload {
     private GameActivity linkup = null;
     private ResultInfo resultInfo = null;
     private LevelTop levelTop = null;
+    private ShareUtil shareHelper = null;
 
     public TaskDialog(final GameActivity linkup) {
         super(linkup, R.style.CustomDialogStyle);
@@ -39,6 +40,8 @@ public class TaskDialog extends Dialog implements IUpload {
         setContentView(R.layout.task_dialog);
         setCancelable(false);
         setCanceledOnTouchOutside(false);
+
+        shareHelper = new ShareUtil(getContext());
 
         TextView btnBack = (TextView) findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -64,12 +67,12 @@ public class TaskDialog extends Dialog implements IUpload {
                     View topMain = levelTop.findViewById(R.id.level_top_main);
                     // 带截图分享
                     if (topMain != null) {
-                        ShareUtil.shareMsgView(linkup, msg, topMain);
+                        shareHelper.shareMsgView(msg, topMain);
                     } else {
-                        ShareUtil.shareMsgView(linkup, msg, levelTop);
+                        shareHelper.shareMsgView(msg, levelTop);
                     }
                 } else {
-                    ShareUtil.shareMessage(linkup, msg);
+                    shareHelper.shareMessage(msg);
                 }
             }
         });

@@ -63,6 +63,13 @@
             android:keepScreenOn="true"
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name="com.znv.linkup.TopActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:keepScreenOn="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullscreenTheme" >
+        </activity>
 
         <service android:name="com.znv.linkup.sound.MusicService" >
             <intent-filter>
@@ -131,7 +138,6 @@
             android:name="api_key"
             android:value="YfBUoGO0hYg5t7ayNrzXmGSi" />
         <!-- Baidu push End -->
-
     </application>
 
 </manifest>

@@ -263,7 +263,7 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
             soundMgr.select();
             int modeIndex = Integer.parseInt((String) v.getTag());
             if (modeIndex >= 0 && modeIndex < 3) {
-                Intent intent = new Intent(WelcomeActivity.this, RankActivity.class);
+                Intent intent = new Intent(this, RankActivity.class);
                 intent.putExtra("modeIndex", modeIndex);
                 startActivity(intent);
             }
@@ -292,6 +292,8 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
             helper.setTitle(getString(R.string.help));
             helper.setMessage(getString(R.string.help_info));
             helper.show();
+            // Intent intent = new Intent(this, TopActivity.class);
+            // startActivity(intent);
         }
             break;
         case R.id.about: {

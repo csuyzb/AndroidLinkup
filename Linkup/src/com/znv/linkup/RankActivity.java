@@ -108,7 +108,7 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
         public void handleMessage(Message msg) {
             switch (msg.what) {
             case ViewSettings.MSG_UPDATE_GOLD: {
-                onUpdateAward();
+                Toast.makeText(RankActivity.this, R.string.unlock_success_msg, Toast.LENGTH_SHORT).show();
             }
                 break;
             case ViewSettings.MSG_NETWORK_EXCEPTION: {
@@ -118,10 +118,6 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
             }
         }
     };
-
-    public void onUpdateAward() {
-
-    }
 
     /**
      * 异步加载关卡

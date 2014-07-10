@@ -141,6 +141,11 @@ public class ViewSettings {
     public static int TopN = 3;
 
     /**
+     * 排行榜查询取前十
+     */
+    public static int TopRankN = 10;
+
+    /**
      * 网站的域名根目录
      */
     public static String WebRoot = "http://ttxl.aliapp.com";

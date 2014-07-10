@@ -1,0 +1,129 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/toplist"
+    android:orientation="vertical"
+    tools:context=".TopActivity" >
+
+    <LinearLayout
+        android:id="@+id/topUsers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="140dp"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/searchMax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tvModeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="游戏模式" />
+
+        <TextView
+            android:id="@+id/tvMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@id/tvModeTitle"
+            android:text="闯关" />
+
+        <TextView
+            android:id="@+id/tvRankTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvModeTitle"
+            android:layout_margin="5dp"
+            android:text="游戏等级" />
+
+        <TextView
+            android:id="@+id/tvRank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvMode"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@id/tvRankTitle"
+            android:text="经典" />
+
+        <TextView
+            android:id="@+id/tvLevelTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvRankTitle"
+            android:layout_margin="5dp"
+            android:text="游戏关卡" />
+
+        <TextView
+            android:id="@+id/tvLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvRank"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@id/tvLevelTitle"
+            android:text="111" />
+
+        <Button
+            android:id="@+id/btnSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="40dp"
+            android:drawableLeft="@drawable/search"
+            android:onClick="search" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/searchMini"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/tvCurLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前关卡[]" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btnPreLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="searchPre"
+                android:text="上一关" >
+            </Button>
+
+            <Button
+                android:id="@+id/btnNextLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="searchNext"
+                android:text="下一关" >
+            </Button>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="showSearchMax"
+                android:text="高级查询" >
+            </Button>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

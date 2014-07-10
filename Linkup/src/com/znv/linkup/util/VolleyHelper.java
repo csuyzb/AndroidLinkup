@@ -3,7 +3,6 @@ package com.znv.linkup.util;
 import org.json.JSONArray;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.android.volley.RequestQueue;
@@ -47,13 +46,15 @@ public class VolleyHelper {
             @Override
             public void onResponse(JSONArray response) {
                 if (listener != null) {
-                    listener.netMsgHandle(response);
+                    listener.onNetMsg(response);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError e) {
-                Log.d("VolleyUtil-getJsonArray", e.getMessage());
+                if (listener != null) {
+                    listener.onError(e);
+                }
             }
         });
         requestQueue.add(jsonObjectRequest);

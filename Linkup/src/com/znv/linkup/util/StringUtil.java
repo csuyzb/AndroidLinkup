@@ -1,5 +1,7 @@
 package com.znv.linkup.util;
 
+import android.util.Log;
+
 /**
  * 字符串处理帮助类
  * 
@@ -7,6 +9,22 @@ package com.znv.linkup.util;
  * 
  */
 public class StringUtil {
+
+    /**
+     * 转为UTF-8编码
+     * 
+     * @param str
+     *            字符串
+     * @return utf-8编码字符串
+     */
+    public static String toUtf8(String str) {
+        try {
+            return new String(str.getBytes("ISO8859_1"), "UTF-8");
+        } catch (Exception e) {
+            Log.d("StringUtil-toUtf8", e.getMessage());
+            return str;
+        }
+    }
 
     /**
      * 将时间秒数转化为格式mm:ss

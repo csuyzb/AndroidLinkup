@@ -26,9 +26,9 @@ public class UserScore {
     private static String USER_ADD_URI = ViewSettings.WebRoot + "/webapi/user/add";
     private static String USER_UPDATE_URI = ViewSettings.WebRoot + "/webapi/user/update";
     private static String SCORE_ADD_URI = ViewSettings.WebRoot + "/webapi/score/add";
-    private static String SCORE_GET_URI = ViewSettings.WebRoot + "/webapi/score/get";
+    public static String SCORE_GET_URI = ViewSettings.WebRoot + "/webapi/score/get";
     private static String TIME_ADD_URI = ViewSettings.WebRoot + "/webapi/time/add";
-    private static String TIME_GET_URI = ViewSettings.WebRoot + "/webapi/time/get";
+    public static String TIME_GET_URI = ViewSettings.WebRoot + "/webapi/time/get";
 
     /**
      * 记录用户登录

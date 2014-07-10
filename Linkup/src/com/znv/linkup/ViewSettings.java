@@ -148,7 +148,7 @@ public class ViewSettings {
     /**
      * 网站的域名根目录
      */
-    public static String WebRoot = "http://ttxl.aliapp.com";
+    public static String WebRoot = "http://xxllk.aliapp.com";
 
     /**
      * 数据缓存版本字符串

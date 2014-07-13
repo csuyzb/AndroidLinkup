@@ -6,25 +6,38 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
+import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.rest.NetMsgListener;
 import com.znv.linkup.rest.UserScore;
 import com.znv.linkup.util.StringUtil;
 import com.znv.linkup.util.VolleyHelper;
 
-public class TopActivity extends Activity {
+/**
+ * 排行榜
+ * 
+ * @author yzb
+ * 
+ */
+public class TopActivity extends BaseActivity {
 
+    private int curMode = 0;
+    private int curRank = 0;
     private int curLevel = 0;
+    private static int[] modeRanks = new int[] { R.array.mode0ranks, R.array.mode1ranks, R.array.mode2ranks };
     private VolleyHelper volley = null;
     private LinearLayout topList = null;
     private List<TopItemHolder> holders = null;
@@ -47,10 +60,9 @@ public class TopActivity extends Activity {
             item.tvScore = (TextView) view.findViewById(R.id.score);
             item.tvName = (TextView) view.findViewById(R.id.name);
             item.tvDate = (TextView) view.findViewById(R.id.date);
-            // item.tvTime = (TextView) view.findViewById(R.id.time);
             holders.add(item);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-            params.setMargins(10, 2, 0, 0);
+            params.setMargins(2, 2, 2, 0);
             if (i % 2 == 0) {
                 view.setBackgroundColor(0xcccccccc);
             } else {
@@ -61,33 +73,83 @@ public class TopActivity extends Activity {
             view.setVisibility(View.INVISIBLE);
             topList.addView(view);
         }
-        topList.setVisibility(View.GONE);
-    }
+        topList.setVisibility(View.INVISIBLE);
 
-    public void search(View v) {
+        setSelectItem();
+
+        // 查询当前关卡排名
         searchCurLevel();
     }
 
-    public void searchPre(View v) {
-        if (curLevel > 0) {
-            curLevel--;
-            searchCurLevel();
-        }
+    /**
+     * 设置选项卡动作
+     */
+    private void setSelectItem() {
+        Spinner spModes = (Spinner) findViewById(R.id.spModes);
+        final Spinner spRanks = (Spinner) findViewById(R.id.spRanks);
+        Spinner spLevels = (Spinner) findViewById(R.id.spLevels);
+        spModes.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                curMode = position;
+                // // 设置下拉列表风格
+                String[] ranks = TopActivity.this.getResources().getStringArray(modeRanks[curMode]);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(TopActivity.this, android.R.layout.simple_spinner_item, ranks);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spRanks.setAdapter(adapter);
+                curRank = 0;
+                searchCurLevel();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
+
+        spRanks.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                curRank = position;
+                searchCurLevel();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
+
+        spLevels.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                curLevel = position;
+                searchCurLevel();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
     }
 
-    public void searchNext(View v) {
-        if (curLevel + 1 < 264) {
-            curLevel++;
-            searchCurLevel();
-        }
-    }
-
+    /*
+     * 查询当前关卡排名
+     */
     private void searchCurLevel() {
         volley.cancelAll();
-        getTopInfos(curLevel);
+        getTopInfos();
     }
 
-    public void getTopInfos(final int level) {
+    /**
+     * 获取排名信息
+     */
+    private void getTopInfos() {
+        LevelCfg levelCfg = modeCfgs.get(curMode).getRankInfos().get(curRank).getLevelInfos().get(curLevel);
+        String levelName = modeCfgs.get(curMode).getModeName() + "-" + levelCfg.getRankName() + "-" + levelCfg.getLevelName();
+        ((TextView) findViewById(R.id.tvCurLevel)).setText(getString(R.string.level_title, levelName));
+        final int level = levelCfg.getLevelId();
         String uri = UserScore.SCORE_GET_URI + "?level=" + String.valueOf(level) + "&top=" + String.valueOf(ViewSettings.TopRankN);
         if (isTimeMode(level)) {
             uri = UserScore.TIME_GET_URI + "?level=" + String.valueOf(level) + "&top=" + String.valueOf(ViewSettings.TopRankN);
@@ -101,7 +163,7 @@ public class TopActivity extends Activity {
                         topList.getChildAt(i).setVisibility(View.VISIBLE);
                         JSONObject obj = t.getJSONObject(i);
                         TopItemHolder item = holders.get(i);
-                        item.tvOrder.setText(String.valueOf(i + 1));
+                        setOrder(item.tvOrder, i);
                         item.tvName.setText(StringUtil.toUtf8(obj.getString("userName")));
                         if (isTimeMode(level)) {
                             item.tvScore.setText(StringUtil.secondToString(obj.getInt("time")));
@@ -109,14 +171,12 @@ public class TopActivity extends Activity {
                             item.tvScore.setText(String.valueOf(obj.getInt("score")));
                         }
                         item.tvDate.setText(obj.getString("pubTime").substring(0, 10));
-                        // item.tvTime.setText(obj.getString("pubTime").substring(11));
 
                         volley.loadImage(item.ivIcon, obj.getString("userIcon"));
                     }
                     for (int i = t.length(); i < ViewSettings.TopRankN; i++) {
                         topList.getChildAt(i).setVisibility(View.INVISIBLE);
                     }
-                    findViewById(R.id.searchMax).setVisibility(View.GONE);
                     findViewById(R.id.searchMini).setVisibility(View.VISIBLE);
                     topList.setVisibility(View.VISIBLE);
                 } catch (Exception e) {
@@ -131,16 +191,43 @@ public class TopActivity extends Activity {
         });
     }
 
-    public boolean isTimeMode(int level) {
+    /**
+     * 设置排名列
+     * 
+     * @param tvOrder
+     *            排名列的TextView
+     * @param index
+     *            排名
+     */
+    private void setOrder(TextView tvOrder, int index) {
+        if (index == 0) {
+            tvOrder.setBackgroundResource(R.drawable.gold);
+        } else if (index == 1) {
+            tvOrder.setBackgroundResource(R.drawable.silver);
+        } else if (index == 2) {
+            tvOrder.setBackgroundResource(R.drawable.bronze);
+        } else {
+            tvOrder.setText(String.valueOf(index + 1));
+        }
+    }
+
+    /**
+     * 是否是时间模式
+     * 
+     * @param level
+     *            关卡序号
+     * @return 时间模式:true
+     */
+    private boolean isTimeMode(int level) {
         return level >= 120 && level < 192;
     }
 
-    public void showSearchMax(View v) {
-        findViewById(R.id.searchMax).setVisibility(View.VISIBLE);
-        findViewById(R.id.searchMini).setVisibility(View.GONE);
-        topList.setVisibility(View.GONE);
-    }
-
+    /**
+     * 控件缓存
+     * 
+     * @author yzb
+     * 
+     */
     class TopItemHolder {
         TextView tvOrder;
         ImageView ivIcon;

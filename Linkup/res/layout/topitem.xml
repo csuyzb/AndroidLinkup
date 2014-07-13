@@ -7,11 +7,11 @@
 
     <TextView
         android:id="@+id/order"
-        android:layout_width="30dp"
+        android:layout_width="25dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_margin="5dp"
-        android:text="10"
+        android:gravity="center"
         android:textColor="#FFFF3333"
         android:textSize="20sp" />
 
@@ -35,7 +35,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
-            android:text="550"
             android:textColor="#FFFF3333"
             android:textSize="15sp" />
 
@@ -45,7 +44,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
-            android:text="白杨"
             android:textColor="#FFFF3333"
             android:textSize="12sp" />
     </LinearLayout>
@@ -63,23 +61,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"
             android:layout_margin="2dp"
-            android:layout_weight="1"
             android:gravity="right"
-            android:text="2014-06-14"
             android:textColor="#88888888"
             android:textSize="14sp" />
-
-        <!-- <TextView -->
-        <!-- android:id="@+id/time" -->
-        <!-- android:layout_width="wrap_content" -->
-        <!-- android:layout_height="wrap_content" -->
-        <!-- android:layout_gravity="right|center_vertical" -->
-        <!-- android:layout_marginLeft="2dp" -->
-        <!-- android:layout_marginRight="2dp" -->
-        <!-- android:gravity="right" -->
-        <!-- android:text="00:00:00" -->
-        <!-- android:textColor="#88888888" -->
-        <!-- android:textSize="14sp" /> -->
     </LinearLayout>
 
 </LinearLayout>

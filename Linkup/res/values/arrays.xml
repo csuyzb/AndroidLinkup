@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="modes">
+        <item>闯关</item>
+        <item>计时</item>
+        <item>任务</item>
+    </string-array>
+    <string-array name="mode0ranks">
+        <item>经典连连看</item>
+        <item>水果连连看</item>
+        <item>动物连连看</item>
+        <item>宠物连连看</item>
+        <item>农场连连看</item>
+    </string-array>
+    <string-array name="mode1ranks">
+        <item>计时初级</item>
+        <item>计时中级</item>
+        <item>计时高级</item>
+    </string-array>
+    <string-array name="mode2ranks">
+        <item>简单任务</item>
+        <item>一般任务</item>
+        <item>困难任务</item>
+    </string-array>
+    <string-array name="levels">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+    </string-array>
+
+</resources>

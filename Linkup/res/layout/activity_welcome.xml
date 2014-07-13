@@ -101,7 +101,7 @@
             android:layout_weight="1"
             android:drawableTop="@drawable/more"
             android:gravity="center"
-            android:text="@string/help" />
+            android:text="@string/top_search" />
 
         <TextView
             android:id="@+id/about"

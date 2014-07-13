@@ -8,7 +8,7 @@
     <string name="help">帮助</string>
     <string name="help_info">将2个相同的图片连接起来,连线不多于3根,就可以成功将图片消除。\n微博或QQ登录后可以参与网络排行,还能将成就分享到QQ,微博和微信等平台。</string>
     <string name="about">关于</string>
-    <string name="about_info">应用名称：休闲连连看 \n版本编号：1.3.2\n应用作者：白杨，神保\n官方微信：xx-llk\n官网：http://xxllk.aliapp.com</string>
+    <string name="about_info">应用名称：休闲连连看 \n版本编号：1.3.3\n应用作者：白杨，神保\n官方微信：xx-llk\n官网：http://xxllk.aliapp.com</string>
     <string name="submit">确定</string>
     <string name="cancel">取消</string>
     <string name="back">返回</string>
@@ -55,5 +55,11 @@
     <string name="share_success">分享成功,奖励5钻石!</string>
     <string name="top_net_error">获取数据失败,请检查网络设置!</string>
     <string name="top_data_error">获取或解析数据失败!</string>
+    <string name="level_title">关卡:[%s]</string>
+    <string name="select_mode">请选择游戏模式:</string>
+    <string name="select_rank">请选择游戏级别:</string>
+    <string name="select_level">请选择游戏关卡:</string>
+    <string name="top_search">排名</string>
+    
 
 </resources>

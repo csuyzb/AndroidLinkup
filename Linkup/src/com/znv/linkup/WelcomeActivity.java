@@ -288,12 +288,12 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
         }
             break;
         case R.id.help: {
-            HelpDialog helper = new HelpDialog(this);
-            helper.setTitle(getString(R.string.help));
-            helper.setMessage(getString(R.string.help_info));
-            helper.show();
-            // Intent intent = new Intent(this, TopActivity.class);
-            // startActivity(intent);
+            // HelpDialog helper = new HelpDialog(this);
+            // helper.setTitle(getString(R.string.help));
+            // helper.setMessage(getString(R.string.help_info));
+            // helper.show();
+            Intent intent = new Intent(this, TopActivity.class);
+            startActivity(intent);
         }
             break;
         case R.id.about: {

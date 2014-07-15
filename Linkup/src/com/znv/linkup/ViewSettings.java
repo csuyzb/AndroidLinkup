@@ -153,7 +153,7 @@ public class ViewSettings {
     /**
      * 数据缓存版本字符串
      */
-    public static String CacheVersion = "120";
+    public static String CacheVersion = "120_24";
 
     /**
      * 全局配置的 Shared Preference
@@ -171,9 +171,9 @@ public class ViewSettings {
     public static int DbVersion = 3;
 
     /**
-     * 初始激活的关卡，按升序排列
+     * 初始激活的关卡，按升序排列0, 1, 2, 3, 24, 25, 26, 27, 48, 49, 50, 51, 120, 121, 122, 123, 192, 193, 194, 195
      */
-    public static int[] DefaultActiveLevels = new int[] { 0, 1, 2, 3, 24, 25, 26, 27, 48, 49, 50, 51, 120, 121, 122, 123, 192, 193, 194, 195 };
+    public static int[] DefaultActiveLevels = new int[] {  };
 
     /**
      * 两次back退出间的间隔

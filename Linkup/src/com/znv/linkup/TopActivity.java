@@ -75,10 +75,12 @@ public class TopActivity extends BaseActivity {
         }
         topList.setVisibility(View.INVISIBLE);
 
-        setSelectItem();
-
         // 查询当前关卡排名
-        searchCurLevel();
+        // 主动触发mode的itemselected事件
+        // searchCurLevel();
+
+        // 设置查询条件
+        setSelectItem();
     }
 
     /**
@@ -97,9 +99,11 @@ public class TopActivity extends BaseActivity {
                 String[] ranks = TopActivity.this.getResources().getStringArray(modeRanks[curMode]);
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(TopActivity.this, android.R.layout.simple_spinner_item, ranks);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                // 防止触发Rank的ItemSelected事件
                 spRanks.setAdapter(adapter);
-                curRank = 0;
-                searchCurLevel();
+                if (curRank == 0) {
+                    searchCurLevel();
+                }
             }
 
             @Override
@@ -107,32 +111,40 @@ public class TopActivity extends BaseActivity {
             }
         });
 
-        spRanks.setOnItemSelectedListener(new OnItemSelectedListener() {
+        spRanks.setOnItemSelectedListener(rankSelectedListener);
 
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        spLevels.setOnItemSelectedListener(levelSelectedListener);
+    }
+
+    OnItemSelectedListener rankSelectedListener = new OnItemSelectedListener() {
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            if (curRank != position) {
                 curRank = position;
                 searchCurLevel();
             }
+        }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-            }
-        });
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
+        }
+    };
 
-        spLevels.setOnItemSelectedListener(new OnItemSelectedListener() {
+    OnItemSelectedListener levelSelectedListener = new OnItemSelectedListener() {
 
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            if (curLevel != position) {
                 curLevel = position;
                 searchCurLevel();
             }
+        }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-            }
-        });
-    }
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
+        }
+    };
 
     /*
      * 查询当前关卡排名
@@ -220,6 +232,16 @@ public class TopActivity extends BaseActivity {
      */
     private boolean isTimeMode(int level) {
         return level >= 120 && level < 192;
+    }
+
+    @Override
+    protected void playMusic() {
+
+    }
+
+    @Override
+    protected void stopMusic() {
+
     }
 
     /**

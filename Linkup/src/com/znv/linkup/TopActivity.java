@@ -76,8 +76,7 @@ public class TopActivity extends BaseActivity {
         topList.setVisibility(View.INVISIBLE);
 
         // 查询当前关卡排名
-        // 主动触发mode的itemselected事件
-        // searchCurLevel();
+        searchCurLevel();
 
         // 设置查询条件
         setSelectItem();
@@ -94,15 +93,17 @@ public class TopActivity extends BaseActivity {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                curMode = position;
-                // // 设置下拉列表风格
-                String[] ranks = TopActivity.this.getResources().getStringArray(modeRanks[curMode]);
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(TopActivity.this, android.R.layout.simple_spinner_item, ranks);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                // 防止触发Rank的ItemSelected事件
-                spRanks.setAdapter(adapter);
-                if (curRank == 0) {
-                    searchCurLevel();
+                if (curMode != position) {
+                    curMode = position;
+                    // // 设置下拉列表风格
+                    String[] ranks = TopActivity.this.getResources().getStringArray(modeRanks[curMode]);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(TopActivity.this, android.R.layout.simple_spinner_item, ranks);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    // 防止触发Rank的ItemSelected事件
+                    spRanks.setAdapter(adapter);
+                    if (curRank == 0) {
+                        searchCurLevel();
+                    }
                 }
             }
 

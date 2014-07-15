@@ -1,6 +1,7 @@
 package com.znv.linkup.rest;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import com.znv.linkup.util.CacheUtil;
 
@@ -86,11 +87,18 @@ public class UserInfo {
         this.isAward = isAward;
     }
 
+    public Bitmap getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(Bitmap userImage) {
+        this.userImage = userImage;
+    }
+
     private String userId;
     private String userName;
     private String userGender;
     private String userIcon;
     private boolean isAward = false;
-    // private int diamond;
-    // private int gold;
+    private Bitmap userImage;
 }

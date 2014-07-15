@@ -8,7 +8,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-import com.znv.linkup.ViewSettings;
 import com.znv.linkup.core.config.RankCfg;
 import com.znv.linkup.view.indicator.Rank.RankHolder;
 
@@ -94,7 +93,7 @@ public class RankAdapter extends PagerAdapter {
      */
     private void updateRankInfo(int i) {
         RankHolder holder = ranks[i].getRankHolder();
-        holder.tvTitle.setText(ViewSettings.RankPrefix[i] + rankCfgs.get(i).getRankName());
+        holder.tvTitle.setText(rankCfgs.get(i).getRankName());
     }
 
     /**

@@ -260,34 +260,14 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
                 }
             }
                 break;
-            // case ViewSettings.MSG_TOPIMAGES_GET: {
-            // @SuppressWarnings("unchecked")
-            // List<Bitmap> images = (List<Bitmap>) msg.obj;
-            // int topImageWidth = ViewSettings.TopImageWidth;
-            // if (images != null && images.size() > 0) {
-            // if (images.get(0) != null) {
-            // holder.ivgoldIcon.setImageBitmap(ImageUtil.scaleBitmap(images.get(0), topImageWidth, topImageWidth));
-            // }
-            // if (images.size() > 1) {
-            // if (images.get(1) != null) {
-            // holder.ivsilverIcon.setImageBitmap(ImageUtil.scaleBitmap(images.get(1), topImageWidth, topImageWidth));
-            // }
-            //
-            // if (images.size() > 2) {
-            // if (images.get(2) != null) {
-            // holder.ivthirdIcon.setImageBitmap(ImageUtil.scaleBitmap(images.get(2), topImageWidth, topImageWidth));
-            // }
-            // }
-            // }
-            // }
-            // }
-            // break;
             case ViewSettings.MSG_IMAGE_GET: {
                 Bitmap bm = (Bitmap) msg.obj;
                 if (bm != null) {
                     showStatus(LevelTopStatus.UserInfo);
 
-                    holder.ivIcon.setImageBitmap(ImageUtil.roundBitmap(ImageUtil.scaleBitmap(bm, ViewSettings.UserImageWidth, ViewSettings.UserImageWidth)));
+                    Bitmap bmRound = ImageUtil.roundBitmap(ImageUtil.scaleBitmap(bm, ViewSettings.UserImageWidth, ViewSettings.UserImageWidth));
+                    WelcomeActivity.userInfo.setUserImage(bmRound);
+                    holder.ivIcon.setImageBitmap(bmRound);
                     if (WelcomeActivity.userInfo != null) {
                         holder.tvUser.setText(WelcomeActivity.userInfo.getUserName() + getContext().getString(R.string.user_hello));
                         holder.tvDiamond.setText(String.valueOf(WelcomeActivity.userInfo.getDiamond(getContext())));
@@ -337,8 +317,13 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
      * 更新用户钻石和金币信息
      */
     public void updateUserInfo() {
-        holder.tvDiamond.setText(String.valueOf(WelcomeActivity.userInfo.getDiamond(getContext())));
-        holder.tvGold.setText(String.valueOf(WelcomeActivity.userInfo.getGold(getContext())));
+        if (WelcomeActivity.userInfo != null) {
+            showStatus(LevelTopStatus.UserInfo);
+            holder.ivIcon.setImageBitmap(WelcomeActivity.userInfo.getUserImage());
+            holder.tvUser.setText(WelcomeActivity.userInfo.getUserName() + getContext().getString(R.string.user_hello));
+            holder.tvDiamond.setText(String.valueOf(WelcomeActivity.userInfo.getDiamond(getContext())));
+            holder.tvGold.setText(String.valueOf(WelcomeActivity.userInfo.getGold(getContext())));
+        }
     }
 
     /**

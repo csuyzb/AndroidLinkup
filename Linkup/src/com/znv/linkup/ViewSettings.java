@@ -173,7 +173,7 @@ public class ViewSettings {
     /**
      * 初始激活的关卡，按升序排列0, 1, 2, 3, 24, 25, 26, 27, 48, 49, 50, 51, 120, 121, 122, 123, 192, 193, 194, 195
      */
-    public static int[] DefaultActiveLevels = new int[] {  };
+    public static int[] DefaultActiveLevels = new int[] {};
 
     /**
      * 两次back退出间的间隔
@@ -198,9 +198,14 @@ public class ViewSettings {
     public static int[] GameBgImageIds = new int[] { R.drawable.bg1, R.drawable.bg2, R.drawable.bg3, R.drawable.bg4, R.drawable.bg5 };
 
     /**
+     * 游戏级别背景颜色
+     */
+    public static int[] RankBgColors = new int[] { 0xff89c184, 0xffbbcc92, 0xff53a7a8, 0xff83608d, 0xffccac90 };
+
+    /**
      * 等级名称前缀
      */
-    public static String[] RankPrefix = new String[] { "一.", "二.", "三.", "四.", "五.", "六.", "七.", "八.", "九.", "十." };
+    // public static String[] RankPrefix = new String[] { "一.", "二.", "三.", "四.", "五.", "六.", "七.", "八.", "九.", "十." };
 
     /**
      * 游戏评级

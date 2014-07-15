@@ -35,10 +35,9 @@
             android:id="@+id/rankName"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rankname"
             android:gravity="center"
             android:textColor="@color/rank_title_color"
-            android:textSize="24sp" />
+            android:textSize="28sp" />
 
         <!-- <TextView -->
         <!-- android:id="@+id/rankStars" -->
@@ -69,7 +68,7 @@
         android:gravity="center"
         android:numColumns="4"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="8dp" >
+        android:verticalSpacing="10dp" >
     </GridView>
 
 </LinearLayout>

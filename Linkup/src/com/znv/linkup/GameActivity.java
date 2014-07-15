@@ -127,7 +127,10 @@ public class GameActivity extends BaseActivity implements IGameAction {
         holder.tvLevel.setText(curLevelCfg.getRankName() + "-" + curLevelCfg.getLevelName());
         holder.pbTime.setMax(curLevelCfg.getLevelTime());
         holder.tvMaxScore.setText(getString(R.string.game_level_record) + String.valueOf(curLevelCfg.getMaxScore()));
-        holder.flBackground.setBackgroundResource(ViewSettings.GameBgImageIds[curLevelCfg.getLevelBackground()]);
+        // 随机背景
+        int bgIndex = (int) (Math.random() * ViewSettings.GameBgImageIds.length);
+        holder.flBackground.setBackgroundResource(ViewSettings.GameBgImageIds[bgIndex]);
+        // holder.flBackground.setBackgroundResource(ViewSettings.GameBgImageIds[curLevelCfg.getLevelBackground()]);
         if (curLevelCfg.getLevelMode() == GameMode.Level) {
             holder.tsScore.setText("0");
         } else if (curLevelCfg.getLevelMode() == GameMode.Time) {

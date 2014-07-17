@@ -12,6 +12,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.ImageLoader.ImageListener;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.NetworkImageView;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.znv.linkup.R;
 import com.znv.linkup.rest.NetMsgListener;
@@ -58,6 +59,26 @@ public class VolleyHelper {
             }
         });
         requestQueue.add(jsonObjectRequest);
+    }
+
+    public void getString(String url, final NetMsgListener<String> listener) {
+
+        StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if (listener != null) {
+                    listener.onNetMsg(response);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError e) {
+                if (listener != null) {
+                    listener.onError(e);
+                }
+            }
+        });
+        requestQueue.add(stringRequest);
     }
 
     /**

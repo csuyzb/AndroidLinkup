@@ -137,7 +137,19 @@ public class UserScore {
      *            消息处理
      */
     public static void getTopScores(int level, final Handler handler) {
-        final String uri = SCORE_GET_URI + "?level=" + String.valueOf(level) + "&top=" + String.valueOf(ViewSettings.TopN);
+        getTopScores(level, ViewSettings.TopN, handler);
+    }
+
+    /**
+     * 按关卡获取排名信息
+     * 
+     * @param level
+     *            关卡id
+     * @param handler
+     *            消息处理
+     */
+    public static void getTopScores(int level, int topN, final Handler handler) {
+        final String uri = SCORE_GET_URI + "?level=" + String.valueOf(level) + "&top=" + String.valueOf(topN);
         new Thread(new Runnable() {
 
             @Override
@@ -197,7 +209,19 @@ public class UserScore {
      *            消息处理
      */
     public static void getTopTimes(int level, final Handler handler) {
-        final String uri = TIME_GET_URI + "?level=" + String.valueOf(level) + "&top=" + String.valueOf(ViewSettings.TopN);
+        getTopTimes(level, ViewSettings.TopN, handler);
+    }
+
+    /**
+     * 按关卡获取排名信息
+     * 
+     * @param level
+     *            关卡id
+     * @param handler
+     *            消息处理
+     */
+    public static void getTopTimes(int level, int topN, final Handler handler) {
+        final String uri = TIME_GET_URI + "?level=" + String.valueOf(level) + "&top=" + String.valueOf(topN);
         new Thread(new Runnable() {
 
             @Override

@@ -95,10 +95,19 @@ public class UserInfo {
         this.userImage = userImage;
     }
 
+    public int getTotalRank() {
+        return totalRank;
+    }
+
+    public void setTotalRank(int totalRank) {
+        this.totalRank = totalRank;
+    }
+
     private String userId;
     private String userName;
     private String userGender;
     private String userIcon;
     private boolean isAward = false;
     private Bitmap userImage;
+    private int totalRank;
 }

@@ -197,11 +197,11 @@ public class GameActivity extends BaseActivity implements IGameAction {
         int levelWidth = holder.screenWidth / (levelCfg.getXSize() - 1);
         // 每行大于6个游戏图标时不保留边距
         if (levelCfg.getXSize() > 8) {
-            levelWidth = holder.screenWidth / (levelCfg.getXSize() - 2);
+            levelWidth = (int) (holder.screenWidth / (levelCfg.getXSize() - 1.6));
         }
         int levelHeight = (holder.screenHeight - heightReserve) / levelCfg.getYSize();
         // 像素调整为2的倍数
-        int newSize = (Math.min(levelWidth, levelHeight) / 2) * 2;
+        int newSize = (Math.min(levelWidth, levelHeight) / 4) * 4;
         int beginX = (holder.screenWidth - newSize * levelCfg.getXSize()) / 2;
         int beginY = (holder.screenHeight - newSize * levelCfg.getYSize()) / 2;
         levelCfg.setPieceWidth(newSize);

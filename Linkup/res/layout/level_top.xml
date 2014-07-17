@@ -45,6 +45,7 @@
         android:id="@+id/user_info"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
         android:background="#88888888"
         android:orientation="horizontal"
         android:visibility="gone" >
@@ -111,6 +112,27 @@
 
             <TextView
                 android:id="@+id/tvCoin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:textColor="#fff4a460"
+                android:textSize="16sp" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tvRankTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:text="@string/total_rank"
+                android:textColor="#ffffcc33"
+                android:textSize="14sp" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tvTotalRank"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

@@ -44,6 +44,27 @@ public class RestUtil {
         return null;
     }
 
+    // /**
+    // * 访问REST GET接口，返回字符串数据
+    // *
+    // * @param uri
+    // * REST的URI
+    // * @return 字符串数据
+    // */
+    // public static String getZip(String uri) {
+    // HttpClient client = new DefaultHttpClient();
+    // HttpGet request = new HttpGet(uri);
+    // try {
+    // HttpResponse response = client.execute(request);
+    // if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+    // return EntityUtils.toString(response.getEntity());
+    // }
+    // } catch (Exception e) {
+    // Log.d("REST-GET", e.getMessage());
+    // }
+    // return null;
+    // }
+
     /**
      * 访问REST POST接口，返回字符串
      * 

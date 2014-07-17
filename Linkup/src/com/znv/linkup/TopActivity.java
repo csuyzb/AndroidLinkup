@@ -6,7 +6,10 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -37,6 +40,7 @@ public class TopActivity extends BaseActivity {
     private int curMode = 0;
     private int curRank = 0;
     private int curLevel = 0;
+    private int levelIndex = 0;
     private static int[] modeRanks = new int[] { R.array.mode0ranks, R.array.mode1ranks, R.array.mode2ranks };
     private VolleyHelper volley = null;
     private LinearLayout topList = null;
@@ -162,10 +166,12 @@ public class TopActivity extends BaseActivity {
         LevelCfg levelCfg = modeCfgs.get(curMode).getRankInfos().get(curRank).getLevelInfos().get(curLevel);
         String levelName = modeCfgs.get(curMode).getModeName() + "-" + levelCfg.getRankName() + "-" + levelCfg.getLevelName();
         ((TextView) findViewById(R.id.tvCurLevel)).setText(getString(R.string.level_title, levelName));
-        final int level = levelCfg.getLevelId();
-        String uri = UserScore.SCORE_GET_URI + "?level=" + String.valueOf(level) + "&top=" + String.valueOf(ViewSettings.TopRankN);
-        if (isTimeMode(level)) {
-            uri = UserScore.TIME_GET_URI + "?level=" + String.valueOf(level) + "&top=" + String.valueOf(ViewSettings.TopRankN);
+        levelIndex = levelCfg.getLevelId();
+        String uri = "?level=" + String.valueOf(levelIndex) + "&top=" + String.valueOf(ViewSettings.TopRankN);
+        if (isTimeMode(levelIndex)) {
+            uri = UserScore.TIME_GET_URI + uri;
+        } else {
+            uri = UserScore.SCORE_GET_URI + uri;
         }
         volley.getJsonArray(uri, new NetMsgListener<JSONArray>() {
 
@@ -178,7 +184,7 @@ public class TopActivity extends BaseActivity {
                         TopItemHolder item = holders.get(i);
                         setOrder(item.tvOrder, i);
                         item.tvName.setText(StringUtil.toUtf8(obj.getString("userName")));
-                        if (isTimeMode(level)) {
+                        if (isTimeMode(levelIndex)) {
                             item.tvScore.setText(StringUtil.secondToString(obj.getInt("time")));
                         } else {
                             item.tvScore.setText(String.valueOf(obj.getInt("score")));
@@ -203,6 +209,52 @@ public class TopActivity extends BaseActivity {
             }
         });
     }
+
+    /**
+     * 处理网络消息回调的handler
+     */
+    @SuppressLint("HandlerLeak")
+    public Handler netMsgHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+            case ViewSettings.MSG_SCORE_GET:
+            case ViewSettings.MSG_TIME_GET: {
+                try {
+                    String result = (String) msg.obj;
+                    JSONArray array = new JSONArray(result);
+                    for (int i = 0; i < array.length(); i++) {
+                        topList.getChildAt(i).setVisibility(View.VISIBLE);
+                        JSONObject obj = array.getJSONObject(i);
+                        TopItemHolder item = holders.get(i);
+                        setOrder(item.tvOrder, i);
+                        item.tvName.setText(StringUtil.toUtf8(obj.getString("userName")));
+                        if (isTimeMode(levelIndex)) {
+                            item.tvScore.setText(StringUtil.secondToString(obj.getInt("time")));
+                        } else {
+                            item.tvScore.setText(String.valueOf(obj.getInt("score")));
+                        }
+                        item.tvDate.setText(obj.getString("pubTime").substring(0, 10));
+
+                        volley.loadImage(item.ivIcon, obj.getString("userIcon"));
+                    }
+                    for (int i = array.length(); i < ViewSettings.TopRankN; i++) {
+                        topList.getChildAt(i).setVisibility(View.INVISIBLE);
+                    }
+                    findViewById(R.id.searchMini).setVisibility(View.VISIBLE);
+                    topList.setVisibility(View.VISIBLE);
+                } catch (Exception e) {
+                    Toast.makeText(TopActivity.this, getString(R.string.top_data_error), Toast.LENGTH_SHORT).show();
+                }
+            }
+                break;
+            case ViewSettings.MSG_NETWORK_EXCEPTION: {
+                Toast.makeText(TopActivity.this, getString(R.string.top_net_error), Toast.LENGTH_SHORT).show();
+            }
+                break;
+            }
+        }
+    };
 
     /**
      * 设置排名列

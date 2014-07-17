@@ -249,6 +249,7 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
                     userInfo.setDiamond(getContext(), json.getInt("diamond"));
                     userInfo.setGold(getContext(), json.getInt("gold"));
                     userInfo.setAward(json.getInt("isAward") == 1);
+                    userInfo.setTotalRank(json.getInt("totalRank"));
 
                     BaseActivity.userInfo = userInfo;
                     msg.obj = userInfo;
@@ -272,6 +273,11 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
                         holder.tvUser.setText(WelcomeActivity.userInfo.getUserName() + getContext().getString(R.string.user_hello));
                         holder.tvDiamond.setText(String.valueOf(WelcomeActivity.userInfo.getDiamond(getContext())));
                         holder.tvGold.setText(String.valueOf(WelcomeActivity.userInfo.getGold(getContext())));
+                        if (WelcomeActivity.userInfo.getTotalRank() == 0) {
+                            holder.tvTotalRank.setText(getResources().getString(R.string.total_rank_0));
+                        } else {
+                            holder.tvTotalRank.setText(String.valueOf(WelcomeActivity.userInfo.getTotalRank()));
+                        }
                         String text = getContext().getString(R.string.logining);
                         if (WelcomeActivity.userInfo.isAward()) {
                             text = getContext().getString(R.string.login_award);
@@ -317,12 +323,17 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
      * 更新用户钻石和金币信息
      */
     public void updateUserInfo() {
-        if (WelcomeActivity.userInfo != null) {
+        if (WelcomeActivity.userInfo != null && WelcomeActivity.userInfo.getUserImage() != null) {
             showStatus(LevelTopStatus.UserInfo);
             holder.ivIcon.setImageBitmap(WelcomeActivity.userInfo.getUserImage());
             holder.tvUser.setText(WelcomeActivity.userInfo.getUserName() + getContext().getString(R.string.user_hello));
             holder.tvDiamond.setText(String.valueOf(WelcomeActivity.userInfo.getDiamond(getContext())));
             holder.tvGold.setText(String.valueOf(WelcomeActivity.userInfo.getGold(getContext())));
+            if (WelcomeActivity.userInfo.getTotalRank() == 0) {
+                holder.tvTotalRank.setText(getResources().getString(R.string.total_rank_0));
+            } else {
+                holder.tvTotalRank.setText(String.valueOf(WelcomeActivity.userInfo.getTotalRank()));
+            }
         }
     }
 
@@ -353,6 +364,7 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
         holder.tvUser = (TextView) findViewById(R.id.tvUser);
         holder.tvDiamond = (TextView) findViewById(R.id.tvDiamond);
         holder.tvGold = (TextView) findViewById(R.id.tvCoin);
+        holder.tvTotalRank = (TextView) findViewById(R.id.tvTotalRank);
     }
 
     private void beforeLogin() {
@@ -426,6 +438,7 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
         public TextView tvUser;
         public TextView tvDiamond;
         public TextView tvGold;
+        public TextView tvTotalRank;
     }
 
 }

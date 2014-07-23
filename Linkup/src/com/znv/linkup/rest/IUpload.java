@@ -23,18 +23,10 @@ public interface IUpload {
     void onLoginSuccess(Message msg);
 
     /**
-     * 上传关卡分数后的处理
+     * 上传关卡分数和时间后的处理
      * 
      * @param msg
      *            消息
      */
-    void onScoreAdd(Message msg);
-
-    /**
-     * 上传关卡时间后的处理
-     * 
-     * @param msg
-     *            消息
-     */
-    void onTimeAdd(Message msg);
+    void onLevelResultAdd(Message msg);
 }

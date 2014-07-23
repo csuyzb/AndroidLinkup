@@ -31,8 +31,8 @@ public class DbScore {
      */
     public static void updateScore(LevelScore levelScore) {
         SQLiteDatabase db = database.getWritableDatabase();
-        String sql = "update scores set maxscore=?, star=? where level=?";
-        db.execSQL(sql, new Object[] { levelScore.getMaxScore(), levelScore.getStar(), levelScore.getLevel() });
+        String sql = "update scores set maxscore=?,mintime=?, star=? where level=?";
+        db.execSQL(sql, new Object[] { levelScore.getMaxScore(), levelScore.getMinTime(), levelScore.getStar(), levelScore.getLevel() });
         db.close();
     }
 
@@ -103,17 +103,14 @@ public class DbScore {
      */
     public static List<LevelScore> selectAll() {
         SQLiteDatabase db = database.getReadableDatabase();
-        String sql = "select * from scores order by level";
+        String sql = "select level, rank, maxscore, mintime, isactive, star, isupload from scores order by level";
         try {
             Cursor cursor = db.rawQuery(sql, new String[] {});
             List<LevelScore> levelScores = new ArrayList<LevelScore>();
             while (cursor.moveToNext()) {
-                LevelScore ls = new LevelScore(cursor.getString(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3), cursor.getInt(4));
-                if (cursor.getColumnCount() > 5) {
-                    ls.setIsUpload(cursor.getInt(5));
-                }
+                LevelScore ls = new LevelScore(cursor.getString(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5));
+                ls.setIsUpload(cursor.getInt(6));
                 levelScores.add(ls);
-
             }
             return levelScores;
         } finally {

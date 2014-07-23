@@ -16,21 +16,22 @@
         android:orientation="horizontal" >
     </com.znv.linkup.view.LevelTop>
 
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:src="@drawable/logo"
-        tools:ignore="contentDescription" />
+    <!-- <ImageView -->
+    <!-- android:id="@+id/logo" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_gravity="center" -->
+    <!-- android:layout_weight="1" -->
+    <!-- android:src="@drawable/logo" -->
+    <!-- android:visibility="gone" -->
+    <!-- tools:ignore="contentDescription" /> -->
 
     <com.znv.linkup.view.GameTitle
         android:id="@+id/gameTitle"
         android:layout_width="wrap_content"
-        android:layout_height="96dp"
+        android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="1"
+        android:layout_weight="3"
         android:gravity="center"
         android:orientation="horizontal" />
 
@@ -38,35 +39,46 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:layout_weight="1"
         android:gravity="center_horizontal|center_vertical"
         android:orientation="horizontal" >
 
         <ImageButton
-            android:id="@+id/mode0"
+            android:id="@+id/start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@drawable/level_selector"
-            android:tag="0"
+            android:background="@drawable/start_selector"
             tools:ignore="contentDescription" />
 
-        <ImageButton
-            android:id="@+id/mode1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/time_selector"
-            android:tag="1"
-            tools:ignore="contentDescription" />
+        <!-- <ImageButton -->
+        <!-- android:id="@+id/mode0" -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:layout_margin="10dp" -->
+        <!-- android:background="@drawable/level_selector" -->
+        <!-- android:tag="0" -->
+        <!-- tools:ignore="contentDescription" /> -->
 
-        <ImageButton
-            android:id="@+id/mode2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/task_selector"
-            android:tag="2"
-            tools:ignore="contentDescription" />
+
+        <!-- <ImageButton -->
+        <!-- android:id="@+id/mode1" -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:layout_margin="10dp" -->
+        <!-- android:background="@drawable/time_selector" -->
+        <!-- android:tag="1" -->
+        <!-- tools:ignore="contentDescription" /> -->
+
+
+        <!-- <ImageButton -->
+        <!-- android:id="@+id/mode2" -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:layout_margin="10dp" -->
+        <!-- android:background="@drawable/task_selector" -->
+        <!-- android:tag="2" -->
+        <!-- tools:ignore="contentDescription" /> -->
     </LinearLayout>
 
     <LinearLayout
@@ -94,7 +106,7 @@
             android:text="@string/sound" />
 
         <TextView
-            android:id="@+id/help"
+            android:id="@+id/top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -102,6 +114,17 @@
             android:drawableTop="@drawable/top"
             android:gravity="center"
             android:text="@string/top_search" />
+
+        <TextView
+            android:id="@+id/friend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/more"
+            android:gravity="center"
+            android:text="@string/friend"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/about"

@@ -15,7 +15,7 @@ import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.db.DbScore;
 import com.znv.linkup.db.LevelScore;
 import com.znv.linkup.rest.IUpload;
-import com.znv.linkup.rest.ScoreInfo;
+import com.znv.linkup.rest.LevelInfo;
 import com.znv.linkup.rest.UserInfo;
 import com.znv.linkup.rest.UserScore;
 import com.znv.linkup.util.ShareUtil;
@@ -54,6 +54,17 @@ public class SuccessDialog extends Dialog implements IUpload {
                 linkup.onBackPressed();
             }
 
+        });
+
+        TextView btnAgain = (TextView) findViewById(R.id.btnAgain);
+        btnAgain.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                levelTop.cancelUrlImages();
+                cancel();
+                linkup.start();
+            }
         });
 
         TextView btnShare = (TextView) findViewById(R.id.btnshare);
@@ -200,28 +211,29 @@ public class SuccessDialog extends Dialog implements IUpload {
     private void uploadScore() {
         // 判断是否已登录
         if (!resultInfo.getUserId().equals("")) {
-            ScoreInfo scoreInfo = new ScoreInfo();
+            LevelInfo scoreInfo = new LevelInfo();
             scoreInfo.setUserId(resultInfo.getUserId());
             scoreInfo.setLevel(resultInfo.getLevel());
             scoreInfo.setDiamond(resultInfo.getStars());
+            scoreInfo.setGold(resultInfo.getScore() / 10);
 
             // 增加奖励的钻石和金币
             WelcomeActivity.userInfo.addDiamond(getContext(), scoreInfo.getDiamond());
 
             if (resultInfo.isNewRecord()) {
                 scoreInfo.setScore(resultInfo.getScore());
-                scoreInfo.setGold(resultInfo.getScore() / 10);
+                scoreInfo.setTime(resultInfo.getTime());
                 WelcomeActivity.userInfo.addGold(getContext(), scoreInfo.getGold());
-                UserScore.addScore(scoreInfo, levelTop.netMsgHandler);
+                UserScore.addResult(scoreInfo, levelTop.netMsgHandler);
             } else {
                 if (!resultInfo.isUpload()) {
                     scoreInfo.setScore(resultInfo.getMaxScore());
-                    scoreInfo.setGold(resultInfo.getMaxScore() / 10);
+                    scoreInfo.setTime(resultInfo.getMinTime());
                     WelcomeActivity.userInfo.addGold(getContext(), scoreInfo.getGold());
-                    UserScore.addScore(scoreInfo, levelTop.netMsgHandler);
+                    UserScore.addResult(scoreInfo, levelTop.netMsgHandler);
                 } else {
                     // 获取排行榜
-                    UserScore.getTopScores(resultInfo.getLevel(), levelTop.netMsgHandler);
+                    UserScore.getLevelTops(resultInfo.getLevel(), levelTop.netMsgHandler);
                 }
             }
         } else {
@@ -239,7 +251,7 @@ public class SuccessDialog extends Dialog implements IUpload {
     }
 
     @Override
-    public void onScoreAdd(Message msg) {
+    public void onLevelResultAdd(Message msg) {
         // 更新是否已上传
         linkup.getLevelCfg().setUpload(true);
         LevelScore ls = new LevelScore(resultInfo.getLevel());
@@ -247,10 +259,6 @@ public class SuccessDialog extends Dialog implements IUpload {
         DbScore.updateUpload(ls);
 
         // 获取排行榜
-        UserScore.getTopScores(resultInfo.getLevel(), levelTop.netMsgHandler);
-    }
-
-    @Override
-    public void onTimeAdd(Message msg) {
+        UserScore.getLevelTops(resultInfo.getLevel(), levelTop.netMsgHandler);
     }
 }

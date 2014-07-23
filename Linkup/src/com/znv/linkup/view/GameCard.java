@@ -94,6 +94,7 @@ public class GameCard extends FrameLayout {
             unPrompt();
             // 解决放大遮挡问题
             this.bringToFront();
+            this.requestLayout();
             AnimatorUtil.animScale(this, 1f, 1.2f, 1f, 1.2f);
         } else {
             checkedRect.setVisibility(View.INVISIBLE);

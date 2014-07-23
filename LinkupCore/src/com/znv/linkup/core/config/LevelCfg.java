@@ -32,9 +32,11 @@ public class LevelCfg implements Serializable {
     private int levelTime;
     private GameMode levelMode;
     // 任务目标
-    private int task;
+    private int scoreTask;
+    private int timeTask;
     private GameAlign levelAlign;
     private int maxScore;
+    private int minTime;
     private boolean isActive;
     private int levelStar;
     private boolean isUpload = false;
@@ -61,8 +63,10 @@ public class LevelCfg implements Serializable {
             starScores[0] = (min + starScores[1]) / 2;
             starScores[2] = starScores[1] + levelTime * GameSettings.TimeScore / 2;
         }
-        // 设置任务为2颗星的分数值
-        task = starScores[1];
+        // 设置任务为3颗星的分数值
+        scoreTask = starScores[2];
+        // 设置计时任务
+        timeTask = levelTime;
     }
 
     /**
@@ -115,12 +119,20 @@ public class LevelCfg implements Serializable {
         this.levelMode = levelMode;
     }
 
-    public int getTask() {
-        return task;
+    public int getScoreTask() {
+        return scoreTask;
     }
 
-    public void setTask(int task) {
-        this.task = task;
+    public void setScoreTask(int scoreTask) {
+        this.scoreTask = scoreTask;
+    }
+
+    public int getTimeTask() {
+        return timeTask;
+    }
+
+    public void setTimeTask(int timeTask) {
+        this.timeTask = timeTask;
     }
 
     public String getGameSkin() {
@@ -153,6 +165,14 @@ public class LevelCfg implements Serializable {
 
     public void setMaxScore(int maxScore) {
         this.maxScore = maxScore;
+    }
+
+    public int getMinTime() {
+        return minTime;
+    }
+
+    public void setMinTime(int minTime) {
+        this.minTime = minTime;
     }
 
     public int getLevelTime() {

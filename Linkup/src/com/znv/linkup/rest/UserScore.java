@@ -25,10 +25,8 @@ import com.znv.linkup.util.RestUtil;
 public class UserScore {
     private static String USER_ADD_URI = ViewSettings.WebRoot + "/webapi/user/add";
     private static String USER_UPDATE_URI = ViewSettings.WebRoot + "/webapi/user/update";
-    private static String SCORE_ADD_URI = ViewSettings.WebRoot + "/webapi/score/add";
-    public static String SCORE_GET_URI = ViewSettings.WebRoot + "/webapi/score/get";
-    private static String TIME_ADD_URI = ViewSettings.WebRoot + "/webapi/time/add";
-    public static String TIME_GET_URI = ViewSettings.WebRoot + "/webapi/time/get";
+    public static String LEVEL_ADD_URI = ViewSettings.WebRoot + "/webapi/level/add";
+    public static String LEVEL_GET_URI = ViewSettings.WebRoot + "/webapi/level/get";
 
     /**
      * 记录用户登录
@@ -100,26 +98,27 @@ public class UserScore {
     /**
      * 新增用户关卡分数，用于排名
      * 
-     * @param scoreInfo
+     * @param levelInfo
      *            上传的分数信息
      * @param handler
      *            消息处理
      */
-    public static void addScore(ScoreInfo scoreInfo, final Handler handler) {
+    public static void addResult(LevelInfo levelInfo, final Handler handler) {
         final List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("userid", scoreInfo.getUserId()));
-        params.add(new BasicNameValuePair("level", String.valueOf(scoreInfo.getLevel())));
-        params.add(new BasicNameValuePair("score", String.valueOf(scoreInfo.getScore())));
-        params.add(new BasicNameValuePair("diamond", String.valueOf(scoreInfo.getDiamond())));
-        params.add(new BasicNameValuePair("gold", String.valueOf(scoreInfo.getGold())));
+        params.add(new BasicNameValuePair("userid", levelInfo.getUserId()));
+        params.add(new BasicNameValuePair("level", String.valueOf(levelInfo.getLevel())));
+        params.add(new BasicNameValuePair("score", String.valueOf(levelInfo.getScore())));
+        params.add(new BasicNameValuePair("time", String.valueOf(levelInfo.getTime())));
+        params.add(new BasicNameValuePair("diamond", String.valueOf(levelInfo.getDiamond())));
+        params.add(new BasicNameValuePair("gold", String.valueOf(levelInfo.getGold())));
         new Thread(new Runnable() {
 
             @Override
             public void run() {
-                String result = RestUtil.post(SCORE_ADD_URI, params);
+                String result = RestUtil.post(LEVEL_ADD_URI, params);
                 if (result != null) {
                     // 成功post用户关卡分数
-                    handler.sendEmptyMessage(ViewSettings.MSG_SCORE_ADD);
+                    handler.sendEmptyMessage(ViewSettings.MSG_LEVEL_ADD);
                 } else {
                     // 网络或其它问题
                     handler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION);
@@ -136,8 +135,8 @@ public class UserScore {
      * @param handler
      *            消息处理
      */
-    public static void getTopScores(int level, final Handler handler) {
-        getTopScores(level, ViewSettings.TopN, handler);
+    public static void getLevelTops(int level, final Handler handler) {
+        getLevelTops(level, ViewSettings.TopN, handler);
     }
 
     /**
@@ -148,8 +147,8 @@ public class UserScore {
      * @param handler
      *            消息处理
      */
-    public static void getTopScores(int level, int topN, final Handler handler) {
-        final String uri = SCORE_GET_URI + "?level=" + String.valueOf(level) + "&top=" + String.valueOf(topN);
+    public static void getLevelTops(int level, int topN, final Handler handler) {
+        final String uri = LEVEL_GET_URI + "?level=" + String.valueOf(level) + "&top=" + String.valueOf(topN);
         new Thread(new Runnable() {
 
             @Override
@@ -158,7 +157,7 @@ public class UserScore {
                 if (result != null) {
                     // 成功获取排名信息
                     Message msg = new Message();
-                    msg.what = ViewSettings.MSG_SCORE_GET;
+                    msg.what = ViewSettings.MSG_LEVEL_GET;
                     msg.obj = result;
                     handler.sendMessage(msg);
                 } else {
@@ -177,69 +176,69 @@ public class UserScore {
      * @param handler
      *            消息处理
      */
-    public static void addTime(TimeInfo timeInfo, final Handler handler) {
-        final List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("userid", timeInfo.getUserId()));
-        params.add(new BasicNameValuePair("level", String.valueOf(timeInfo.getLevel())));
-        params.add(new BasicNameValuePair("time", String.valueOf(timeInfo.getTime())));
-        params.add(new BasicNameValuePair("diamond", String.valueOf(timeInfo.getDiamond())));
-        params.add(new BasicNameValuePair("gold", String.valueOf(timeInfo.getGold())));
-        new Thread(new Runnable() {
+    // public static void addTime(LevelInfo timeInfo, final Handler handler) {
+    // final List<NameValuePair> params = new ArrayList<NameValuePair>();
+    // params.add(new BasicNameValuePair("userid", timeInfo.getUserId()));
+    // params.add(new BasicNameValuePair("level", String.valueOf(timeInfo.getLevel())));
+    // params.add(new BasicNameValuePair("time", String.valueOf(timeInfo.getTime())));
+    // params.add(new BasicNameValuePair("diamond", String.valueOf(timeInfo.getDiamond())));
+    // params.add(new BasicNameValuePair("gold", String.valueOf(timeInfo.getGold())));
+    // new Thread(new Runnable() {
+    //
+    // @Override
+    // public void run() {
+    // String result = RestUtil.post(TIME_ADD_URI, params);
+    // if (result != null) {
+    // // 成功post用户关卡时间
+    // handler.sendEmptyMessage(ViewSettings.MSG_TIME_ADD);
+    // } else {
+    // // 网络或其它问题
+    // handler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION);
+    // }
+    // }
+    // }).start();
+    // }
 
-            @Override
-            public void run() {
-                String result = RestUtil.post(TIME_ADD_URI, params);
-                if (result != null) {
-                    // 成功post用户关卡时间
-                    handler.sendEmptyMessage(ViewSettings.MSG_TIME_ADD);
-                } else {
-                    // 网络或其它问题
-                    handler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION);
-                }
-            }
-        }).start();
-    }
-
-    /**
-     * 按关卡获取排名信息
-     * 
-     * @param level
-     *            关卡id
-     * @param handler
-     *            消息处理
-     */
-    public static void getTopTimes(int level, final Handler handler) {
-        getTopTimes(level, ViewSettings.TopN, handler);
-    }
-
-    /**
-     * 按关卡获取排名信息
-     * 
-     * @param level
-     *            关卡id
-     * @param handler
-     *            消息处理
-     */
-    public static void getTopTimes(int level, int topN, final Handler handler) {
-        final String uri = TIME_GET_URI + "?level=" + String.valueOf(level) + "&top=" + String.valueOf(topN);
-        new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                String result = RestUtil.get(uri);
-                if (result != null) {
-                    // 成功获取排名信息
-                    Message msg = new Message();
-                    msg.what = ViewSettings.MSG_TIME_GET;
-                    msg.obj = result;
-                    handler.sendMessage(msg);
-                } else {
-                    // 网络或其它问题
-                    handler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION);
-                }
-            }
-        }).start();
-    }
+    // /**
+    // * 按关卡获取排名信息
+    // *
+    // * @param level
+    // * 关卡id
+    // * @param handler
+    // * 消息处理
+    // */
+    // public static void getTopTimes(int level, final Handler handler) {
+    // getTopTimes(level, ViewSettings.TopN, handler);
+    // }
+    //
+    // /**
+    // * 按关卡获取排名信息
+    // *
+    // * @param level
+    // * 关卡id
+    // * @param handler
+    // * 消息处理
+    // */
+    // public static void getTopTimes(int level, int topN, final Handler handler) {
+    // final String uri = SCORE_GET_URI + "?level=" + String.valueOf(level) + "&top=" + String.valueOf(topN);
+    // new Thread(new Runnable() {
+    //
+    // @Override
+    // public void run() {
+    // String result = RestUtil.get(uri);
+    // if (result != null) {
+    // // 成功获取排名信息
+    // Message msg = new Message();
+    // msg.what = ViewSettings.MSG_TIME_GET;
+    // msg.obj = result;
+    // handler.sendMessage(msg);
+    // } else {
+    // // 网络或其它问题
+    // handler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION);
+    // }
+    // }
+    // }).start();
+    // }
 
     /**
      * 获取用户icon

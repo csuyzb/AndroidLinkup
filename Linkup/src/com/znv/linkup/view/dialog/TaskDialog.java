@@ -11,13 +11,15 @@ import android.widget.TextView;
 import com.znv.linkup.GameActivity;
 import com.znv.linkup.R;
 import com.znv.linkup.WelcomeActivity;
+import com.znv.linkup.core.config.GameMode;
 import com.znv.linkup.db.DbScore;
 import com.znv.linkup.db.LevelScore;
 import com.znv.linkup.rest.IUpload;
-import com.znv.linkup.rest.ScoreInfo;
+import com.znv.linkup.rest.LevelInfo;
 import com.znv.linkup.rest.UserInfo;
 import com.znv.linkup.rest.UserScore;
 import com.znv.linkup.util.ShareUtil;
+import com.znv.linkup.util.StringUtil;
 import com.znv.linkup.view.LevelTop;
 import com.znv.linkup.view.LevelTop.LevelTopStatus;
 
@@ -102,10 +104,18 @@ public class TaskDialog extends Dialog implements IUpload {
      */
     public void showDialog(ResultInfo resultInfo) {
         this.resultInfo = resultInfo;
+        TextView tvScoreLabel = (TextView) findViewById(R.id.lb_score);
         TextView tvScore = (TextView) findViewById(R.id.success_score);
-        tvScore.setText(String.valueOf(resultInfo.getScore()) + getContext().getString(R.string.score_unit));
         TextView tvTask = (TextView) findViewById(R.id.task_score);
-        tvTask.setText(String.valueOf(linkup.getLevelCfg().getTask()) + getContext().getString(R.string.score_unit));
+        if (linkup.getLevelCfg().getLevelMode() == GameMode.ScoreTask) {
+            tvScoreLabel.setText(R.string.game_score);
+            tvScore.setText(String.valueOf(resultInfo.getScore()) + getContext().getString(R.string.score_unit));
+            tvTask.setText(String.valueOf(linkup.getLevelCfg().getScoreTask()) + getContext().getString(R.string.score_unit));
+        } else if (linkup.getLevelCfg().getLevelMode() == GameMode.TimeTask) {
+            tvScoreLabel.setText(R.string.game_time);
+            tvScore.setText(StringUtil.secondToString(resultInfo.getTime()) + getContext().getString(R.string.time_unit));
+            tvTask.setText(StringUtil.secondToString(linkup.getLevelCfg().getTimeTask()) + getContext().getString(R.string.time_unit));
+        }
 
         TextView tvDiamond = (TextView) findViewById(R.id.level_diamond_reward);
         tvDiamond.setText("+" + String.valueOf(resultInfo.getStars()));
@@ -165,27 +175,28 @@ public class TaskDialog extends Dialog implements IUpload {
     private void uploadScore() {
         // 判断是否已登录
         if (!resultInfo.getUserId().equals("")) {
-            ScoreInfo scoreInfo = new ScoreInfo();
+            LevelInfo scoreInfo = new LevelInfo();
             scoreInfo.setUserId(resultInfo.getUserId());
             scoreInfo.setLevel(resultInfo.getLevel());
             scoreInfo.setDiamond(resultInfo.getStars());
-            
+            scoreInfo.setGold(resultInfo.getScore() / 10);
+
             // 增加奖励的钻石和金币
             WelcomeActivity.userInfo.addDiamond(getContext(), scoreInfo.getDiamond());
             if (resultInfo.isNewRecord()) {
                 scoreInfo.setScore(resultInfo.getScore());
-                scoreInfo.setGold(resultInfo.getScore() / 10);
+                scoreInfo.setTime(resultInfo.getTime());
                 WelcomeActivity.userInfo.addGold(getContext(), scoreInfo.getGold());
-                UserScore.addScore(scoreInfo, levelTop.netMsgHandler);
+                UserScore.addResult(scoreInfo, levelTop.netMsgHandler);
             } else {
                 if (!resultInfo.isUpload()) {
                     scoreInfo.setScore(resultInfo.getMaxScore());
-                    scoreInfo.setGold(resultInfo.getMaxScore() / 10);
+                    scoreInfo.setTime(resultInfo.getMinTime());
                     WelcomeActivity.userInfo.addGold(getContext(), scoreInfo.getGold());
-                    UserScore.addScore(scoreInfo, levelTop.netMsgHandler);
+                    UserScore.addResult(scoreInfo, levelTop.netMsgHandler);
                 } else {
                     // 获取排行榜
-                    UserScore.getTopScores(resultInfo.getLevel(), levelTop.netMsgHandler);
+                    UserScore.getLevelTops(resultInfo.getLevel(), levelTop.netMsgHandler);
                 }
             }
 
@@ -204,7 +215,7 @@ public class TaskDialog extends Dialog implements IUpload {
     }
 
     @Override
-    public void onScoreAdd(Message msg) {
+    public void onLevelResultAdd(Message msg) {
         // 更新是否已上传
         linkup.getLevelCfg().setUpload(true);
         LevelScore ls = new LevelScore(resultInfo.getLevel());
@@ -212,10 +223,6 @@ public class TaskDialog extends Dialog implements IUpload {
         DbScore.updateUpload(ls);
 
         // 获取排行榜
-        UserScore.getTopScores(resultInfo.getLevel(), levelTop.netMsgHandler);
-    }
-
-    @Override
-    public void onTimeAdd(Message msg) {
+        UserScore.getLevelTops(resultInfo.getLevel(), levelTop.netMsgHandler);
     }
 }

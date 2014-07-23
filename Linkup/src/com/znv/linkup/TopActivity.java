@@ -26,8 +26,9 @@ import com.android.volley.VolleyError;
 import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.rest.NetMsgListener;
 import com.znv.linkup.rest.UserScore;
+import com.znv.linkup.rest.VolleyHelper;
+import com.znv.linkup.util.LevelUtil;
 import com.znv.linkup.util.StringUtil;
-import com.znv.linkup.util.VolleyHelper;
 
 /**
  * 排行榜
@@ -41,7 +42,7 @@ public class TopActivity extends BaseActivity {
     private int curRank = 0;
     private int curLevel = 0;
     private int levelIndex = 0;
-    private static int[] modeRanks = new int[] { R.array.mode0ranks, R.array.mode1ranks, R.array.mode2ranks };
+    private static int[] modeRanks = new int[] { R.array.mode0ranks, R.array.mode1ranks, R.array.mode2ranks, R.array.mode3ranks };
     private VolleyHelper volley = null;
     private LinearLayout topList = null;
     private List<TopItemHolder> holders = null;
@@ -167,12 +168,7 @@ public class TopActivity extends BaseActivity {
         String levelName = modeCfgs.get(curMode).getModeName() + "-" + levelCfg.getRankName() + "-" + levelCfg.getLevelName();
         ((TextView) findViewById(R.id.tvCurLevel)).setText(getString(R.string.level_title, levelName));
         levelIndex = levelCfg.getLevelId();
-        String uri = "?level=" + String.valueOf(levelIndex) + "&top=" + String.valueOf(ViewSettings.TopRankN);
-        if (isTimeMode(levelIndex)) {
-            uri = UserScore.TIME_GET_URI + uri;
-        } else {
-            uri = UserScore.SCORE_GET_URI + uri;
-        }
+        String uri = UserScore.LEVEL_GET_URI + "?level=" + String.valueOf(levelIndex) + "&top=" + String.valueOf(ViewSettings.TopRankN);
         volley.getJsonArray(uri, new NetMsgListener<JSONArray>() {
 
             @Override
@@ -184,7 +180,7 @@ public class TopActivity extends BaseActivity {
                         TopItemHolder item = holders.get(i);
                         setOrder(item.tvOrder, i);
                         item.tvName.setText(StringUtil.toUtf8(obj.getString("userName")));
-                        if (isTimeMode(levelIndex)) {
+                        if (LevelUtil.isTimeMode(levelIndex)) {
                             item.tvScore.setText(StringUtil.secondToString(obj.getInt("time")));
                         } else {
                             item.tvScore.setText(String.valueOf(obj.getInt("score")));
@@ -218,8 +214,7 @@ public class TopActivity extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-            case ViewSettings.MSG_SCORE_GET:
-            case ViewSettings.MSG_TIME_GET: {
+            case ViewSettings.MSG_LEVEL_GET: {
                 try {
                     String result = (String) msg.obj;
                     JSONArray array = new JSONArray(result);
@@ -229,7 +224,7 @@ public class TopActivity extends BaseActivity {
                         TopItemHolder item = holders.get(i);
                         setOrder(item.tvOrder, i);
                         item.tvName.setText(StringUtil.toUtf8(obj.getString("userName")));
-                        if (isTimeMode(levelIndex)) {
+                        if (LevelUtil.isTimeMode(levelIndex)) {
                             item.tvScore.setText(StringUtil.secondToString(obj.getInt("time")));
                         } else {
                             item.tvScore.setText(String.valueOf(obj.getInt("score")));
@@ -274,17 +269,6 @@ public class TopActivity extends BaseActivity {
         } else {
             tvOrder.setText(String.valueOf(index + 1));
         }
-    }
-
-    /**
-     * 是否是时间模式
-     * 
-     * @param level
-     *            关卡序号
-     * @return 时间模式:true
-     */
-    private boolean isTimeMode(int level) {
-        return level >= 120 && level < 192;
     }
 
     @Override

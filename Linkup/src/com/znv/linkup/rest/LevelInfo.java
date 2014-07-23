@@ -6,7 +6,7 @@ package com.znv.linkup.rest;
  * @author yzb
  * 
  */
-public class ScoreInfo {
+public class LevelInfo {
     public String getUserId() {
         return userId;
     }
@@ -31,6 +31,14 @@ public class ScoreInfo {
         this.score = score;
     }
 
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
+    }
+
     public int getDiamond() {
         return diamond;
     }
@@ -50,6 +58,7 @@ public class ScoreInfo {
     private String userId;
     private int level;
     private int score;
+    private int time;
     private int diamond;
     private int gold;
 }

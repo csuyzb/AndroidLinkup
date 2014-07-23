@@ -1,4 +1,4 @@
-package com.znv.linkup.util;
+package com.znv.linkup.rest;
 
 import org.json.JSONArray;
 
@@ -15,7 +15,6 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.znv.linkup.R;
-import com.znv.linkup.rest.NetMsgListener;
 
 /**
  * Volley网络事件处理的帮助类

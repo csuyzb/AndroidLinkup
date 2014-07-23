@@ -1,0 +1,98 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_bg"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingLeft="30dip"
+        android:paddingRight="30dip"
+        android:paddingTop="10dip"
+        android:text="@string/info_prompt"
+        android:textColor="#FF3333FF"
+        android:textSize="32sp" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:layout_marginTop="5dip"
+        android:background="@drawable/line" />
+
+    <TextView
+        android:id="@+id/tvInfo"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="20dip"
+        android:layout_marginRight="20dip"
+        android:layout_marginTop="20dip"
+        android:layout_weight="1"
+        android:text="@string/info_message"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+    <CheckBox
+        android:id="@+id/cbxKnown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/info_known" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <!-- <Button -->
+        <!-- android:id="@+id/tvOk" -->
+        <!-- style="?android:attr/buttonBarButtonStyle" -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:layout_gravity="center_vertical" -->
+        <!-- android:layout_margin="8dp" -->
+        <!-- android:gravity="center" -->
+        <!-- android:padding="10dp" -->
+        <!-- android:text="@string/submit" /> -->
+
+        <TextView
+            android:id="@+id/tvWeibo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/weibo_login"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/info_sina_weibo"
+            android:textColor="@color/white"
+            android:textSize="18sp" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/tvQQ"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/qq_login"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/info_qzone"
+            android:textColor="@color/white"
+            android:textSize="18sp" >
+        </TextView>
+    </LinearLayout>
+
+</LinearLayout>

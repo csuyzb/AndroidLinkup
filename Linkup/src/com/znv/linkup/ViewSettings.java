@@ -58,22 +58,22 @@ public class ViewSettings {
     /**
      * 用户上传分数消息
      */
-    public static final int MSG_SCORE_ADD = 0x14;
+    public static final int MSG_LEVEL_ADD = 0x14;
 
     /**
      * 用户获取分数排行榜
      */
-    public static final int MSG_SCORE_GET = 0x15;
+    public static final int MSG_LEVEL_GET = 0x15;
 
-    /**
-     * 用户上传时间
-     */
-    public static final int MSG_TIME_ADD = 0x16;
-
-    /**
-     * 用户获取时间排行榜
-     */
-    public static final int MSG_TIME_GET = 0x17;
+    // /**
+    // * 用户上传时间
+    // */
+    // public static final int MSG_TIME_ADD = 0x16;
+    //
+    // /**
+    // * 用户获取时间排行榜
+    // */
+    // public static final int MSG_TIME_GET = 0x17;
 
     /**
      * 网络问题
@@ -148,12 +148,12 @@ public class ViewSettings {
     /**
      * 网站的域名根目录
      */
-    public static String WebRoot = "http://xxllk.aliapp.com";
+    public static String WebRoot = "http://ttxl.aliapp.com";
 
     /**
      * 数据缓存版本字符串
      */
-    public static String CacheVersion = "120";
+    public static String CacheVersion = "140_1";
 
     /**
      * 全局配置的 Shared Preference
@@ -168,12 +168,12 @@ public class ViewSettings {
     /**
      * 本地数据库的版本
      */
-    public static int DbVersion = 3;
+    public static int DbVersion = 1;
 
     /**
-     * 初始激活的关卡，按升序排列
+     * 初始激活的关卡，按升序排列0, 1, 2, 3, 24, 25, 26, 27, 48, 49, 50, 51, 120, 121, 122, 123, 192, 193, 194, 195,264,265,266,267
      */
-    public static int[] DefaultActiveLevels = new int[] { 0, 1, 2, 3, 24, 25, 26, 27, 48, 49, 50, 51, 120, 121, 122, 123, 192, 193, 194, 195 };
+    public static int[] DefaultActiveLevels = new int[] {};
 
     /**
      * 两次back退出间的间隔
@@ -211,4 +211,14 @@ public class ViewSettings {
      * 游戏评级
      */
     public static int[] StarImages = new int[] { R.drawable.star1, R.drawable.star2, R.drawable.star3 };
+
+    /**
+     * 填写从短信SDK应用后台注册得到的APPKEY
+     */
+    public static String APPKEY = "25c23a360539";
+
+    /**
+     * 填写从短信SDK应用后台注册得到的APPSECRET
+     */
+    public static String APPSECRET = "d224092cafca6db2b5a942d0d298ba92";
 }

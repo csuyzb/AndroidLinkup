@@ -2,9 +2,10 @@
 <resources>
 
     <string-array name="modes">
-        <item>闯关</item>
-        <item>计时</item>
-        <item>任务</item>
+        <item>经典闯关</item>
+        <item>休闲计时</item>
+        <item>积分任务</item>
+        <item>计时任务</item>
     </string-array>
     <string-array name="mode0ranks">
         <item>经典连连看</item>
@@ -22,6 +23,11 @@
         <item>简单任务</item>
         <item>一般任务</item>
         <item>困难任务</item>
+    </string-array>
+    <string-array name="mode3ranks">
+        <item>小学任务</item>
+        <item>初中任务</item>
+        <item>高中任务</item>
     </string-array>
     <string-array name="levels">
         <item>1</item>

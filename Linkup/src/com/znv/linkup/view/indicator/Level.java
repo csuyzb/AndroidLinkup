@@ -47,7 +47,7 @@ public class Level {
      *            关卡配置
      */
     public void changeLevelCfg(LevelCfg levelCfg, boolean isInit) {
-        if(isInit || levelCfg.isActive()) {
+        if (isInit || levelCfg.isActive()) {
             updateLevelView(levelCfg);
         }
     }
@@ -90,17 +90,26 @@ public class Level {
                 levelHolder.rbStar.setVisibility(View.GONE);
                 levelHolder.tvTime.setVisibility(View.VISIBLE);
                 levelHolder.tvTask.setVisibility(View.GONE);
-                if (levelCfg.getMaxScore() > 0) {
-                    levelHolder.tvTime.setText(StringUtil.secondToString(levelCfg.getMaxScore()));
-                } else {
-                    levelHolder.tvTime.setText("");
+                levelHolder.tvTime.setText("");
+                if (levelCfg.getMinTime() > 0) {
+                    levelHolder.tvTime.setText(StringUtil.secondToString(levelCfg.getMinTime()));
                 }
             } else if (levelCfg.getLevelMode() == GameMode.ScoreTask) {
                 levelHolder.rbStar.setVisibility(View.GONE);
                 levelHolder.tvTime.setVisibility(View.GONE);
                 levelHolder.tvTask.setVisibility(View.VISIBLE);
-                levelHolder.tvTask.setText(String.valueOf(levelCfg.getTask()));
+                levelHolder.tvTask.setText(String.valueOf(levelCfg.getScoreTask()));
                 if (levelCfg.getMaxScore() > 0) {
+                    Drawable drawable = ctx.getResources().getDrawable(R.drawable.pass);
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                    levelHolder.tvTask.setCompoundDrawables(null, null, drawable, null);
+                }
+            } else if (levelCfg.getLevelMode() == GameMode.TimeTask) {
+                levelHolder.rbStar.setVisibility(View.GONE);
+                levelHolder.tvTime.setVisibility(View.GONE);
+                levelHolder.tvTask.setVisibility(View.VISIBLE);
+                levelHolder.tvTask.setText(StringUtil.secondToString(levelCfg.getTimeTask()));
+                if (levelCfg.getMinTime() > 0) {
                     Drawable drawable = ctx.getResources().getDrawable(R.drawable.pass);
                     drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                     levelHolder.tvTask.setCompoundDrawables(null, null, drawable, null);

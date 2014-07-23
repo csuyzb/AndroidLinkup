@@ -1,4 +1,4 @@
-package com.znv.linkup.util;
+package com.znv.linkup.rest;
 
 import android.graphics.Bitmap;
 import android.util.LruCache;

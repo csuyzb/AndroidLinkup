@@ -26,7 +26,7 @@ class GameTime {
         this.totalTime = totalTime;
         if (mode == GameMode.Level) {
             this.gameTime = totalTime;
-        } else if (mode == GameMode.Time || mode == GameMode.ScoreTask) {
+        } else if (mode == GameMode.Time || mode == GameMode.ScoreTask || mode == GameMode.TimeTask) {
             this.gameTime = 0;
         }
         this.listener = listener;
@@ -36,7 +36,7 @@ class GameTime {
      * 计时开始
      */
     public void start() {
-        if (mode == GameMode.Level || mode == GameMode.Time) {
+        if (mode == GameMode.Level || mode == GameMode.Time || mode == GameMode.TimeTask) {
             timer = new Timer();
             timer.schedule(new TimerTask() {
 
@@ -65,7 +65,7 @@ class GameTime {
                     listener.onTimeChanged(gameTime);
                 }
             }
-        } else if (mode == GameMode.Time) {
+        } else if (mode == GameMode.Time || mode == GameMode.TimeTask) {
             gameTime += 1;
             if (listener != null) {
                 listener.onTimeChanged(gameTime);
@@ -90,6 +90,7 @@ class GameTime {
      *            增加的时间数，单位秒
      */
     public void addTime(int seconds) {
+        // 只有闯关模式增加游戏时间
         if (mode == GameMode.Level) {
             gameTime += seconds;
             if (gameTime > totalTime) {

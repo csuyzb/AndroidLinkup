@@ -7,13 +7,6 @@ package com.znv.linkup.db;
  * 
  */
 public class LevelScore {
-    private String level;
-    private String rank;
-    private int maxScore;
-    private int isActive;
-    private int star;
-    private int isUpload = 0;
-
     public LevelScore(int level) {
         this.level = String.valueOf(level);
     }
@@ -22,10 +15,11 @@ public class LevelScore {
         this.level = level;
     }
 
-    public LevelScore(String level, String rank, int maxScore, int isActive, int star) {
+    public LevelScore(String level, String rank, int maxScore, int minTime, int isActive, int star) {
         this.level = level;
         this.rank = rank;
         this.maxScore = maxScore;
+        this.minTime = minTime;
         this.isActive = isActive;
         this.star = star;
     }
@@ -54,6 +48,14 @@ public class LevelScore {
         this.maxScore = maxScore;
     }
 
+    public int getMinTime() {
+        return minTime;
+    }
+
+    public void setMinTime(int minTime) {
+        this.minTime = minTime;
+    }
+
     public int getIsActive() {
         return isActive;
     }
@@ -77,4 +79,13 @@ public class LevelScore {
     public void setIsUpload(int isUpload) {
         this.isUpload = isUpload;
     }
+
+    private String level;
+    private String rank;
+    private int maxScore;
+    private int minTime;
+    private int isActive;
+    private int star;
+    private int isUpload = 0;
+
 }

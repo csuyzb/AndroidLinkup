@@ -30,7 +30,7 @@ class DbHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "create table scores(level int primary key, rank int, maxscore int, isactive int, star int, isupload int);";
+        String sql = "create table scores(level int primary key, rank int, maxscore int, mintime int, isactive int, star int, isupload int);";
         db.execSQL(sql);
 
         initDb(db);
@@ -67,17 +67,17 @@ class DbHelper extends SQLiteOpenHelper {
         for (int m = 0; m < modeCfgs.size(); m++) {
             for (int r = 0; r < modeCfgs.get(m).getRankInfos().size(); r++) {
                 for (int l = 0; l < modeCfgs.get(m).getRankInfos().get(r).getLevelInfos().size(); l++) {
-                    sql = "insert into scores(level, rank, maxscore, isactive, star, isupload) values(?,?,?,?,?,?)";
+                    sql = "insert into scores(level, rank, maxscore, mintime, isactive, star, isupload) values(?,?,?,?,?,?,?)";
                     // 控制默认激活的关卡数
                     if (isActive(index)) {
                         try {
-                            db.execSQL(sql, new Object[] { index++, r, 0, 1, 0, 0 });
+                            db.execSQL(sql, new Object[] { index++, r, 0, 0, 1, 0, 0 });
                         } catch (Exception ex) {
                             Log.d("sqlite", ex.getMessage());
                         }
                     } else {
                         try {
-                            db.execSQL(sql, new Object[] { index++, r, 0, 0, 0, 0 });
+                            db.execSQL(sql, new Object[] { index++, r, 0, 0, 0, 0, 0 });
                         } catch (Exception ex) {
                             Log.d("sqlite", ex.getMessage());
                         }
@@ -89,14 +89,14 @@ class DbHelper extends SQLiteOpenHelper {
         db.endTransaction();
     }
 
-    private void alterTable(SQLiteDatabase db) {
-        String sql = "alter table scores add column isupload integer DEFAULT 0";
-        try {
-            db.execSQL(sql);
-        } catch (Exception ex) {
-            Log.d("sqlite", ex.getMessage());
-        }
-    }
+    // private void alterTable(SQLiteDatabase db) {
+    // String sql = "alter table scores add column isupload integer DEFAULT 0";
+    // try {
+    // db.execSQL(sql);
+    // } catch (Exception ex) {
+    // Log.d("sqlite", ex.getMessage());
+    // }
+    // }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -104,7 +104,7 @@ class DbHelper extends SQLiteOpenHelper {
         initDb(db);
 
         // 在表中增加一列,确定是否上传
-        alterTable(db);
+        // alterTable(db);
     }
 
 }

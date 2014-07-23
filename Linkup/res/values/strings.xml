@@ -17,7 +17,7 @@
     <string name="game_success">恭喜你，游戏已通关！</string>
     <string name="game_level_record">记录:</string>
     <string name="game_level_norecord">记录:无</string>
-    <string name="game_level_task">任务分:</string>
+    <string name="game_level_task">任务:</string>
     <string name="game_score">游戏得分:</string>
     <string name="game_level_lost">闯关失败！</string>
     <string name="game_level_success">闯关成功！</string>
@@ -26,7 +26,6 @@
     <string name="game_time_min">最快记录:</string>
     <string name="game_task_success">任务完成！</string>
     <string name="game_task_fail">任务失败！</string>
-    <string name="game_task_score">游戏得分:</string>
     <string name="game_task_taskscore">游戏任务:</string>
     <string name="game_ready_go">GO!</string>
     <string name="game_prompt_none">已经不能消除了，请重排或按返回退出!</string>
@@ -62,5 +61,11 @@
     <string name="top_search">排名</string>
     <string name="total_rank">总排名:</string>
     <string name="total_rank_0">无</string>
+    <string name="friend">好友</string>
+    <string name="info_sina_weibo">微博登录</string>
+    <string name="info_qzone">QQ登录</string>
+    <string name="info_known">我知道了</string>
+    <string name="info_prompt">温馨提示</string>
+    <string name="info_message">游戏可以微博或QQ登录啦！\n1.每日登录获得钻石和金币奖励.\n2.钻石可以强制解锁任意关卡.\n3.参与网络排名，出现在英雄榜.\n4.新浪和腾讯开放接入安全无忧!</string>
 
 </resources>

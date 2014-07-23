@@ -160,20 +160,6 @@
             android:textColor="#ffa500" />
 
         <TextView
-            android:id="@+id/btnshare"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="8dp"
-            android:drawableTop="@drawable/share"
-            android:gravity="center"
-            android:text="@string/share"
-            android:textColor="#ffa500" />
-
-        <TextView
             android:id="@+id/btnAgain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -185,6 +171,20 @@
             android:drawableTop="@drawable/again"
             android:gravity="center"
             android:text="@string/again"
+            android:textColor="#ffa500" />
+
+        <TextView
+            android:id="@+id/btnshare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="8dp"
+            android:drawableTop="@drawable/share"
+            android:gravity="center"
+            android:text="@string/share"
             android:textColor="#ffa500" />
 
         <TextView

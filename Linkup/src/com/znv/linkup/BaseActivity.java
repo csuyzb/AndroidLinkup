@@ -9,8 +9,6 @@ import android.util.SparseArray;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.baidu.android.pushservice.PushConstants;
-import com.baidu.android.pushservice.PushManager;
 import com.znv.linkup.core.config.GameCfg;
 import com.znv.linkup.core.config.GlobalCfg;
 import com.znv.linkup.core.config.LevelCfg;
@@ -21,7 +19,6 @@ import com.znv.linkup.db.LevelScore;
 import com.znv.linkup.rest.UserInfo;
 import com.znv.linkup.sound.MusicManager;
 import com.znv.linkup.sound.SoundManager;
-import com.znv.linkup.util.AppMetaUtil;
 import com.znv.linkup.util.CacheUtil;
 import com.znv.linkup.util.ShortcutUtil;
 import com.znv.linkup.view.indicator.RankAdapter;
@@ -53,7 +50,7 @@ public class BaseActivity extends Activity {
 
         initFullScreen();
 
-        initBaiduPush();
+        // initBaiduPush();
 
         initShortcut();
 
@@ -71,15 +68,15 @@ public class BaseActivity extends Activity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
-    /**
-     * 初始化百度推送
-     */
-    private void initBaiduPush() {
-        if (!CacheUtil.hasBind(getApplicationContext())) {
-            // Push: 无账号初始化，用api key绑定
-            PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY, AppMetaUtil.getMetaValue(this, "api_key"));
-        }
-    }
+    // /**
+    // * 初始化百度推送
+    // */
+    // private void initBaiduPush() {
+    // if (!CacheUtil.hasBind(getApplicationContext())) {
+    // // Push: 无账号初始化，用api key绑定
+    // PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY, AppMetaUtil.getMetaValue(this, "api_key"));
+    // }
+    // }
 
     /**
      * 初始化快捷键
@@ -180,6 +177,7 @@ public class BaseActivity extends Activity {
             LevelCfg cfg = levelCfgs.get(levelId);
             if (cfg != null) {
                 cfg.setMaxScore(score.getMaxScore());
+                cfg.setMinTime(score.getMinTime());
                 cfg.setActive(score.getIsActive() == 1);
                 cfg.setLevelStar(score.getStar());
                 cfg.setUpload(score.getIsUpload() == 1);

@@ -8,22 +8,25 @@ import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
-
 import cn.sharesdk.framework.ShareSDK;
 
+import com.xiaomi.market.sdk.XiaomiUpdateAgent;
 import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.rest.IUpload;
 import com.znv.linkup.rest.UserScore;
+import com.znv.linkup.util.CacheUtil;
 import com.znv.linkup.util.ToastUtil;
 import com.znv.linkup.view.GameTitle;
 import com.znv.linkup.view.LevelTop;
 import com.znv.linkup.view.dialog.HelpDialog;
+import com.znv.linkup.view.dialog.InfoDialog;
 
 /**
  * 欢迎界面活动处理类
@@ -75,6 +78,11 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
         initLogin();
 
         initNotice();
+
+        // initMsgSDK();
+        initXiaomiUpdate();
+
+        initInfoDialog();
     }
 
     /**
@@ -128,13 +136,11 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
     }
 
     private void initClickListener() {
-        findViewById(R.id.mode0).setOnClickListener(this);
-        findViewById(R.id.mode1).setOnClickListener(this);
-        findViewById(R.id.mode2).setOnClickListener(this);
-
+        findViewById(R.id.start).setOnClickListener(this);
         findViewById(R.id.music).setOnClickListener(this);
         findViewById(R.id.sound).setOnClickListener(this);
-        findViewById(R.id.help).setOnClickListener(this);
+        findViewById(R.id.top).setOnClickListener(this);
+        findViewById(R.id.friend).setOnClickListener(this);
         findViewById(R.id.about).setOnClickListener(this);
     }
 
@@ -257,18 +263,24 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-        case R.id.mode0:
-        case R.id.mode1:
-        case R.id.mode2: {
+        // case R.id.mode0:
+        // case R.id.mode1:
+        // case R.id.mode2: {
+        // soundMgr.select();
+        // int modeIndex = Integer.parseInt((String) v.getTag());
+        // if (modeIndex >= 0 && modeIndex < 3) {
+        // Intent intent = new Intent(this, RankActivity.class);
+        // intent.putExtra("modeIndex", modeIndex);
+        // startActivity(intent);
+        // }
+        // break;
+        // }
+        case R.id.start: {
             soundMgr.select();
-            int modeIndex = Integer.parseInt((String) v.getTag());
-            if (modeIndex >= 0 && modeIndex < 3) {
-                Intent intent = new Intent(this, RankActivity.class);
-                intent.putExtra("modeIndex", modeIndex);
-                startActivity(intent);
-            }
-            break;
+            Intent intent = new Intent(this, ModeActivity.class);
+            startActivity(intent);
         }
+            break;
         case R.id.music: {
             if (musicMgr != null) {
                 musicMgr.setBgMisicEnabled(!musicMgr.isBgMisicEnabled());
@@ -287,11 +299,7 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
             }
         }
             break;
-        case R.id.help: {
-            // HelpDialog helper = new HelpDialog(this);
-            // helper.setTitle(getString(R.string.help));
-            // helper.setMessage(getString(R.string.help_info));
-            // helper.show();
+        case R.id.top: {
             Intent intent = new Intent(this, TopActivity.class);
             startActivity(intent);
         }
@@ -303,6 +311,12 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
             helper.show();
         }
             break;
+        case R.id.friend: {
+            // // 打开通信录好友列表页面
+            // ContactsPage contactsPage = new ContactsPage();
+            // contactsPage.show(this);
+        }
+            break;
         }
     }
 
@@ -312,6 +326,7 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
             ShareSDK.stopSDK(this);
         } catch (Exception ex) {
         }
+
         super.onDestroy();
     }
 
@@ -323,11 +338,48 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
     }
 
     @Override
-    public void onScoreAdd(Message msg) {
+    public void onLevelResultAdd(Message msg) {
     }
 
-    @Override
-    public void onTimeAdd(Message msg) {
+    // private void initMsgSDK() {
+    // try {
+    // // 初始化短信SDK
+    // SMSSDK.initSDK(this, ViewSettings.APPKEY, ViewSettings.APPSECRET);
+    // } catch (Exception ex) {
+    // ex.printStackTrace();
+    // }
+    // }
+
+    private void initXiaomiUpdate() {
+        try {
+            XiaomiUpdateAgent.setCheckUpdateOnlyWifi(true);
+            XiaomiUpdateAgent.update(this);
+        } catch (Exception ex) {
+            Log.d("XiaomiUpdate", ex.getMessage());
+        }
     }
 
+    /**
+     * 初始化提示框
+     */
+    private void initInfoDialog() {
+        if (!CacheUtil.hasBind(this, "info_login")) {
+            InfoDialog info = new InfoDialog(this);
+            info.setWeiboClick(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    levelTop.weiboClick();
+                }
+            });
+            info.setQQClick(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    levelTop.qqClick();
+                }
+            });
+            info.show();
+        }
+    }
 }

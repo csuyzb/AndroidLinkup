@@ -128,11 +128,11 @@ public class GameActivity extends BaseActivity implements IGameAction {
         holder.pbTime.setMax(curLevelCfg.getLevelTime());
         holder.tvMaxScore.setText(getString(R.string.game_level_record) + String.valueOf(curLevelCfg.getMaxScore()));
         // 随机背景
-        if (bgIndex == -1 || curLevelCfg.getLevelId() % 4 == 0) {
-            bgIndex = (int) (Math.random() * ViewSettings.GameBgImageIds.length);
-            holder.flBackground.setBackgroundResource(ViewSettings.GameBgImageIds[bgIndex]);
-        }
-        // holder.flBackground.setBackgroundResource(ViewSettings.GameBgImageIds[curLevelCfg.getLevelBackground()]);
+        // if (bgIndex == -1 || curLevelCfg.getLevelId() % 4 == 0) {
+        // bgIndex = (int) (Math.random() * ViewSettings.GameBgImageIds.length);
+        // holder.flBackground.setBackgroundResource(ViewSettings.GameBgImageIds[bgIndex]);
+        // }
+        holder.flBackground.setBackgroundResource(ViewSettings.GameBgImageIds[curLevelCfg.getLevelBackground()]);
         if (curLevelCfg.getLevelMode() == GameMode.Level) {
             holder.tsScore.setText("0");
         } else if (curLevelCfg.getLevelMode() == GameMode.Time) {
@@ -148,7 +148,12 @@ public class GameActivity extends BaseActivity implements IGameAction {
             holder.pbTime.setVisibility(View.GONE);
             holder.btnAddTime.setVisibility(View.GONE);
             holder.tsScore.setText("0");
-            holder.tvMaxScore.setText(getString(R.string.game_level_task) + curLevelCfg.getTask());
+            holder.tvMaxScore.setText(getString(R.string.game_level_task) + curLevelCfg.getScoreTask());
+        } else if (curLevelCfg.getLevelMode() == GameMode.TimeTask) {
+            holder.pbTime.setVisibility(View.GONE);
+            holder.btnAddTime.setVisibility(View.GONE);
+            holder.tsScore.setText("00:00");
+            holder.tvMaxScore.setText(getString(R.string.game_level_task) + StringUtil.secondToString(curLevelCfg.getTimeTask()));
         }
 
         game = new Game(curLevelCfg, this);
@@ -259,38 +264,61 @@ public class GameActivity extends BaseActivity implements IGameAction {
                 // 新纪录
                 LevelScore cls = new LevelScore(curLevelCfg.getLevelId());
                 cls.setMaxScore(game.getTotalScore());
+                cls.setMinTime(game.getGameTime());
                 cls.setStar(curLevelCfg.getStar(game.getTotalScore()));
                 DbScore.updateScore(cls);
 
                 // 更新缓存
                 curLevelCfg.setLevelStar(cls.getStar());
+                curLevelCfg.setMinTime(cls.getMinTime());
                 curLevelCfg.setMaxScore(cls.getMaxScore());
                 isRecord = 1;
             }
             stars = curLevelCfg.getStar(game.getTotalScore());
         } else if (curLevelCfg.getLevelMode() == GameMode.Time) {
-            if (curLevelCfg.getMaxScore() == 0 || game.getGameTime() < curLevelCfg.getMaxScore()) {
+            if (curLevelCfg.getMinTime() == 0 || game.getGameTime() < curLevelCfg.getMinTime()) {
                 // 更新时间记录
                 LevelScore cls = new LevelScore(curLevelCfg.getLevelId());
-                cls.setMaxScore(game.getGameTime());
+                cls.setMaxScore(game.getGameScore());
+                cls.setMinTime(game.getGameTime());
                 DbScore.updateScore(cls);
 
                 // 更新缓存
                 curLevelCfg.setMaxScore(cls.getMaxScore());
+                curLevelCfg.setMinTime(cls.getMinTime());
                 isRecord = 1;
             }
             stars = curLevelCfg.getStar(game.getGameScore());
         } else if (curLevelCfg.getLevelMode() == GameMode.ScoreTask) {
-            if (game.getGameScore() >= curLevelCfg.getTask()) {
+            if (game.getGameScore() >= curLevelCfg.getScoreTask()) {
                 if (game.getGameScore() > curLevelCfg.getMaxScore()) {
                     // 更新任务完成记录
                     LevelScore cls = new LevelScore(curLevelCfg.getLevelId());
                     cls.setMaxScore(game.getGameScore());
+                    cls.setMinTime(game.getGameTime());
                     DbScore.updateScore(cls);
                 }
 
                 // 更新缓存
                 curLevelCfg.setMaxScore(game.getGameScore());
+                curLevelCfg.setMinTime(game.getGameTime());
+                // 是否完成任务
+                isRecord = 1;
+            }
+            stars = curLevelCfg.getStar(game.getGameScore());
+        } else if (curLevelCfg.getLevelMode() == GameMode.TimeTask) {
+            if (game.getGameTime() <= curLevelCfg.getTimeTask()) {
+                if (curLevelCfg.getMinTime() == 0 || game.getGameTime() < curLevelCfg.getMinTime()) {
+                    // 更新任务完成记录
+                    LevelScore cls = new LevelScore(curLevelCfg.getLevelId());
+                    cls.setMaxScore(game.getGameScore());
+                    cls.setMinTime(game.getGameTime());
+                    DbScore.updateScore(cls);
+                }
+
+                // 更新缓存
+                curLevelCfg.setMaxScore(game.getGameScore());
+                curLevelCfg.setMinTime(game.getGameTime());
                 // 是否完成任务
                 isRecord = 1;
             }
@@ -590,7 +618,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
     public void showTime(int seconds) {
         if (curLevelCfg.getLevelMode() == GameMode.Level) {
             holder.pbTime.setProgress(seconds);
-        } else if (curLevelCfg.getLevelMode() == GameMode.Time) {
+        } else if (curLevelCfg.getLevelMode() == GameMode.Time || curLevelCfg.getLevelMode() == GameMode.TimeTask) {
             holder.tsScore.setText(StringUtil.secondToString(seconds));
         }
     }
@@ -628,9 +656,11 @@ public class GameActivity extends BaseActivity implements IGameAction {
         ResultInfo resultInfo = new ResultInfo();
         resultInfo.setNewRecord(isRecord == 1);
         resultInfo.setMaxScore(curLevelCfg.getMaxScore());
-        resultInfo.setMinTime(curLevelCfg.getMaxScore());
+        resultInfo.setMinTime(curLevelCfg.getMinTime());
         resultInfo.setUpload(curLevelCfg.isUpload());
         resultInfo.setLevel(curLevelCfg.getLevelId());
+        resultInfo.setScore(game.getGameScore());
+        resultInfo.setTime(game.getGameTime());
         if (userInfo != null) {
             resultInfo.setUserId(userInfo.getUserId());
         }
@@ -639,11 +669,10 @@ public class GameActivity extends BaseActivity implements IGameAction {
             resultInfo.setScore(game.getTotalScore());
             successDialog.showDialog(resultInfo);
         } else if (curLevelCfg.getLevelMode() == GameMode.Time) {
-            resultInfo.setScore(game.getTotalScore());
-            resultInfo.setTime(game.getGameTime());
             timeDialog.showDialog(resultInfo);
         } else if (curLevelCfg.getLevelMode() == GameMode.ScoreTask) {
-            resultInfo.setScore(game.getGameScore());
+            taskDialog.showDialog(resultInfo);
+        } else if (curLevelCfg.getLevelMode() == GameMode.TimeTask) {
             taskDialog.showDialog(resultInfo);
         }
         soundMgr.win();
@@ -681,7 +710,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
         return curLevelCfg;
     }
 
-    private int bgIndex = -1;
+    // private int bgIndex = -1;
     private Game game;
     private CardsView cardsView;
     private FailDialog failDialog;

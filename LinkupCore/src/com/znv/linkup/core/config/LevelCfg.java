@@ -55,16 +55,16 @@ public class LevelCfg implements Serializable {
      * 初始化游戏星级的临界分数
      */
     public void initStarScores() {
+        int cardCount = (xSize - 2) * (ySize - 2) - emptyNum - obstacleNum;
         if (starScores == null) {
             starScores = new int[3];
-            int cardCount = (xSize - 2) * (ySize - 2) - emptyNum - obstacleNum;
             int min = cardCount * GameSettings.CardScore + levelTime * GameSettings.TimeScore / 2;
             starScores[1] = min + GameSettings.CornerScore * cardCount / 2;
             starScores[0] = (min + starScores[1]) / 2;
             starScores[2] = starScores[1] + levelTime * GameSettings.TimeScore / 2;
         }
-        // 设置任务为3颗星的分数值
-        scoreTask = starScores[2];
+        // 设置任务为2颗星的分数值
+        scoreTask = cardCount * GameSettings.TaskFactor;
         // 设置计时任务
         timeTask = levelTime;
     }

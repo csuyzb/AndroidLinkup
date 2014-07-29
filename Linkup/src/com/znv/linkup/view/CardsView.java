@@ -1,6 +1,5 @@
 package com.znv.linkup.view;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -143,19 +142,14 @@ public class CardsView extends RelativeLayout {
     private List<Bitmap> getSkinImages(String skinName) {
         if (!skinImages.containsKey(skinName)) {
             List<Bitmap> images = new ArrayList<Bitmap>();
-            InputStream is = null;
-            for (int i = 0; i < ViewSettings.SkinImageCount; i++) {
-                String imageFile = String.format("%s/p%s.png", skinName, i + 1);
-                try {
-                    is = getResources().getAssets().open(imageFile);
-                    Bitmap bm = BitmapFactory.decodeStream(is);
-                    is.close();
-
-                    // 将图片依次加入列表
-                    images.add(bm);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            String imageFile = String.format("%ss.dat", skinName);
+            InputStream is;
+            try {
+                is = getResources().getAssets().open(imageFile);
+                Bitmap bm = BitmapFactory.decodeStream(is);
+                images = ImageUtil.cutImage(bm, ViewSettings.ImageXCount, ViewSettings.ImageYCount);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
             // 加入缓存

@@ -127,11 +127,6 @@ public class GameActivity extends BaseActivity implements IGameAction {
         holder.tvLevel.setText(curLevelCfg.getRankName() + "-" + curLevelCfg.getLevelName());
         holder.pbTime.setMax(curLevelCfg.getLevelTime());
         holder.tvMaxScore.setText(getString(R.string.game_level_record) + String.valueOf(curLevelCfg.getMaxScore()));
-        // 随机背景
-        // if (bgIndex == -1 || curLevelCfg.getLevelId() % 4 == 0) {
-        // bgIndex = (int) (Math.random() * ViewSettings.GameBgImageIds.length);
-        // holder.flBackground.setBackgroundResource(ViewSettings.GameBgImageIds[bgIndex]);
-        // }
         holder.flBackground.setBackgroundResource(ViewSettings.GameBgImageIds[curLevelCfg.getLevelBackground()]);
         if (curLevelCfg.getLevelMode() == GameMode.Level) {
             holder.tsScore.setText("0");
@@ -302,9 +297,11 @@ public class GameActivity extends BaseActivity implements IGameAction {
                 // 更新缓存
                 curLevelCfg.setMaxScore(game.getGameScore());
                 curLevelCfg.setMinTime(game.getGameTime());
+
                 // 是否完成任务
                 isRecord = 1;
             }
+
             stars = curLevelCfg.getStar(game.getGameScore());
         } else if (curLevelCfg.getLevelMode() == GameMode.TimeTask) {
             if (game.getGameTime() <= curLevelCfg.getTimeTask()) {
@@ -710,7 +707,6 @@ public class GameActivity extends BaseActivity implements IGameAction {
         return curLevelCfg;
     }
 
-    // private int bgIndex = -1;
     private Game game;
     private CardsView cardsView;
     private FailDialog failDialog;

@@ -70,7 +70,7 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
             rankCfgs = modeCfgs.get(index).getRankInfos();
         }
         // root.setBackgroundResource(ViewSettings.GameBgImageIds[rankCfgs.get(0).getRankBackground()]);
-        root.setBackgroundColor(ViewSettings.RankBgColors[rankCfgs.get(0).getRankBackground()]);
+        root.setBackgroundColor(getResources().getColor(ViewSettings.RankBgColors[rankCfgs.get(0).getRankBackground()]));
     }
 
     /**
@@ -80,7 +80,7 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
     public void onPageSelected(int arg0) {
         soundMgr.pageChanged();
         LinearLayout root = (LinearLayout) RankActivity.this.findViewById(R.id.rankBg);
-        root.setBackgroundColor(ViewSettings.RankBgColors[rankCfgs.get(arg0).getRankBackground()]);
+        root.setBackgroundColor(getResources().getColor(ViewSettings.RankBgColors[rankCfgs.get(arg0).getRankBackground()]));
     }
 
     @Override

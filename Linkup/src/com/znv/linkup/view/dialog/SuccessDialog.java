@@ -224,13 +224,13 @@ public class SuccessDialog extends Dialog implements IUpload {
                 scoreInfo.setScore(resultInfo.getScore());
                 scoreInfo.setTime(resultInfo.getTime());
                 WelcomeActivity.userInfo.addGold(getContext(), scoreInfo.getGold());
-                UserScore.addResult(scoreInfo, levelTop.netMsgHandler);
+                UserScore.addGetResult(scoreInfo, levelTop.netMsgHandler);
             } else {
                 if (!resultInfo.isUpload()) {
                     scoreInfo.setScore(resultInfo.getMaxScore());
                     scoreInfo.setTime(resultInfo.getMinTime());
                     WelcomeActivity.userInfo.addGold(getContext(), scoreInfo.getGold());
-                    UserScore.addResult(scoreInfo, levelTop.netMsgHandler);
+                    UserScore.addGetResult(scoreInfo, levelTop.netMsgHandler);
                 } else {
                     // 获取排行榜
                     UserScore.getLevelTops(resultInfo.getLevel(), levelTop.netMsgHandler);
@@ -257,8 +257,5 @@ public class SuccessDialog extends Dialog implements IUpload {
         LevelScore ls = new LevelScore(resultInfo.getLevel());
         ls.setIsUpload(1);
         DbScore.updateUpload(ls);
-
-        // 获取排行榜
-        UserScore.getLevelTops(resultInfo.getLevel(), levelTop.netMsgHandler);
     }
 }

@@ -5,6 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+/**
+ * 选择模式界面
+ * 
+ * @author yzb
+ * 
+ */
 public class ModeActivity extends BaseActivity implements OnClickListener {
 
     @Override
@@ -34,5 +40,15 @@ public class ModeActivity extends BaseActivity implements OnClickListener {
             }
             break;
         }
+    }
+
+    @Override
+    protected void playMusic() {
+
+    }
+
+    @Override
+    protected void stopMusic() {
+
     }
 }

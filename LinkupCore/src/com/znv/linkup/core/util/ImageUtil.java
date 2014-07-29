@@ -1,5 +1,8 @@
 package com.znv.linkup.core.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
@@ -77,5 +80,37 @@ public class ImageUtil {
         paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, paint);
         return output;
+    }
+
+    /**
+     * 分割bitmap
+     * 
+     * @param bm
+     *            源图片
+     * @param xcount
+     *            水平个数
+     * @param ycount
+     *            垂直个数
+     * @return 小图片数组
+     */
+    public static List<Bitmap> cutImage(Bitmap bm, int xcount, int ycount) {
+        if (bm == null) {
+            return null;
+        }
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        int imageWidth = width / xcount;
+        int imageHeight = height / ycount;
+        List<Bitmap> images = new ArrayList<Bitmap>(xcount * ycount);
+        for (int i = 0; i < xcount; i++) {
+            for (int j = 0; j < ycount; j++) {
+                try {
+                    images.add(Bitmap.createBitmap(bm, i * imageWidth, j * imageHeight, imageWidth, imageHeight));
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return images;
     }
 }

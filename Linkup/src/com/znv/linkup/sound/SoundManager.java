@@ -14,7 +14,7 @@ import com.znv.linkup.core.config.LevelCfg;
  * 
  */
 public class SoundManager {
-    private SoundPool soundPool = new SoundPool(10, AudioManager.STREAM_SYSTEM, 8);
+    private SoundPool soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 8);
     private int[] soundIds = new int[10];
 
     public SoundManager(Context context) {

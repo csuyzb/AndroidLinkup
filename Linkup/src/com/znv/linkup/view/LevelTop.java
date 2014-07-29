@@ -161,12 +161,12 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-            case ViewSettings.MSG_LEVEL_ADD: {
+            case ViewSettings.MSG_LEVEL_ADDGET: {
                 if (uploadListener != null) {
                     uploadListener.onLevelResultAdd(msg);
                 }
             }
-                break;
+            // 不加break，继续执行操作与MSG_LEVEL_GET相同
             case ViewSettings.MSG_LEVEL_GET: {
                 showStatus(LevelTopStatus.TopInfo);
 

@@ -2,16 +2,16 @@
 <resources>
 
     <string-array name="modes">
-        <item>经典闯关</item>
-        <item>休闲计时</item>
-        <item>积分任务</item>
-        <item>计时任务</item>
+        <item>闯关</item>
+        <item>计时</item>
+        <item>任务</item>
+        <item>任务2</item>
     </string-array>
     <string-array name="mode0ranks">
-        <item>经典连连看</item>
+        <item>宠物连连看</item>
         <item>水果连连看</item>
         <item>动物连连看</item>
-        <item>宠物连连看</item>
+        <item>经典连连看</item>
         <item>农场连连看</item>
     </string-array>
     <string-array name="mode1ranks">

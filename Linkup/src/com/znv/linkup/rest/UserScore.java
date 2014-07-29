@@ -27,6 +27,7 @@ public class UserScore {
     private static String USER_UPDATE_URI = ViewSettings.WebRoot + "/webapi/user/update";
     public static String LEVEL_ADD_URI = ViewSettings.WebRoot + "/webapi/level/add";
     public static String LEVEL_GET_URI = ViewSettings.WebRoot + "/webapi/level/get";
+    public static String LEVEL_ADDGET_URI = ViewSettings.WebRoot + "/webapi/level/addget";
 
     /**
      * 记录用户登录
@@ -95,6 +96,38 @@ public class UserScore {
         }).start();
     }
 
+//    /**
+//     * 新增用户关卡分数，用于排名
+//     * 
+//     * @param levelInfo
+//     *            上传的分数信息
+//     * @param handler
+//     *            消息处理
+//     */
+//    public static void addResult(LevelInfo levelInfo, final Handler handler) {
+//        final List<NameValuePair> params = new ArrayList<NameValuePair>();
+//        params.add(new BasicNameValuePair("userid", levelInfo.getUserId()));
+//        params.add(new BasicNameValuePair("level", String.valueOf(levelInfo.getLevel())));
+//        params.add(new BasicNameValuePair("score", String.valueOf(levelInfo.getScore())));
+//        params.add(new BasicNameValuePair("time", String.valueOf(levelInfo.getTime())));
+//        params.add(new BasicNameValuePair("diamond", String.valueOf(levelInfo.getDiamond())));
+//        params.add(new BasicNameValuePair("gold", String.valueOf(levelInfo.getGold())));
+//        new Thread(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                String result = RestUtil.post(LEVEL_ADD_URI, params);
+//                if (result != null) {
+//                    // 成功post用户关卡分数
+//                    handler.sendEmptyMessage(ViewSettings.MSG_LEVEL_ADD);
+//                } else {
+//                    // 网络或其它问题
+//                    handler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION);
+//                }
+//            }
+//        }).start();
+//    }
+    
     /**
      * 新增用户关卡分数，用于排名
      * 
@@ -103,7 +136,7 @@ public class UserScore {
      * @param handler
      *            消息处理
      */
-    public static void addResult(LevelInfo levelInfo, final Handler handler) {
+    public static void addGetResult(LevelInfo levelInfo, final Handler handler) {
         final List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("userid", levelInfo.getUserId()));
         params.add(new BasicNameValuePair("level", String.valueOf(levelInfo.getLevel())));
@@ -115,10 +148,10 @@ public class UserScore {
 
             @Override
             public void run() {
-                String result = RestUtil.post(LEVEL_ADD_URI, params);
+                String result = RestUtil.post(LEVEL_ADDGET_URI, params);
                 if (result != null) {
                     // 成功post用户关卡分数
-                    handler.sendEmptyMessage(ViewSettings.MSG_LEVEL_ADD);
+                    handler.sendEmptyMessage(ViewSettings.MSG_LEVEL_ADDGET);
                 } else {
                     // 网络或其它问题
                     handler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION);

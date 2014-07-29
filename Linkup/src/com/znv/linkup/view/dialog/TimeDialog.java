@@ -164,13 +164,13 @@ public class TimeDialog extends Dialog implements IUpload {
                 timeInfo.setScore(resultInfo.getScore());
                 timeInfo.setTime(resultInfo.getTime());
                 WelcomeActivity.userInfo.addGold(getContext(), timeInfo.getGold());
-                UserScore.addResult(timeInfo, levelTop.netMsgHandler);
+                UserScore.addGetResult(timeInfo, levelTop.netMsgHandler);
             } else {
                 if (!resultInfo.isUpload()) {
                     timeInfo.setScore(resultInfo.getMaxScore());
                     timeInfo.setTime(resultInfo.getMinTime());
                     WelcomeActivity.userInfo.addGold(getContext(), timeInfo.getGold());
-                    UserScore.addResult(timeInfo, levelTop.netMsgHandler);
+                    UserScore.addGetResult(timeInfo, levelTop.netMsgHandler);
                 } else {
                     // 获取排行榜
                     UserScore.getLevelTops(resultInfo.getLevel(), levelTop.netMsgHandler);
@@ -199,6 +199,6 @@ public class TimeDialog extends Dialog implements IUpload {
         DbScore.updateUpload(ls);
 
         // 获取排行榜
-        UserScore.getLevelTops(resultInfo.getLevel(), levelTop.netMsgHandler);
+        // UserScore.getLevelTops(resultInfo.getLevel(), levelTop.netMsgHandler);
     }
 }

@@ -8,5 +8,10 @@
     <color name="prompt_color">#FFFF0000</color>
     <color name="path_color">#FF00FF00</color>
     <color name="white">#ffffffff</color>
+    <color name="rankbg_color1">#ff83608d</color>
+    <color name="rankbg_color2">#ffbbcc92</color>
+    <color name="rankbg_color3">#ff53a7a8</color>
+    <color name="rankbg_color4">#ff89c184</color>
+    <color name="rankbg_color5">#ffccac90</color>
 
 </resources>

@@ -35,50 +35,57 @@
         android:gravity="center"
         android:orientation="horizontal" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:layout_weight="1"
-        android:gravity="center_horizontal|center_vertical"
-        android:orientation="horizontal" >
+        android:gravity="center_horizontal|center_vertical" >
 
         <ImageButton
-            android:id="@+id/start"
+            android:id="@+id/mode0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/start_selector"
+            android:layout_margin="5dp"
+            android:background="@drawable/but_cg"
+            android:tag="0"
+            android:translationY="0dp"
             tools:ignore="contentDescription" />
 
-        <!-- <ImageButton -->
-        <!-- android:id="@+id/mode0" -->
-        <!-- android:layout_width="wrap_content" -->
-        <!-- android:layout_height="wrap_content" -->
-        <!-- android:layout_margin="10dp" -->
-        <!-- android:background="@drawable/level_selector" -->
-        <!-- android:tag="0" -->
-        <!-- tools:ignore="contentDescription" /> -->
+        <ImageButton
+            android:id="@+id/mode1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/mode0"
+            android:layout_margin="10dp"
+            android:layout_toRightOf="@id/mode0"
+            android:background="@drawable/but_js"
+            android:tag="1"
+            android:translationY="-30dp"
+            tools:ignore="contentDescription" />
 
+        <ImageButton
+            android:id="@+id/mode2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_toRightOf="@id/mode1"
+            android:background="@drawable/but_srw"
+            android:tag="2"
+            android:translationY="-20dp"
+            tools:ignore="contentDescription" />
 
-        <!-- <ImageButton -->
-        <!-- android:id="@+id/mode1" -->
-        <!-- android:layout_width="wrap_content" -->
-        <!-- android:layout_height="wrap_content" -->
-        <!-- android:layout_margin="10dp" -->
-        <!-- android:background="@drawable/time_selector" -->
-        <!-- android:tag="1" -->
-        <!-- tools:ignore="contentDescription" /> -->
-
-
-        <!-- <ImageButton -->
-        <!-- android:id="@+id/mode2" -->
-        <!-- android:layout_width="wrap_content" -->
-        <!-- android:layout_height="wrap_content" -->
-        <!-- android:layout_margin="10dp" -->
-        <!-- android:background="@drawable/task_selector" -->
-        <!-- android:tag="2" -->
-        <!-- tools:ignore="contentDescription" /> -->
-    </LinearLayout>
+        <ImageButton
+            android:id="@+id/mode3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@id/mode2"
+            android:background="@drawable/but_trw"
+            android:tag="3"
+            android:translationY="10dp"
+            tools:ignore="contentDescription" />
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"

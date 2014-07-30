@@ -136,7 +136,11 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
     }
 
     private void initClickListener() {
-        findViewById(R.id.start).setOnClickListener(this);
+        findViewById(R.id.mode0).setOnClickListener(this);
+        findViewById(R.id.mode1).setOnClickListener(this);
+        findViewById(R.id.mode2).setOnClickListener(this);
+        findViewById(R.id.mode3).setOnClickListener(this);
+
         findViewById(R.id.music).setOnClickListener(this);
         findViewById(R.id.sound).setOnClickListener(this);
         findViewById(R.id.top).setOnClickListener(this);
@@ -263,23 +267,17 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-        // case R.id.mode0:
-        // case R.id.mode1:
-        // case R.id.mode2: {
-        // soundMgr.select();
-        // int modeIndex = Integer.parseInt((String) v.getTag());
-        // if (modeIndex >= 0 && modeIndex < 3) {
-        // Intent intent = new Intent(this, RankActivity.class);
-        // intent.putExtra("modeIndex", modeIndex);
-        // startActivity(intent);
-        // }
-        // break;
-        // }
-        case R.id.start: {
+        case R.id.mode0:
+        case R.id.mode1:
+        case R.id.mode2:
+        case R.id.mode3:
             soundMgr.select();
-            Intent intent = new Intent(this, ModeActivity.class);
-            startActivity(intent);
-        }
+            int modeIndex = Integer.parseInt((String) v.getTag());
+            if (modeIndex >= 0 && modeIndex < 4) {
+                Intent intent = new Intent(this, RankActivity.class);
+                intent.putExtra("modeIndex", modeIndex);
+                startActivity(intent);
+            }
             break;
         case R.id.music: {
             if (musicMgr != null) {

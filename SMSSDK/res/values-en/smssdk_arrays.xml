@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="smssdk_country_group_a">
+		<item>Afghanistan,93,44</item>
+		<item>Albania,355,102</item>
+		<item>Algeria,213,49</item>
+		<item>Andorra,376,113</item>
+		<item>Angola,244,74</item>
+		<item>Anguilla,1264,177</item>
+		<item>Antigua and Barbuda,1268,178</item>
+		<item>Argentina,54,25</item>
+		<item>Armenia,374,111</item>
+		<item>Ascension,247,75</item>
+		<item>Australia,61,31</item>
+		<item>Austria,43,15</item>
+		<item>Azerbaijan,994,173</item>
+	</string-array>
+	
+	<string-array name="smssdk_country_group_b">
+		<item>Bahamas,1242,175</item>
+		<item>Bahrain,973,167</item>
+		<item>Bangladesh,880,154</item>
+		<item>Barbados,1246,176</item>
+		<item>Belarus,375,112</item>
+		<item>Belgium,32,8</item>
+		<item>Belize,501,122</item>
+		<item>Benin,229,60</item>
+		<item>Bermuda Is.,1441,180</item>
+		<item>Bolivia,591,130</item>
+		<item>Botswana,267,93</item>
+		<item>Brazil,55,26</item>
+		<item>Brunei,673,139</item>
+		<item>Bulgaria,359,106</item>
+		<item>Burkina-faso,226,57</item>
+		<item>Burma,95,46</item>
+		<item>Burundi,257,84</item>
+	</string-array>
+	
+	<string-array name="smssdk_country_group_c">
+		<item>Cameroon,237,69</item>
+		<item>Canada,1,1</item>
+		<item>Cayman Is.,1345,179</item>
+		<item>Central African Republic,236,68</item>
+		<item>Chad,235,67</item>
+		<item>Chile,56,27</item>
+		<item>China,86,40</item>
+		<item>Colombia,57,28</item>
+		<item>Congo,242,72</item>
+		<item>Cook Is.,682,145</item>
+		<item>Costa Rica,506,127</item>
+		<item>Cuba,53,24</item>
+		<item>Cyprus,357,104</item>
+		<item>Czech Republic,420,119</item>
+	</string-array>
+	
+	<string-array name="smssdk_country_group_d">
+		<item>Denmark,45,17</item>
+		<item>Djibouti,253,80</item>
+		<item>Dominica Rep.,1890,192</item>
+	</string-array>
+	
+	<string-array name="smssdk_country_group_e">
+		<item>Ecuador,593,132</item>
+		<item>Egypt,20,4</item>
+		<item>EI Salvador,503,124</item>
+		<item>Estonia,372,109</item>
+		<item>Ethiopia,251,78</item>
+	</string-array>
+	
+	<string-array name="smssdk_country_group_f">
+		<item>Fiji,679,144</item>
+		<item>Finland,358,105</item>
+		<item>France,33,9</item>
+		<item>French Guiana,594,133</item>
+		<item>French Polynesia,689,148</item>
+	</string-array>
+	
+	<string-array name="smssdk_country_group_g">
+		<item>Gabon,241,71</item>
+		<item>Gambia,220,52</item>
+		<item>Georgia,995,174</item>
+		<item>Germany,49,21</item>
+		<item>Ghana,233,64</item>
+		<item>Gibraltar,350,97</item>
+		<item>Greece,30,6</item>
+		<item>Grenada,1809,189</item>
+		<item>Guam,1671,183</item>
+		<item>Guatemala,502,123</item>
+		<item>Guinea,224,55</item>
+		<item>Guyana,592,131</item>
+	</string-array>
+	
+	<string-array name="smssdk_country_group_h">
+		<item>Haiti,509,129</item>
+		<item>Honduras,504,125</item>
+		<item>Hongkong,852,150</item>
+		<item>Hungary,36,11</item>
+	</string-array>
+	
+	<string-array name="smssdk_country_group_i">
+		<item>Iceland,354,101</item>
+		<item>India,91,42</item>
+		<item>Indonesia,62,32</item>
+		<item>Iran,98,47</item>
+		<item>Iraq,964,160</item>
+		<item>Ireland,353,100</item>
+		<item>Israel,972,166</item>
+		<item>Italy,39,12</item>
+		<item>Ivory Coast,225,56</item>
+	</string-array>
+	
+	<string-array name="smssdk_country_group_j">
+		<item>Jamaica,1876,191</item>
+		<item>Japan,81,37</item>
+		<item>Jordan,962,158</item>
+	</string-array>
+	
+	<string-array name="smssdk_country_group_k">
+		<item>Kampuchea (Cambodia ),855,152</item>
+		<item>Kazakstan,327,95</item>
+		<item>Kenya,254,81</item>
+		<item>Korea,82,38</item>
+		<item>Kuwait,965,161</item>
+		<item>Kyrgyzstan,331,96</item>
+	</string-array>
+	
+	<string-array name="smssdk_country_group_l">
+		<item>Laos,856,153</item>
+		<item>Latvia,371,108</item>
+		<item>Lebanon,961,157</item>
+		<item>Lesotho,266,92</item>
+		<item>Liberia,231,62</item>
+		<item>Libya,218,51</item>
+		<item>Liechtenstein,423,121</item>
+		<item>Lithuania,370,107</item>
+		<item>Luxembourg,352,99</item>
+	</string-array>
+	
+	<string-array name="smssdk_country_group_m">
+		<item>Macao,853,151</item>
+		<item>Madagascar,261,87</item>
+		<item>Malawi,265,91</item>
+		<item>Malaysia,60,30</item>
+		<item>Maldives,960,156</item>
+		<item>Mali,223,54</item>
+		<item>Malta,356,103</item>
+		<item>Mariana Is,1670,182</item>
+		<item>Martinique,596,135</item>
+		<item>Mauritius,230,61</item>
+		<item>Mexico,52,23</item>
+		<item>Monaco,377,114</item>
+		<item>Mongolia,976,169</item>
+		<item>Montserrat Is,1664,181</item>
+		<item>Morocco,212,48</item>
+		<item>Mozambique,258,85</item>
+	</string-array>
+	
+	<string-array name="smssdk_country_group_n">
+		<item>Namibia,264,90</item>
+		<item>Nauru,674,140</item>
+		<item>Nepal,977,170</item>
+		<item>Netheriands Antilles,599,138</item>
+		<item>Netherlands,31,7</item>
+		<item>New Zealand,64,34</item>
+		<item>Nicaragua,505,126</item>
+		<item>Niger,227,58</item>
+		<item>Nigeria,234,66</item>
+		<item>North Korea,850,149</item>
+		<item>Norway,47,19</item>
+	</string-array>
+	
+	<string-array name="smssdk_country_group_o">
+		<item>Oman,968,164</item>
+	</string-array>
+	
+	<string-array name="smssdk_country_group_p">
+		<item>Pakistan,92,43</item>
+		<item>Panama,507,128</item>
+		<item>Papua New Cuinea,675,141</item>
+		<item>Paraguay,595,134</item>
+		<item>Peru,51,22</item>
+		<item>Philippines,63,33</item>
+		<item>Poland,48,20</item>
+		<item>Portugal,351,98</item>
+		<item>Puerto Rico,1787,188</item>
+	</string-array>
+	
+	<string-array name="smssdk_country_group_q">
+		<item>Qatar,974,168</item>
+	</string-array>
+	
+	<string-array name="smssdk_country_group_r">
+		<item>Republic of Moldova,373,110</item>
+		<item>Reunion,262,88</item>
+		<item>Romania,40,13</item>
+		<item>Russia,7,3</item>
+	</string-array>
+	
+	<string-array name="smssdk_country_group_s">
+		<item>Saint Lueia,1758,184</item>
+		<item>Saint Vincent,1784,186</item>
+		<item>Samoa Eastern,684,146</item>
+		<item>Samoa Western,685,147</item>
+		<item>San Marino,378,115</item>
+		<item>Sao Tome and Principe,239,70</item>
+		<item>Saudi Arabia,966,162</item>
+		<item>Senegal,221,53</item>
+		<item>Seychelles,248,76</item>
+		<item>Sierra Leone,232,63</item>
+		<item>Singapore,65,35</item>
+		<item>Slovakia,421,120</item>
+		<item>Slovenia,386,118</item>
+		<item>Solomon Is,677,143</item>
+		<item>Somali,252,79</item>
+		<item>South Africa,27,5</item>
+		<item>Spain,34,10</item>
+		<item>Sri Lanka,94,45</item>
+		<item>St.Lucia,1758,185</item>
+		<item>St.Vincent,1784,187</item>
+		<item>Sudan,249,77</item>
+		<item>Suriname,597,136</item>
+		<item>Swaziland,268,94</item>
+		<item>Sweden,46,18</item>
+		<item>Switzerland,41,14</item>
+		<item>Syria,963,159</item>
+	</string-array>
+	
+	<string-array name="smssdk_country_group_t">
+		<item>Taiwan,886,155</item>
+		<item>Tajikstan,992,171</item>
+		<item>Tanzania,255,82</item>
+		<item>Thailand,66,36</item>
+		<item>Togo,228,59</item>
+		<item>Tonga,676,142</item>
+		<item>Trinidad and Tobago,1809,190</item>
+		<item>Tunisia,216,50</item>
+		<item>Turkey,90,41</item>
+		<item>Turkmenistan,993,172</item>
+	</string-array>
+	
+	<string-array name="smssdk_country_group_u">
+		<item>Uganda,256,83</item>
+		<item>Ukraine,380,116</item>
+		<item>United Arab Emirates,971,165</item>
+		<item>United Kiongdom,44,16</item>
+		<item>United States of America,1,2</item>
+		<item>Uruguay,598,137</item>
+		<item>Uzbekistan,233,65</item>
+	</string-array>
+	
+	<string-array name="smssdk_country_group_v">
+		<item>Venezuela,58,29</item>
+		<item>Vietnam,84,39</item>
+	</string-array>
+	
+	<string-array name="smssdk_country_group_w">
+	    
+	</string-array>
+	
+	<string-array name="smssdk_country_group_x">
+	    
+	</string-array>
+	
+	<string-array name="smssdk_country_group_y">
+		<item>Yemen,967,163</item>
+		<item>Yugoslavia,381,117</item>
+	</string-array>
+	
+	<string-array name="smssdk_country_group_z">
+		<item>Zaire,243,73</item>
+		<item>Zambia,260,86</item>
+		<item>Zimbabwe,263,89</item>
+    </string-array>
+</resources>

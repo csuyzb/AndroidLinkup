@@ -67,5 +67,8 @@
     <string name="info_known">我知道了</string>
     <string name="info_prompt">温馨提示</string>
     <string name="info_message">游戏可以微博或QQ登录啦！\n1.每日登录获得钻石和金币奖励.\n2.钻石可以强制解锁任意关卡.\n3.参与网络排名，出现在英雄榜.\n4.新浪和腾讯开放接入安全无忧!</string>
+    <string name="tool_no_refresh">已经没有重排道具了，可以去玩玩闯关模式!</string>
+    <string name="tool_no_prompt">已经没有提示道具了，可以去玩玩闯关模式!</string>
+    <string name="tool_no_addtime">已经没有加分道具了，可以去玩玩闯关模式!</string>
 
 </resources>

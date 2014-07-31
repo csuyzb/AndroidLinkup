@@ -7,11 +7,18 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.GestureDetector;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -24,6 +31,7 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.znv.linkup.core.config.LevelCfg;
+import com.znv.linkup.core.config.ModeCfg;
 import com.znv.linkup.rest.NetMsgListener;
 import com.znv.linkup.rest.UserScore;
 import com.znv.linkup.rest.VolleyHelper;
@@ -36,7 +44,7 @@ import com.znv.linkup.util.StringUtil;
  * @author yzb
  * 
  */
-public class TopActivity extends BaseActivity {
+public class TopActivity extends Activity implements OnTouchListener, OnGestureListener {
 
     private int curMode = 0;
     private int curRank = 0;
@@ -46,10 +54,16 @@ public class TopActivity extends BaseActivity {
     private VolleyHelper volley = null;
     private LinearLayout topList = null;
     private List<TopItemHolder> holders = null;
+    private List<ModeCfg> modeCfgs = BaseActivity.modeCfgs;
+    // 滑动的最小距离
+    private int minDistance = 20;
+    private int minVelocity = 0;
+    private GestureDetector detector = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initFullScreen();
         setContentView(R.layout.activity_top);
 
         volley = new VolleyHelper(this);
@@ -79,12 +93,23 @@ public class TopActivity extends BaseActivity {
             topList.addView(view);
         }
         topList.setVisibility(View.INVISIBLE);
+        detector = new GestureDetector(this, this);
+        detector.setIsLongpressEnabled(true);
 
         // 查询当前关卡排名
         searchCurLevel();
 
         // 设置查询条件
         setSelectItem();
+    }
+
+    /**
+     * 全屏初始化
+     */
+    private void initFullScreen() {
+        // set full screen
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     /**
@@ -207,6 +232,62 @@ public class TopActivity extends BaseActivity {
     }
 
     /**
+     * 获取下一关的排名
+     */
+    private void nextLevel() {
+        if (curLevel + 1 < 24) {
+            curLevel++;
+        } else {
+            curLevel = 0;
+            if (curRank + 1 < modeCfgs.get(curMode).getRankInfos().size()) {
+                curRank++;
+            } else {
+                curRank = 0;
+                if (curMode + 1 < modeCfgs.size()) {
+                    curMode++;
+                } else {
+                    curMode = 0;
+                }
+            }
+        }
+
+        searchCurLevel();
+    }
+
+    /**
+     * 查询前一关的排名
+     */
+    private void preLevel() {
+        if (curLevel - 1 >= 0) {
+            curLevel--;
+        } else {
+            curLevel = 23;
+            if (curRank - 1 >= 0) {
+                curRank--;
+            } else {
+                if (curMode - 1 >= 0) {
+                    curMode--;
+                } else {
+                    curMode = modeCfgs.size() - 1;
+                }
+                curRank = modeCfgs.get(curMode).getRankInfos().size() - 1;
+            }
+        }
+
+        searchCurLevel();
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        if (e1.getX() - e2.getX() > minDistance && Math.abs(velocityX) > minVelocity) {
+            nextLevel();
+        } else if (e2.getX() - e1.getX() > minDistance && Math.abs(velocityX) > minVelocity) {
+            preLevel();
+        }
+        return false;
+    }
+
+    /**
      * 处理网络消息回调的handler
      */
     @SuppressLint("HandlerLeak")
@@ -271,16 +352,6 @@ public class TopActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void playMusic() {
-
-    }
-
-    @Override
-    protected void stopMusic() {
-
-    }
-
     /**
      * 控件缓存
      * 
@@ -294,5 +365,41 @@ public class TopActivity extends BaseActivity {
         TextView tvName;
         TextView tvDate;
         TextView tvTime;
+    }
+
+    @Override
+    public boolean onDown(MotionEvent e) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        detector.onTouchEvent(event);
+        return true;
     }
 }

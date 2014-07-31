@@ -56,7 +56,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
         curLevelCfg = levelCfgs.get(getIntent().getIntExtra("levelIndex", 0));
 
         holder.tvLevel = (TextView) findViewById(R.id.tvLevel);
-        holder.tvMaxScore = (TextView) findViewById(R.id.maxScore);
+        holder.tvRecord = (TextView) findViewById(R.id.maxScore);
         holder.pbTime = (ProgressBar) findViewById(R.id.pbTime);
         holder.tsScore = (TextSwitcher) findViewById(R.id.scoreText);
         holder.flBackground = (FrameLayout) findViewById(R.id.rootFrame);
@@ -126,29 +126,29 @@ public class GameActivity extends BaseActivity implements IGameAction {
         holder.btnAddTime.setText(String.valueOf(LevelCfg.globalCfg.getAddTimeNum()));
         holder.tvLevel.setText(curLevelCfg.getRankName() + "-" + curLevelCfg.getLevelName());
         holder.pbTime.setMax(curLevelCfg.getLevelTime());
-        holder.tvMaxScore.setText(getString(R.string.game_level_record) + String.valueOf(curLevelCfg.getMaxScore()));
         holder.flBackground.setBackgroundResource(ViewSettings.GameBgImageIds[curLevelCfg.getLevelBackground()]);
         if (curLevelCfg.getLevelMode() == GameMode.Level) {
             holder.tsScore.setText("0");
+            holder.tvRecord.setText(getString(R.string.game_level_record) + String.valueOf(curLevelCfg.getMaxScore()));
         } else if (curLevelCfg.getLevelMode() == GameMode.Time) {
             holder.pbTime.setVisibility(View.GONE);
             holder.btnAddTime.setVisibility(View.GONE);
             holder.tsScore.setText("00:00");
             if (curLevelCfg.getMaxScore() == 0) {
-                holder.tvMaxScore.setText(getString(R.string.game_level_norecord));
+                holder.tvRecord.setText(getString(R.string.game_level_norecord));
             } else {
-                holder.tvMaxScore.setText(getString(R.string.game_level_record) + StringUtil.secondToString(curLevelCfg.getMaxScore()));
+                holder.tvRecord.setText(getString(R.string.game_level_record) + StringUtil.secondToString(curLevelCfg.getMinTime()));
             }
         } else if (curLevelCfg.getLevelMode() == GameMode.ScoreTask) {
             holder.pbTime.setVisibility(View.GONE);
             holder.btnAddTime.setVisibility(View.GONE);
             holder.tsScore.setText("0");
-            holder.tvMaxScore.setText(getString(R.string.game_level_task) + curLevelCfg.getScoreTask());
+            holder.tvRecord.setText(getString(R.string.game_level_task) + curLevelCfg.getScoreTask());
         } else if (curLevelCfg.getLevelMode() == GameMode.TimeTask) {
             holder.pbTime.setVisibility(View.GONE);
             holder.btnAddTime.setVisibility(View.GONE);
             holder.tsScore.setText("00:00");
-            holder.tvMaxScore.setText(getString(R.string.game_level_task) + StringUtil.secondToString(curLevelCfg.getTimeTask()));
+            holder.tvRecord.setText(getString(R.string.game_level_task) + StringUtil.secondToString(curLevelCfg.getTimeTask()));
         }
 
         game = new Game(curLevelCfg, this);
@@ -567,6 +567,11 @@ public class GameActivity extends BaseActivity implements IGameAction {
     public void prompt(View v) {
         if (LevelCfg.globalCfg.getPromptNum() > 0) {
             game.prompt();
+        } else {
+            // 没有可用道具时给出提示
+            Toast toast = ToastUtil.getToast(this, R.string.tool_no_prompt);
+            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER, 0, 160);
+            toast.show();
         }
     }
 
@@ -578,6 +583,11 @@ public class GameActivity extends BaseActivity implements IGameAction {
     public void refresh(View v) {
         if (LevelCfg.globalCfg.getRefreshNum() > 0) {
             game.refresh();
+        } else {
+            // 没有可用道具时给出提示
+            Toast toast = ToastUtil.getToast(this, R.string.tool_no_refresh);
+            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER, 0, 160);
+            toast.show();
         }
     }
 
@@ -594,6 +604,11 @@ public class GameActivity extends BaseActivity implements IGameAction {
             game.addGameTime(ViewSettings.AddTimeSeconds);
 
             showAddTime();
+        } else {
+            // 没有可用道具时给出提示
+            Toast toast = ToastUtil.getToast(this, R.string.tool_no_addtime);
+            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER, 0, 160);
+            toast.show();
         }
     }
 
@@ -726,7 +741,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
      */
     class LevelHolder {
         TextView tvLevel;
-        TextView tvMaxScore;
+        TextView tvRecord;
         ProgressBar pbTime;
         TextSwitcher tsScore;
         FrameLayout flBackground;

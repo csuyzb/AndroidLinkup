@@ -16,16 +16,6 @@
         android:orientation="horizontal" >
     </com.znv.linkup.view.LevelTop>
 
-    <!-- <ImageView -->
-    <!-- android:id="@+id/logo" -->
-    <!-- android:layout_width="wrap_content" -->
-    <!-- android:layout_height="wrap_content" -->
-    <!-- android:layout_gravity="center" -->
-    <!-- android:layout_weight="1" -->
-    <!-- android:src="@drawable/logo" -->
-    <!-- android:visibility="gone" -->
-    <!-- tools:ignore="contentDescription" /> -->
-
     <com.znv.linkup.view.GameTitle
         android:id="@+id/gameTitle"
         android:layout_width="wrap_content"
@@ -129,8 +119,7 @@
             android:layout_weight="1"
             android:drawableTop="@drawable/more"
             android:gravity="center"
-            android:text="@string/friend"
-            android:visibility="gone" />
+            android:text="@string/friend" />
 
         <TextView
             android:id="@+id/about"

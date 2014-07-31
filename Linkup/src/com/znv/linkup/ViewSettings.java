@@ -202,13 +202,13 @@ public class ViewSettings {
      */
     public static int[] StarImages = new int[] { R.drawable.star1, R.drawable.star2, R.drawable.star3 };
 
-    // /**
-    // * 填写从短信SDK应用后台注册得到的APPKEY
-    // */
-    // public static String APPKEY = "25c23a360539";
-    //
-    // /**
-    // * 填写从短信SDK应用后台注册得到的APPSECRET
-    // */
-    // public static String APPSECRET = "d224092cafca6db2b5a942d0d298ba92";
+    /**
+     * 填写从短信SDK应用后台注册得到的APPKEY
+     */
+    public static String APPKEY = "25c23a360539";
+
+    /**
+     * 填写从短信SDK应用后台注册得到的APPSECRET
+     */
+    public static String APPSECRET = "d224092cafca6db2b5a942d0d298ba92";
 }

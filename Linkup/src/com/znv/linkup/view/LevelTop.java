@@ -162,53 +162,14 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
         public void handleMessage(Message msg) {
             switch (msg.what) {
             case ViewSettings.MSG_LEVEL_ADDGET: {
+                showLevelTop(msg);
                 if (uploadListener != null) {
                     uploadListener.onLevelResultAdd(msg);
                 }
             }
-            // 不加break，继续执行操作与MSG_LEVEL_GET相同
-            case ViewSettings.MSG_LEVEL_GET: {
-                showStatus(LevelTopStatus.TopInfo);
-
-                String result = (String) msg.obj;
-                try {
-                    JSONArray array = new JSONArray(result);
-                    if (array.length() > 0) {
-                        JSONObject obj = (JSONObject) array.get(0);
-                        volley.loadImage(holder.ivgoldIcon, obj.getString("userIcon"));
-                        holder.tvgolduser.setText(StringUtil.substring(obj.getString("userName"), ViewSettings.ShowNameLength));
-                        int level = obj.getInt("level");
-                        if (LevelUtil.isTimeMode(level)) {
-                            holder.tvgoldscore.setText(StringUtil.secondToString(obj.getInt("time")));
-                        } else {
-                            holder.tvgoldscore.setText(obj.getString("score"));
-                        }
-                        if (array.length() > 1) {
-                            JSONObject obj2 = (JSONObject) array.get(1);
-                            volley.loadImage(holder.ivsilverIcon, obj2.getString("userIcon"));
-                            holder.tvsilveruser.setText(StringUtil.substring(obj2.getString("userName"), ViewSettings.ShowNameLength));
-                            if (LevelUtil.isTimeMode(level)) {
-                                holder.tvsilverscore.setText(StringUtil.secondToString(obj2.getInt("time")));
-                            } else {
-                                holder.tvsilverscore.setText(obj2.getString("score"));
-                            }
-                            if (array.length() > 2) {
-                                JSONObject obj3 = (JSONObject) array.get(2);
-                                volley.loadImage(holder.ivthirdIcon, obj3.getString("userIcon"));
-                                holder.tvthirduser.setText(StringUtil.substring(obj3.getString("userName"), ViewSettings.ShowNameLength));
-                                if (LevelUtil.isTimeMode(level)) {
-                                    holder.tvthirdscore.setText(StringUtil.secondToString(obj3.getInt("time")));
-                                } else {
-                                    holder.tvthirdscore.setText(obj3.getString("score"));
-                                }
-                            }
-                        }
-                    }
-
-                } catch (Exception e) {
-                    Log.d("MSG_LEVEL_GET", e.getMessage());
-                }
-            }
+                break;
+            case ViewSettings.MSG_LEVEL_GET:
+                showLevelTop(msg);
                 break;
             case ViewSettings.MSG_LOGIN: {
                 try {
@@ -278,6 +239,49 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
         }
 
     };
+
+    private void showLevelTop(Message msg) {
+        showStatus(LevelTopStatus.TopInfo);
+
+        String result = (String) msg.obj;
+        try {
+            JSONArray array = new JSONArray(result);
+            if (array.length() > 0) {
+                JSONObject obj = (JSONObject) array.get(0);
+                volley.loadImage(holder.ivgoldIcon, obj.getString("userIcon"));
+                holder.tvgolduser.setText(StringUtil.substring(obj.getString("userName"), ViewSettings.ShowNameLength));
+                int level = obj.getInt("level");
+                if (LevelUtil.isTimeMode(level)) {
+                    holder.tvgoldscore.setText(StringUtil.secondToString(obj.getInt("time")));
+                } else {
+                    holder.tvgoldscore.setText(obj.getString("score"));
+                }
+                if (array.length() > 1) {
+                    JSONObject obj2 = (JSONObject) array.get(1);
+                    volley.loadImage(holder.ivsilverIcon, obj2.getString("userIcon"));
+                    holder.tvsilveruser.setText(StringUtil.substring(obj2.getString("userName"), ViewSettings.ShowNameLength));
+                    if (LevelUtil.isTimeMode(level)) {
+                        holder.tvsilverscore.setText(StringUtil.secondToString(obj2.getInt("time")));
+                    } else {
+                        holder.tvsilverscore.setText(obj2.getString("score"));
+                    }
+                    if (array.length() > 2) {
+                        JSONObject obj3 = (JSONObject) array.get(2);
+                        volley.loadImage(holder.ivthirdIcon, obj3.getString("userIcon"));
+                        holder.tvthirduser.setText(StringUtil.substring(obj3.getString("userName"), ViewSettings.ShowNameLength));
+                        if (LevelUtil.isTimeMode(level)) {
+                            holder.tvthirdscore.setText(StringUtil.secondToString(obj3.getInt("time")));
+                        } else {
+                            holder.tvthirdscore.setText(obj3.getString("score"));
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            // Log.d("MSG_LEVEL_GET", e.getMessage());
+        }
+    }
 
     public IUpload getUploadListener() {
         return uploadListener;

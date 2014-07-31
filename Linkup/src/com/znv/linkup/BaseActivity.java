@@ -32,11 +32,11 @@ import com.znv.linkup.view.indicator.RankAdapter;
 public class BaseActivity extends Activity {
 
     // 游戏背景音乐
-    protected static MusicManager musicMgr = null;
+    public static MusicManager musicMgr = null;
     // 游戏音效
     public static SoundManager soundMgr = null;
     // 游戏关卡配置
-    protected static List<ModeCfg> modeCfgs = null;
+    public static List<ModeCfg> modeCfgs = null;
     // 游戏配置Map
     protected static SparseArray<LevelCfg> levelCfgs = null;
     // 第三方登录用户id

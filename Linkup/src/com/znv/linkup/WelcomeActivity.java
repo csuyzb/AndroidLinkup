@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 import cn.sharesdk.framework.ShareSDK;
+import cn.smssdk.SMSSDK;
+import cn.smssdk.gui.ContactsPage;
 
 import com.xiaomi.market.sdk.XiaomiUpdateAgent;
 import com.znv.linkup.core.config.LevelCfg;
@@ -79,7 +81,8 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
 
         initNotice();
 
-        // initMsgSDK();
+        initMsgSDK();
+
         initXiaomiUpdate();
 
         initInfoDialog();
@@ -310,9 +313,9 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
         }
             break;
         case R.id.friend: {
-            // // 打开通信录好友列表页面
-            // ContactsPage contactsPage = new ContactsPage();
-            // contactsPage.show(this);
+            // 打开通信录好友列表页面
+            ContactsPage contactsPage = new ContactsPage();
+            contactsPage.show(this);
         }
             break;
         }
@@ -339,14 +342,14 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
     public void onLevelResultAdd(Message msg) {
     }
 
-    // private void initMsgSDK() {
-    // try {
-    // // 初始化短信SDK
-    // SMSSDK.initSDK(this, ViewSettings.APPKEY, ViewSettings.APPSECRET);
-    // } catch (Exception ex) {
-    // ex.printStackTrace();
-    // }
-    // }
+    private void initMsgSDK() {
+        try {
+            // 初始化短信SDK
+            SMSSDK.initSDK(this, ViewSettings.APPKEY, ViewSettings.APPSECRET);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
     private void initXiaomiUpdate() {
         try {

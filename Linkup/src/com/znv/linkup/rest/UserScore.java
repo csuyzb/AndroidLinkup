@@ -96,38 +96,38 @@ public class UserScore {
         }).start();
     }
 
-//    /**
-//     * 新增用户关卡分数，用于排名
-//     * 
-//     * @param levelInfo
-//     *            上传的分数信息
-//     * @param handler
-//     *            消息处理
-//     */
-//    public static void addResult(LevelInfo levelInfo, final Handler handler) {
-//        final List<NameValuePair> params = new ArrayList<NameValuePair>();
-//        params.add(new BasicNameValuePair("userid", levelInfo.getUserId()));
-//        params.add(new BasicNameValuePair("level", String.valueOf(levelInfo.getLevel())));
-//        params.add(new BasicNameValuePair("score", String.valueOf(levelInfo.getScore())));
-//        params.add(new BasicNameValuePair("time", String.valueOf(levelInfo.getTime())));
-//        params.add(new BasicNameValuePair("diamond", String.valueOf(levelInfo.getDiamond())));
-//        params.add(new BasicNameValuePair("gold", String.valueOf(levelInfo.getGold())));
-//        new Thread(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                String result = RestUtil.post(LEVEL_ADD_URI, params);
-//                if (result != null) {
-//                    // 成功post用户关卡分数
-//                    handler.sendEmptyMessage(ViewSettings.MSG_LEVEL_ADD);
-//                } else {
-//                    // 网络或其它问题
-//                    handler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION);
-//                }
-//            }
-//        }).start();
-//    }
-    
+    // /**
+    // * 新增用户关卡分数，用于排名
+    // *
+    // * @param levelInfo
+    // * 上传的分数信息
+    // * @param handler
+    // * 消息处理
+    // */
+    // public static void addResult(LevelInfo levelInfo, final Handler handler) {
+    // final List<NameValuePair> params = new ArrayList<NameValuePair>();
+    // params.add(new BasicNameValuePair("userid", levelInfo.getUserId()));
+    // params.add(new BasicNameValuePair("level", String.valueOf(levelInfo.getLevel())));
+    // params.add(new BasicNameValuePair("score", String.valueOf(levelInfo.getScore())));
+    // params.add(new BasicNameValuePair("time", String.valueOf(levelInfo.getTime())));
+    // params.add(new BasicNameValuePair("diamond", String.valueOf(levelInfo.getDiamond())));
+    // params.add(new BasicNameValuePair("gold", String.valueOf(levelInfo.getGold())));
+    // new Thread(new Runnable() {
+    //
+    // @Override
+    // public void run() {
+    // String result = RestUtil.post(LEVEL_ADD_URI, params);
+    // if (result != null) {
+    // // 成功post用户关卡分数
+    // handler.sendEmptyMessage(ViewSettings.MSG_LEVEL_ADD);
+    // } else {
+    // // 网络或其它问题
+    // handler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION);
+    // }
+    // }
+    // }).start();
+    // }
+
     /**
      * 新增用户关卡分数，用于排名
      * 
@@ -150,8 +150,11 @@ public class UserScore {
             public void run() {
                 String result = RestUtil.post(LEVEL_ADDGET_URI, params);
                 if (result != null) {
-                    // 成功post用户关卡分数
-                    handler.sendEmptyMessage(ViewSettings.MSG_LEVEL_ADDGET);
+                    // 成功获取排名信息
+                    Message msg = new Message();
+                    msg.what = ViewSettings.MSG_LEVEL_ADDGET;
+                    msg.obj = result;
+                    handler.sendMessage(msg);
                 } else {
                     // 网络或其它问题
                     handler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION);

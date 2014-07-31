@@ -71,7 +71,7 @@
         android:layout_centerVertical="true"
         android:layout_margin="5dp"
         android:onClick="preLevel"
-        android:src="@drawable/back"
+        android:src="@drawable/top_back"
         tools:ignore="contentDescription" />
 
     <ImageView
@@ -81,7 +81,7 @@
         android:layout_centerVertical="true"
         android:layout_margin="5dp"
         android:onClick="nextLevel"
-        android:src="@drawable/next"
+        android:src="@drawable/top_next"
         tools:ignore="contentDescription" />
 
 </RelativeLayout>

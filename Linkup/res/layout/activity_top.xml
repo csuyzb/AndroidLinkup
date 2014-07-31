@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,6 +22,7 @@
         android:id="@+id/searchMini"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/topUsers"
         android:layout_gravity="bottom"
         android:gravity="center"
         android:orientation="vertical" >
@@ -63,4 +64,24 @@
         </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="5dp"
+        android:onClick="preLevel"
+        android:src="@drawable/back"
+        tools:ignore="contentDescription" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="5dp"
+        android:onClick="nextLevel"
+        android:src="@drawable/next"
+        tools:ignore="contentDescription" />
+
+</RelativeLayout>

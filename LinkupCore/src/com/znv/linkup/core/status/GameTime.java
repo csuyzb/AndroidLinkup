@@ -36,7 +36,7 @@ class GameTime {
      * 计时开始
      */
     public void start() {
-        if (mode == GameMode.Level || mode == GameMode.Time || mode == GameMode.TimeTask) {
+        if (mode == GameMode.Level || mode == GameMode.Time || mode == GameMode.ScoreTask || mode == GameMode.TimeTask) {
             timer = new Timer();
             timer.schedule(new TimerTask() {
 
@@ -65,7 +65,7 @@ class GameTime {
                     listener.onTimeChanged(gameTime);
                 }
             }
-        } else if (mode == GameMode.Time || mode == GameMode.TimeTask) {
+        } else if (mode == GameMode.Time || mode == GameMode.ScoreTask || mode == GameMode.TimeTask) {
             gameTime += 1;
             if (listener != null) {
                 listener.onTimeChanged(gameTime);

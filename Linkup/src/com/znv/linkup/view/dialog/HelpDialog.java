@@ -2,6 +2,7 @@ package com.znv.linkup.view.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +24,8 @@ public class HelpDialog extends Dialog {
         setCancelable(false);
         setCanceledOnTouchOutside(false);
         setPositiveButton(null);
+        TextView link = (TextView)findViewById(R.id.dialog_link);
+        link.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     /**

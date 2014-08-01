@@ -70,5 +70,6 @@
     <string name="tool_no_refresh">已经没有重排道具了，可以去玩玩闯关模式!</string>
     <string name="tool_no_prompt">已经没有提示道具了，可以去玩玩闯关模式!</string>
     <string name="tool_no_addtime">已经没有加分道具了，可以去玩玩闯关模式!</string>
+    <string name="link_text"><a href="http://app.mi.com/detail/61473">支持作者，给个好评，谢谢！</a></string>
 
 </resources>

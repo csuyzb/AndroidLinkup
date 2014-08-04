@@ -25,6 +25,7 @@ import com.znv.linkup.util.RestUtil;
 public class UserScore {
     private static String USER_ADD_URI = ViewSettings.WebRoot + "/webapi/user/add";
     private static String USER_UPDATE_URI = ViewSettings.WebRoot + "/webapi/user/update";
+    public static String USER_TOTALRANK_URI = ViewSettings.WebRoot + "/webapi/user/totalrank";
     public static String LEVEL_ADD_URI = ViewSettings.WebRoot + "/webapi/level/add";
     public static String LEVEL_GET_URI = ViewSettings.WebRoot + "/webapi/level/get";
     public static String LEVEL_ADDGET_URI = ViewSettings.WebRoot + "/webapi/level/addget";

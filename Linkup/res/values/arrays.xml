@@ -2,10 +2,16 @@
 <resources>
 
     <string-array name="modes">
+        <item>总排名</item>
         <item>闯关</item>
         <item>计时</item>
         <item>任务</item>
         <item>任务2</item>
+    </string-array>
+    <string-array name="totalranks">
+        <item>最近一周</item>
+        <item>最近一月</item>
+        <item>所有时间</item>
     </string-array>
     <string-array name="mode0ranks">
         <item>宠物连连看</item>

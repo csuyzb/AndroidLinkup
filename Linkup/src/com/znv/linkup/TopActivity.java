@@ -46,11 +46,15 @@ public class TopActivity extends Activity {
     private int curRank = 0;
     private int curLevel = 0;
     private int levelIndex = 0;
-    private static int[] modeRanks = new int[] { R.array.mode0ranks, R.array.mode1ranks, R.array.mode2ranks, R.array.mode3ranks };
+    private static int[] modeRanks = new int[] { R.array.totalranks, R.array.mode0ranks, R.array.mode1ranks, R.array.mode2ranks, R.array.mode3ranks };
     private VolleyHelper volley = null;
     private LinearLayout topList = null;
     private List<TopItemHolder> holders = null;
     private List<ModeCfg> modeCfgs = BaseActivity.modeCfgs;
+
+    private Spinner spModes = null;
+    private Spinner spRanks = null;
+    private Spinner spLevels = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +90,12 @@ public class TopActivity extends Activity {
         }
         topList.setVisibility(View.INVISIBLE);
 
+        spModes = (Spinner) findViewById(R.id.spModes);
+        spRanks = (Spinner) findViewById(R.id.spRanks);
+        spLevels = (Spinner) findViewById(R.id.spLevels);
+
         // 查询当前关卡排名
-        searchCurLevel();
+        // getLevelRanks();
 
         // 设置查询条件
         setSelectItem();
@@ -106,23 +114,32 @@ public class TopActivity extends Activity {
      * 设置选项卡动作
      */
     private void setSelectItem() {
-        Spinner spModes = (Spinner) findViewById(R.id.spModes);
-        final Spinner spRanks = (Spinner) findViewById(R.id.spRanks);
-        Spinner spLevels = (Spinner) findViewById(R.id.spLevels);
         spModes.setOnItemSelectedListener(new OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (curMode != position) {
-                    curMode = position;
+                if (position == 0) {
+                    curMode = position - 1;
+                    String[] types = TopActivity.this.getResources().getStringArray(modeRanks[0]);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(TopActivity.this, android.R.layout.simple_spinner_item, types);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spRanks.setAdapter(adapter);
+                    spLevels.setVisibility(View.INVISIBLE);
+                    findViewById(R.id.ivPreLevel).setVisibility(View.INVISIBLE);
+                    findViewById(R.id.ivNextLevel).setVisibility(View.INVISIBLE);
+                } else if (curMode != position - 1) {
+                    curMode = position - 1;
+                    spLevels.setVisibility(View.VISIBLE);
+                    findViewById(R.id.ivPreLevel).setVisibility(View.VISIBLE);
+                    findViewById(R.id.ivNextLevel).setVisibility(View.VISIBLE);
                     // // 设置下拉列表风格
-                    String[] ranks = TopActivity.this.getResources().getStringArray(modeRanks[curMode]);
+                    String[] ranks = TopActivity.this.getResources().getStringArray(modeRanks[position]);
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(TopActivity.this, android.R.layout.simple_spinner_item, ranks);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     // 防止触发Rank的ItemSelected事件
                     spRanks.setAdapter(adapter);
                     if (curRank == 0) {
-                        searchCurLevel();
+                        getLevelRanks();
                     }
                 }
             }
@@ -141,9 +158,12 @@ public class TopActivity extends Activity {
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            if (curRank != position) {
+            if (curMode == -1) {
                 curRank = position;
-                searchCurLevel();
+                getTotalRanks();
+            } else if (curRank != position) {
+                curRank = position;
+                getLevelRanks();
             }
         }
 
@@ -158,7 +178,7 @@ public class TopActivity extends Activity {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             if (curLevel != position) {
                 curLevel = position;
-                searchCurLevel();
+                getLevelRanks();
             }
         }
 
@@ -167,18 +187,11 @@ public class TopActivity extends Activity {
         }
     };
 
-    /*
-     * 查询当前关卡排名
-     */
-    private void searchCurLevel() {
-        volley.cancelAll();
-        getTopInfos();
-    }
-
     /**
-     * 获取排名信息
+     * 获取当前关卡排名信息
      */
-    private void getTopInfos() {
+    private void getLevelRanks() {
+        volley.cancelAll();
         LevelCfg levelCfg = modeCfgs.get(curMode).getRankInfos().get(curRank).getLevelInfos().get(curLevel);
         String levelName = modeCfgs.get(curMode).getModeName() + "-" + levelCfg.getRankName() + "-" + levelCfg.getLevelName();
         ((TextView) findViewById(R.id.tvCurLevel)).setText(getString(R.string.level_title, levelName));
@@ -194,13 +207,66 @@ public class TopActivity extends Activity {
                         JSONObject obj = t.getJSONObject(i);
                         TopItemHolder item = holders.get(i);
                         setOrder(item.tvOrder, i);
+                        item.tvName.setTextSize(12);
                         item.tvName.setText(StringUtil.toUtf8(obj.getString("userName")));
+                        item.tvScore.setVisibility(View.VISIBLE);
                         if (LevelUtil.isTimeMode(levelIndex)) {
                             item.tvScore.setText(StringUtil.secondToString(obj.getInt("time")));
                         } else {
                             item.tvScore.setText(String.valueOf(obj.getInt("score")));
                         }
                         item.tvDate.setText(obj.getString("pubTime").substring(0, 10));
+
+                        volley.loadImage(item.ivIcon, obj.getString("userIcon"));
+                    }
+                    for (int i = t.length(); i < ViewSettings.TopRankN; i++) {
+                        topList.getChildAt(i).setVisibility(View.INVISIBLE);
+                    }
+                    findViewById(R.id.searchMini).setVisibility(View.VISIBLE);
+                    topList.setVisibility(View.VISIBLE);
+                } catch (Exception e) {
+                    Toast.makeText(TopActivity.this, getString(R.string.top_data_error), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onError(VolleyError e) {
+                Toast.makeText(TopActivity.this, getString(R.string.top_net_error), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * 获取当前的总排名，所有/本月/本周
+     */
+    private void getTotalRanks() {
+        volley.cancelAll();
+        String rankName = spRanks.getSelectedItem().toString() + "-" + spModes.getSelectedItem().toString();
+        ((TextView) findViewById(R.id.tvCurLevel)).setText(rankName);
+        String dayString = "";
+        if (curMode == -1) {
+            if (curRank == 0) {
+                dayString = "&day=7";
+            } else if (curRank == 1) {
+                dayString = "&day=30";
+            } else if (curRank == 2) {
+            }
+        }
+        String uri = UserScore.USER_TOTALRANK_URI + "?top=10" + dayString;
+        volley.getJsonArray(uri, new NetMsgListener<JSONArray>() {
+
+            @Override
+            public void onNetMsg(JSONArray t) {
+                try {
+                    for (int i = 0; i < t.length(); i++) {
+                        topList.getChildAt(i).setVisibility(View.VISIBLE);
+                        JSONObject obj = t.getJSONObject(i);
+                        TopItemHolder item = holders.get(i);
+                        setOrder(item.tvOrder, i);
+                        item.tvName.setTextSize(16);
+                        item.tvName.setText(StringUtil.toUtf8(obj.getString("userName")));
+                        item.tvScore.setVisibility(View.GONE);
+                        item.tvDate.setText(obj.getString("totalScore"));
 
                         volley.loadImage(item.ivIcon, obj.getString("userIcon"));
                     }
@@ -231,21 +297,26 @@ public class TopActivity extends Activity {
 
         if (curLevel + 1 < 24) {
             curLevel++;
+            spLevels.setSelection(curLevel);
         } else {
             curLevel = 0;
+            spLevels.setSelection(curLevel);
             if (curRank + 1 < modeCfgs.get(curMode).getRankInfos().size()) {
                 curRank++;
+                spRanks.setSelection(curRank);
             } else {
                 curRank = 0;
+                spRanks.setSelection(curRank);
                 if (curMode + 1 < modeCfgs.size()) {
                     curMode++;
                 } else {
                     curMode = 0;
                 }
+                spModes.setSelection(curMode);
             }
         }
 
-        searchCurLevel();
+        getLevelRanks();
     }
 
     /**
@@ -258,21 +329,26 @@ public class TopActivity extends Activity {
 
         if (curLevel - 1 >= 0) {
             curLevel--;
+            spLevels.setSelection(curLevel);
         } else {
             curLevel = 23;
+            spLevels.setSelection(curLevel);
             if (curRank - 1 >= 0) {
                 curRank--;
+                spRanks.setSelection(curRank);
             } else {
                 if (curMode - 1 >= 0) {
                     curMode--;
                 } else {
                     curMode = modeCfgs.size() - 1;
                 }
+                spModes.setSelection(curMode);
                 curRank = modeCfgs.get(curMode).getRankInfos().size() - 1;
+                spRanks.setSelection(curRank);
             }
         }
 
-        searchCurLevel();
+        getLevelRanks();
     }
 
     /**

@@ -14,13 +14,25 @@ The most interesting linkup game for android.
 
 应用截图
 
-![welcome](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/welcome.jpg)![classic](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/rank.jpg)![time](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/classic.jpg)![task](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/time.jpg)
+![welcome](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/welcome_180.jpg)![classic](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/pet_180.jpg)![time](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/fish_180.jpg)![task](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/result_180.jpg)
 
+v1.4.1
+1.新增好友邀请
+2.新增排行榜上一关/下一关查询
+3.界面和资源优化
+4.修改bugs
 
-v1.4.0 规划
-1.收集钻石和金币,消耗钻石可以强制解锁关卡
-2.新增每日登录奖励
-3.完善排名查询
+v1.4.0
+1.新增游戏总排名
+2.新增计时任务模式，关卡总数超300
+3.增加登录提示，登录玩更有趣味
+4.图标界面全新改版
+
+v1.3.2
+1.新增钻石和金币搜集，消耗钻石可以强制解锁关卡
+2.新增每天登录奖励，奖励一定钻石和金币
+3.调整游戏结果界面，增加奖励
+4.游戏死锁时自动重排
 
 v1.3.1(2014-07-04)
 1.新增游戏公告

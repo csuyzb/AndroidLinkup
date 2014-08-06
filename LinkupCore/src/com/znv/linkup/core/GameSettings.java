@@ -49,9 +49,9 @@ public class GameSettings {
     public static int ComboScore = 10;
 
     /**
-     * 剩余时间奖励分数，剩余10s，则奖励20分
+     * 剩余时间奖励分数，剩余10s，则奖励40分
      */
-    public static int TimeScore = 2;
+    public static int TimeScore = 4;
 
     /**
      * 路径转弯奖励分数，直线不奖励，一个弯奖励5分，2个弯奖励10分
@@ -59,9 +59,14 @@ public class GameSettings {
     public static int CornerScore = 5;
 
     /**
-     * 消除一对卡片奖励的时间，1s
+     * 消除一对卡片奖励的时间，0s
      */
-    public static int RewardTime = 1;
+    public static int RewardTime = 0;
+
+    /**
+     * 减少时间奖励，补偿分数
+     */
+    public static int RewardScoreMax = 5;
 
     /**
      * 任务系数

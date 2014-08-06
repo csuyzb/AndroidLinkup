@@ -127,6 +127,9 @@ public class TopActivity extends Activity {
                     spLevels.setVisibility(View.INVISIBLE);
                     findViewById(R.id.ivPreLevel).setVisibility(View.INVISIBLE);
                     findViewById(R.id.ivNextLevel).setVisibility(View.INVISIBLE);
+                    if (curRank == 0) {
+                        getTotalRanks();
+                    }
                 } else if (curMode != position - 1) {
                     curMode = position - 1;
                     spLevels.setVisibility(View.VISIBLE);
@@ -159,8 +162,10 @@ public class TopActivity extends Activity {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             if (curMode == -1) {
-                curRank = position;
-                getTotalRanks();
+                if (curRank != position) {
+                    curRank = position;
+                    getTotalRanks();
+                }
             } else if (curRank != position) {
                 curRank = position;
                 getLevelRanks();

@@ -146,7 +146,8 @@ public class GameStatus {
      */
     public void matchSuccess(LinkInfo linkInfo) {
         gameTime.addTime(GameSettings.RewardTime);
-        gameScore.addScore(GameSettings.CardScore * 2 + gameScore.getCornerScore(linkInfo) + gameCombo.getComboScore());
+        gameScore.addScore(GameSettings.CardScore * 2 + gameScore.getCornerScore(linkInfo) + gameCombo.getComboScore()
+                + (int) (Math.random() * GameSettings.RewardScoreMax));
     }
 
     public void addGameTime(int seconds) {

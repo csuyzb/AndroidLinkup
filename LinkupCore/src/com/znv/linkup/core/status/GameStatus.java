@@ -182,15 +182,6 @@ public class GameStatus {
     }
 
     /**
-     * 获取连击奖励分数
-     * 
-     * @return 连击奖励分数
-     */
-    public int getComboScore() {
-        return GameCombo.getComboScore(gameCombo.getGameCombo());
-    }
-
-    /**
      * 获取奖励分数
      * 
      * @return 奖励分数

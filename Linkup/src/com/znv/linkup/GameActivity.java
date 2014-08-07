@@ -18,6 +18,7 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.znv.linkup.core.Game;
+import com.znv.linkup.core.GameSettings;
 import com.znv.linkup.core.IGameAction;
 import com.znv.linkup.core.card.Piece;
 import com.znv.linkup.core.card.PiecePair;
@@ -357,15 +358,17 @@ public class GameActivity extends BaseActivity implements IGameAction {
      * 连击时的处理
      */
     @Override
-    public void onCombo() {
-        String msg = String.valueOf(game.getGameCombo());
-        holder.tvCombo.setText(msg);
-        int msgWidth = msg.length() * holder.screenWidth / 50 + getResources().getDrawable(R.drawable.combo).getMinimumWidth() / 2;
-        Point startPoint = new Point(holder.screenCenter.x - msgWidth, (int) holder.tsScore.getY() + 100);
-        Point endPoint = new Point(startPoint.x, startPoint.y - 50);
-        animTranslate(holder.tvCombo, startPoint, endPoint, 1500, 0);
+    public void onCombo(int combo) {
+        if (combo % GameSettings.ComboMod == 0 || combo > ViewSettings.ComboShow) {
+            String msg = String.valueOf(combo);
+            holder.tvCombo.setText(msg);
+            int msgWidth = msg.length() * holder.screenWidth / 50 + getResources().getDrawable(R.drawable.combo).getMinimumWidth() / 2;
+            Point startPoint = new Point(holder.screenCenter.x - msgWidth, (int) holder.tsScore.getY() + 100);
+            Point endPoint = new Point(startPoint.x, startPoint.y - 50);
+            animTranslate(holder.tvCombo, startPoint, endPoint, 1000, 0);
 
-        soundMgr.combo();
+            soundMgr.combo();
+        }
     }
 
     /**

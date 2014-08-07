@@ -97,6 +97,11 @@ public class ViewSettings {
      * 最大的提示数
      */
     public static int PromptMaxNum = 10;
+    
+    /**
+     * 显示连击数
+     */
+    public static int ComboShow = 6;
 
     /**
      * 最大的重排数

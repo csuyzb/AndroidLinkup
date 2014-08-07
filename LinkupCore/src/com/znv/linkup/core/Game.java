@@ -244,6 +244,12 @@ public class Game {
         gameStatus.refresh();
     }
 
+    /**
+     * 增加游戏时间
+     * 
+     * @param seconds
+     *            游戏时间，单位：秒
+     */
     public void addGameTime(int seconds) {
         gameStatus.addGameTime(seconds);
     }
@@ -257,6 +263,11 @@ public class Game {
         return levelCfg;
     }
 
+    /**
+     * 获取游戏时间
+     * 
+     * @return 游戏时间
+     */
     public int getGameTime() {
         return gameStatus.getGameTime();
     }
@@ -271,39 +282,12 @@ public class Game {
     }
 
     /**
-     * 获取连击奖励分数
-     * 
-     * @return 连击奖励分数
-     */
-    public int getComboScore() {
-        return gameStatus.getComboScore();
-    }
-
-    /**
-     * 获取时间奖励得分
-     * 
-     * @return 时间奖励得分
-     */
-    public int getRewardScore() {
-        return gameStatus.getRewardScore();
-    }
-
-    /**
      * 获取游戏总得分
      * 
      * @return 游戏总得分
      */
     public int getTotalScore() {
-        return getGameScore() + getRewardScore();
-    }
-
-    /**
-     * 获取游戏连击数
-     * 
-     * @return 游戏连击数
-     */
-    public int getGameCombo() {
-        return gameStatus.getGameCombo();
+        return getGameScore() + gameStatus.getRewardScore();
     }
 
     /**

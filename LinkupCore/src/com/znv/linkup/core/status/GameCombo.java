@@ -44,11 +44,13 @@ class GameCombo {
             combo = 1;
         }
         preRemoveTime = curTime;
-        if (combo != 0 && combo % GameSettings.ComboMod == 0) {
+        if (combo != 0) {
             if (listener != null) {
-                listener.onCombo();
+                listener.onCombo(combo);
             }
-            return getComboScore(combo);
+            if (combo % GameSettings.ComboMod == 0) {
+                return getComboScore(combo);
+            }
         }
         return 0;
     }

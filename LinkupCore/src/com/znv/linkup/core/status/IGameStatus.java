@@ -12,8 +12,11 @@ public interface IGameStatus {
 
     /**
      * 连击时的处理
+     * 
+     * @param combo
+     *            连击数
      */
-    void onCombo();
+    void onCombo(int combo);
 
     /**
      * 提示时的处理
@@ -25,6 +28,7 @@ public interface IGameStatus {
 
     /**
      * 取消提示的处理
+     * 
      * @param pair
      *            取消提示的卡片对
      */

@@ -38,6 +38,6 @@
   BypassApproval="true" Enable="true" />
 
  <WechatMoments Id="6" SortId="6" AppId="wx276bf4aa0059cec0"
-  BypassApproval="true" Enable="true" />
+  BypassApproval="false" Enable="true" />
 
 </DevInfor>

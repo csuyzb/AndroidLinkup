@@ -7,7 +7,13 @@ package com.znv.linkup.core.config;
  * 
  */
 public enum GameAlign {
-    AlignNone, AlignDown, AlignUp, AlignLeft, AlignRight, AlignRandom;
+    AlignNone(0), AlignDown(1), AlignUp(2), AlignLeft(3), AlignRight(4), AlignRandom(5);
+
+    private int value;
+
+    GameAlign(int value) {
+        this.value = value;
+    }
 
     public static GameAlign valueOf(int align) {
         switch (align) {
@@ -26,5 +32,9 @@ public enum GameAlign {
         default:
             return AlignNone;
         }
+    }
+
+    public int value() {
+        return this.value;
     }
 }

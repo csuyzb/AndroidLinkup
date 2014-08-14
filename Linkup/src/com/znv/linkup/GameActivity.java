@@ -164,12 +164,12 @@ public class GameActivity extends BaseActivity implements IGameAction {
      */
     private void initAnimation() {
         // 从上面落下
-        cardsView.setVisibility(View.GONE);
-        Animator cardsAnim = ObjectAnimator.ofFloat(cardsView, "translationY", -holder.screenHeight, 0);
-        cardsAnim.setDuration(750);
-        cardsAnim.setStartDelay(50);
-        cardsAnim.addListener(new AppearAnimator(cardsView));
-        cardsAnim.start();
+        // cardsView.setVisibility(View.GONE);
+        // Animator cardsAnim = ObjectAnimator.ofFloat(cardsView, "translationY", -holder.screenHeight, 0);
+        // cardsAnim.setDuration(750);
+        // cardsAnim.setStartDelay(50);
+        // cardsAnim.addListener(new AppearAnimator(cardsView));
+        // cardsAnim.start();
 
         // 播放声音和动画
         showAnimMsg(getString(R.string.game_ready_go), 30, 20);
@@ -178,8 +178,8 @@ public class GameActivity extends BaseActivity implements IGameAction {
         // 工具条动画
         holder.tools.setVisibility(View.GONE);
         Animator toolsAnim = ObjectAnimator.ofFloat(holder.tools, "translationY", 100, 0);
-        toolsAnim.setDuration(200);
-        toolsAnim.setStartDelay(800);
+        toolsAnim.setDuration(500);
+        toolsAnim.setStartDelay(500);
         toolsAnim.addListener(new AppearAnimator(holder.tools));
         toolsAnim.start();
 
@@ -359,13 +359,13 @@ public class GameActivity extends BaseActivity implements IGameAction {
      */
     @Override
     public void onCombo(int combo) {
-        if (combo % GameSettings.ComboMod == 0 || combo > ViewSettings.ComboShow) {
+        if (combo % GameSettings.ComboMod == 0) {
             String msg = String.valueOf(combo);
             holder.tvCombo.setText(msg);
             int msgWidth = msg.length() * holder.screenWidth / 50 + getResources().getDrawable(R.drawable.combo).getMinimumWidth() / 2;
             Point startPoint = new Point(holder.screenCenter.x - msgWidth, (int) holder.tsScore.getY() + 100);
             Point endPoint = new Point(startPoint.x, startPoint.y - 50);
-            animTranslate(holder.tvCombo, startPoint, endPoint, 1000, 0);
+            animTranslate(holder.tvCombo, startPoint, endPoint, 1500, 0);
 
             soundMgr.combo();
         }

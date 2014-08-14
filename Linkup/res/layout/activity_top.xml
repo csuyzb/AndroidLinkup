@@ -90,4 +90,21 @@
         </LinearLayout>
     </LinearLayout>
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="shareTop"
+            android:src="@drawable/share2"
+            tools:ignore="contentDescription" >
+        </ImageView>
+    </RelativeLayout>
+
 </RelativeLayout>

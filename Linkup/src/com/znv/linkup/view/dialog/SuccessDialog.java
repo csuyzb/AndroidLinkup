@@ -72,17 +72,13 @@ public class SuccessDialog extends Dialog implements IUpload {
 
             @Override
             public void onClick(View v) {
+                String msg = String.format(getContext().getString(R.string.share_score), linkup.getLevelCfg().getLevelName(),
+                        String.valueOf(resultInfo.getScore()));
+
                 // 分享
-                String msg = String.format(getContext().getString(R.string.share_score), getContext().getString(R.string.app_name), linkup.getLevelCfg()
-                        .getRankName() + "-" + linkup.getLevelCfg().getLevelName(), String.valueOf(resultInfo.getScore()));
                 if (levelTop.getTopStatus() == LevelTopStatus.TopInfo) {
-                    View topMain = levelTop.findViewById(R.id.level_top_main);
                     // 带截图分享
-                    if (topMain != null) {
-                        shareHelper.shareMsgView(msg, topMain);
-                    } else {
-                        shareHelper.shareMsgView(msg, levelTop);
-                    }
+                    shareHelper.shareMsgView(msg, levelTop);
                 } else {
                     shareHelper.shareMessage(msg);
                 }

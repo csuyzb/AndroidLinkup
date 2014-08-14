@@ -5,6 +5,7 @@ import java.util.List;
 import android.app.Activity;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.Window;
 import android.view.WindowManager;
@@ -21,6 +22,7 @@ import com.znv.linkup.sound.MusicManager;
 import com.znv.linkup.sound.SoundManager;
 import com.znv.linkup.util.CacheUtil;
 import com.znv.linkup.util.ShortcutUtil;
+import com.znv.linkup.util.Stopwatch;
 import com.znv.linkup.view.indicator.RankAdapter;
 
 /**
@@ -132,6 +134,8 @@ public class BaseActivity extends Activity {
      */
     protected void loadCfgs() {
         if (modeCfgs == null) {
+            Stopwatch sw = new Stopwatch();
+            sw.start();
             XmlResourceParser xrp = getResources().getXml(R.xml.gamecfg);
             GameCfg gameCfg = new GameCfg(xrp);
             modeCfgs = gameCfg.getModeInfos();
@@ -143,6 +147,8 @@ public class BaseActivity extends Activity {
                     }
                 }
             }
+            sw.stop();
+            Log.e("loadXmlCfgs-time", String.valueOf(sw.getElapsedTime()));
         }
 
         // 加载全局配置

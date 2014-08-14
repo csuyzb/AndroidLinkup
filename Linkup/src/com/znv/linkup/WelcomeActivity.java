@@ -64,6 +64,7 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
             public void run() {
                 // 加载配置信息
                 loadCfgs();
+
                 // 加载关卡适配器
                 loadRankAdapters();
             }

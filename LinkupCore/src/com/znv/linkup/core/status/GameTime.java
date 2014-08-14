@@ -38,14 +38,13 @@ class GameTime {
     public void start() {
         if (mode == GameMode.Level || mode == GameMode.Time || mode == GameMode.ScoreTask || mode == GameMode.TimeTask) {
             timer = new Timer();
-            // 延时1秒
             timer.schedule(new TimerTask() {
 
                 @Override
                 public void run() {
                     timerTick();
                 }
-            }, 1000, 1000);
+            }, 0, 1000);
         } else {
             timer = null;
         }

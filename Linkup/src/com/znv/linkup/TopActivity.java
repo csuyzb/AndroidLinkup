@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -25,6 +26,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import cn.smssdk.gui.CommonDialog;
+
 import com.android.volley.VolleyError;
 import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.core.config.ModeCfg;
@@ -32,6 +35,7 @@ import com.znv.linkup.rest.NetMsgListener;
 import com.znv.linkup.rest.UserScore;
 import com.znv.linkup.rest.VolleyHelper;
 import com.znv.linkup.util.LevelUtil;
+import com.znv.linkup.util.ShareUtil;
 import com.znv.linkup.util.StringUtil;
 
 /**
@@ -55,6 +59,8 @@ public class TopActivity extends Activity {
     private Spinner spModes = null;
     private Spinner spRanks = null;
     private Spinner spLevels = null;
+    private ShareUtil shareHelper = null;
+    private Dialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,8 +100,7 @@ public class TopActivity extends Activity {
         spRanks = (Spinner) findViewById(R.id.spRanks);
         spLevels = (Spinner) findViewById(R.id.spLevels);
 
-        // 查询当前关卡排名
-        // getLevelRanks();
+        shareHelper = new ShareUtil(this);
 
         // 设置查询条件
         setSelectItem();
@@ -206,6 +211,7 @@ public class TopActivity extends Activity {
 
             @Override
             public void onNetMsg(JSONArray t) {
+                hideProgress();
                 try {
                     for (int i = 0; i < t.length(); i++) {
                         topList.getChildAt(i).setVisibility(View.VISIBLE);
@@ -236,9 +242,34 @@ public class TopActivity extends Activity {
 
             @Override
             public void onError(VolleyError e) {
+                hideProgress();
                 Toast.makeText(TopActivity.this, getString(R.string.top_net_error), Toast.LENGTH_SHORT).show();
             }
         });
+
+        showProgress();
+
+    }
+
+    /**
+     * 隐藏进度条
+     */
+    private void hideProgress() {
+        if (pd != null && pd.isShowing()) {
+            pd.dismiss();
+        }
+    }
+
+    /**
+     * 显示进度条
+     */
+    private void showProgress() {
+        hideProgress();
+
+        pd = CommonDialog.ProgressDialog(this);
+        if (pd != null) {
+            pd.show();
+        }
     }
 
     /**
@@ -262,6 +293,7 @@ public class TopActivity extends Activity {
 
             @Override
             public void onNetMsg(JSONArray t) {
+                hideProgress();
                 try {
                     for (int i = 0; i < t.length(); i++) {
                         topList.getChildAt(i).setVisibility(View.VISIBLE);
@@ -287,9 +319,11 @@ public class TopActivity extends Activity {
 
             @Override
             public void onError(VolleyError e) {
+                hideProgress();
                 Toast.makeText(TopActivity.this, getString(R.string.top_net_error), Toast.LENGTH_SHORT).show();
             }
         });
+        showProgress();
     }
 
     /**
@@ -400,6 +434,17 @@ public class TopActivity extends Activity {
             }
         }
     };
+
+    /**
+     * 分享排行榜
+     * 
+     * @param v
+     */
+    public void shareTop(View v) {
+        if (shareHelper != null) {
+            shareHelper.shareMsgView(getString(R.string.share_top_info), topList);
+        }
+    }
 
     /**
      * 设置排名列

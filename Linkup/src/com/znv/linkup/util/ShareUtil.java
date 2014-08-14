@@ -131,17 +131,17 @@ public class ShareUtil {
         // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
         oks.setTitle(context.getString(R.string.app_name));
         // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
-        oks.setTitleUrl("http://xxllk.aliapp.com");
+        oks.setTitleUrl(ViewSettings.WebRoot);
         // url仅在微信（包括好友和朋友圈）中使用
-        oks.setUrl("http://xxllk.aliapp.com");
+        oks.setUrl(ViewSettings.WebRoot);
         // 评论
-        oks.setComment(context.getString(R.string.share_comment));
+        // oks.setComment(context.getString(R.string.share_comment));
         // site是分享此内容的网站名称，仅在QQ空间使用
         oks.setSite(context.getString(R.string.app_name));
         // siteUrl是分享此内容的网站地址，仅在QQ空间使用
-        oks.setSiteUrl("http://www.wandoujia.com/apps/com.znv.linkup");
+        oks.setSiteUrl(ViewSettings.WebRoot);
 
-        // oks.setSilent(true);
+        oks.setSilent(true);
 
         // 启动分享GUI
         oks.show(context);

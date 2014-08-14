@@ -60,18 +60,14 @@ public class TimeDialog extends Dialog implements IUpload {
 
             @Override
             public void onClick(View v) {
+                String msg = String.format(getContext().getString(R.string.share_time), linkup.getLevelCfg().getLevelName(),
+                        StringUtil.secondToString(resultInfo.getTime()));
                 // 分享
-                String msg = String.format(getContext().getString(R.string.share_time), getContext().getString(R.string.app_name), linkup.getLevelCfg()
-                        .getRankName() + "-" + linkup.getLevelCfg().getLevelName(), StringUtil.secondToString(resultInfo.getTime()));
                 if (levelTop.getTopStatus() == LevelTopStatus.TopInfo) {
-                    View topMain = levelTop.findViewById(R.id.level_top_main);
                     // 带截图分享
-                    if (topMain != null) {
-                        shareHelper.shareMsgView(msg, topMain);
-                    } else {
-                        shareHelper.shareMsgView(msg, levelTop);
-                    }
+                    shareHelper.shareMsgView(msg, levelTop);
                 } else {
+
                     shareHelper.shareMessage(msg);
                 }
             }

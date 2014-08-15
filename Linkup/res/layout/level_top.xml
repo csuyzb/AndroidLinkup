@@ -75,6 +75,7 @@
         </TextView>
 
         <LinearLayout
+            android:id="@+id/lltAward"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvUser"
@@ -119,6 +120,35 @@
                 android:textSize="16sp" >
             </TextView>
 
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/heart"
+                tools:ignore="contentDescription" />
+
+            <TextView
+                android:id="@+id/tvLike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0"
+                android:textColor="#fff4a460"
+                android:textSize="16sp" >
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lltRank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lltAward"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@id/ivIcon"
+            android:orientation="horizontal" >
+
             <TextView
                 android:id="@+id/tvRankTitle"
                 android:layout_width="wrap_content"
@@ -132,6 +162,27 @@
 
             <TextView
                 android:id="@+id/tvTotalRank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:textColor="#fff4a460"
+                android:textSize="16sp" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tvTopTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:text="@string/top1_levels"
+                android:textColor="#ffffcc33"
+                android:textSize="14sp" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tvTop1Levels"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

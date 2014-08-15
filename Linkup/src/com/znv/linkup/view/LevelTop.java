@@ -183,6 +183,7 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
                     userInfo.setGold(getContext(), json.getInt("gold"));
                     userInfo.setAward(json.getInt("isAward") == 1);
                     userInfo.setTotalRank(json.getInt("totalRank"));
+                    userInfo.setTop1Levels(json.getInt("top1Levels"));
 
                     BaseActivity.userInfo = userInfo;
                     msg.obj = userInfo;
@@ -211,6 +212,7 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
                         } else {
                             holder.tvTotalRank.setText(String.valueOf(WelcomeActivity.userInfo.getTotalRank()));
                         }
+                        holder.tvTop1Levels.setText(String.valueOf(WelcomeActivity.userInfo.getTop1Levels()));
                         String text = getContext().getString(R.string.logining);
                         if (WelcomeActivity.userInfo.isAward()) {
                             text = getContext().getString(R.string.login_award);
@@ -318,6 +320,7 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
             } else {
                 holder.tvTotalRank.setText(String.valueOf(WelcomeActivity.userInfo.getTotalRank()));
             }
+            holder.tvTop1Levels.setText(String.valueOf(WelcomeActivity.userInfo.getTop1Levels()));
         }
     }
 
@@ -349,6 +352,7 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
         holder.tvDiamond = (TextView) findViewById(R.id.tvDiamond);
         holder.tvGold = (TextView) findViewById(R.id.tvCoin);
         holder.tvTotalRank = (TextView) findViewById(R.id.tvTotalRank);
+        holder.tvTop1Levels = (TextView) findViewById(R.id.tvTop1Levels);
     }
 
     private void beforeLogin() {
@@ -423,6 +427,7 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
         public TextView tvDiamond;
         public TextView tvGold;
         public TextView tvTotalRank;
+        public TextView tvTop1Levels;
     }
 
 }

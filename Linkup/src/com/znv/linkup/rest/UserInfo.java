@@ -103,6 +103,14 @@ public class UserInfo {
         this.totalRank = totalRank;
     }
 
+    public int getTop1Levels() {
+        return top1Levels;
+    }
+
+    public void setTop1Levels(int top1Levels) {
+        this.top1Levels = top1Levels;
+    }
+
     private String userId;
     private String userName;
     private String userGender;
@@ -110,4 +118,5 @@ public class UserInfo {
     private boolean isAward = false;
     private Bitmap userImage;
     private int totalRank;
+    private int top1Levels;
 }

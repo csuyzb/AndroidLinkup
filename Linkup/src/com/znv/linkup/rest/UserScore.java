@@ -25,6 +25,7 @@ import com.znv.linkup.util.RestUtil;
 public class UserScore {
     private static String USER_ADD_URI = ViewSettings.WebRoot + "/webapi/user/add";
     private static String USER_UPDATE_URI = ViewSettings.WebRoot + "/webapi/user/update";
+    private static String USER_LIKE_URI = ViewSettings.WebRoot + "/webapi/user/like";
     public static String USER_TOTALRANK_URI = ViewSettings.WebRoot + "/webapi/user/totalrank";
     public static String LEVEL_ADD_URI = ViewSettings.WebRoot + "/webapi/level/add";
     public static String LEVEL_GET_URI = ViewSettings.WebRoot + "/webapi/level/get";
@@ -97,37 +98,37 @@ public class UserScore {
         }).start();
     }
 
-    // /**
-    // * 新增用户关卡分数，用于排名
-    // *
-    // * @param levelInfo
-    // * 上传的分数信息
-    // * @param handler
-    // * 消息处理
-    // */
-    // public static void addResult(LevelInfo levelInfo, final Handler handler) {
-    // final List<NameValuePair> params = new ArrayList<NameValuePair>();
-    // params.add(new BasicNameValuePair("userid", levelInfo.getUserId()));
-    // params.add(new BasicNameValuePair("level", String.valueOf(levelInfo.getLevel())));
-    // params.add(new BasicNameValuePair("score", String.valueOf(levelInfo.getScore())));
-    // params.add(new BasicNameValuePair("time", String.valueOf(levelInfo.getTime())));
-    // params.add(new BasicNameValuePair("diamond", String.valueOf(levelInfo.getDiamond())));
-    // params.add(new BasicNameValuePair("gold", String.valueOf(levelInfo.getGold())));
-    // new Thread(new Runnable() {
-    //
-    // @Override
-    // public void run() {
-    // String result = RestUtil.post(LEVEL_ADD_URI, params);
-    // if (result != null) {
-    // // 成功post用户关卡分数
-    // handler.sendEmptyMessage(ViewSettings.MSG_LEVEL_ADD);
-    // } else {
-    // // 网络或其它问题
-    // handler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION);
-    // }
-    // }
-    // }).start();
-    // }
+    /**
+     * 点赞用户
+     * 
+     * @param tag
+     *            用户ID;用户名
+     * @param likeNum
+     *            1:赞;-1:取消赞
+     * @param handler
+     */
+    public static void updateLike(final String tag, final int likeNum, final Handler handler) {
+        final List<NameValuePair> params = new ArrayList<NameValuePair>();
+        String userId = tag.substring(0, tag.indexOf(";"));
+        params.add(new BasicNameValuePair("userid", userId));
+        params.add(new BasicNameValuePair("like", String.valueOf(likeNum)));
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                String result = RestUtil.post(USER_LIKE_URI, params);
+                if (result != null) {
+                    Message msg = new Message();
+                    msg.what = ViewSettings.MSG_UPDATE_LIKE;
+                    msg.obj = String.valueOf(likeNum) + ";" + tag;
+                    handler.sendMessage(msg);
+                } else {
+                    // 网络或其它问题
+                    handler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION);
+                }
+            }
+        }).start();
+    }
 
     /**
      * 新增用户关卡分数，用于排名
@@ -206,78 +207,6 @@ public class UserScore {
     }
 
     /**
-     * 新增用户关卡时间，用于排名
-     * 
-     * @param timeInfo
-     *            上传的时间信息
-     * @param handler
-     *            消息处理
-     */
-    // public static void addTime(LevelInfo timeInfo, final Handler handler) {
-    // final List<NameValuePair> params = new ArrayList<NameValuePair>();
-    // params.add(new BasicNameValuePair("userid", timeInfo.getUserId()));
-    // params.add(new BasicNameValuePair("level", String.valueOf(timeInfo.getLevel())));
-    // params.add(new BasicNameValuePair("time", String.valueOf(timeInfo.getTime())));
-    // params.add(new BasicNameValuePair("diamond", String.valueOf(timeInfo.getDiamond())));
-    // params.add(new BasicNameValuePair("gold", String.valueOf(timeInfo.getGold())));
-    // new Thread(new Runnable() {
-    //
-    // @Override
-    // public void run() {
-    // String result = RestUtil.post(TIME_ADD_URI, params);
-    // if (result != null) {
-    // // 成功post用户关卡时间
-    // handler.sendEmptyMessage(ViewSettings.MSG_TIME_ADD);
-    // } else {
-    // // 网络或其它问题
-    // handler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION);
-    // }
-    // }
-    // }).start();
-    // }
-
-    // /**
-    // * 按关卡获取排名信息
-    // *
-    // * @param level
-    // * 关卡id
-    // * @param handler
-    // * 消息处理
-    // */
-    // public static void getTopTimes(int level, final Handler handler) {
-    // getTopTimes(level, ViewSettings.TopN, handler);
-    // }
-    //
-    // /**
-    // * 按关卡获取排名信息
-    // *
-    // * @param level
-    // * 关卡id
-    // * @param handler
-    // * 消息处理
-    // */
-    // public static void getTopTimes(int level, int topN, final Handler handler) {
-    // final String uri = SCORE_GET_URI + "?level=" + String.valueOf(level) + "&top=" + String.valueOf(topN);
-    // new Thread(new Runnable() {
-    //
-    // @Override
-    // public void run() {
-    // String result = RestUtil.get(uri);
-    // if (result != null) {
-    // // 成功获取排名信息
-    // Message msg = new Message();
-    // msg.what = ViewSettings.MSG_TIME_GET;
-    // msg.obj = result;
-    // handler.sendMessage(msg);
-    // } else {
-    // // 网络或其它问题
-    // handler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION);
-    // }
-    // }
-    // }).start();
-    // }
-
-    /**
      * 获取用户icon
      * 
      * @param url
@@ -318,50 +247,4 @@ public class UserScore {
             }
         }).start();
     }
-
-    // /**
-    // * 批量获取icon信息
-    // *
-    // * @param urls
-    // * url地址集合
-    // * @param handler
-    // * 消息处理
-    // */
-    // public static void getTopImages(final List<String> urls, final Handler handler) {
-    // new Thread(new Runnable() {
-    //
-    // @Override
-    // public void run() {
-    // boolean hasImage = false;
-    // List<Bitmap> images = new ArrayList<Bitmap>();
-    // Bitmap bm = null;
-    // for (int i = 0; i < urls.size(); i++) {
-    // bm = IconCacheUtil.getIcon(urls.get(i));
-    // if (bm == null) {
-    // try {
-    // bm = BitmapFactory.decodeStream((new URL(urls.get(i))).openStream());
-    // hasImage = true;
-    // IconCacheUtil.putIcon(urls.get(i), bm);
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // bm = null;
-    // }
-    // } else {
-    // hasImage = true;
-    // }
-    // images.add(bm);
-    // }
-    // if (hasImage) {
-    // // 成功获取排名信息
-    // Message msg = new Message();
-    // msg.what = ViewSettings.MSG_TOPIMAGES_GET;
-    // msg.obj = images;
-    // handler.sendMessage(msg);
-    // } else {
-    // // 网络或其它问题
-    // handler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION);
-    // }
-    // }
-    // }).start();
-    // }
 }

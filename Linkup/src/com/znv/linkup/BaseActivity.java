@@ -40,7 +40,7 @@ public class BaseActivity extends Activity {
     // 游戏关卡配置
     public static List<ModeCfg> modeCfgs = null;
     // 游戏配置Map
-    protected static SparseArray<LevelCfg> levelCfgs = null;
+    public static SparseArray<LevelCfg> levelCfgs = null;
     // 第三方登录用户id
     public static UserInfo userInfo = null;
     // rankAdapter缓存

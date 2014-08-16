@@ -35,6 +35,7 @@ import com.znv.linkup.rest.NetMsgListener;
 import com.znv.linkup.rest.UserScore;
 import com.znv.linkup.rest.VolleyHelper;
 import com.znv.linkup.util.LevelUtil;
+import com.znv.linkup.util.LikeHelper;
 import com.znv.linkup.util.ShareUtil;
 import com.znv.linkup.util.StringUtil;
 
@@ -81,6 +82,7 @@ public class TopActivity extends Activity {
             item.tvScore = (TextView) view.findViewById(R.id.score);
             item.tvName = (TextView) view.findViewById(R.id.name);
             item.tvDate = (TextView) view.findViewById(R.id.date);
+            item.ivLike = (ImageView) view.findViewById(R.id.ivLike);
             holders.add(item);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
             params.setMargins(2, 2, 2, 0);
@@ -104,6 +106,8 @@ public class TopActivity extends Activity {
 
         // 设置查询条件
         setSelectItem();
+
+        LikeHelper.loadLikeUsers(this);
     }
 
     /**
@@ -227,6 +231,13 @@ public class TopActivity extends Activity {
                             item.tvScore.setText(String.valueOf(obj.getInt("score")));
                         }
                         item.tvDate.setText(obj.getString("pubTime").substring(0, 10));
+                        // 是否点赞
+                        item.ivLike.setTag(obj.getString("userId") + ";" + item.tvName.getText());
+                        if (LikeHelper.isLikeUser(obj.getString("userId"))) {
+                            item.ivLike.setImageResource(R.drawable.like);
+                        } else {
+                            item.ivLike.setImageResource(R.drawable.unlike);
+                        }
 
                         volley.loadImage(item.ivIcon, obj.getString("userIcon"));
                     }
@@ -300,10 +311,17 @@ public class TopActivity extends Activity {
                         JSONObject obj = t.getJSONObject(i);
                         TopItemHolder item = holders.get(i);
                         setOrder(item.tvOrder, i);
-                        item.tvName.setTextSize(16);
+                        item.tvName.setTextSize(15);
                         item.tvName.setText(StringUtil.toUtf8(obj.getString("userName")));
                         item.tvScore.setVisibility(View.GONE);
                         item.tvDate.setText(obj.getString("totalScore"));
+                        // 是否点赞
+                        item.ivLike.setTag(obj.getString("userId") + ";" + item.tvName.getText());
+                        if (LikeHelper.isLikeUser(obj.getString("userId"))) {
+                            item.ivLike.setImageResource(R.drawable.like);
+                        } else {
+                            item.ivLike.setImageResource(R.drawable.unlike);
+                        }
 
                         volley.loadImage(item.ivIcon, obj.getString("userIcon"));
                     }
@@ -324,6 +342,27 @@ public class TopActivity extends Activity {
             }
         });
         showProgress();
+    }
+
+    /**
+     * 处理点赞
+     * 
+     * @param v
+     */
+    public void clickLike(View v) {
+        String tag = (String) v.getTag();
+        String userId = tag.substring(0, tag.indexOf(";"));
+        if (!LikeHelper.isLikeUser(userId)) {
+            LikeHelper.likeUser(this, userId);
+            ((ImageView) v).setImageResource(R.drawable.like);
+
+            UserScore.updateLike(tag, 1, netMsgHandler);
+        } else {
+            LikeHelper.unlikeUser(this, userId);
+            ((ImageView) v).setImageResource(R.drawable.unlike);
+
+            UserScore.updateLike(tag, -1, netMsgHandler);
+        }
     }
 
     /**
@@ -398,37 +437,22 @@ public class TopActivity extends Activity {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-            case ViewSettings.MSG_LEVEL_GET: {
-                try {
-                    String result = (String) msg.obj;
-                    JSONArray array = new JSONArray(result);
-                    for (int i = 0; i < array.length(); i++) {
-                        topList.getChildAt(i).setVisibility(View.VISIBLE);
-                        JSONObject obj = array.getJSONObject(i);
-                        TopItemHolder item = holders.get(i);
-                        setOrder(item.tvOrder, i);
-                        item.tvName.setText(StringUtil.toUtf8(obj.getString("userName")));
-                        if (LevelUtil.isTimeMode(levelIndex)) {
-                            item.tvScore.setText(StringUtil.secondToString(obj.getInt("time")));
-                        } else {
-                            item.tvScore.setText(String.valueOf(obj.getInt("score")));
-                        }
-                        item.tvDate.setText(obj.getString("pubTime").substring(0, 10));
-
-                        volley.loadImage(item.ivIcon, obj.getString("userIcon"));
-                    }
-                    for (int i = array.length(); i < ViewSettings.TopRankN; i++) {
-                        topList.getChildAt(i).setVisibility(View.INVISIBLE);
-                    }
-                    findViewById(R.id.searchMini).setVisibility(View.VISIBLE);
-                    topList.setVisibility(View.VISIBLE);
-                } catch (Exception e) {
-                    Toast.makeText(TopActivity.this, getString(R.string.top_data_error), Toast.LENGTH_SHORT).show();
+            case ViewSettings.MSG_UPDATE_LIKE: {
+                String liketag = (String) msg.obj;
+                String likeStr = liketag.substring(0, liketag.indexOf(";"));
+                String tag = liketag.substring(liketag.indexOf(";") + 1);
+                String userName = tag.substring(tag.indexOf(";") + 1);
+                if (likeStr.startsWith("-")) {
+                    // 取消点赞
+                    Toast.makeText(TopActivity.this, getString(R.string.unlike_info, userName), Toast.LENGTH_SHORT).show();
+                } else {
+                    // 点赞
+                    Toast.makeText(TopActivity.this, getString(R.string.like_info, userName), Toast.LENGTH_SHORT).show();
                 }
             }
                 break;
             case ViewSettings.MSG_NETWORK_EXCEPTION: {
-                Toast.makeText(TopActivity.this, getString(R.string.top_net_error), Toast.LENGTH_SHORT).show();
+                Toast.makeText(TopActivity.this, getString(R.string.like_error), Toast.LENGTH_SHORT).show();
             }
                 break;
             }
@@ -479,5 +503,6 @@ public class TopActivity extends Activity {
         TextView tvName;
         TextView tvDate;
         TextView tvTime;
+        ImageView ivLike;
     }
 }

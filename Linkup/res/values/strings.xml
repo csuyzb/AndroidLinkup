@@ -73,5 +73,8 @@
     <string name="link_text"><a href="http://app.mi.com/detail/61473">支持作者，给个好评，谢谢！</a></string>
     <string name="share_top_info">期待高手来挑战。。。</string>
     <string name="top1_levels">排名第一关卡数:</string>
+    <string name="like_info">你对[%s]点赞成功</string>
+    <string name="unlike_info">你对[%s]取消赞成功</string>
+    <string name="like_error">点赞失败，请检查网络设置。</string>
 
 </resources>

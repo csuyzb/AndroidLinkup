@@ -11,6 +11,17 @@ import android.util.Log;
 public class StringUtil {
 
     /**
+     * 判断null或者空
+     * 
+     * @param str
+     *            字符串
+     * @return
+     */
+    public static boolean isNullOrEmpty(String str) {
+        return str == null || str.equals("");
+    }
+
+    /**
      * 转为UTF-8编码
      * 
      * @param str

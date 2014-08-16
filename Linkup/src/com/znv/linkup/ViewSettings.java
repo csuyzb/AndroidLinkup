@@ -84,6 +84,11 @@ public class ViewSettings {
     public static final int MSG_UPDATE_GOLD = 0x21;
 
     /**
+     * 更新用户的点赞数
+     */
+    public static final int MSG_UPDATE_LIKE = 0x22;
+
+    /**
      * 每种皮肤的图片X数量
      */
     public static int ImageXCount = 4;
@@ -152,6 +157,11 @@ public class ViewSettings {
      * 全局配置的 Shared Preference
      */
     public static String GlobalCfgStr = "globalcfg_" + CacheVersion;
+
+    /**
+     * 点赞用户的 Shared Preference
+     */
+    public static String LikeUsersStr = "likeusers";
 
     /**
      * 本地数据库文件名

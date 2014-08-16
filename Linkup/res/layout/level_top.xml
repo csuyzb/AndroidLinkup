@@ -125,7 +125,7 @@
                 android:layout_height="20dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:src="@drawable/heart"
+                android:src="@drawable/like"
                 tools:ignore="contentDescription" />
 
             <TextView
@@ -133,7 +133,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="0"
                 android:textColor="#fff4a460"
                 android:textSize="16sp" >
             </TextView>

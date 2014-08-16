@@ -111,6 +111,14 @@ public class UserInfo {
         this.top1Levels = top1Levels;
     }
 
+    public int getLike() {
+        return like;
+    }
+
+    public void setLike(int like) {
+        this.like = like;
+    }
+
     private String userId;
     private String userName;
     private String userGender;
@@ -119,4 +127,5 @@ public class UserInfo {
     private Bitmap userImage;
     private int totalRank;
     private int top1Levels;
+    private int like;
 }

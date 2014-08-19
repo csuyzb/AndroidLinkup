@@ -1,10 +1,6 @@
 package com.znv.linkup.view;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.znv.linkup.BaseActivity;
 import com.znv.linkup.R;
 import com.znv.linkup.ViewSettings;
 import com.znv.linkup.core.Game;
@@ -140,23 +137,22 @@ public class CardsView extends RelativeLayout {
      * @return 图片列表
      */
     private List<Bitmap> getSkinImages(String skinName) {
-        if (!skinImages.containsKey(skinName)) {
-            List<Bitmap> images = new ArrayList<Bitmap>();
-            String imageFile = String.format("%ss.dat", skinName);
-            InputStream is;
+        int index = 0;
+        for (int i = 0; i < ViewSettings.SkinNames.length; i++) {
+            if (ViewSettings.SkinNames[i].equalsIgnoreCase(skinName)) {
+                index = i;
+                break;
+            }
+        }
+        while (BaseActivity.skinImages.get(index) == null) {
             try {
-                is = getResources().getAssets().open(imageFile);
-                Bitmap bm = BitmapFactory.decodeStream(is);
-                images = ImageUtil.cutImage(bm, ViewSettings.ImageXCount, ViewSettings.ImageYCount);
-            } catch (Exception e) {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-            // 加入缓存
-            skinImages.put(skinName, images);
         }
 
-        return skinImages.get(skinName);
+        return BaseActivity.skinImages.get(index);
     }
 
     /**
@@ -187,6 +183,6 @@ public class CardsView extends RelativeLayout {
 
     private Game game;
     private GameCard[][] gameCards = null;
-    // 根据游戏皮肤缓存图片，不用每次加载
-    private static Map<String, List<Bitmap>> skinImages = new HashMap<String, List<Bitmap>>();
+    // // 根据游戏皮肤缓存图片，不用每次加载
+    // private static Map<String, List<Bitmap>> skinImages = new HashMap<String, List<Bitmap>>();
 }

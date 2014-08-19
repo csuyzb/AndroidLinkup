@@ -1,9 +1,14 @@
 package com.znv.linkup;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.res.XmlResourceParser;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
@@ -15,6 +20,7 @@ import com.znv.linkup.core.config.GlobalCfg;
 import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.core.config.ModeCfg;
 import com.znv.linkup.core.config.RankCfg;
+import com.znv.linkup.core.util.ImageUtil;
 import com.znv.linkup.db.DbScore;
 import com.znv.linkup.db.LevelScore;
 import com.znv.linkup.rest.UserInfo;
@@ -41,10 +47,12 @@ public class BaseActivity extends Activity {
     public static List<ModeCfg> modeCfgs = null;
     // 游戏配置Map
     public static SparseArray<LevelCfg> levelCfgs = null;
-    // 第三方登录用户id
+    // 第三方登录用户信息
     public static UserInfo userInfo = null;
     // rankAdapter缓存
     public static RankAdapter[] rankAdapters = null;
+    // 根据游戏皮肤缓存图片，不用每次加载
+    public static List<List<Bitmap>> skinImages = new ArrayList<List<Bitmap>>(ViewSettings.SkinNames.length);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +92,8 @@ public class BaseActivity extends Activity {
      * 初始化快捷键
      */
     private void initShortcut() {
-        ShortcutUtil util = new ShortcutUtil(this);
         if (!CacheUtil.hasBind(this, "short_cut")) {
+            ShortcutUtil util = new ShortcutUtil(this);
             util.delShortcut();
             util.addShortcut();
             CacheUtil.setBind(this, "short_cut", true);
@@ -143,7 +151,7 @@ public class BaseActivity extends Activity {
             for (ModeCfg modeCfg : modeCfgs) {
                 for (RankCfg rankCfg : modeCfg.getRankInfos()) {
                     for (LevelCfg levelCfg : rankCfg.getLevelInfos()) {
-                        levelCfgs.put(levelCfg.getLevelId(), levelCfg);
+                        levelCfgs.append(levelCfg.getLevelId(), levelCfg);
                     }
                 }
             }
@@ -202,6 +210,35 @@ public class BaseActivity extends Activity {
     }
 
     /**
+     * 加载游戏皮肤
+     */
+    protected void loadSkinImages() {
+        InputStream is = null;
+        for (String skinName : ViewSettings.SkinNames) {
+            String imageFile = String.format("%ss.dat", skinName);
+            try {
+                is = getResources().getAssets().open(imageFile);
+                Bitmap bm = BitmapFactory.decodeStream(is);
+                List<Bitmap> images = ImageUtil.cutImage(bm, ViewSettings.ImageXCount, ViewSettings.ImageYCount);
+                if (images != null) {
+                    // 加入缓存
+                    skinImages.add(images);
+                }
+            } catch (Exception e) {
+                Log.d("loadSkinImages", e.getMessage());
+            }
+        }
+
+        if (is != null) {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
      * 获取全局配置字符串
      * 
      * @return 全局配置字符串
@@ -219,9 +256,9 @@ public class BaseActivity extends Activity {
 
     @Override
     protected void onPause() {
+        super.onPause();
         // 停止背景音乐
         stopMusic();
-        super.onPause();
     }
 
     @Override

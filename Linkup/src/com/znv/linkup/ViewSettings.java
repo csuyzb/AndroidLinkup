@@ -213,6 +213,11 @@ public class ViewSettings {
     public static int[] StarImages = new int[] { R.drawable.star1, R.drawable.star2, R.drawable.star3 };
 
     /**
+     * 五套皮肤的名称
+     */
+    public static String[] SkinNames = new String[] { "classic", "fruit", "pet", "fish", "farm" };
+
+    /**
      * 填写从短信SDK应用后台注册得到的APPKEY
      */
     public static String APPKEY = "25c23a360539";

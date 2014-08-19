@@ -3,6 +3,7 @@ package com.znv.linkup;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.graphics.Point;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Display;
@@ -482,9 +483,15 @@ public class GameActivity extends BaseActivity implements IGameAction {
     @Override
     public void onErase() {
         // 判断是否需要自动重排
-        if (game.hasPieces() && game.isDeadLock()) {
-            refresh(null);
+        // if (game.hasPieces() && game.isDeadLock()) {
+        // refresh(null);
+        // }
+        if (checkDeadLockTask != null) {
+            checkDeadLockTask.cancel(true);
+            checkDeadLockTask = null;
         }
+        checkDeadLockTask = new CheckDeadLockTask();
+        checkDeadLockTask.execute();
     }
 
     /**
@@ -735,6 +742,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
     private LevelHolder holder = new LevelHolder();
     private Handler handler = new GameMsgHandler(this);
     private PathView pathView = null;
+    private CheckDeadLockTask checkDeadLockTask = null;
 
     /**
      * 界面信息缓存类
@@ -761,4 +769,27 @@ public class GameActivity extends BaseActivity implements IGameAction {
         Button btnAddTime;
     }
 
+    /**
+     * 判断死锁的异步任务
+     * 
+     * @author yzb
+     * 
+     */
+    private class CheckDeadLockTask extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // 判断是否需要重排
+            return game.hasPieces() && game.isDeadLock();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean needRefresh) {
+            super.onPostExecute(needRefresh);
+
+            if (needRefresh) {
+                refresh(null);
+            }
+        }
+    }
 }

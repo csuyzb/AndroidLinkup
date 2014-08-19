@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
@@ -52,41 +53,24 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
 
         setContentView(R.layout.activity_welcome);
 
-        try {
-            ShareSDK.initSDK(this);
-        } catch (Exception ex) {
-        }
-
-        // 单独开线程加载配置
-        new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                // 加载配置信息
-                loadCfgs();
-
-                // 加载关卡适配器
-                loadRankAdapters();
-            }
-        }).start();
-
         initClickListener();
 
         initMusicSetting();
 
         initSoundSetting();
 
-        startAnimation();
-
         initLogin();
+
+        initSDK();
+
+        initInfoDialog();
+
+        // 异步加载配置信息
+        new LoadCfgTask().execute();
 
         initNotice();
 
-        initMsgSDK();
-
-        initXiaomiUpdate();
-
-        initInfoDialog();
+        startAnimation();
     }
 
     /**
@@ -343,16 +327,23 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
     public void onLevelResultAdd(Message msg) {
     }
 
-    private void initMsgSDK() {
+    /**
+     * 初始化第三方sdk
+     */
+    private void initSDK() {
+        try {
+            ShareSDK.initSDK(this);
+        } catch (Exception ex) {
+            Log.d("ShareSDK", ex.getMessage());
+        }
+
         try {
             // 初始化短信SDK
             SMSSDK.initSDK(this, ViewSettings.APPKEY, ViewSettings.APPSECRET);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.d("SMSSDK", ex.getMessage());
         }
-    }
 
-    private void initXiaomiUpdate() {
         try {
             XiaomiUpdateAgent.setCheckUpdateOnlyWifi(true);
             XiaomiUpdateAgent.update(this);
@@ -382,6 +373,29 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
                 }
             });
             info.show();
+        }
+    }
+
+    /**
+     * 加载配置的异步任务
+     * 
+     * @author yzb
+     * 
+     */
+    private class LoadCfgTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            // 加载配置信息
+            loadCfgs();
+
+            // 加载关卡适配器
+            loadRankAdapters();
+
+            // 加载图片信息
+            loadSkinImages();
+
+            return null;
         }
     }
 }

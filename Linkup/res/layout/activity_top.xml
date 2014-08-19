@@ -32,14 +32,14 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
-            <ImageView
-                android:id="@+id/ivPreLevel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:onClick="preLevel"
-                android:src="@drawable/top_back"
-                tools:ignore="contentDescription" />
+            <!-- <ImageView -->
+            <!-- android:id="@+id/ivPreLevel" -->
+            <!-- android:layout_width="wrap_content" -->
+            <!-- android:layout_height="wrap_content" -->
+            <!-- android:layout_marginLeft="5dp" -->
+            <!-- android:onClick="preLevel" -->
+            <!-- android:src="@drawable/top_back" -->
+            <!-- tools:ignore="contentDescription" /> -->
 
             <TextView
                 android:id="@+id/tvCurLevel"
@@ -51,14 +51,14 @@
                 android:textColor="#FFFFFF33"
                 android:textSize="20sp" />
 
-            <ImageView
-                android:id="@+id/ivNextLevel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:onClick="nextLevel"
-                android:src="@drawable/top_next"
-                tools:ignore="contentDescription" />
+            <!-- <ImageView -->
+            <!-- android:id="@+id/ivNextLevel" -->
+            <!-- android:layout_width="wrap_content" -->
+            <!-- android:layout_height="wrap_content" -->
+            <!-- android:layout_marginRight="5dp" -->
+            <!-- android:onClick="nextLevel" -->
+            <!-- android:src="@drawable/top_next" -->
+            <!-- tools:ignore="contentDescription" /> -->
         </LinearLayout>
 
         <LinearLayout

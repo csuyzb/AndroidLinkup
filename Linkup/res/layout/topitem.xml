@@ -20,7 +20,8 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_gravity="center_vertical"
-        android:layout_margin="2dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="2dp"
         android:src="@drawable/icon_default"
         tools:ignore="contentDescription" />
 
@@ -62,17 +63,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"
-            android:layout_margin="2dp"
+            android:layout_margin="1dp"
             android:gravity="right"
             android:textColor="#88888888"
-            android:textSize="14sp" />
+            android:textSize="13sp" />
 
         <ImageView
             android:id="@+id/ivLike"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center_vertical"
-            android:layout_margin="2dp"
+            android:layout_margin="1dp"
             android:onClick="clickLike"
             tools:ignore="contentDescription" />
     </LinearLayout>

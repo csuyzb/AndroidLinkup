@@ -12,7 +12,10 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.GestureDetector;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -25,7 +28,6 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import cn.smssdk.gui.CommonDialog;
 
 import com.android.volley.VolleyError;
@@ -45,7 +47,7 @@ import com.znv.linkup.util.StringUtil;
  * @author yzb
  * 
  */
-public class TopActivity extends Activity {
+public class TopActivity extends Activity implements OnGestureListener {
 
     private int curMode = 0;
     private int curRank = 0;
@@ -62,6 +64,11 @@ public class TopActivity extends Activity {
     private Spinner spLevels = null;
     private ShareUtil shareHelper = null;
     private Dialog pd;
+
+    // 移动最小距离
+    private static final int FLING_MIN_DISTANCE = 50;
+    // 构建手势探测器
+    private GestureDetector mygesture = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +115,8 @@ public class TopActivity extends Activity {
         setSelectItem();
 
         LikeHelper.loadLikeUsers(this);
+
+        mygesture = new GestureDetector(this, this);
     }
 
     /**
@@ -134,16 +143,16 @@ public class TopActivity extends Activity {
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spRanks.setAdapter(adapter);
                     spLevels.setVisibility(View.INVISIBLE);
-                    findViewById(R.id.ivPreLevel).setVisibility(View.INVISIBLE);
-                    findViewById(R.id.ivNextLevel).setVisibility(View.INVISIBLE);
+                    // findViewById(R.id.ivPreLevel).setVisibility(View.INVISIBLE);
+                    // findViewById(R.id.ivNextLevel).setVisibility(View.INVISIBLE);
                     if (curRank == 0) {
                         getTotalRanks();
                     }
                 } else if (curMode != position - 1) {
                     curMode = position - 1;
                     spLevels.setVisibility(View.VISIBLE);
-                    findViewById(R.id.ivPreLevel).setVisibility(View.VISIBLE);
-                    findViewById(R.id.ivNextLevel).setVisibility(View.VISIBLE);
+                    // findViewById(R.id.ivPreLevel).setVisibility(View.VISIBLE);
+                    // findViewById(R.id.ivNextLevel).setVisibility(View.VISIBLE);
                     // // 设置下拉列表风格
                     String[] ranks = TopActivity.this.getResources().getStringArray(modeRanks[position]);
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(TopActivity.this, android.R.layout.simple_spinner_item, ranks);
@@ -170,7 +179,7 @@ public class TopActivity extends Activity {
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            if (curMode == -1) {
+            if (isTotalRank()) {
                 if (curRank != position) {
                     curRank = position;
                     getTotalRanks();
@@ -291,7 +300,7 @@ public class TopActivity extends Activity {
         String rankName = spRanks.getSelectedItem().toString() + "-" + spModes.getSelectedItem().toString();
         ((TextView) findViewById(R.id.tvCurLevel)).setText(rankName);
         String dayString = "";
-        if (curMode == -1) {
+        if (isTotalRank()) {
             if (curRank == 0) {
                 dayString = "&day=7";
             } else if (curRank == 1) {
@@ -368,7 +377,10 @@ public class TopActivity extends Activity {
     /**
      * 获取下一关的排名
      */
-    public void nextLevel(View v) {
+    public void nextLevel() {
+        if (isTotalRank()) {
+            return;
+        }
         if (curMode == modeCfgs.size() - 1 && curRank == modeCfgs.get(curMode).getRankInfos().size() - 1 && curLevel == 23) {
             return;
         }
@@ -400,7 +412,10 @@ public class TopActivity extends Activity {
     /**
      * 查询前一关的排名
      */
-    public void preLevel(View v) {
+    public void preLevel() {
+        if (isTotalRank()) {
+            return;
+        }
         if (curMode == 0 && curRank == 0 && curLevel == 0) {
             return;
         }
@@ -427,6 +442,15 @@ public class TopActivity extends Activity {
         }
 
         getLevelRanks();
+    }
+
+    /**
+     * 判断是否为总排行榜
+     * 
+     * @return 总排行榜：true
+     */
+    private boolean isTotalRank() {
+        return curMode == -1;
     }
 
     /**
@@ -504,5 +528,48 @@ public class TopActivity extends Activity {
         TextView tvDate;
         TextView tvTime;
         ImageView ivLike;
+    }
+
+    @Override
+    public boolean onDown(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        // 向右翻
+        if (e1.getX() - e2.getX() > FLING_MIN_DISTANCE) {
+            nextLevel();
+        }
+        // 向左翻
+        if (e2.getX() - e1.getX() > FLING_MIN_DISTANCE) {
+            preLevel();
+        }
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return mygesture.onTouchEvent(event);
     }
 }

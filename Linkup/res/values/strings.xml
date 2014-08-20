@@ -51,7 +51,7 @@
     <string name="unlock_msg">\n您确认消耗[5]钻石强制解锁关卡[%s]吗?</string>
     <string name="unlock_success_msg">关卡解锁成功!</string>
     <string name="share">分享</string>
-    <string name="share_success">分享成功,奖励5钻石!</string>
+    <string name="share_success">分享成功,奖励%s钻石!</string>
     <string name="top_net_error">获取数据失败,请检查网络设置!</string>
     <string name="top_data_error">获取或解析数据失败!</string>
     <string name="level_title">关卡:[%s]</string>
@@ -76,5 +76,6 @@
     <string name="like_info">你对[%s]点赞成功</string>
     <string name="unlike_info">你对[%s]取消赞成功</string>
     <string name="like_error">点赞失败，请检查网络设置。</string>
+    <string name="share_nologin_success">分享成功,登录分享奖励%s钻石!</string>
 
 </resources>

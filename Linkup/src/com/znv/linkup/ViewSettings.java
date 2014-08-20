@@ -89,6 +89,11 @@ public class ViewSettings {
     public static final int MSG_UPDATE_LIKE = 0x22;
 
     /**
+     * 登录分享提示
+     */
+    public static final int MSG_LOGIN_PROMPT = 0x23;
+
+    /**
      * 每种皮肤的图片X数量
      */
     public static int ImageXCount = 4;
@@ -142,6 +147,11 @@ public class ViewSettings {
      * 排行榜查询取前十
      */
     public static int TopRankN = 10;
+
+    /**
+     * 分享奖励钻石数
+     */
+    public static int ShareReward = 20;
 
     /**
      * 网站的域名根目录

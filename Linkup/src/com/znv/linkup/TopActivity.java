@@ -240,6 +240,7 @@ public class TopActivity extends Activity implements OnGestureListener {
                             item.tvScore.setText(String.valueOf(obj.getInt("score")));
                         }
                         item.tvDate.setText(obj.getString("pubTime").substring(0, 10));
+                        item.tvDate.setTextSize(13);
                         // 是否点赞
                         item.ivLike.setTag(obj.getString("userId") + ";" + item.tvName.getText());
                         if (LikeHelper.isLikeUser(obj.getString("userId"))) {
@@ -324,6 +325,7 @@ public class TopActivity extends Activity implements OnGestureListener {
                         item.tvName.setText(StringUtil.toUtf8(obj.getString("userName")));
                         item.tvScore.setVisibility(View.GONE);
                         item.tvDate.setText(obj.getString("totalScore"));
+                        item.tvDate.setTextSize(15);
                         // 是否点赞
                         item.ivLike.setTag(obj.getString("userId") + ";" + item.tvName.getText());
                         if (LikeHelper.isLikeUser(obj.getString("userId"))) {

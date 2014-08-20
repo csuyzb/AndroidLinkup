@@ -22,7 +22,7 @@ public class SoundManager {
         soundIds[1] = soundPool.load(context, R.raw.select, 1);
         soundIds[2] = soundPool.load(context, R.raw.erase, 1);
         soundIds[3] = soundPool.load(context, R.raw.refresh, 1);
-        soundIds[4] = soundPool.load(context, R.raw.translate, 1);
+        // soundIds[4] = soundPool.load(context, R.raw.translate, 1);
         soundIds[5] = soundPool.load(context, R.raw.combo, 1);
         soundIds[6] = soundPool.load(context, R.raw.win, 1);
         soundIds[7] = soundPool.load(context, R.raw.fail, 1);
@@ -73,9 +73,9 @@ public class SoundManager {
     /**
      * 播放变换声音
      */
-    public void translate() {
-        playSound(soundIds[4]);
-    }
+    // public void translate() {
+    // playSound(soundIds[4]);
+    // }
 
     /**
      * 播放连击声音

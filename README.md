@@ -16,6 +16,24 @@ The most interesting linkup game for android.
 
 ![welcome](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/welcome_180.jpg)![classic](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/pet_180.jpg)![time](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/fish_180.jpg)![task](https://github.com/csuyzb/AndroidLinkup/raw/master/screenshots/result_180.jpg)
 
+v1.4.4
+1.新增点赞功能
+2.新增分享奖励
+3.新增排名第一关卡数显示
+4.优化性能，游戏更流畅
+
+v1.4.3
+1.新增总排行榜分享
+2.新增进度提示
+3.优化分享到微信朋友圈
+4.优化游戏性能
+
+v1.4.2
+1.新增总排名查询
+2.修改游戏积分规则
+3.优化水果连连看关卡设计
+4.其它界面优化
+
 v1.4.1
 1.新增好友邀请
 2.新增排行榜上一关/下一关查询

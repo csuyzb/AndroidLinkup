@@ -44,4 +44,20 @@ public interface IGameAction extends IGameStatus {
      * 消除后的处理，用于自动检测死锁
      */
     void onErase();
+
+    /**
+     * 游戏步数变化时的处理
+     * 
+     * @param step
+     *            游戏步数
+     */
+    void onStepChanged(int step);
+
+    /**
+     * 游戏星星变化时的处理
+     * 
+     * @param star
+     *            收集的星星数
+     */
+    void onStarChanged(int star);
 }

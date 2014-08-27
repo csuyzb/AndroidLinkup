@@ -98,6 +98,37 @@ class DbHelper extends SQLiteOpenHelper {
     // }
     // }
 
+    private void initNewLevels(SQLiteDatabase db) {
+        String sql;
+        int index = 0;
+        db.beginTransaction();
+        // 新增模式
+        int m = 4;
+        if (m < modeCfgs.size()) {
+            for (int r = 0; r < modeCfgs.get(m).getRankInfos().size(); r++) {
+                for (int l = 0; l < modeCfgs.get(m).getRankInfos().get(r).getLevelInfos().size(); l++) {
+                    sql = "insert into scores(level, rank, maxscore, mintime, isactive, star, isupload) values(?,?,?,?,?,?,?)";
+                    // 控制默认激活的关卡数
+                    if (isActive(index)) {
+                        try {
+                            db.execSQL(sql, new Object[] { index++, r, 0, 0, 1, 0, 0 });
+                        } catch (Exception ex) {
+                            Log.d("sqlite", ex.getMessage());
+                        }
+                    } else {
+                        try {
+                            db.execSQL(sql, new Object[] { index++, r, 0, 0, 0, 0, 0 });
+                        } catch (Exception ex) {
+                            Log.d("sqlite", ex.getMessage());
+                        }
+                    }
+                }
+            }
+        }
+        db.setTransactionSuccessful();
+        db.endTransaction();
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // 如果level存在，则insert不成功，不存在，则新增
@@ -105,6 +136,8 @@ class DbHelper extends SQLiteOpenHelper {
 
         // 在表中增加一列,确定是否上传
         // alterTable(db);
+
+        initNewLevels(db);
     }
 
 }

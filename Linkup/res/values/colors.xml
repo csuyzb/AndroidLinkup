@@ -6,7 +6,7 @@
     <color name="rank_title_color">#FFff8c00</color>
     <color name="check_color">#FFFF0000</color>
     <color name="prompt_color">#FFFF0000</color>
-    <color name="path_color">#FF00FF00</color>
+    <color name="path_color">#FFFF0000</color>
     <color name="white">#ffffffff</color>
     <color name="rankbg_color1">#ff83608d</color>
     <color name="rankbg_color2">#ffbbcc92</color>

@@ -77,4 +77,9 @@ public class GameSettings {
      * 重排时尝试次数，默认5次
      */
     public static int RefreshTryCount = 5;
+
+    /**
+     * 星星的比例
+     */
+    public static float StarRatio = 0.4f;
 }

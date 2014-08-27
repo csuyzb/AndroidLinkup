@@ -86,7 +86,7 @@ public class Level {
                 levelHolder.tvTime.setVisibility(View.GONE);
                 levelHolder.tvTask.setVisibility(View.GONE);
                 levelHolder.rbStar.setRating(levelCfg.getLevelStar());
-            } else if (levelCfg.getLevelMode() == GameMode.Time) {
+            } else if (levelCfg.getLevelMode() == GameMode.Time || levelCfg.getLevelMode() == GameMode.Star) {
                 levelHolder.rbStar.setVisibility(View.GONE);
                 levelHolder.tvTime.setVisibility(View.VISIBLE);
                 levelHolder.tvTask.setVisibility(View.GONE);

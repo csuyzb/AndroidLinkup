@@ -16,6 +16,6 @@ public class LevelUtil {
      * @return 时间模式:true
      */
     public static boolean isTimeMode(int level) {
-        return (level >= 120 && level < 192) || (level >= 264 && level < 336);
+        return (level >= 120 && level < 192) || (level >= 264 && level < 408);
     }
 }

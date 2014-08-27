@@ -18,6 +18,8 @@ public class Game {
     public Game(LevelCfg levelCfg, IGameAction listener) {
         this.levelCfg = levelCfg;
         this.listener = listener;
+        this.gameStep = 0;
+        this.gameStar = 0;
         gameStatus = new GameStatus(levelCfg, listener);
         gameService = new GameService(levelCfg);
         alignContext = new AlignContext(gameService.getPieces(), levelCfg.getLevelAlign());
@@ -126,8 +128,22 @@ public class Game {
     private void handleSuccess(LinkInfo linkInfo, Piece prePiece, Piece curPiece) {
         unCheck();
         Piece[][] pieces = gameService.getPieces();
-        pieces[prePiece.getIndexY()][prePiece.getIndexX()].setEmpty(true);
-        pieces[curPiece.getIndexY()][curPiece.getIndexX()].setEmpty(true);
+        if (prePiece.isStar()) {
+            gameStar++;
+            if (listener != null) {
+                listener.onStarChanged(gameStar);
+            }
+        }
+        if (curPiece.isStar()) {
+            gameStar++;
+            if (listener != null) {
+                listener.onStarChanged(gameStar);
+            }
+        }
+        // pieces[prePiece.getIndexY()][prePiece.getIndexX()].setEmpty(true);
+        // pieces[curPiece.getIndexY()][curPiece.getIndexX()].setEmpty(true);
+        pieces[prePiece.getIndexY()][prePiece.getIndexX()].setImageId(GameSettings.GroundCardValue);
+        pieces[curPiece.getIndexY()][curPiece.getIndexX()].setImageId(GameSettings.GroundCardValue);
         onLinkPath(linkInfo);
 
         if (alignContext != null) {
@@ -136,9 +152,18 @@ public class Game {
                 listener.onTranslate();
             }
         }
+        gameStep++;
+        if (listener != null) {
+            listener.onStepChanged(gameStep);
+        }
         if (listener != null) {
             listener.onErase();
         }
+        // 如果收集了足够的星星，游戏胜利
+        if (levelCfg.getStars() != 0 && gameStar == levelCfg.getStars()) {
+            gameStatus.win();
+        }
+        // 如果没有了游戏块，游戏胜利
         if (!gameService.hasPieces()) {
             gameStatus.win();
         }
@@ -184,6 +209,7 @@ public class Game {
      * 游戏提示
      */
     public void prompt() {
+        unCheck();
         pair = promptPair();
         gameStatus.prompt(pair);
     }
@@ -318,6 +344,17 @@ public class Game {
         return gameService.link(p1, p2);
     }
 
+    public int getGameStep() {
+        return gameStep;
+    }
+
+    public int getGameStar() {
+        return gameStar;
+    }
+
+    // 每消除一对算一步
+    private int gameStep;
+    private int gameStar;
     private LevelCfg levelCfg;
     private GameStatus gameStatus;
     private IGameAction listener;

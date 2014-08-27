@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="4"
+        android:layout_weight="3"
         android:gravity="center"
         android:orientation="horizontal" />
 
@@ -29,17 +29,37 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:gravity="center_horizontal|center_vertical" >
+
+        <ImageButton
+            android:id="@+id/mode2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@drawable/but_srw"
+            android:tag="2"
+            tools:ignore="contentDescription" />
 
         <ImageButton
             android:id="@+id/mode0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="20dp"
+            android:layout_toRightOf="@id/mode2"
             android:background="@drawable/but_cg"
             android:tag="0"
-            android:translationY="0dp"
+            android:translationY="-80dp"
+            tools:ignore="contentDescription" />
+
+        <ImageButton
+            android:id="@+id/mode4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_toRightOf="@id/mode2"
+            android:background="@drawable/but_xx"
+            android:tag="4"
             tools:ignore="contentDescription" />
 
         <ImageButton
@@ -47,33 +67,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@id/mode0"
-            android:layout_margin="10dp"
-            android:layout_toRightOf="@id/mode0"
+            android:layout_margin="20dp"
+            android:layout_toRightOf="@id/mode2"
             android:background="@drawable/but_js"
             android:tag="1"
-            android:translationY="-30dp"
-            tools:ignore="contentDescription" />
-
-        <ImageButton
-            android:id="@+id/mode2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_toRightOf="@id/mode1"
-            android:background="@drawable/but_srw"
-            android:tag="2"
-            android:translationY="-20dp"
+            android:translationY="80dp"
             tools:ignore="contentDescription" />
 
         <ImageButton
             android:id="@+id/mode3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_toRightOf="@id/mode2"
+            android:layout_margin="20dp"
+            android:layout_toRightOf="@id/mode4"
             android:background="@drawable/but_trw"
             android:tag="3"
-            android:translationY="10dp"
             tools:ignore="contentDescription" />
     </RelativeLayout>
 
@@ -132,11 +140,11 @@
             android:text="@string/about" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tsNotice"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textAlignment="center" />
+    <!-- <TextView -->
+    <!-- android:id="@+id/tsNotice" -->
+    <!-- android:layout_width="fill_parent" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_gravity="center" -->
+    <!-- android:textAlignment="center" /> -->
 
 </LinearLayout>

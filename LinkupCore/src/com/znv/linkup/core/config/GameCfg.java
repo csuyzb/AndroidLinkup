@@ -195,6 +195,10 @@ public class GameCfg {
         levelCfg.setLevelAlign(GameAlign.valueOf(Integer.parseInt(xrp.getAttributeValue(null, "galign"))));
         levelCfg.setEmptyNum(Integer.parseInt(xrp.getAttributeValue(null, "empty")));
         levelCfg.setObstacleNum(Integer.parseInt(xrp.getAttributeValue(null, "obstacle")));
+        String starStr = xrp.getAttributeValue(null, "star");
+        if (starStr != null) {
+            levelCfg.setStars(Integer.parseInt(starStr));
+        }
         levelCfg.setMaptplStr(xrp.getAttributeValue(null, "maptpl"));
         levelCfg.initStarScores();
         return levelCfg;

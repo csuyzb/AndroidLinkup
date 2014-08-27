@@ -1,5 +1,6 @@
 package com.znv.linkup.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -38,8 +39,8 @@ public class CardsView extends RelativeLayout {
         this.game = game;
 
         // 加载界面图片
-        String skinName = game.getLevelCfg().getGameSkin();
-        loadImages(skinName);
+        // String skinName = game.getLevelCfg().getGameSkin();
+        // loadImages(skinName);
 
         // 生成游戏卡片
         createCards(false);
@@ -100,24 +101,32 @@ public class CardsView extends RelativeLayout {
      *            是否应用动画
      */
     public void createCards(boolean isAnim) {
+        String skinName = game.getLevelCfg().getGameSkin();
+        List<Bitmap> scaleBitmaps = loadImages(skinName);
         removeAllViews();
         gameCards = new GameCard[game.getPieces().length][game.getPieces()[0].length];
         GameCard card = null;
         for (int i = 0; i < game.getPieces().length; i++) {
             for (int j = 0; j < game.getPieces()[i].length; j++) {
                 Piece p = game.getPieces()[i][j];
-                if (Piece.hasImage(p)) {
+
+                if (p.getImageId() != GameSettings.GroundCardValue) {
+                    Bitmap pbm = null;
+                    if (p.getImageId() == GameSettings.ObstacleCardValue) {
+                        pbm = ImageUtil.scaleBitmap(obstacleBitmap, p.getWidth(), p.getHeight());
+                    } else {
+                        pbm = scaleBitmaps.get(p.getImageId() - 1);
+                    }
                     card = new GameCard(getContext());
                     // 需要先addView，再设置Piece
                     addView(card, p.getWidth(), p.getHeight());
 
-                    // 触发单个卡片的动画
-                    card.setPiece(p, isAnim);
+                    card.setPiece(p, pbm, isAnim);
                     card.setOnClickListener(cardClickHandler);
 
                     gameCards[i][j] = card;
                 } else {
-                    gameCards[i][j] = card;
+                    gameCards[i][j] = null;
                 }
             }
         }
@@ -158,31 +167,43 @@ public class CardsView extends RelativeLayout {
     /**
      * 根据皮肤加载图片
      */
-    private void loadImages(String skinName) {
+    private List<Bitmap> loadImages(String skinName) {
 
-        // 根据皮肤获取图片列表
-        List<Bitmap> images = getSkinImages(skinName);
+        int scaleWidth = game.getPieces()[0][0].getWidth();
+        int scaleHeight = game.getPieces()[0][0].getHeight();
+        String scaleKey = String.format("%s_%s_%s", skinName, String.valueOf(scaleWidth), String.valueOf(scaleHeight));
+        if (!BaseActivity.scaleImages.containsKey(scaleKey)) {
+            // 根据皮肤获取图片列表
+            List<Bitmap> images = getSkinImages(skinName);
 
-        Piece[][] pieces = game.getPieces();
-        for (int i = 0; i < pieces.length; i++) {
-            for (int j = 0; j < pieces[i].length; j++) {
-                Piece piece = pieces[i][j];
-                if (piece != null) {
-                    // 设置游戏卡片和障碍卡片
-                    if (piece.getImageId() == GameSettings.ObstacleCardValue) {
-                        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.obstacle);
-                        piece.setImage(ImageUtil.scaleBitmap(bm, piece.getWidth(), piece.getHeight()));
-                    } else if (piece.getImageId() != GameSettings.GroundCardValue) {
-                        // 根据需要缩放图片
-                        piece.setImage(ImageUtil.scaleBitmap(images.get(piece.getImageId() - 1), piece.getWidth(), piece.getHeight()));
-                    }
-                }
+            // 加载到缓存
+            List<Bitmap> scaleBms = new ArrayList<Bitmap>();
+            for (Bitmap bm : images) {
+                scaleBms.add(ImageUtil.scaleBitmap(bm, scaleWidth, scaleHeight));
             }
+            BaseActivity.scaleImages.put(scaleKey, scaleBms);
         }
+        return BaseActivity.scaleImages.get(scaleKey);
+
+        // Piece[][] pieces = game.getPieces();
+        // for (int i = 0; i < pieces.length; i++) {
+        // for (int j = 0; j < pieces[i].length; j++) {
+        // Piece piece = pieces[i][j];
+        // if (piece != null) {
+        // // 设置游戏卡片和障碍卡片
+        // if (piece.getImageId() == GameSettings.ObstacleCardValue) {
+        // Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.obstacle);
+        // piece.setImage(ImageUtil.scaleBitmap(bm, piece.getWidth(), piece.getHeight()));
+        // } else if (piece.getImageId() != GameSettings.GroundCardValue) {
+        // // 根据需要缩放图片
+        // piece.setImage(ImageUtil.scaleBitmap(images.get(piece.getImageId() - 1), piece.getWidth(), piece.getHeight()));
+        // }
+        // }
+        // }
+        // }
     }
 
     private Game game;
     private GameCard[][] gameCards = null;
-    // // 根据游戏皮肤缓存图片，不用每次加载
-    // private static Map<String, List<Bitmap>> skinImages = new HashMap<String, List<Bitmap>>();
+    private Bitmap obstacleBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.obstacle);
 }

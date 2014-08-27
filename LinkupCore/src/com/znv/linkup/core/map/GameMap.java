@@ -1,5 +1,9 @@
 package com.znv.linkup.core.map;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import com.znv.linkup.core.GameSettings;
 import com.znv.linkup.core.card.Piece;
 import com.znv.linkup.core.config.LevelCfg;
@@ -84,12 +88,13 @@ public class GameMap extends BaseMap {
         Piece[][] pieces = new Piece[data.length][data[0].length];
         Piece.YSize = data.length;
         Piece.XSize = data[0].length;
+        List<Integer> pos = new ArrayList<Integer>(data.length * data[0].length);
         for (int i = 0; i < data.length; i++) {
             for (int j = 0; j < data[i].length; j++) {
                 Piece piece = new Piece(i, j);
                 piece.setWidth(imageWidth);
                 piece.setHeight(imageHeight);
-                piece.setEmpty(data[i][j] == GameSettings.GroundCardValue);
+//                piece.setEmpty(data[i][j] == GameSettings.GroundCardValue);
                 if (data[i][j] == GameSettings.GroundCardValue) {
                     piece.setImageId(GameSettings.GroundCardValue);
                 } else if (data[i][j] == GameSettings.EmptyCardValue) {
@@ -100,10 +105,21 @@ public class GameMap extends BaseMap {
                 } else {
                     // 只记录图片Id，界面负责创建图片
                     piece.setImageId(data[i][j]);
+                    pos.add(i * data[0].length + j);
                 }
                 piece.setBeginY(i * imageHeight + levelCfg.getBeginImageY());
                 piece.setBeginX(j * imageWidth + levelCfg.getBeginImageX());
                 pieces[i][j] = piece;
+            }
+        }
+
+        // 设置是否为星星卡片
+        if (levelCfg.getStars() != 0) {
+            Collections.shuffle(pos);
+            if (levelCfg.getStars() < pos.size()) {
+                for (int i = 0; i < levelCfg.getStars(); i++) {
+                    pieces[pos.get(i) / data[0].length][pos.get(i) % data[0].length].setStar(true);
+                }
             }
         }
         return pieces;

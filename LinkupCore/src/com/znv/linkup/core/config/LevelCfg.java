@@ -50,6 +50,10 @@ public class LevelCfg implements Serializable {
     private int levelBackground;
     // 关卡地图信息字符串
     private String maptplStr;
+    // 星星模式的星星数
+    private int stars = 0;
+    // 是否已根据屏幕调整
+    private boolean isAdjust = false;
 
     /**
      * 初始化游戏星级的临界分数
@@ -67,6 +71,11 @@ public class LevelCfg implements Serializable {
         scoreTask = cardCount * GameSettings.TaskFactor;
         // 设置计时任务
         timeTask = levelTime;
+
+        if (levelMode == GameMode.Star) {
+            // 一半的星星
+            stars = (int) (cardCount * GameSettings.StarRatio);
+        }
     }
 
     /**
@@ -285,5 +294,21 @@ public class LevelCfg implements Serializable {
 
     public void setMaptplStr(String maptplStr) {
         this.maptplStr = maptplStr;
+    }
+
+    public int getStars() {
+        return stars;
+    }
+
+    public void setStars(int stars) {
+        this.stars = stars;
+    }
+
+    public boolean isAdjust() {
+        return isAdjust;
+    }
+
+    public void setAdjust(boolean isAdjust) {
+        this.isAdjust = isAdjust;
     }
 }

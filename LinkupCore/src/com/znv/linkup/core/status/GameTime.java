@@ -24,10 +24,11 @@ class GameTime {
     public GameTime(GameMode mode, int totalTime, IGameStatus listener) {
         this.mode = mode;
         this.totalTime = totalTime;
+        // 抵消第一次tick
         if (mode == GameMode.Level) {
-            this.gameTime = totalTime;
-        } else if (mode == GameMode.Time || mode == GameMode.ScoreTask || mode == GameMode.TimeTask) {
-            this.gameTime = 0;
+            this.gameTime = totalTime + 1;
+        } else if (mode == GameMode.Time || mode == GameMode.ScoreTask || mode == GameMode.TimeTask || mode == GameMode.Star) {
+            this.gameTime = -1;
         }
         this.listener = listener;
     }
@@ -36,7 +37,7 @@ class GameTime {
      * 计时开始
      */
     public void start() {
-        if (mode == GameMode.Level || mode == GameMode.Time || mode == GameMode.ScoreTask || mode == GameMode.TimeTask) {
+        if (mode == GameMode.Level || mode == GameMode.Time || mode == GameMode.ScoreTask || mode == GameMode.TimeTask || mode == GameMode.Star) {
             timer = new Timer();
             timer.schedule(new TimerTask() {
 
@@ -65,7 +66,7 @@ class GameTime {
                     listener.onTimeChanged(gameTime);
                 }
             }
-        } else if (mode == GameMode.Time || mode == GameMode.ScoreTask || mode == GameMode.TimeTask) {
+        } else if (mode == GameMode.Time || mode == GameMode.ScoreTask || mode == GameMode.TimeTask || mode == GameMode.Star) {
             gameTime += 1;
             if (listener != null) {
                 listener.onTimeChanged(gameTime);

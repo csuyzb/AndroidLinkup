@@ -68,15 +68,15 @@ public class ViewSettings {
      */
     public static final int MSG_NETWORK_EXCEPTION = 0x18;
 
-    /**
-     * 获取用户图标
-     */
-    public static final int MSG_IMAGE_GET = 0x19;
+    // /**
+    // * 获取用户图标
+    // */
+    // public static final int MSG_IMAGE_GET = 0x19;
 
-    /**
-     * 获取排行榜图标
-     */
-    public static final int MSG_TOPIMAGES_GET = 0x20;
+    // /**
+    // * 获取排行榜图标
+    // */
+    // public static final int MSG_TOPIMAGES_GET = 0x20;
 
     /**
      * 更新用户的钻石和金币
@@ -181,23 +181,18 @@ public class ViewSettings {
     /**
      * 本地数据库的版本
      */
-    public static int DbVersion = 1;
+    public static int DbVersion = 2;
 
     /**
      * 初始激活的关卡，按升序排列
      */
     public static int[] DefaultActiveLevels = new int[] { 0, 1, 2, 3, 24, 25, 26, 27, 48, 49, 50, 51, 120, 121, 122, 123, 192, 193, 194, 195, 264, 265, 266,
-            267 };
+            267, 336, 337, 338, 339 };
 
     /**
      * 两次back退出间的间隔
      */
     public static int TwoBackExitInterval = 2000;
-
-    /**
-     * 游戏背景音乐
-     */
-    public static int[] BgMusics = new int[] { R.raw.bgmusic1, R.raw.bgmusic2 };
 
     /**
      * 数字图片
@@ -226,6 +221,12 @@ public class ViewSettings {
      * 五套皮肤的名称
      */
     public static String[] SkinNames = new String[] { "classic", "fruit", "pet", "fish", "farm" };
+
+    /**
+     * 模式下面的等级数组
+     */
+    public static int[] ModeRanks = new int[] { R.array.totalranks, R.array.mode0ranks, R.array.mode1ranks, R.array.mode2ranks, R.array.mode3ranks,
+            R.array.mode4ranks };
 
     /**
      * 填写从短信SDK应用后台注册得到的APPKEY

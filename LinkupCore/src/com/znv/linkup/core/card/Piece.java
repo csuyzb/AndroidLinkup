@@ -1,9 +1,8 @@
 package com.znv.linkup.core.card;
 
-import com.znv.linkup.core.GameSettings;
-
-import android.graphics.Bitmap;
 import android.graphics.Point;
+
+import com.znv.linkup.core.GameSettings;
 
 /**
  * 游戏卡片信息类，包括图片，大小，位置等信息
@@ -12,7 +11,7 @@ import android.graphics.Point;
  * 
  */
 public class Piece {
-    private Bitmap image = null;
+    // private Bitmap image = null;
     private int imageId = 0;
     private int beginX = 0;
     private int beginY = 0;
@@ -20,8 +19,9 @@ public class Piece {
     private int indexY = 0;
     private int width = 40;
     private int height = 40;
-    private boolean isEmpty = false;
-    
+    // private boolean isEmpty = false;
+    private boolean isStar = false;
+
     public static int XSize = 0;
     public static int YSize = 0;
 
@@ -38,9 +38,9 @@ public class Piece {
      * @return 是相同的卡片则返回true
      */
     public boolean isSameImage(Piece other) {
-        if (image == null || other.image == null) {
-            return false;
-        }
+        // if (image == null || other.image == null) {
+        // return false;
+        // }
         return getImageId() == other.getImageId();
     }
 
@@ -52,10 +52,11 @@ public class Piece {
     public Point getCenter() {
         return new Point(beginX + width / 2, beginY + height / 2);
     }
-    
+
     /**
      * 获取卡片索引
-     * @return  卡片索引
+     * 
+     * @return 卡片索引
      */
     public int getIndex() {
         return getIndexY() * XSize + getIndexX();
@@ -68,17 +69,21 @@ public class Piece {
      *            要交换的卡片
      */
     public void exchange(Piece other) {
-        Bitmap bm = getImage();
-        setImage(other.getImage());
-        other.setImage(bm);
+        // Bitmap bm = getImage();
+        // setImage(other.getImage());
+        // other.setImage(bm);
 
         int imageId = getImageId();
         setImageId(other.getImageId());
         other.setImageId(imageId);
 
-        boolean isEmpty = isEmpty();
-        setEmpty(other.isEmpty());
-        other.setEmpty(isEmpty);
+        // boolean isEmpty = isEmpty();
+        // setEmpty(other.isEmpty());
+        // other.setEmpty(isEmpty);
+
+        boolean isStar = isStar();
+        setStar(other.isStar());
+        other.setStar(isStar);
     }
 
     /**
@@ -89,7 +94,8 @@ public class Piece {
      * @return 如果图片则返回true
      */
     public static boolean hasImage(Piece piece) {
-        return piece != null && !piece.isEmpty() && piece.getImageId() != GameSettings.GroundCardValue && piece.getImageId() != GameSettings.EmptyCardValue;
+        // return piece != null && !piece.isEmpty() && piece.getImageId() != GameSettings.GroundCardValue && piece.getImageId() != GameSettings.EmptyCardValue;
+        return piece != null && piece.getImageId() != GameSettings.GroundCardValue && piece.getImageId() != GameSettings.EmptyCardValue;
     }
 
     /**
@@ -107,13 +113,13 @@ public class Piece {
         return Math.abs(p1.getIndexX() - p2.getIndexX()) + Math.abs(p1.getIndexY() - p2.getIndexY());
     }
 
-    public Bitmap getImage() {
-        return image;
-    }
-
-    public void setImage(Bitmap image) {
-        this.image = image;
-    }
+    // public Bitmap getImage() {
+    // return image;
+    // }
+    //
+    // public void setImage(Bitmap image) {
+    // this.image = image;
+    // }
 
     public int getImageId() {
         return imageId;
@@ -155,13 +161,13 @@ public class Piece {
         this.indexY = indexY;
     }
 
-    private boolean isEmpty() {
-        return isEmpty;
-    }
-
-    public void setEmpty(boolean isEmpty) {
-        this.isEmpty = isEmpty;
-    }
+    // private boolean isEmpty() {
+    // return isEmpty;
+    // }
+    //
+    // public void setEmpty(boolean isEmpty) {
+    // this.isEmpty = isEmpty;
+    // }
 
     public int getWidth() {
         return width;
@@ -177,5 +183,13 @@ public class Piece {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public boolean isStar() {
+        return isStar;
+    }
+
+    public void setStar(boolean isStar) {
+        this.isStar = isStar;
     }
 }

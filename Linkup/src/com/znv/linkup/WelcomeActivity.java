@@ -1,17 +1,11 @@
 package com.znv.linkup;
 
-import android.animation.Animator;
-import android.animation.Animator.AnimatorListener;
-import android.animation.ObjectAnimator;
 import android.content.Intent;
-import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
-import android.view.Display;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,7 +17,6 @@ import cn.smssdk.gui.ContactsPage;
 import com.xiaomi.market.sdk.XiaomiUpdateAgent;
 import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.rest.IUpload;
-import com.znv.linkup.rest.UserScore;
 import com.znv.linkup.util.CacheUtil;
 import com.znv.linkup.util.ToastUtil;
 import com.znv.linkup.view.GameTitle;
@@ -43,9 +36,6 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
     private TextView ivMusic = null;
     private TextView ivSound = null;
     private LevelTop levelTop = null;
-    private TextView tsNotice = null;
-    private Animator noticeAnim = null;
-    private int noticeIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,54 +58,54 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
         // 异步加载配置信息
         new LoadCfgTask().execute();
 
-        initNotice();
+        // initNotice();
 
         startAnimation();
     }
 
-    /**
-     * 初始化公告
-     */
-    private void initNotice() {
-        final String[] NoticeMsg = getString(R.string.notice).split("@");
-        Display mDisplay = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        mDisplay.getSize(size);
-        tsNotice = (TextView) findViewById(R.id.tsNotice);
-        tsNotice.setTextSize(16);
-        tsNotice.setTextColor(0xffff6347);
-        tsNotice.setGravity(Gravity.CENTER);
-        noticeAnim = ObjectAnimator.ofFloat(tsNotice, "translationX", size.x, 0);
-        noticeAnim.addListener(new AnimatorListener() {
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                noticeIndex++;
-                if (noticeIndex > NoticeMsg.length - 1) {
-                    noticeIndex = 0;
-                }
-                animation.start();
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationStart(Animator animation) {
-                tsNotice.setText(NoticeMsg[noticeIndex]);
-            }
-        });
-        noticeAnim.setDuration(2000);
-        noticeAnim.setStartDelay(5000);
-        noticeAnim.start();
-    }
+    // /**
+    // * 初始化公告
+    // */
+    // private void initNotice() {
+    // final String[] NoticeMsg = getString(R.string.notice).split("@");
+    // Display mDisplay = getWindowManager().getDefaultDisplay();
+    // Point size = new Point();
+    // mDisplay.getSize(size);
+    // tsNotice = (TextView) findViewById(R.id.tsNotice);
+    // tsNotice.setTextSize(16);
+    // tsNotice.setTextColor(0xffff6347);
+    // tsNotice.setGravity(Gravity.CENTER);
+    // noticeAnim = ObjectAnimator.ofFloat(tsNotice, "translationX", size.x, 0);
+    // noticeAnim.addListener(new AnimatorListener() {
+    //
+    // @Override
+    // public void onAnimationCancel(Animator animation) {
+    //
+    // }
+    //
+    // @Override
+    // public void onAnimationEnd(Animator animation) {
+    // noticeIndex++;
+    // if (noticeIndex > NoticeMsg.length - 1) {
+    // noticeIndex = 0;
+    // }
+    // animation.start();
+    // }
+    //
+    // @Override
+    // public void onAnimationRepeat(Animator animation) {
+    //
+    // }
+    //
+    // @Override
+    // public void onAnimationStart(Animator animation) {
+    // tsNotice.setText(NoticeMsg[noticeIndex]);
+    // }
+    // });
+    // noticeAnim.setDuration(2000);
+    // noticeAnim.setStartDelay(5000);
+    // noticeAnim.start();
+    // }
 
     private void initLogin() {
         levelTop = (LevelTop) findViewById(R.id.welcome_user);
@@ -128,6 +118,7 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
         findViewById(R.id.mode1).setOnClickListener(this);
         findViewById(R.id.mode2).setOnClickListener(this);
         findViewById(R.id.mode3).setOnClickListener(this);
+        findViewById(R.id.mode4).setOnClickListener(this);
 
         findViewById(R.id.music).setOnClickListener(this);
         findViewById(R.id.sound).setOnClickListener(this);
@@ -259,9 +250,10 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
         case R.id.mode1:
         case R.id.mode2:
         case R.id.mode3:
+        case R.id.mode4:
             soundMgr.select();
             int modeIndex = Integer.parseInt((String) v.getTag());
-            if (modeIndex >= 0 && modeIndex < 4) {
+            if (modeIndex >= 0) {
                 Intent intent = new Intent(this, RankActivity.class);
                 intent.putExtra("modeIndex", modeIndex);
                 startActivity(intent);
@@ -319,7 +311,8 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
     @Override
     public void onLoginSuccess(Message msg) {
         if (userInfo != null) {
-            UserScore.getUserImage(userInfo.getUserIcon(), levelTop.netMsgHandler);
+            // 加载用户信息
+            levelTop.loadUserInfo();
         }
     }
 

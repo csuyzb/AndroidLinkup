@@ -5,6 +5,7 @@ import java.util.Random;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
@@ -62,9 +63,15 @@ public class GameCard extends FrameLayout {
      * @param isAnim
      *            是否应用动画
      */
-    public void setPiece(Piece piece, boolean isAnim) {
+    public void setPiece(Piece piece, Bitmap bm, boolean isAnim) {
         this.piece = piece;
-        imageView.setImageBitmap(piece.getImage());
+        imageView.setImageBitmap(bm);
+        if (piece.isStar()) {
+            // 卡片星星
+            imageStar = new ImageView(getContext());
+            imageStar.setImageResource(R.drawable.star_32);
+            addView(imageStar, 32, 32);
+        }
 
         if (isAnim) {
             setXY(piece.getBeginX(), -piece.getHeight());
@@ -142,12 +149,24 @@ public class GameCard extends FrameLayout {
         setLayoutParams(lp);
     }
 
+    /**
+     * 卡片消除
+     */
+    public void disappear() {
+        // imageView.setImageDrawable(ad);
+        // ad.start();
+
+        AnimatorUtil.animAlpha(imageView, 1, 0, 600);
+    }
+
     private Piece piece = null;
     private int lineWidth = 1;
     private ImageView imageView = null;
+    private ImageView imageStar = null;
     private View checkedRect = null;
     private View promptRect = null;
     private RectF rect = null;
     private Random ran = new Random(System.currentTimeMillis());
     private CardPromptAnim cardNoteAnim = new CardPromptAnim();
+    // private AnimationDrawable ad = (AnimationDrawable) getResources().getDrawable(R.anim.explosion);
 }

@@ -29,13 +29,13 @@ import com.znv.linkup.BaseActivity;
 import com.znv.linkup.R;
 import com.znv.linkup.ViewSettings;
 import com.znv.linkup.WelcomeActivity;
-import com.znv.linkup.core.util.ImageUtil;
 import com.znv.linkup.rest.IUpload;
 import com.znv.linkup.rest.UserInfo;
 import com.znv.linkup.rest.UserScore;
 import com.znv.linkup.rest.VolleyHelper;
 import com.znv.linkup.util.LevelUtil;
 import com.znv.linkup.util.StringUtil;
+import com.znv.linkup.view.CircleImageView.ILoadImage;
 
 /**
  * 登录或排行榜视图
@@ -196,34 +196,34 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
                 }
             }
                 break;
-            case ViewSettings.MSG_IMAGE_GET: {
-                Bitmap bm = (Bitmap) msg.obj;
-                if (bm != null) {
-                    showStatus(LevelTopStatus.UserInfo);
-
-                    Bitmap bmRound = ImageUtil.roundBitmap(ImageUtil.scaleBitmap(bm, ViewSettings.UserImageWidth, ViewSettings.UserImageWidth));
-                    WelcomeActivity.userInfo.setUserImage(bmRound);
-                    holder.ivIcon.setImageBitmap(bmRound);
-                    if (WelcomeActivity.userInfo != null) {
-                        holder.tvUser.setText(WelcomeActivity.userInfo.getUserName() + getContext().getString(R.string.user_hello));
-                        holder.tvDiamond.setText(String.valueOf(WelcomeActivity.userInfo.getDiamond(getContext())));
-                        holder.tvGold.setText(String.valueOf(WelcomeActivity.userInfo.getGold(getContext())));
-                        if (WelcomeActivity.userInfo.getTotalRank() == 0) {
-                            holder.tvTotalRank.setText(getResources().getString(R.string.total_rank_0));
-                        } else {
-                            holder.tvTotalRank.setText(String.valueOf(WelcomeActivity.userInfo.getTotalRank()));
-                        }
-                        holder.tvTop1Levels.setText(String.valueOf(WelcomeActivity.userInfo.getTop1Levels()));
-                        holder.tvLike.setText(String.valueOf(WelcomeActivity.userInfo.getLike()));
-                        String text = getContext().getString(R.string.logining);
-                        if (WelcomeActivity.userInfo.isAward()) {
-                            text = getContext().getString(R.string.login_award);
-                        }
-                        Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-                break;
+            // case ViewSettings.MSG_IMAGE_GET: {
+            // Bitmap bm = (Bitmap) msg.obj;
+            // if (bm != null) {
+            // showStatus(LevelTopStatus.UserInfo);
+            //
+            // Bitmap bmRound = ImageUtil.roundBitmap(ImageUtil.scaleBitmap(bm, ViewSettings.UserImageWidth, ViewSettings.UserImageWidth));
+            // WelcomeActivity.userInfo.setUserImage(bmRound);
+            // holder.ivIcon.setImageBitmap(bmRound);
+            // if (WelcomeActivity.userInfo != null) {
+            // holder.tvUser.setText(WelcomeActivity.userInfo.getUserName() + getContext().getString(R.string.user_hello));
+            // holder.tvDiamond.setText(String.valueOf(WelcomeActivity.userInfo.getDiamond(getContext())));
+            // holder.tvGold.setText(String.valueOf(WelcomeActivity.userInfo.getGold(getContext())));
+            // if (WelcomeActivity.userInfo.getTotalRank() == 0) {
+            // holder.tvTotalRank.setText(getResources().getString(R.string.total_rank_0));
+            // } else {
+            // holder.tvTotalRank.setText(String.valueOf(WelcomeActivity.userInfo.getTotalRank()));
+            // }
+            // holder.tvTop1Levels.setText(String.valueOf(WelcomeActivity.userInfo.getTop1Levels()));
+            // holder.tvLike.setText(String.valueOf(WelcomeActivity.userInfo.getLike()));
+            // String text = getContext().getString(R.string.logining);
+            // if (WelcomeActivity.userInfo.isAward()) {
+            // text = getContext().getString(R.string.login_award);
+            // }
+            // Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
+            // }
+            // }
+            // }
+            // break;
             case ViewSettings.MSG_AUTH_CANCEL: {
                 showStatus(LevelTopStatus.Login);
                 Toast.makeText(getContext(), R.string.auth_cancel, Toast.LENGTH_SHORT).show();
@@ -243,6 +243,55 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
         }
 
     };
+
+    /**
+     * 加载用户信息
+     */
+    public void loadUserInfo() {
+
+        if (WelcomeActivity.userInfo != null) {
+            loadUserTextInfo();
+
+            String text = getContext().getString(R.string.logining);
+            if (WelcomeActivity.userInfo.isAward()) {
+                text = getContext().getString(R.string.login_award);
+            }
+            Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
+
+            holder.ivIcon.setLoadImageListener(new ILoadImage() {
+
+                @Override
+                public void onCircleImageLoaded(Bitmap bm) {
+                    WelcomeActivity.userInfo.setUserImage(bm);
+                }
+            });
+            volley.loadImage(holder.ivIcon, WelcomeActivity.userInfo.getUserIcon());
+        }
+    }
+
+    /**
+     * 更新用户钻石和金币信息
+     */
+    public void updateUserInfo() {
+        if (WelcomeActivity.userInfo != null && WelcomeActivity.userInfo.getUserImage() != null) {
+            holder.ivIcon.setImageBitmap(WelcomeActivity.userInfo.getUserImage());
+            loadUserTextInfo();
+        }
+    }
+
+    private void loadUserTextInfo() {
+        showStatus(LevelTopStatus.UserInfo);
+        holder.tvUser.setText(WelcomeActivity.userInfo.getUserName() + getContext().getString(R.string.user_hello));
+        holder.tvDiamond.setText(String.valueOf(WelcomeActivity.userInfo.getDiamond(getContext())));
+        holder.tvGold.setText(String.valueOf(WelcomeActivity.userInfo.getGold(getContext())));
+        if (WelcomeActivity.userInfo.getTotalRank() == 0) {
+            holder.tvTotalRank.setText(getResources().getString(R.string.total_rank_0));
+        } else {
+            holder.tvTotalRank.setText(String.valueOf(WelcomeActivity.userInfo.getTotalRank()));
+        }
+        holder.tvTop1Levels.setText(String.valueOf(WelcomeActivity.userInfo.getTop1Levels()));
+        holder.tvLike.setText(String.valueOf(WelcomeActivity.userInfo.getLike()));
+    }
 
     private void showLevelTop(Message msg) {
         showStatus(LevelTopStatus.TopInfo);
@@ -308,26 +357,6 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
     }
 
     /**
-     * 更新用户钻石和金币信息
-     */
-    public void updateUserInfo() {
-        if (WelcomeActivity.userInfo != null && WelcomeActivity.userInfo.getUserImage() != null) {
-            showStatus(LevelTopStatus.UserInfo);
-            holder.ivIcon.setImageBitmap(WelcomeActivity.userInfo.getUserImage());
-            holder.tvUser.setText(WelcomeActivity.userInfo.getUserName() + getContext().getString(R.string.user_hello));
-            holder.tvDiamond.setText(String.valueOf(WelcomeActivity.userInfo.getDiamond(getContext())));
-            holder.tvGold.setText(String.valueOf(WelcomeActivity.userInfo.getGold(getContext())));
-            if (WelcomeActivity.userInfo.getTotalRank() == 0) {
-                holder.tvTotalRank.setText(getResources().getString(R.string.total_rank_0));
-            } else {
-                holder.tvTotalRank.setText(String.valueOf(WelcomeActivity.userInfo.getTotalRank()));
-            }
-            holder.tvTop1Levels.setText(String.valueOf(WelcomeActivity.userInfo.getTop1Levels()));
-            holder.tvLike.setText(String.valueOf(WelcomeActivity.userInfo.getLike()));
-        }
-    }
-
-    /**
      * 取消所有获取image的网络请求
      */
     public void cancelUrlImages() {
@@ -350,7 +379,7 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
         holder.tvthirduser = (TextView) findViewById(R.id.level_tvthirduser);
         holder.tvthirdscore = (TextView) findViewById(R.id.level_tvthirdscore);
         holder.ivthirdIcon = (ImageView) findViewById(R.id.level_ivthirdIcon);
-        holder.ivIcon = (ImageView) findViewById(R.id.ivIcon);
+        holder.ivIcon = (CircleImageView) findViewById(R.id.ivIcon);
         holder.tvUser = (TextView) findViewById(R.id.tvUser);
         holder.tvDiamond = (TextView) findViewById(R.id.tvDiamond);
         holder.tvGold = (TextView) findViewById(R.id.tvCoin);
@@ -426,7 +455,7 @@ public class LevelTop extends LinearLayout implements PlatformActionListener {
         public TextView tvthirduser;
         public TextView tvthirdscore;
         public ImageView ivthirdIcon;
-        public ImageView ivIcon;
+        public CircleImageView ivIcon;
         public TextView tvUser;
         public TextView tvDiamond;
         public TextView tvGold;

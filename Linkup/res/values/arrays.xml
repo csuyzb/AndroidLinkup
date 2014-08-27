@@ -2,11 +2,12 @@
 <resources>
 
     <string-array name="modes">
-        <item>总排名</item>
-        <item>闯关</item>
-        <item>计时</item>
-        <item>任务</item>
-        <item>任务2</item>
+        <item>总分排名</item>
+        <item>闯关模式</item>
+        <item>计时模式</item>
+        <item>积分任务</item>
+        <item>计时任务</item>
+        <item>星星模式</item>
     </string-array>
     <string-array name="totalranks">
         <item>最近一周</item>
@@ -34,6 +35,11 @@
         <item>小学任务</item>
         <item>初中任务</item>
         <item>高中任务</item>
+    </string-array>
+    <string-array name="mode4ranks">
+        <item>星星入门</item>
+        <item>星星升级</item>
+        <item>星星高手</item>
     </string-array>
     <string-array name="levels">
         <item>1</item>

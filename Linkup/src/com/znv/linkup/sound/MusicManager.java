@@ -14,7 +14,7 @@ import android.content.Intent;
 public class MusicManager {
 
     private static Intent musicIntent = new Intent("com.znv.linkup.BGMUSIC");
-    private int bgMusicRes = R.raw.bgmusic2;
+    private int bgMusicRes = R.raw.bgmusic;
 
     private Context ctx = null;
 

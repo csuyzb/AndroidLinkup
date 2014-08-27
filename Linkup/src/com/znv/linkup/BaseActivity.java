@@ -3,7 +3,9 @@ package com.znv.linkup;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.content.res.XmlResourceParser;
@@ -53,14 +55,14 @@ public class BaseActivity extends Activity {
     public static RankAdapter[] rankAdapters = null;
     // 根据游戏皮肤缓存图片，不用每次加载
     public static List<List<Bitmap>> skinImages = new ArrayList<List<Bitmap>>(ViewSettings.SkinNames.length);
+    // 缓存特定比例的卡片
+    public static Map<String, List<Bitmap>> scaleImages = new HashMap<String, List<Bitmap>>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         initFullScreen();
-
-        // initBaiduPush();
 
         initShortcut();
 
@@ -77,16 +79,6 @@ public class BaseActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
-
-    // /**
-    // * 初始化百度推送
-    // */
-    // private void initBaiduPush() {
-    // if (!CacheUtil.hasBind(getApplicationContext())) {
-    // // Push: 无账号初始化，用api key绑定
-    // PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY, AppMetaUtil.getMetaValue(this, "api_key"));
-    // }
-    // }
 
     /**
      * 初始化快捷键

@@ -1,19 +1,15 @@
 package com.znv.linkup.rest;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
 
 import com.znv.linkup.ViewSettings;
-import com.znv.linkup.util.IconCacheUtil;
 import com.znv.linkup.util.RestUtil;
 
 /**
@@ -206,45 +202,45 @@ public class UserScore {
         }).start();
     }
 
-    /**
-     * 获取用户icon
-     * 
-     * @param url
-     *            url地址
-     * @param handler
-     *            消息处理
-     */
-    public static void getUserImage(final String url, final Handler handler) {
-        new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                String newUrl = url;
-                // 获取清晰的QQ图像
-                // if(newUrl.endsWith("/30")){
-                // newUrl = newUrl.substring(0, newUrl.length() - 3) + "/100";
-                // }
-                Bitmap bm = IconCacheUtil.getIcon(newUrl);
-                if (bm == null) {
-                    try {
-                        bm = BitmapFactory.decodeStream((new URL(newUrl)).openStream());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        bm = null;
-                    }
-                }
-                if (bm != null) {
-                    IconCacheUtil.putIcon(newUrl, bm);
-                    // 成功获取排名信息
-                    Message msg = new Message();
-                    msg.what = ViewSettings.MSG_IMAGE_GET;
-                    msg.obj = bm;
-                    handler.sendMessage(msg);
-                } else {
-                    // 网络或其它问题
-                    handler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION);
-                }
-            }
-        }).start();
-    }
+    // /**
+    // * 获取用户icon
+    // *
+    // * @param url
+    // * url地址
+    // * @param handler
+    // * 消息处理
+    // */
+    // public static void getUserImage(final String url, final Handler handler) {
+    // new Thread(new Runnable() {
+    //
+    // @Override
+    // public void run() {
+    // String newUrl = url;
+    // // 获取清晰的QQ图像
+    // // if(newUrl.endsWith("/30")){
+    // // newUrl = newUrl.substring(0, newUrl.length() - 3) + "/100";
+    // // }
+    // Bitmap bm = IconCacheUtil.getIcon(newUrl);
+    // if (bm == null) {
+    // try {
+    // bm = BitmapFactory.decodeStream((new URL(newUrl)).openStream());
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // bm = null;
+    // }
+    // }
+    // if (bm != null) {
+    // IconCacheUtil.putIcon(newUrl, bm);
+    // // 成功获取排名信息
+    // Message msg = new Message();
+    // msg.what = ViewSettings.MSG_IMAGE_GET;
+    // msg.obj = bm;
+    // handler.sendMessage(msg);
+    // } else {
+    // // 网络或其它问题
+    // handler.sendEmptyMessage(ViewSettings.MSG_NETWORK_EXCEPTION);
+    // }
+    // }
+    // }).start();
+    // }
 }

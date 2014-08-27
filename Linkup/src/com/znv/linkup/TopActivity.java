@@ -53,7 +53,6 @@ public class TopActivity extends Activity implements OnGestureListener {
     private int curRank = 0;
     private int curLevel = 0;
     private int levelIndex = 0;
-    private static int[] modeRanks = new int[] { R.array.totalranks, R.array.mode0ranks, R.array.mode1ranks, R.array.mode2ranks, R.array.mode3ranks };
     private VolleyHelper volley = null;
     private LinearLayout topList = null;
     private List<TopItemHolder> holders = null;
@@ -138,23 +137,19 @@ public class TopActivity extends Activity implements OnGestureListener {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
                     curMode = position - 1;
-                    String[] types = TopActivity.this.getResources().getStringArray(modeRanks[0]);
+                    String[] types = TopActivity.this.getResources().getStringArray(ViewSettings.ModeRanks[0]);
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(TopActivity.this, android.R.layout.simple_spinner_item, types);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spRanks.setAdapter(adapter);
                     spLevels.setVisibility(View.INVISIBLE);
-                    // findViewById(R.id.ivPreLevel).setVisibility(View.INVISIBLE);
-                    // findViewById(R.id.ivNextLevel).setVisibility(View.INVISIBLE);
                     if (curRank == 0) {
                         getTotalRanks();
                     }
                 } else if (curMode != position - 1) {
                     curMode = position - 1;
                     spLevels.setVisibility(View.VISIBLE);
-                    // findViewById(R.id.ivPreLevel).setVisibility(View.VISIBLE);
-                    // findViewById(R.id.ivNextLevel).setVisibility(View.VISIBLE);
                     // // 设置下拉列表风格
-                    String[] ranks = TopActivity.this.getResources().getStringArray(modeRanks[position]);
+                    String[] ranks = TopActivity.this.getResources().getStringArray(ViewSettings.ModeRanks[position]);
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(TopActivity.this, android.R.layout.simple_spinner_item, ranks);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     // 防止触发Rank的ItemSelected事件

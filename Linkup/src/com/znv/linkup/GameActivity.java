@@ -1,11 +1,10 @@
 package com.znv.linkup;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -24,16 +23,17 @@ import com.znv.linkup.core.IGameAction;
 import com.znv.linkup.core.card.Piece;
 import com.znv.linkup.core.card.PiecePair;
 import com.znv.linkup.core.card.path.LinkInfo;
+import com.znv.linkup.core.config.GameAlign;
 import com.znv.linkup.core.config.GameMode;
 import com.znv.linkup.core.config.LevelCfg;
 import com.znv.linkup.db.DbScore;
 import com.znv.linkup.db.LevelScore;
 import com.znv.linkup.util.AnimatorUtil;
+import com.znv.linkup.util.Stopwatch;
 import com.znv.linkup.util.StringUtil;
 import com.znv.linkup.util.ToastUtil;
 import com.znv.linkup.view.CardsView;
 import com.znv.linkup.view.PathView;
-import com.znv.linkup.view.animation.AppearAnimator;
 import com.znv.linkup.view.dialog.FailDialog;
 import com.znv.linkup.view.dialog.ResultInfo;
 import com.znv.linkup.view.dialog.SuccessDialog;
@@ -51,6 +51,9 @@ public class GameActivity extends BaseActivity implements IGameAction {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_linkup);
+
+        Stopwatch sw = new Stopwatch();
+        sw.start();
 
         Display mDisplay = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -97,7 +100,13 @@ public class GameActivity extends BaseActivity implements IGameAction {
         timeDialog = new TimeDialog(this);
         taskDialog = new TaskDialog(this);
 
+        sw.stop();
+        Log.e("game load1", String.valueOf(sw.getElapsedTime()));
+
+        sw.start();
         start();
+        sw.stop();
+        Log.e("game load2", String.valueOf(sw.getElapsedTime()));
     }
 
     /**
@@ -106,8 +115,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
     @Override
     protected void playMusic() {
         if (musicMgr != null) {
-            int bgmusic = (int) (Math.random() * ViewSettings.BgMusics.length);
-            musicMgr.setBgMusicRes(ViewSettings.BgMusics[bgmusic]);
+            musicMgr.setBgMusicRes(R.raw.bgmusic);
             musicMgr.play();
         }
     }
@@ -120,8 +128,10 @@ public class GameActivity extends BaseActivity implements IGameAction {
             game.finish();
         }
 
-        // 根据屏幕动态调整卡片大小及位置
-        adjustLevelCfg(curLevelCfg);
+        if (!curLevelCfg.isAdjust()) {
+            // 根据屏幕动态调整卡片大小及位置
+            adjustLevelCfg();
+        }
 
         holder.btnPrompt.setText(String.valueOf(LevelCfg.globalCfg.getPromptNum()));
         holder.btnRefresh.setText(String.valueOf(LevelCfg.globalCfg.getRefreshNum()));
@@ -151,6 +161,15 @@ public class GameActivity extends BaseActivity implements IGameAction {
             holder.btnAddTime.setVisibility(View.GONE);
             holder.tsScore.setText("00:00");
             holder.tvRecord.setText(getString(R.string.game_level_task) + StringUtil.secondToString(curLevelCfg.getTimeTask()));
+        } else if (curLevelCfg.getLevelMode() == GameMode.Star) {
+            holder.pbTime.setVisibility(View.GONE);
+            holder.btnAddTime.setVisibility(View.GONE);
+            holder.tsScore.setText(String.format("%d/%d", 0, curLevelCfg.getStars()));
+            if (curLevelCfg.getMaxScore() == 0) {
+                holder.tvRecord.setText(getString(R.string.game_level_norecord));
+            } else {
+                holder.tvRecord.setText(getString(R.string.game_level_record) + StringUtil.secondToString(curLevelCfg.getMinTime()));
+            }
         }
 
         game = new Game(curLevelCfg, this);
@@ -177,39 +196,37 @@ public class GameActivity extends BaseActivity implements IGameAction {
         soundMgr.readyGo();
 
         // 工具条动画
-        holder.tools.setVisibility(View.GONE);
-        Animator toolsAnim = ObjectAnimator.ofFloat(holder.tools, "translationY", 100, 0);
-        toolsAnim.setDuration(500);
-        toolsAnim.setStartDelay(500);
-        toolsAnim.addListener(new AppearAnimator(holder.tools));
-        toolsAnim.start();
+        // holder.tools.setVisibility(View.GONE);
+        // Animator toolsAnim = ObjectAnimator.ofFloat(holder.tools, "translationY", 100, 0);
+        // toolsAnim.setDuration(500);
+        // toolsAnim.setStartDelay(500);
+        // toolsAnim.addListener(new AppearAnimator(holder.tools));
+        // toolsAnim.start();
 
     }
 
     /**
      * 根据屏幕动态调整卡片大小及位置
-     * 
-     * @param levelCfg
-     *            关卡配置信息
      */
-    private void adjustLevelCfg(LevelCfg levelCfg) {
+    private void adjustLevelCfg() {
         // 上下保留一部分空间
         int heightReserve = 60;
         // 默认保留半个图标的边距
-        int levelWidth = holder.screenWidth / (levelCfg.getXSize() - 1);
+        int levelWidth = holder.screenWidth / (curLevelCfg.getXSize() - 1);
         // 每行大于6个游戏图标时不保留边距
-        if (levelCfg.getXSize() > 8) {
-            levelWidth = (int) (holder.screenWidth / (levelCfg.getXSize() - 1.6));
+        if (curLevelCfg.getXSize() > 8) {
+            levelWidth = (int) (holder.screenWidth / (curLevelCfg.getXSize() - 1.6));
         }
-        int levelHeight = (holder.screenHeight - heightReserve) / levelCfg.getYSize();
+        int levelHeight = (holder.screenHeight - heightReserve) / curLevelCfg.getYSize();
         // 像素调整为2的倍数
         int newSize = (Math.min(levelWidth, levelHeight) / 4) * 4;
-        int beginX = (holder.screenWidth - newSize * levelCfg.getXSize()) / 2;
-        int beginY = (holder.screenHeight - newSize * levelCfg.getYSize()) / 2;
-        levelCfg.setPieceWidth(newSize);
-        levelCfg.setPieceHeight(newSize);
-        levelCfg.setBeginImageX(beginX);
-        levelCfg.setBeginImageY(beginY);
+        int beginX = (holder.screenWidth - newSize * curLevelCfg.getXSize()) / 2;
+        int beginY = (holder.screenHeight - newSize * curLevelCfg.getYSize()) / 2;
+        curLevelCfg.setPieceWidth(newSize);
+        curLevelCfg.setPieceHeight(newSize);
+        curLevelCfg.setBeginImageX(beginX);
+        curLevelCfg.setBeginImageY(beginY);
+        curLevelCfg.setAdjust(true);
     }
 
     /**
@@ -272,7 +289,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
                 isRecord = 1;
             }
             stars = curLevelCfg.getStar(game.getTotalScore());
-        } else if (curLevelCfg.getLevelMode() == GameMode.Time) {
+        } else if (curLevelCfg.getLevelMode() == GameMode.Time || curLevelCfg.getLevelMode() == GameMode.Star) {
             if (curLevelCfg.getMinTime() == 0 || game.getGameTime() < curLevelCfg.getMinTime()) {
                 // 更新时间记录
                 LevelScore cls = new LevelScore(curLevelCfg.getLevelId());
@@ -455,9 +472,9 @@ public class GameActivity extends BaseActivity implements IGameAction {
      */
     @Override
     public void onTranslate() {
-        cardsView.createCards(false);
-
-        // soundMgr.translate();
+        if (curLevelCfg.getLevelAlign() != GameAlign.AlignNone) {
+            cardsView.createCards(false);
+        }
     }
 
     /**
@@ -467,25 +484,43 @@ public class GameActivity extends BaseActivity implements IGameAction {
     public void onLinkPath(LinkInfo linkInfo) {
         pathView.showLines(linkInfo.getLinkPieces());
 
-        if (curLevelCfg.getLevelMode() == GameMode.Level || curLevelCfg.getLevelMode() == GameMode.ScoreTask) {
-            // 收集金币的动画
-            Point startPoint = linkInfo.getLinkPieces().get(0).getCenter();
+        if (curLevelCfg.getLevelMode() == GameMode.Level || curLevelCfg.getLevelMode() == GameMode.ScoreTask || curLevelCfg.getLevelMode() == GameMode.Star) {
+            // 动画
+            Point startPoint1 = linkInfo.getLinkPieces().get(0).getCenter();
             Point endPoint = new Point((int) (holder.tsScore.getLeft() + holder.tsScore.getWidth() * 0.5),
                     (int) (holder.tsScore.getTop() + holder.tsScore.getHeight() * 0.5));
-            animTranslate(holder.startCoin, startPoint, endPoint, 400, 0);
-            startPoint = linkInfo.getLinkPieces().get(linkInfo.getLinkPieces().size() - 1).getCenter();
-            animTranslate(holder.endCoin, startPoint, endPoint, 400, 0);
+            Point startPoint2 = linkInfo.getLinkPieces().get(linkInfo.getLinkPieces().size() - 1).getCenter();
+            if (curLevelCfg.getLevelMode() == GameMode.Star) {
+                // 收集星星
+                holder.startCoin.setImageResource(R.drawable.star_32);
+                holder.endCoin.setImageResource(R.drawable.star_32);
+
+                if (linkInfo.getLinkPieces().get(0).isStar()) {
+                    animTranslate(holder.startCoin, startPoint1, endPoint, 400, 0);
+                }
+                if (linkInfo.getLinkPieces().get(linkInfo.getLinkPieces().size() - 1).isStar()) {
+                    animTranslate(holder.endCoin, startPoint2, endPoint, 400, 0);
+                }
+            } else {
+                // 收集金币
+                holder.startCoin.setImageResource(R.drawable.coin);
+                holder.endCoin.setImageResource(R.drawable.coin);
+
+                animTranslate(holder.startCoin, startPoint1, endPoint, 400, 0);
+                animTranslate(holder.endCoin, startPoint2, endPoint, 400, 0);
+            }
         }
+
+        // 消除卡片
+        cardsView.erase(linkInfo.getLinkPieces().get(0));
+        cardsView.erase(linkInfo.getLinkPieces().get(linkInfo.getLinkPieces().size() - 1));
 
         soundMgr.erase();
     }
 
     @Override
     public void onErase() {
-        // 判断是否需要自动重排
-        // if (game.hasPieces() && game.isDeadLock()) {
-        // refresh(null);
-        // }
+        // 判断是否需要自动重排,改为异步任务执行
         if (checkDeadLockTask != null) {
             checkDeadLockTask.cancel(true);
             checkDeadLockTask = null;
@@ -690,7 +725,7 @@ public class GameActivity extends BaseActivity implements IGameAction {
         if (curLevelCfg.getLevelMode() == GameMode.Level) {
             resultInfo.setScore(game.getTotalScore());
             successDialog.showDialog(resultInfo);
-        } else if (curLevelCfg.getLevelMode() == GameMode.Time) {
+        } else if (curLevelCfg.getLevelMode() == GameMode.Time || curLevelCfg.getLevelMode() == GameMode.Star) {
             timeDialog.showDialog(resultInfo);
         } else if (curLevelCfg.getLevelMode() == GameMode.ScoreTask) {
             taskDialog.showDialog(resultInfo);
@@ -790,6 +825,20 @@ public class GameActivity extends BaseActivity implements IGameAction {
             if (needRefresh) {
                 refresh(null);
             }
+        }
+    }
+
+    @Override
+    public void onStepChanged(int step) {
+        if (curLevelCfg.getLevelMode() == GameMode.Endless) {
+            holder.tsScore.setText(String.valueOf(step));
+        }
+    }
+
+    @Override
+    public void onStarChanged(int star) {
+        if (curLevelCfg.getLevelMode() == GameMode.Star) {
+            holder.tsScore.setText(String.format("%d/%d", star, curLevelCfg.getStars()));
         }
     }
 }

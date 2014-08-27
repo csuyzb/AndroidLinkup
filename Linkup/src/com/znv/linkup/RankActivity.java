@@ -153,6 +153,8 @@ public class RankActivity extends BaseActivity implements OnPageChangeListener {
                             Intent intent = new Intent(RankActivity.this, GameActivity.class);
                             intent.putExtra("levelIndex", levelCfg.getLevelId());
                             startActivity(intent);
+                            // activity切换动画
+//                            overridePendingTransition(R.anim.zoom_in, R.anim.zoom_out);
                         } else {
                             if (userInfo != null && userInfo.getDiamond(RankActivity.this) >= 5) {
                                 ConfirmDialog dialog = new ConfirmDialog(RankActivity.this);

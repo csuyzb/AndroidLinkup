@@ -49,15 +49,16 @@
         android:orientation="horizontal"
         android:visibility="gone" >
 
-        <ImageView
+        <com.znv.linkup.view.CircleImageView
             android:id="@+id/ivIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|center_vertical"
-            android:layout_margin="8dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
             android:gravity="center"
             tools:ignore="contentDescription" >
-        </ImageView>
+        </com.znv.linkup.view.CircleImageView>
 
         <TextView
             android:id="@+id/tvUser"
@@ -65,13 +66,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center|center_vertical"
             android:layout_marginBottom="2dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_toRightOf="@id/ivIcon"
             android:gravity="center"
             android:singleLine="true"
             android:textColor="#ffff6347"
-            android:textSize="20sp" >
+            android:textSize="18sp" >
         </TextView>
 
         <LinearLayout
@@ -79,8 +80,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvUser"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
             android:layout_toRightOf="@id/ivIcon"
             android:orientation="horizontal" >
 
@@ -143,8 +144,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/lltAward"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
             android:layout_toRightOf="@id/ivIcon"
             android:orientation="horizontal" >
 

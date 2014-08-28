@@ -77,5 +77,7 @@
     <string name="unlike_info">你对[%s]取消赞成功</string>
     <string name="like_error">点赞失败，请检查网络设置。</string>
     <string name="share_nologin_success">分享成功,登录分享奖励%s钻石!</string>
+    <string name="xxlogin_prompt">\n**开启星星模式需要用户登录,请登录后再来挑战。</string>
+    <string name="share_prompt">**点击分享按钮可以将排行榜分享到新浪微博、QQ空间或微信朋友圈。\n**关卡排名中左右滑动可以查看上一关/下一关排名.\n</string>
 
 </resources>

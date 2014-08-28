@@ -3,7 +3,6 @@ package com.znv.linkup.view.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.text.method.LinkMovementMethod;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,11 +20,21 @@ public class HelpDialog extends Dialog {
     public HelpDialog(Context context) {
         super(context, R.style.CustomDialogStyle);
         setContentView(R.layout.help_dialog);
-        setCancelable(false);
-        setCanceledOnTouchOutside(false);
+        setCancelable(true);
+        setCanceledOnTouchOutside(true);
         setPositiveButton(null);
-        TextView link = (TextView)findViewById(R.id.dialog_link);
+        TextView link = (TextView) findViewById(R.id.dialog_link);
         link.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    /**
+     * 设置链接的显示
+     * 
+     * @param isVisible
+     */
+    public void setLinkVisible(boolean isVisible) {
+        int visible = isVisible ? View.VISIBLE : View.GONE;
+        findViewById(R.id.dialog_link).setVisibility(visible);
     }
 
     /**
@@ -78,16 +87,16 @@ public class HelpDialog extends Dialog {
         return this;
     }
 
-    /**
-     * 处理返回键
-     */
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Button btn = (Button) findViewById(R.id.dialog_button_ok);
-            btn.performClick();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+    // /**
+    // * 处理返回键
+    // */
+    // @Override
+    // public boolean onKeyDown(int keyCode, KeyEvent event) {
+    // if (keyCode == KeyEvent.KEYCODE_BACK) {
+    // Button btn = (Button) findViewById(R.id.dialog_button_ok);
+    // btn.performClick();
+    // return true;
+    // }
+    // return super.onKeyDown(keyCode, event);
+    // }
 }

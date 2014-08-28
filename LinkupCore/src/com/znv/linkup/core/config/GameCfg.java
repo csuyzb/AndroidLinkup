@@ -45,6 +45,7 @@ public class GameCfg {
                                 if (levelInfo != null) {
                                     setlevelByMode(levelInfo, modeInfo);
                                     setlevelByRank(levelInfo, rankInfo);
+                                    levelInfo.initStarScores();
                                     rankInfo.getLevelInfos().add(levelInfo);
                                     levelInfo = null;
                                 }
@@ -60,6 +61,7 @@ public class GameCfg {
                             if (levelInfo != null) {
                                 setlevelByMode(levelInfo, modeInfo);
                                 setlevelByRank(levelInfo, rankInfo);
+                                levelInfo.initStarScores();
                                 rankInfo.getLevelInfos().add(levelInfo);
                                 levelInfo = null;
                             }
@@ -71,6 +73,7 @@ public class GameCfg {
                         if (rankInfo != null && levelInfo != null) {
                             setlevelByMode(levelInfo, modeInfo);
                             setlevelByRank(levelInfo, rankInfo);
+                            levelInfo.initStarScores();
                             rankInfo.getLevelInfos().add(levelInfo);
                             levelInfo = null;
                         }
@@ -84,6 +87,7 @@ public class GameCfg {
                                 if (levelInfo != null) {
                                     setlevelByMode(levelInfo, modeInfo);
                                     setlevelByRank(levelInfo, rankInfo);
+                                    levelInfo.initStarScores();
                                     rankInfo.getLevelInfos().add(levelInfo);
                                     levelInfo = null;
                                 }
@@ -98,6 +102,7 @@ public class GameCfg {
                             if (levelInfo != null) {
                                 setlevelByMode(levelInfo, modeInfo);
                                 setlevelByRank(levelInfo, rankInfo);
+                                levelInfo.initStarScores();
                                 rankInfo.getLevelInfos().add(levelInfo);
                                 levelInfo = null;
                             }
@@ -108,6 +113,7 @@ public class GameCfg {
                         if (rankInfo != null && levelInfo != null) {
                             setlevelByMode(levelInfo, modeInfo);
                             setlevelByRank(levelInfo, rankInfo);
+                            levelInfo.initStarScores();
                             rankInfo.getLevelInfos().add(levelInfo);
                             levelInfo = null;
                         }
@@ -200,7 +206,6 @@ public class GameCfg {
             levelCfg.setStars(Integer.parseInt(starStr));
         }
         levelCfg.setMaptplStr(xrp.getAttributeValue(null, "maptpl"));
-        levelCfg.initStarScores();
         return levelCfg;
     }
 

@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center|center_vertical"
             android:layout_marginBottom="2dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="2dp"
             android:layout_marginRight="5dp"
             android:layout_toRightOf="@id/ivIcon"
             android:gravity="center"
@@ -80,7 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvUser"
-            android:layout_marginLeft="2dp"
+            android:layout_marginLeft="0dp"
             android:layout_marginRight="2dp"
             android:layout_toRightOf="@id/ivIcon"
             android:orientation="horizontal" >
@@ -144,7 +144,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/lltAward"
-            android:layout_marginLeft="2dp"
+            android:layout_marginLeft="0dp"
             android:layout_marginRight="2dp"
             android:layout_toRightOf="@id/ivIcon"
             android:orientation="horizontal" >

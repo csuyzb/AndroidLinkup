@@ -18,7 +18,6 @@
         android:paddingTop="10dip"
         android:textColor="#FF3333FF"
         android:textSize="32sp" />
-    <!-- </LinearLayout> -->
 
     <TextView
         android:layout_width="fill_parent"

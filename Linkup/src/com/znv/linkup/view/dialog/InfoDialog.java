@@ -23,7 +23,17 @@ public class InfoDialog extends Dialog {
         setContentView(R.layout.info_dialog);
         setCancelable(true);
         setCanceledOnTouchOutside(true);
-        setPositiveButton();
+    }
+
+    /**
+     * 是否需要登录按钮
+     * 
+     * @param isLogin
+     */
+    public void hasLogin(boolean isLogin) {
+        int visible = isLogin ? View.VISIBLE : View.GONE;
+        findViewById(R.id.tvWeibo).setVisibility(visible);
+        findViewById(R.id.tvQQ).setVisibility(visible);
     }
 
     /**
@@ -61,14 +71,14 @@ public class InfoDialog extends Dialog {
      *            确认操作
      * @return 警告框实例
      */
-    private InfoDialog setPositiveButton() {
+    public InfoDialog setPositiveButton(final String cacheKey) {
         CheckBox btn = (CheckBox) findViewById(R.id.cbxKnown);
         btn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    CacheUtil.setBind(InfoDialog.this.getContext(), "info_login", true);
+                    CacheUtil.setBind(InfoDialog.this.getContext(), cacheKey, true);
                     cancel();
                 }
             }
@@ -101,16 +111,4 @@ public class InfoDialog extends Dialog {
             }
         });
     }
-
-    // /**
-    // * 处理返回键
-    // */
-    // @Override
-    // public boolean onKeyDown(int keyCode, KeyEvent event) {
-    // if (keyCode == KeyEvent.KEYCODE_BACK) {
-    // cancel();
-    // return true;
-    // }
-    // return super.onKeyDown(keyCode, event);
-    // }
 }

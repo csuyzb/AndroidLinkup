@@ -253,7 +253,14 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
         case R.id.mode4:
             soundMgr.select();
             int modeIndex = Integer.parseInt((String) v.getTag());
-            if (modeIndex >= 0) {
+            // 星星模式需要提示登录
+            if (modeIndex == 4 && BaseActivity.userInfo == null) {
+                HelpDialog helper = new HelpDialog(this);
+                helper.setTitle(getString(R.string.info_prompt));
+                helper.setMessage(getString(R.string.xxlogin_prompt));
+                helper.setLinkVisible(false);
+                helper.show();
+            } else if (modeIndex >= 0) {
                 Intent intent = new Intent(this, RankActivity.class);
                 intent.putExtra("modeIndex", modeIndex);
                 startActivity(intent);
@@ -351,6 +358,7 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
     private void initInfoDialog() {
         if (!CacheUtil.hasBind(this, "info_login")) {
             InfoDialog info = new InfoDialog(this);
+            info.setPositiveButton("info_login");
             info.setWeiboClick(new View.OnClickListener() {
 
                 @Override

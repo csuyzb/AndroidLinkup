@@ -69,8 +69,8 @@ public class GameCard extends FrameLayout {
         if (piece.isStar()) {
             // 卡片星星
             imageStar = new ImageView(getContext());
-            imageStar.setImageResource(R.drawable.star_32);
-            addView(imageStar, 32, 32);
+            imageStar.setImageResource(R.drawable.star_48);
+            addView(imageStar, 48, 48);
         }
 
         if (isAnim) {

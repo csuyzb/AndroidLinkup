@@ -36,10 +36,12 @@ import com.znv.linkup.core.config.ModeCfg;
 import com.znv.linkup.rest.NetMsgListener;
 import com.znv.linkup.rest.UserScore;
 import com.znv.linkup.rest.VolleyHelper;
+import com.znv.linkup.util.CacheUtil;
 import com.znv.linkup.util.LevelUtil;
 import com.znv.linkup.util.LikeHelper;
 import com.znv.linkup.util.ShareUtil;
 import com.znv.linkup.util.StringUtil;
+import com.znv.linkup.view.dialog.InfoDialog;
 
 /**
  * 排行榜
@@ -116,6 +118,8 @@ public class TopActivity extends Activity implements OnGestureListener {
         LikeHelper.loadLikeUsers(this);
 
         mygesture = new GestureDetector(this, this);
+
+        initInfoDialog();
     }
 
     /**
@@ -568,5 +572,19 @@ public class TopActivity extends Activity implements OnGestureListener {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return mygesture.onTouchEvent(event);
+    }
+
+    /**
+     * 分享提示
+     */
+    private void initInfoDialog() {
+        if (!CacheUtil.hasBind(this, "info_share")) {
+            InfoDialog info = new InfoDialog(this);
+            info.setTitle(getString(R.string.info_prompt));
+            info.setMessage(getString(R.string.share_prompt));
+            info.setPositiveButton("info_share");
+            info.hasLogin(false);
+            info.show();
+        }
     }
 }

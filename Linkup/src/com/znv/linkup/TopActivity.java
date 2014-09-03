@@ -9,9 +9,11 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.Display;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.LayoutInflater;
@@ -36,6 +38,7 @@ import com.znv.linkup.core.config.ModeCfg;
 import com.znv.linkup.rest.NetMsgListener;
 import com.znv.linkup.rest.UserScore;
 import com.znv.linkup.rest.VolleyHelper;
+import com.znv.linkup.util.AnimatorUtil;
 import com.znv.linkup.util.CacheUtil;
 import com.znv.linkup.util.LevelUtil;
 import com.znv.linkup.util.LikeHelper;
@@ -66,6 +69,9 @@ public class TopActivity extends Activity implements OnGestureListener {
     private ShareUtil shareHelper = null;
     private Dialog pd;
 
+    private Display mDisplay = null;
+    private Point size = new Point();
+
     // 移动最小距离
     private static final int FLING_MIN_DISTANCE = 50;
     // 构建手势探测器
@@ -93,11 +99,12 @@ public class TopActivity extends Activity implements OnGestureListener {
             item.ivLike = (ImageView) view.findViewById(R.id.ivLike);
             holders.add(item);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-            params.setMargins(2, 2, 2, 0);
+            params.setMargins(1, 0, 1, 0);
             if (i % 2 == 0) {
-                view.setBackgroundColor(0xcccccccc);
+                // view.setBackgroundColor(0xcccccccc);
+                view.setBackgroundColor(0xffebe39d);
             } else {
-                view.setBackgroundColor(0xdddddddd);
+                // view.setBackgroundColor(0xdddddddd);
             }
 
             view.setLayoutParams(params);
@@ -119,7 +126,13 @@ public class TopActivity extends Activity implements OnGestureListener {
 
         mygesture = new GestureDetector(this, this);
 
-        initInfoDialog();
+        if (ViewSettings.DeployType == ViewSettings.Deploy91) {
+        } else {
+            initInfoDialog();
+        }
+
+        mDisplay = getWindowManager().getDefaultDisplay();
+        mDisplay.getSize(size);
     }
 
     /**
@@ -213,6 +226,7 @@ public class TopActivity extends Activity implements OnGestureListener {
      * 获取当前关卡排名信息
      */
     private void getLevelRanks() {
+        hideSearchPad();
         volley.cancelAll();
         LevelCfg levelCfg = modeCfgs.get(curMode).getRankInfos().get(curRank).getLevelInfos().get(curLevel);
         String levelName = modeCfgs.get(curMode).getModeName() + "-" + levelCfg.getRankName() + "-" + levelCfg.getLevelName();
@@ -253,7 +267,6 @@ public class TopActivity extends Activity implements OnGestureListener {
                     for (int i = t.length(); i < ViewSettings.TopRankN; i++) {
                         topList.getChildAt(i).setVisibility(View.INVISIBLE);
                     }
-                    findViewById(R.id.searchMini).setVisibility(View.VISIBLE);
                     topList.setVisibility(View.VISIBLE);
                 } catch (Exception e) {
                     Toast.makeText(TopActivity.this, getString(R.string.top_data_error), Toast.LENGTH_SHORT).show();
@@ -296,6 +309,7 @@ public class TopActivity extends Activity implements OnGestureListener {
      * 获取当前的总排名，所有/本月/本周
      */
     private void getTotalRanks() {
+        hideSearchPad();
         volley.cancelAll();
         String rankName = spRanks.getSelectedItem().toString() + "-" + spModes.getSelectedItem().toString();
         ((TextView) findViewById(R.id.tvCurLevel)).setText(rankName);
@@ -338,7 +352,6 @@ public class TopActivity extends Activity implements OnGestureListener {
                     for (int i = t.length(); i < ViewSettings.TopRankN; i++) {
                         topList.getChildAt(i).setVisibility(View.INVISIBLE);
                     }
-                    findViewById(R.id.searchMini).setVisibility(View.VISIBLE);
                     topList.setVisibility(View.VISIBLE);
                 } catch (Exception e) {
                     Toast.makeText(TopActivity.this, getString(R.string.top_data_error), Toast.LENGTH_SHORT).show();
@@ -491,8 +504,36 @@ public class TopActivity extends Activity implements OnGestureListener {
      */
     public void shareTop(View v) {
         if (shareHelper != null) {
-            shareHelper.shareMsgView(getString(R.string.share_top_info), topList);
+            shareHelper.shareMsgView(getString(R.string.share_top_info), findViewById(R.id.rltTop));
         }
+    }
+
+    /**
+     * 显示查询界面
+     * 
+     * @param v
+     */
+    public void showSearch(View v) {
+        showSearchPad();
+    }
+
+    private void showSearchPad() {
+        LinearLayout rltSearch = (LinearLayout) findViewById(R.id.lltSearch);
+        AnimatorUtil.animTranslate(rltSearch, 0, 0, size.y, size.y - rltSearch.getHeight(), 500, 0, false);
+    }
+
+    /**
+     * 隐藏查询界面
+     * 
+     * @param v
+     */
+    public void hideSearch(View v) {
+        hideSearchPad();
+    }
+
+    private void hideSearchPad() {
+        LinearLayout rltSearch = (LinearLayout) findViewById(R.id.lltSearch);
+        rltSearch.setTranslationY(size.y);
     }
 
     /**
@@ -504,15 +545,7 @@ public class TopActivity extends Activity implements OnGestureListener {
      *            排名
      */
     private void setOrder(TextView tvOrder, int index) {
-        if (index == 0) {
-            tvOrder.setBackgroundResource(R.drawable.gold);
-        } else if (index == 1) {
-            tvOrder.setBackgroundResource(R.drawable.silver);
-        } else if (index == 2) {
-            tvOrder.setBackgroundResource(R.drawable.bronze);
-        } else {
-            tvOrder.setText(String.valueOf(index + 1));
-        }
+        tvOrder.setBackgroundResource(ViewSettings.TopOrderImages[index]);
     }
 
     /**

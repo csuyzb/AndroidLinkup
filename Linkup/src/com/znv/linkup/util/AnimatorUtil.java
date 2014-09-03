@@ -179,14 +179,14 @@ public class AnimatorUtil {
         } else {
             view.setTranslationX(fromX);
         }
-        if (isHide) {
-            animY.addListener(new HideAnimator(view));
-            if (fromY != toY) {
-                animY.setStartDelay(delay);
-                animY.start();
-            } else {
-                view.setTranslationY(fromY);
+        if (fromY != toY) {
+            animY.setStartDelay(delay);
+            if (isHide) {
+                animY.addListener(new HideAnimator(view));
             }
+            animY.start();
+        } else {
+            view.setTranslationY(fromY);
         }
     }
 

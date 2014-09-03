@@ -14,23 +14,23 @@
     <string name="back">返回</string>
     <string name="next">继续</string>
     <string name="again">再来</string>
-    <string name="game_success">恭喜你，游戏已通关！</string>
+    <string name="game_success">恭喜你，游戏已通关.</string>
     <string name="game_level_record">记录:</string>
     <string name="game_level_norecord">记录:无</string>
     <string name="game_level_task">任务:</string>
     <string name="game_score">游戏得分:</string>
-    <string name="game_level_lost">闯关失败！</string>
-    <string name="game_level_success">闯关成功！</string>
-    <string name="game_time_success">游戏胜利！</string>
+    <string name="game_level_lost">闯关失败</string>
+    <string name="game_level_success">闯关成功</string>
+    <string name="game_time_success">游戏胜利</string>
     <string name="game_time">游戏时间:</string>
     <string name="game_time_min">最快记录:</string>
-    <string name="game_task_success">任务完成！</string>
-    <string name="game_task_fail">任务失败！</string>
+    <string name="game_task_success">任务完成</string>
+    <string name="game_task_fail">任务失败</string>
     <string name="game_task_taskscore">游戏任务:</string>
     <string name="game_ready_go">GO!</string>
-    <string name="game_prompt_none">已经不能消除了，请重排或按返回退出!</string>
-    <string name="login_with_sina_weibo">新浪微博登录</string>
-    <string name="login_with_qzone">QQ空间登录</string>
+    <string name="game_prompt_none">已经不能消除了，请重排或按返回退出.</string>
+    <string name="login_with_sina_weibo">新浪微博</string>
+    <string name="login_with_qzone">QQ空间</string>
     <string name="network_exception">登录失败，请检查网络设置。</string>
     <string name="logining">登录成功,欢迎回来!</string>
     <string name="auth_cancel">授权操作已取消</string>
@@ -78,6 +78,6 @@
     <string name="like_error">点赞失败，请检查网络设置。</string>
     <string name="share_nologin_success">分享成功,登录分享奖励%s钻石!</string>
     <string name="xxlogin_prompt">\n**开启星星模式需要用户登录,请登录后再来挑战。</string>
-    <string name="share_prompt">**点击分享按钮可以将排行榜分享到新浪微博、QQ空间或微信朋友圈。\n**关卡排名中左右滑动可以查看上一关/下一关排名.\n</string>
+    <string name="share_prompt">**点击分享按钮可以将排行榜分享到新浪微博、QQ空间或微信朋友圈。\n**关卡排名中左右滑动可以查看上一关/下一关排名。\n**点击心形图标可对玩家点赞。\n</string>
 
 </resources>

@@ -9,8 +9,10 @@ import org.apache.http.message.BasicNameValuePair;
 import android.os.Handler;
 import android.os.Message;
 
+import com.znv.linkup.MyApplication;
 import com.znv.linkup.ViewSettings;
 import com.znv.linkup.util.RestUtil;
+import com.znv.linkup.util.StringUtil;
 
 /**
  * 第三方平台用户关卡分数或时间管理
@@ -21,7 +23,7 @@ import com.znv.linkup.util.RestUtil;
 public class UserScore {
     private static String USER_ADD_URI = ViewSettings.WebRoot + "/webapi/user/add";
     private static String USER_UPDATE_URI = ViewSettings.WebRoot + "/webapi/user/update";
-    private static String USER_LIKE_URI = ViewSettings.WebRoot + "/webapi/user/like";
+    private static String USER_LIKE_URI = ViewSettings.LikeWebRoot + "/webapi/user/like";
     public static String USER_TOTALRANK_URI = ViewSettings.WebRoot + "/webapi/user/totalrank";
     public static String LEVEL_ADD_URI = ViewSettings.WebRoot + "/webapi/level/add";
     public static String LEVEL_GET_URI = ViewSettings.WebRoot + "/webapi/level/get";
@@ -41,6 +43,9 @@ public class UserScore {
         params.add(new BasicNameValuePair("username", userInfo.getUserName()));
         params.add(new BasicNameValuePair("usergender", userInfo.getUserGender()));
         params.add(new BasicNameValuePair("usericon", userInfo.getUserIcon()));
+        if (!StringUtil.isNullOrEmpty(MyApplication.Push_Reg_ID)) {
+            params.add(new BasicNameValuePair("regid", MyApplication.Push_Reg_ID));
+        }
         new Thread(new Runnable() {
 
             @Override

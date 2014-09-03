@@ -159,6 +159,11 @@ public class ViewSettings {
     public static String WebRoot = "http://xxllk.aliapp.com";
 
     /**
+     * 阿里ACE无法发送推送
+     */
+    public static String LikeWebRoot = "http://182.92.83.63:9080/linkupweb";
+
+    /**
      * 数据缓存版本字符串
      */
     public static String CacheVersion = "140";
@@ -229,6 +234,12 @@ public class ViewSettings {
             R.array.mode4ranks };
 
     /**
+     * 排行榜名次
+     */
+    public static int[] TopOrderImages = new int[] { R.drawable.top_1, R.drawable.top_2, R.drawable.top_3, R.drawable.top_4, R.drawable.top_5,
+            R.drawable.top_6, R.drawable.top_7, R.drawable.top_8, R.drawable.top_9, R.drawable.top_10, };
+
+    /**
      * 填写从短信SDK应用后台注册得到的APPKEY
      */
     public static String APPKEY = "25c23a360539";
@@ -237,4 +248,25 @@ public class ViewSettings {
      * 填写从短信SDK应用后台注册得到的APPSECRET
      */
     public static String APPSECRET = "d224092cafca6db2b5a942d0d298ba92";
+
+    /**
+     * 91发布包，不允许弹出框
+     */
+    public static String Deploy91 = "Deploy91";
+
+    /**
+     * 360发布包，不允许第三方登录
+     */
+    public static String Deploy360 = "Deploy360";
+
+    /**
+     * 其它发布包
+     */
+    public static String DeployOther = "DeployOther";
+
+    /**
+     * 部署方式
+     */
+    public static String DeployType = DeployOther;
+
 }

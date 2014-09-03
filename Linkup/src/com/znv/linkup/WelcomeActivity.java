@@ -53,7 +53,10 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
 
         initSDK();
 
-        initInfoDialog();
+        if (ViewSettings.DeployType == ViewSettings.Deploy91 || ViewSettings.DeployType == ViewSettings.Deploy360) {
+        } else {
+            initInfoDialog();
+        }
 
         // 异步加载配置信息
         new LoadCfgTask().execute();
@@ -111,6 +114,9 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
         levelTop = (LevelTop) findViewById(R.id.welcome_user);
         levelTop.setUploadListener(this);
         levelTop.reset();
+        if (ViewSettings.DeployType == ViewSettings.Deploy360) {
+            levelTop.setVisibility(View.GONE);
+        }
     }
 
     private void initClickListener() {
@@ -253,14 +259,19 @@ public class WelcomeActivity extends BaseActivity implements OnClickListener, IU
         case R.id.mode4:
             soundMgr.select();
             int modeIndex = Integer.parseInt((String) v.getTag());
-            // 星星模式需要提示登录
-            if (modeIndex == 4 && BaseActivity.userInfo == null) {
-                HelpDialog helper = new HelpDialog(this);
-                helper.setTitle(getString(R.string.info_prompt));
-                helper.setMessage(getString(R.string.xxlogin_prompt));
-                helper.setLinkVisible(false);
-                helper.show();
-            } else if (modeIndex >= 0) {
+
+            if (ViewSettings.DeployType == ViewSettings.Deploy91 || ViewSettings.DeployType == ViewSettings.Deploy360) {
+            } else {
+                // 星星模式需要提示登录
+                if (modeIndex == 4 && BaseActivity.userInfo == null) {
+                    HelpDialog helper = new HelpDialog(this);
+                    helper.setTitle(getString(R.string.info_prompt));
+                    helper.setMessage(getString(R.string.xxlogin_prompt));
+                    helper.setLinkVisible(false);
+                    helper.show();
+                }
+            }
+            if (modeIndex >= 0) {
                 Intent intent = new Intent(this, RankActivity.class);
                 intent.putExtra("modeIndex", modeIndex);
                 startActivity(intent);

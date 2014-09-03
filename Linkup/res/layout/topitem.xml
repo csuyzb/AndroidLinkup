@@ -7,13 +7,11 @@
 
     <TextView
         android:id="@+id/order"
-        android:layout_width="25dp"
-        android:layout_height="wrap_content"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_gravity="center_vertical"
-        android:layout_margin="5dp"
-        android:gravity="center"
-        android:textColor="#FFFF3333"
-        android:textSize="20sp" />
+        android:layout_margin="4dp"
+        android:gravity="center" />
 
     <ImageView
         android:id="@+id/icon"

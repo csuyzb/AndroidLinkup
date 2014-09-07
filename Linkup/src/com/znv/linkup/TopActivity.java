@@ -449,7 +449,13 @@ public class TopActivity extends Activity implements OnGestureListener {
                 } else {
                     curMode = modeCfgs.size() - 1;
                 }
-                spModes.setSelection(curMode);
+                spModes.setSelection(curMode + 1);
+                // // 设置下拉列表风格
+                String[] ranks = TopActivity.this.getResources().getStringArray(ViewSettings.ModeRanks[curMode + 1]);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(TopActivity.this, android.R.layout.simple_spinner_item, ranks);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                // 防止触发Rank的ItemSelected事件
+                spRanks.setAdapter(adapter);
                 curRank = modeCfgs.get(curMode).getRankInfos().size() - 1;
                 spRanks.setSelection(curRank);
             }
